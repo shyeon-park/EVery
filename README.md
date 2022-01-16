@@ -6,11 +6,11 @@ It is a community where you can check the location of electric vehicle charging 
 - - -
 
 ### 프로젝트 기간
-#### 2022~01~17 ~ 2022-02-17
+#### 2022-01-17 ~ 2022-02-17
 
 
 ### 프로젝트 명
-#### SUITED(영양제 맞춤 구독 서비스)
+#### EVery(전기차 충전 커뮤니티)
 
 
 ### 프로젝트 인원
