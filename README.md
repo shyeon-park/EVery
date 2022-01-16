@@ -1,20 +1,20 @@
 ![Alt text](/logo.png)
 
 
-It is a community where you can check the location of electric vehicle charging stations.
+It is a community where you can check the location of electric vehicle charging stations🔥
 
 - - -
 
 ### 프로젝트 기간
-#### 2022-01-17 ~ 2022-02-17
+#### 2022-01-17 ~ 2022-02-18
 
 
 ### 프로젝트 명
-#### EVery(전기차 충전 커뮤니티)
+#### EVery(전기차 충전 커뮤니티)🚓
 
 
 ### 프로젝트 인원
-#### 5명
+#### 5명👨‍👨‍👧‍👧
 
 
 ### 개발환경
