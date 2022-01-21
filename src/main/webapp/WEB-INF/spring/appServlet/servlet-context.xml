@@ -18,7 +18,7 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/upload/**" location="/upload/" />
-	
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
@@ -28,8 +28,7 @@
 	</beans:bean>
 
 	<context:component-scan
-		base-package="every.com.home" />
-		
+		base-package="every.com.*" />
 <!-- 	<interceptors> -->
 <!-- 		<interceptor> -->
 <!-- 			<mapping path="/**"/> -->
