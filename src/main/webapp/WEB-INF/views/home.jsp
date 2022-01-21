@@ -5,6 +5,13 @@
 	<title>Home</title>
 </head>
 <body>
+<<<<<<< HEAD
 	
+=======
+<h1>
+	Hello world!  
+</h1>
+
+<P> taehwan modify </P>
 </body>
 </html>
