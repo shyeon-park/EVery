@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MapService {
-	public String getData() throws Exception{
+	public String getData(String chrstnNm) throws Exception{
 		StringBuilder urlBuilder = new StringBuilder("http://api.data.go.kr/openapi/tn_pubr_public_elcty_car_chrstn_api"); /* URL */
 		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=uJrR4M0I0ggBr9Z1ZF%2F4FyzgYw6FZZoXzIw%2BZs9WEA6XTuTuwse63oOBm5B6PVtdXabiKpWRJcTTHPh9cgg3bQ%3D%3D"); /* Service Key */
 		urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /* 페이지 번호 */
 		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /* 한 페이지 결과 수 */
 		urlBuilder.append("&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /* XML/JSON 여부 */
-//		urlBuilder.append("&" + URLEncoder.encode("chrstnNm", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /* 충전소명 */	// ex) 홈플러스 구월점
+		urlBuilder.append("&" + URLEncoder.encode("chrstnNm", "UTF-8") + "=" + URLEncoder.encode(chrstnNm, "UTF-8")); /* 충전소명 */	// ex) 홈플러스 구월점
 //		urlBuilder.append("&" + URLEncoder.encode("slowChrstnYn", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /* 완속충전가능여부 */ // ex) N or Y
 //		urlBuilder.append("&" + URLEncoder.encode("fastChrstnYn", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /* 급속충전가능여부 */ // ex) N or Y
 //		urlBuilder.append("&" + URLEncoder.encode("fastChrstnType", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /* 급속충전타입구분 */ // ex) DC차데모+AC3상

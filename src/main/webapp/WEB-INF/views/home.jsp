@@ -314,7 +314,7 @@ a:hover {
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-			<a href="">마이페이지</a>
+					<a href="">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>

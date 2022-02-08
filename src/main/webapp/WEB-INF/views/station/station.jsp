@@ -60,7 +60,7 @@ a {
 	position: fixed;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1;
+	z-index: 100;
 }
 
 .nav-items {
@@ -108,6 +108,7 @@ a:hover {
 
 /* main 영역 */
 .main {
+	position:relative;
 	padding-top: 92px;
 	width: 82.6vw;
 	margin: auto;
@@ -172,12 +173,42 @@ a:hover {
 .foot-bottom-right {
 	text-align: right;
 }
+</style>
+<style>
 .loading {
-	z-index: 1;
 	position: absolute;
 	transform: translate(-50%, -50%);
 	top: 50%;
 	left: 50%;
+}
+
+#mainDIV {
+	width: 82.6vw;
+	padding: 0px;
+	margin: auto;
+	transition: 1s;
+}
+
+#mapDIV {
+	padding: 0px;
+}
+
+#commentDIV {
+	padding: 0px;
+	border: 1px solid gray;
+	box-shadow: 5px 0px 5px black;
+	transition: 0.5s;
+}
+
+#map {
+	width: 100%;
+	height: 80vh;
+	border: 1px solid gray;
+}
+#chrgtype{
+position: absolute;
+top:0px;
+left: 0px;
 }
 </style>
 </head>
@@ -277,8 +308,41 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
-		<div id="map"
-			style="width: 100%; height: 50vh; background-color: black; opacity: 0.2;"></div>
+		<div class="row" id="mainDIV">
+			<div class="d-none" id="commentDIV">
+				<div class="row">
+					<div class="col-10" id="div-top-name"></div>
+					<div class="col-2">
+						<button type="button" class="btn btn-primary col-12"
+							id="btn_close">닫기</button>
+					</div>
+				</div>
+
+				<div id="chargeList"></div>
+
+				<div id="cmt-showBox">
+					<!-- 성식님 댓글부분 -->
+				</div>
+			</div>
+			<div class="col-12" id="mapDIV">
+				<div id="map"></div>
+			</div>
+		</div>
+		<div class="loading">
+			<img src="/resources/images/loading.gif">
+		</div>
+		<div id="chrgtype">
+				<!-- fastChrstnType -->
+				<p>충전타입</p>
+				<label><input type="checkbox" id="chrgtype_1"
+					name="chrgtype_1" checked>전체</label> <label><input
+					type="checkbox" id="chrgtype_2" name="chrgtype_2" disabled>DC콤보</label>
+				<label><input type="checkbox" id="chrgtype_3"
+					name="chrgtype_3" disabled>DC차데모</label> <label><input
+					type="checkbox" id="chrgtype_4" name="chrgtype_4" disabled>AC3상</label>
+				<label><input type="checkbox" id="chrgtype_5"
+					name="chrgtype_5" disabled>완속</label>
+			</div>
 	</div>
 	<div class="footer">
 		
@@ -354,16 +418,24 @@ a:hover {
 		});
 	</script>
 		<script type="application/javascript">
+			showLoading();
+			
+			let cmtDivStatus = false;
 			let latitude = null;
 			let longitude = null;
+			let selectStations = null;
+
 	
-			function showLoading(){
-				$("#map").css({"backgroundColor":"black","opacity":"0.2"});
+			function showLoading(){ // 로딩이 보여지는 함수
+				$(".loading").css({"display":"block","z-index":"10000"});
+				$("#mainDIV").css({"opacity":"0.2"});
+				$('#commentDIV').css({"opacity":"0.2"});
 			}
 			
-			function hideLoading(){
-				$(".loading").css("display","none");
-				$("#map").css({"backgroundColor":"none","opacity":"1"});	
+			function hideLoading(){ // 로딩이 지워지는 함수
+				$(".loading").css({"display":"none","z-index":"-9999"});
+				$("#mainDIV").css({"opacity":"1"});
+				$('#commentDIV').css({"opacity":"1"});
 			}
 			
 			
@@ -392,8 +464,7 @@ a:hover {
 			    $.ajax({
 			    	url:"/station/getIP",
 			    	data:{"pubIP":pubIP},
-			    	tryp:"json",
-			    	async : false
+			    	tryp:"json"
 			    }).done(function(rs){
 			    	latitude = rs.latitude; 
 			    	longitude = rs.longitude;
@@ -446,7 +517,47 @@ a:hover {
 			    marker.setMap(map);
 			    
 			    kakao.maps.event.addListener(marker, 'click', function() {
-				    alert('마커를 클릭했습니다!'+data.chrstnNm + data.fastChrstnType);
+			    	showStation();
+			    	
+			    	// 마커 클릭시 중앙좌표 추가해야됌
+			    	
+			    	
+			    	let seq = 1;
+			    	$('#chargeList').html("");
+			    	
+			    	$.ajax({
+			    		url:"/station/getLiveStatin.do",
+			    		data:{"chrstnNm":data.chrstnNm}
+// 			    		timeout: 5000
+			    	}).done(function(rs){
+			    		selectStations = JSON.parse(JSON.stringify(rs));
+			    		selectStations = selectStations.response.body.items;
+			    		console.log(selectStations);
+			    		hideLoading();
+			    		$('#div-top-name').html("<h5>"+data.chrstnNm+"<h5>");
+				    	for(selectStation of selectStations){
+				    		let tempDiv = "<div class='row'>"+
+					    				  "<div class='col-1' id='seq_"+seq+"'>"+
+					    				  seq +
+					    				  "</div>";
+					    				  if(!selectStation.fastChrstnType==""){
+					    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>"+
+									    				  selectStation.fastChrstnType +
+									    				  "</div>";
+					    				  }else{
+					    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
+					    				  }
+					    				  "</div>";
+				    		$('#chargeList').append(tempDiv);
+					    	seq++;
+				    	}
+// 				    	$('#cmt-showBox').html(댓글을 넣으시면됩니다.);
+				    	//여기 성식님꺼 댓글을 불러온다.
+				    	//
+			    	}).fail(function(e){
+			    		alert('해당 충전소의 실시간 정보를 가져오지 못했습니다.');
+			    		hideLoading();
+			    	});
 				});
 			    // 생성된 마커를 배열에 추가합니다
 			    markers.push(marker);
@@ -476,6 +587,24 @@ a:hover {
 			    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
 			    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
 			    map.relayout();
+			}
+			
+			function showStation(){ // 선택한 충전소가 표시됩니다.
+				if(cmtDivStatus == false){
+					$('#commentDIV').attr('class','col-xl-3 col-12');
+					$('#mapDIV').attr('class','col-xl-9 col-12');
+					cmtDivStatus = true;
+				}
+				relayout();
+				showLoading();
+				// 여기에 탭 내용 구성
+				
+			}
+			function hideStation(){ // 선택되어있던 충전소가 사라집니다.
+				$('#commentDIV').attr('class','d-none');
+				$('#mapDIV').attr('class','col-12');
+				cmtDivStatus = false;
+				relayout();
 			}
 			
 				var request= new XMLHttpRequest;
@@ -523,6 +652,11 @@ a:hover {
 							alert(request.status);
 						}
 				}
+				
+				$('#btn_close').on('click',function(){ //충전소 상세정보에서 닫기 버튼을 클릭했을때
+					hideStation();
+					hideLoading();
+				})
 	</script>
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
