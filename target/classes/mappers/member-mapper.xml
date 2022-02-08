@@ -106,5 +106,42 @@
 	</update>
 	
 	
+	<!-- 컬럼리스트 가져오기 -->
+	<select id = "appCompleteList" resultType = "MemberDTO">
+		select id, nickname, column_application from tbl_member where column_application = 1
+	</select>
 	
+	<!-- 컬럼리스트 신청 거절 시  -->
+	<update id="reject" parameterType="map">
+		update tbl_member set identification_num = 3 where id in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>
+	</update>
+	
+		<!-- 컬럼리스트 신청 승인 시  -->
+	<update id="approval" parameterType="map">
+		update tbl_member set column_application = 2, identification_num = 2 where id in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>
+	</update>
+	
+	<!-- 컬럼리스트 신청 목록 수 -->
+	<select id="countAll" resultType="int">
+		select count(*) from tbl_member where identification_num = 1
+	</select>
+	
+	
+		<!-- 컬럼리스트 신청 -->
+	<update id="columnApplication">
+		update tbl_member set identification_num = 1 where id = #{id}
+	</update>
+	
+	<!-- 컬럼리스트 신청 목록 -->
+	<select id="columnList" resultType="MemberDTO">
+		select id,nickname,identification_num,column_application 
+		from tbl_member 
+		where identification_num = 1
+	</select>
 </mapper>

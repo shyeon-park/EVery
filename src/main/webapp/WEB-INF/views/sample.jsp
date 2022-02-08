@@ -264,7 +264,7 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
-		ㅇ
+		여기다가 넣으면 된다 이거지..
 	</div>
 	<div class="footer">
 		

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+
+	<insert id="insertBoard" parameterType="BoardDTO">
+		insert into tbl_column values
+			(#{seq_column}, #{id}, #{nickname}, #{title} , #{content}, sysdate, 0)
+	</insert>
+	
+	<update id="updateBoard" parameterType="BoardDTO">
+		update tbl_column set nickname = #{nickname}, title = #{title} , content = #{content} where seq_column = #{seq_column}
+
+	</update>
+	
+	<select id="selectSeq" resultType="int">
+		select seq_column.nextval from dual
+	</select>
+	
+	<select id="selectAll" resultType="BoardDTO">
+	select * 
+	from tbl_column LEFT OUTER join (select * from files 
+	where profile =1)
+	using(seq_column)
+	order by seq_column desc
+	</select>
+	
+	<select id="selectOne" resultType="BoardDTO">
+		select * from tbl_column where seq_column = #{seq_column}
+	</select>
+	
+	<select id="countAll" resultType="int">
+		select count(*) from tbl_column
+	</select>
+	
+	<select id="getBoardList" parameterType="map" resultType="BoardDTO">
+			select * 
+			from( select row_number() over(order by seq_column desc) rank, a.* from tbl_column a ) LEFT OUTER join (select * from tbl_column_file 
+			where profile = 1)
+			using(seq_column)
+			where rank between #{startRange} and #{endRange}
+			order by rank asc
+	</select>
+	
+	<delete id="deleteBoard">
+		delete from tbl_column where seq_column=#{seq_column}
+	</delete>
+	
+</mapper>
