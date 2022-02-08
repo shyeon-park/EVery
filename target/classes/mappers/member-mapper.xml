@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="memberMapper">
+	
+	<!-- 중복확인 및 값 검사(id, nickname, phone, naver_num) -->
+	<select id="checkMember" parameterType="MemberDTO" resultType="int">
+		SELECT COUNT(*) FROM tbl_member
+		<trim prefix="where">
+			<if test="id != null">
+				id=#{id}
+			</if>
+			<if test="nickname != null">
+				nickname=#{nickname}
+			</if>
+			<if test="phone != null">
+				phone=#{phone}
+			</if>
+			<if test="naver_num != null">
+				naver_num=#{naver_num}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 중복확인(id, nickname, phone) -->
+	<!-- <select id="checkMember" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM tbl_member
+		<trim prefix="where">
+			<if test="id != null">
+				id=#{id}
+			</if>
+			<if test="nickname != null">
+				nickname=#{nickname}
+			</if>
+			<if test="phone != null">
+				phone=#{phone}
+			</if>
+		</trim>
+	</select>  -->
+	
+	<!-- 회원가입 -->
+	<insert id="insertMem" parameterType="MemberDTO">
+		INSERT INTO tbl_member 
+		<trim prefix="values">
+			<choose>
+				<!-- 네이버 회원가입이면 네이버 고유값도 같이 셋팅-->
+				<when test="naver_num != null">
+					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, #{naver_num}, sysdate)
+				</when>
+				<!-- 일반 회원가입이면 -->
+				<otherwise>
+					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, 0, sysdate)
+				</otherwise>
+			</choose>
+		</trim>
+	</insert>
+	
+	<!-- 일반 로그인 -->
+	<select id="isLoginOk" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM tbl_member WHERE id=#{id} AND pw=#{pw}
+	</select>
+	
+	<!-- 핸드폰값 또는 네이버 고유값으로 사용자 정보 불러오기 -->
+	<select id="getMember" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM tbl_member 
+		<trim prefix="where">
+			<if test="phone != null">
+				phone=#{phone}
+			</if>
+			<if test="naver_num != null">
+				naver_num=#{naver_num}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 네이버 로그인 시 이미 가입되어 있는 사용자라면 네이버 고유id 셋팅 -->
+	<update id="setNaverId" parameterType="MemberDTO">
+		UPDATE tbl_member SET naver_num=#{naver_num} WHERE phone=#{phone}
+	</update>
+	
+	<!-- 회원 존재 여부 -->
+	<select id="getExistMember" parameterType="MemberDTO" resultType="int">
+		SELECT COUNT(*) FROM tbl_member
+		<trim prefix="where">
+			<choose>
+				<when test="id == null">
+					phone=#{phone}
+				</when>
+				<otherwise>
+					id=#{id} and phone=#{phone}
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="getMemberId" resultType="MemberDTO">
+		SELECT id FROM tbl_member WHERE phone=#{phone}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="modifyPw" parameterType="MemberDTO">
+		UPDATE tbl_member SET pw=#{pw} WHERE id=#{id} AND phone=#{phone}
+	</update>
+	
+	
+	
+</mapper>

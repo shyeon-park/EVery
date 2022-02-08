@@ -23,4 +23,23 @@
 <!-- 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> -->
 <!-- 		<constructor-arg ref="sqlSessionFactory"/> -->
 <!-- 	</bean> -->
+
+		<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="bds" class="org.apache.commons.dbcp2.BasicDataSource">
+			<property name="username" value="EVery_test2"/>
+			<property name="password" value="manager"/>
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@3.34.1.217:1521:xe"/>
+			<property name="initialSize" value="30"/>
+		</bean>
+	
+		<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="bds"/>
+			<property name="configLocation" value="classpath:mybatis-config.xml"/>
+			<property name="mapperLocations" value="classpath:mappers/*.xml"/>
+		</bean>
+	
+		<bean id="SqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+			<constructor-arg ref="SqlSessionFactory"/>
+		</bean>
 </beans>
