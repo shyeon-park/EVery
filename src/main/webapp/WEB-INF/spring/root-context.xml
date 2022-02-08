@@ -29,7 +29,8 @@
 			<property name="username" value="EVery_test2"/>
 			<property name="password" value="manager"/>
 			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-			<property name="url" value="jdbc:oracle:thin:@3.34.1.217:1521:xe"/>
+			<!-- <property name="url" value="jdbc:oracle:thin:@3.34.1.217:1521:xe"/> -->
+			<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/> 
 			<property name="initialSize" value="30"/>
 		</bean>
 	
@@ -37,6 +38,7 @@
 			<property name="dataSource" ref="bds"/>
 			<property name="configLocation" value="classpath:mybatis-config.xml"/>
 			<property name="mapperLocations" value="classpath:mappers/*.xml"/>
+			
 		</bean>
 	
 		<bean id="SqlSession" class="org.mybatis.spring.SqlSessionTemplate">

@@ -9,4 +9,11 @@
 	<select id="isAdminLoginOk" parameterType="AdminDTO" resultType="int">
 		SELECT COUNT(*) FROM tbl_admin WHERE admin_id=#{admin_id} AND admin_pw=#{admin_pw}
 	</select>
+	
+	<!-- 태환 추가 -->
+	<!-- 관리자 LIST 가져오기 -->
+	<select id="managerList" resultType="AdminDTO">
+		select * from tbl_admin
+	</select>
+	
 </mapper>

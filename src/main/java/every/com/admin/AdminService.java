@@ -1,7 +1,11 @@
 package every.com.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import every.com.member.MemberDTO;
 
 @Service
 public class AdminService {
@@ -16,5 +20,10 @@ public class AdminService {
 		} else {
 			return false;
 		}
+	}
+	
+	//관리자 목록
+	public List<AdminDTO> managerList() throws Exception{
+		return dao.managerList();
 	}
 }

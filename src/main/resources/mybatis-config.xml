@@ -4,9 +4,17 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
  <configuration> 
+	 <settings>
+		<setting name="jdbcTypeForNull" value="NULL"></setting>
+	</settings>
+	
  	<typeAliases> 
  		<typeAlias type="every.com.member.MemberDTO" alias="MemberDTO"/>
  		<typeAlias type="every.com.admin.AdminDTO" alias="AdminDTO"/> 
+ 		<typeAlias type="every.com.board.BoardDTO" alias="BoardDTO"/> 
+ 		<typeAlias type="every.com.file.FileDTO" alias="FileDTO"/> 
+ 		<typeAlias type="every.com.message.MessageDTO" alias="MessageDTO"/>
+ 		
 <!-- 		<typeAlias type="kh.com.board.board.BoardDTO" alias="BoardDTO"/> -->
 <!-- 		<typeAlias type="kh.com.board.files.FilesDTO" alias="FilesDTO"/> -->
  	</typeAliases> 

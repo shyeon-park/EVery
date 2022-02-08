@@ -235,6 +235,29 @@ a:hover {
 	color: #18a8f1;
 }
 
+/* 알람 css  */
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+    }
+    .fa-bell{
+      position: absolute;
+      font-size: 38px;
+    }
+    #bell_text{
+      position: relative;
+      color: white;
+      font-weight: 700;
+      font-size: large;
+      width: 27px;
+      left: -15px;
+      top : -10px;
+      display: inline-block;
+      background-color: red;
+      border-radius: 100%;
+      text-align: center;
+    }
+
 </style>
 </head>
 <body>
@@ -248,7 +271,7 @@ a:hover {
 				<a href="${pageContext.request.contextPath }/station/toGetStation">충전소조회</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">칼럼</a>
+				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">커뮤니티</a>
@@ -259,7 +282,7 @@ a:hover {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
-				<c:when test="${empty loginSession}">
+				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="">마이페이지</a>
 					</div>
@@ -270,9 +293,20 @@ a:hover {
 				<div class="col-xl-5 col-8 navi-menu"></div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
-					<div class="col-xl-4 col-6 navi-menu"></div>
+					<div class="col-xl-3 col-6 navi-menu"></div>
 				</c:when>
 			</c:choose>
+			
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+					<div class="col-xl-1 d-none d-xl-block navi-menu" id = "bell">
+						<!--  <div id = "bell">-->
+	          			<i class="far fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i>
+	          			 <div id ="bell_text"></div>
+					</div>
+				</c:when>
+			</c:choose>
+			
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
@@ -285,6 +319,10 @@ a:hover {
 					</div>
 				</c:when>
 			</c:choose>
+			
+		
+			
+			
 			<div class="col-xl-1 col-1 navi-menu">
 			<a id=""><img src="/resources/images/favorite.png" width="24px"
 					height="24px"></a>
@@ -333,6 +371,162 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
+	
+	<button type="button" onclick="ws.send('application');">칼럼리스트 신청</button>
+	
+
+	<a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
+	
+<!-- Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="form-control w-100">
+                <tr>
+                  <th class="w-25"><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="w-25">시간</th>
+                  <th class="w-25">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- modal script -->
+ 	
+ 	<script>
+ 	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+        }});
+	
+	//컬럼리스트 신청 클릭시 메세지 전송
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'testBtn'){
+ 			ws.send("application");
+        }});
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
+
+	
+		ws = new WebSocket("ws://172.30.1.60/column");
+		     //메세지수신
+		ws.onmessage = function(e) {
+			//console.log( e.data );
+			let msgObj = JSON.parse(e.data);
+			console.log(msgObj);
+			
+				notCheckedcount = msgObj.notCheckedcount
+				console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+				$("#bell_text").empty();
+				$(".modal-footer").empty();
+				$("#bell_text").append(notCheckedcount);
+				
+				//새로운 메세지 리스트 출력
+				if(msgObj.category == "getUncheckedList"){
+					let uncheckedList = msgObj.uncheckedList
+					$("#listPrint").empty();
+					$(".modal-footer").empty();
+					for(newMsg of uncheckedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='w-25'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class='w-25'>"+newMsg.written_date+"</td>"
+								  + "<td class='w-25'>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}	
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
+					$(".modal-footer").append(newBtn);
+				//확인된 목록
+				}else if(msgObj.category == "getCheckedList"){
+					$("#listPrint").empty();
+					checkedList = msgObj.checkedList
+					for(newMsg of checkedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='w-25'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class='w-25'>"+newMsg.written_date+"</td>"
+								  + "<td class='w-25'>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
+					$(".modal-footer").append(newBtn);
+				}	
+		}
+		
+	
+
+	</script>
+	
+ 
+ 		
+ 		
+ 		
+ 		<!--  
+ 		/**************************************************************************/
+ 		/**************************************************************************/
+		/**************************************************************************/
+		-->
 		<!-- 로그인 모달 -->
 	<div class="modal fade" id="loginModal" aria-hidden="true"
 		data-bs-backdrop="static" data-bs-keyboard="false"
@@ -767,6 +961,8 @@ a:hover {
 	</div>
 	
 	</div>
+	
+	
 	<div class="footer">
 		
 		<div class="row footer-body">

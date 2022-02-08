@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="messageMapper">
+	<!-- 메세지 추가 -->
+	<insert id="messageInsert" parameterType="MessageDTO">
+		insert into tbl_message values(seq_message.nextval,#{id},#{nickname},#{msg},0,#{written_date})
+	</insert>
+	
+	<!-- 메세지 확인 안한 리스트   -->
+	<select id="messageNotCheckList" resultType="MessageDTO">
+		select * 
+		from tbl_message 
+		where id= #{id} and  message_check = 0
+	</select>
+	
+	<!-- 메세지 확인 한 리스트   -->
+	<select id="messageCheckList" resultType="MessageDTO">
+		select * 
+		from tbl_message 
+		where id= #{id} and  message_check = 1
+	</select>
+	
+	<!-- 메세지 읽음 처리 -->
+	<update id="messageCheck" parameterType="map">
+		update tbl_message set message_check = 1 where seq_message in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+			 #{arr}
+		</foreach>
+	</update>
+	
+	<delete id="deleteMsg" parameterType="map">
+		delete from tbl_message where seq_message in 
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+			 #{arr}
+		</foreach>
+	</delete>
+	
+	<select id="notCheckedcount" resultType="int">
+		select count(*) from tbl_message where id=#{id} and message_check=0
+	</select>
+	
+	<select id="checkedcount" resultType="int">
+		select count(*) from tbl_message where id=#{id} and message_check=1
+	</select>
+	
+</mapper>
