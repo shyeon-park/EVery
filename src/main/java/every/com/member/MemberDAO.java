@@ -1,8 +1,15 @@
 package every.com.member;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+
+
 
 @Repository
 public class MemberDAO {
@@ -55,4 +62,33 @@ public class MemberDAO {
 		return session.update("memberMapper.modifyPw", dto);
 	}
 	
+	/*태환 추가*/
+	//컬럼리스트 목록 가져오기
+	public List<MemberDTO> appCompleteList() throws Exception{
+		return session.selectList("memberMapper.appCompleteList");
+	}
+	
+	//컬럼리스트 신청
+		public int columnApplication(String id) throws Exception{
+			return session.update("memberMapper.columnApplication",id);
+	}
+		
+	//컬럼리스트 신청자 목록 
+	public List<MemberDTO> columnList() throws Exception{
+		return session.selectList("memberMapper.columnList");
+	}
+	
+	//승인작업
+	public int approval(ArrayList<String> list) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		return session.update("memberMapper.approval",map);
+	}
+	//거절작업
+	public int reject(ArrayList<String> list) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		return session.update("memberMapper.reject",map);
+	}
+	/*태환 추가*/
 }

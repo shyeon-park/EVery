@@ -1,9 +1,10 @@
 package every.com.member;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class MemberService {
@@ -59,4 +60,19 @@ public class MemberService {
 	public int modifyPw(MemberDTO dto) throws Exception {
 		return dao.modifyPw(dto);
 	}
+	
+	//컬럼리스트 목록 가져오기
+	public List<MemberDTO> appCompleteList() throws Exception{
+		return dao.appCompleteList();
+	}
+	
+	public int columnApplication(String id) throws Exception {
+		return dao.columnApplication(id);
+	} 
+	
+	public List<MemberDTO> columnList() throws Exception{
+		return dao.columnList();
+	} 
+	
+	
 }
