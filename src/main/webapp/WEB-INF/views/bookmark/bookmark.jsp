@@ -167,6 +167,12 @@ a:hover {
 }
 
 </style>
+<style>
+	.bookmark-div {
+		background-color: white !important;
+		border: 1px solid lightgrey;
+	}
+</style>
 </head>
 <body>
 	<nav class="navber">
@@ -269,8 +275,8 @@ a:hover {
             <div class="col"><h4>즐겨찾기</h4></div>
         </div>
         <div class="row">
-        	<div class="col-12">
-        		<button type="button" id="btn-deleteAll">전체삭제</button>
+        	<div class="col-12 mb-2 d-flex justify-content-end">
+        		<button type="button" class="btn btn-deleteAll" style="border:1px solid grey;" id="btn-deleteAll">전체삭제</button>
         	</div>
             <div class="bookmark-div">
                 <!-- 동적 즐겨찾기 추가 -->
@@ -282,106 +288,7 @@ a:hover {
 			</div>
         </div>
     </div>
-    <script>
     
-    // 전체 삭제 버튼
-    $("#btn-deleteAll").on("click", function(){
-    	let rs = confirm("삭제하시겠습니까?");
-		if(!rs){
-			return;
-		}
-		$.ajax({
-			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/deleteAll.do?id=${loginSession.id}"
-		}).done(function(rs){
-			if(rs == "success"){
-				getBookmarkList(1);
-			}else if(rs == "fail"){
-				alert("삭제에 실패하였습니다.");
-			}
-		}).fail(function(e){
-			console.log(e);
-		});
-    })
-    
-    // 삭제 버튼
-    $(document).on("click",".btn-delete", function(e){
-    	if($(e.target).html() == "삭제"){
-			let rs = confirm("삭제하시겠습니까?");
-			if(!rs){
-				return;
-			}
-			$.ajax({
-				type : "get"
-				, url : "${pageContext.request.contextPath}/bookmark/delete.do?station=" + $(e.target).val()
-			}).done(function(rs){
-				if(rs == "success"){
-					getBookmarkList(1);
-				}else if(rs == "fail"){
-					alert("삭제에 실패하였습니다.");
-				}
-			}).fail(function(e){
-				console.log(e);
-			});
-    	}
-    })
-    
- 	// 페이지 로드되자마자 즐찾목록도 ajax 로 로드
-	$(document).ready(function(){
-		getBookmarkList(1);
-	})
-	
-	// 즐겨찾기 목록 불러오는 함수
-	function getBookmarkList(currentPage){
- 		$.ajax({
- 			type : "get"
- 			, url : "${pageContext.request.contextPath}/bookmark/getList.do?id=${loginSession.id}&currentPage=" + currentPage
- 		}).done(function(data){
- 			$(".bookmark-div").empty();
- 			$(".cmt-paging").empty();
- 			if(data.bookmarkList == ""){
- 				let bookmarkNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>즐겨찾기목록이 없습니다.</h4></div>";
- 				$(".bookmark-div").append(bookmarkNull);
- 			}else{
- 				for(let dto of data.bookmarkList){
- 					let bookmark = "<div class='row bookmark-header m-1'>"
- 									+ "<div class='col-10'>"
- 									+ "<a href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
- 									+ "</div>" 
- 									+ "<div class='col-2'>"
- 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
- 									+ "</div>"
- 									+ "</div>"
- 					$(".bookmark-div").append(bookmark);
- 				}
- 				
- 				let startNavi = data.settingMap.startNavi;
- 				let endNavi = data.settingMap.endNavi;
- 				
- 				let paging = "<nav class='col' aria-label='Page navigation example'>"
- 							+ "<ul class='pagination justify-content-center'>";
- 							
- 							if(data.settingMap.needPrev == true){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + startNavi + "- 1);'>Previous</a></li>";
- 							}
- 							
- 							for(var i= startNavi; i<= endNavi; i++){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
- 							}
- 							
- 							if(data.settingMap.needNext == true){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + endNavi + "+ 1);'>Next</a></li>";
- 							}
- 							
- 					paging += "</ul>" + "</nav>";		
- 							
- 					$(".cmt-paging").append(paging);
- 			}
- 		}).fail(function(e){
- 			console.log(e);
- 		})
- 	}
-    </script>
 	</div>
 	<div class="footer">
 		
@@ -415,7 +322,110 @@ a:hover {
 		</div>
 		
 	</div>
-
+	<script>
+	    
+	    // 전체 삭제 버튼
+	    $("#btn-deleteAll").on("click", function(){
+	    	if($(".emptyDiv").html() == "<h4>즐겨찾기목록이 없습니다.</h4>"){
+	    		alert("삭제할 항목이 없습니다.");
+	    		return;
+	    	}
+	    	let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				, url : "${pageContext.request.contextPath}/bookmark/deleteAll.do?id=${loginSession.id}"
+			}).done(function(rs){
+				if(rs == "success"){
+					getBookmarkList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+	    })
+	    
+	    // 삭제 버튼
+	    $(document).on("click",".btn-delete", function(e){
+	    	if($(e.target).html() == "삭제"){
+				let rs = confirm("삭제하시겠습니까?");
+				if(!rs){
+					return;
+				}
+				$.ajax({
+					type : "get"
+					, url : "${pageContext.request.contextPath}/bookmark/delete.do?station=" + $(e.target).val()
+				}).done(function(rs){
+					if(rs == "success"){
+						getBookmarkList(1);
+					}else if(rs == "fail"){
+						alert("삭제에 실패하였습니다.");
+					}
+				}).fail(function(e){
+					console.log(e);
+				});
+	    	}
+	    })
+	    
+	 	// 페이지 로드되자마자 즐찾목록도 ajax 로 로드
+		$(document).ready(function(){
+			getBookmarkList(1);
+		})
+		
+		// 즐겨찾기 목록 불러오는 함수
+		function getBookmarkList(currentPage){
+	 		$.ajax({
+	 			type : "get"
+	 			, url : "${pageContext.request.contextPath}/bookmark/getList.do?id=${loginSession.id}&currentPage=" + currentPage
+	 		}).done(function(data){
+	 			$(".bookmark-div").empty();
+	 			$(".cmt-paging").empty();
+	 			if(data.bookmarkList == ""){
+	 				let bookmarkNull = "<div class='emptyDiv' style='text-align:center; height:100px; padding-top:40px;'><h4>즐겨찾기목록이 없습니다.</h4></div>";
+	 				$(".bookmark-div").append(bookmarkNull);
+	 			}else{
+	 				for(let dto of data.bookmarkList){
+	 					let bookmark = "<div class='row bookmark-header m-1' style='border-bottom:1px solid black;'>"
+	 									+ "<div class='col-10'>"
+	 									+ "<a href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "</div>" 
+	 									+ "<div class='col-2'>"
+	 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
+	 									+ "</div>"
+	 									+ "</div>"
+	 					$(".bookmark-div").append(bookmark);
+	 				}
+	 				
+	 				let startNavi = data.settingMap.startNavi;
+	 				let endNavi = data.settingMap.endNavi;
+	 				
+	 				let paging = "<nav class='col' aria-label='Page navigation example'>"
+	 							+ "<ul class='pagination justify-content-center'>";
+	 							
+	 							if(data.settingMap.needPrev == true){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + startNavi + "- 1);'>Previous</a></li>";
+	 							}
+	 							
+	 							for(var i= startNavi; i<= endNavi; i++){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
+	 							}
+	 							
+	 							if(data.settingMap.needNext == true){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + endNavi + "+ 1);'>Next</a></li>";
+	 							}
+	 							
+	 					paging += "</ul>" + "</nav>";		
+	 							
+	 					$(".cmt-paging").append(paging);
+	 			}
+	 		}).fail(function(e){
+	 			console.log(e);
+	 		})
+	 	}
+	    </script>
 	<script>
 		$(function() {
 			
@@ -455,134 +465,3 @@ a:hover {
 	</script>
 </body>
 </html>
-
-
-<style>
-	.bookmark-div {
-		background-color: white !important;
-		border: 1px solid lightgrey;
-	}
-	
-	.bookmark-header{
-		border: 1px dotted rgb(214, 214, 214);
-	}
-</style>
-<body>
-	<div class="container">
-        <div class="row">
-            <div class="col"><h4>즐겨찾기</h4></div>
-        </div>
-        <div class="row">
-        	<div class="col-12">
-        		<button type="button" id="btn-deleteAll">전체삭제</button>
-        	</div>
-            <div class="bookmark-div">
-                <!-- 동적 즐겨찾기 추가 -->
-            </div>
-        </div>
-        <div class="row">
-			<div class="cmt-paging">
-		
-			</div>
-        </div>
-    </div>
-    <script>
-    
-    // 전체 삭제 버튼
-    $("#btn-deleteAll").on("click", function(){
-    	let rs = confirm("삭제하시겠습니까?");
-		if(!rs){
-			return;
-		}
-		$.ajax({
-			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/deleteAll.do?id=${loginSession.get('id')}"
-		}).done(function(rs){
-			if(rs == "success"){
-				getBookmarkList(1);
-			}else if(rs == "fail"){
-				alert("삭제에 실패하였습니다.");
-			}
-		}).fail(function(e){
-			console.log(e);
-		});
-    })
-    
-    // 삭제 버튼
-    $(document).on("click",".btn-delete", function(e){
-    	if($(e.target).html() == "삭제"){
-			let rs = confirm("삭제하시겠습니까?");
-			if(!rs){
-				return;
-			}
-			$.ajax({
-				type : "get"
-				, url : "${pageContext.request.contextPath}/bookmark/delete.do?station=" + $(e.target).val()
-			}).done(function(rs){
-				if(rs == "success"){
-					getBookmarkList(1);
-				}else if(rs == "fail"){
-					alert("삭제에 실패하였습니다.");
-				}
-			}).fail(function(e){
-				console.log(e);
-			});
-    	}
-    })
-    
- 	// 페이지 로드되자마자 즐찾목록도 ajax 로 로드
-	$(document).ready(function(){
-		getBookmarkList(1);
-	})
-	
-	// 즐겨찾기 목록 불러오는 함수
-	function getBookmarkList(currentPage){
- 		$.ajax({
- 			type : "get"
- 			, url : "${pageContext.request.contextPath}/bookmark/getList.do?id=${loginSession.get('id')}&currentPage=" + currentPage
- 		}).done(function(data){
- 			$(".bookmark-div").empty();
- 			$(".cmt-paging").empty();
- 			if(data.bookmarkList == ""){
- 				let bookmarkNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>즐겨찾기목록이 없습니다.</h4></div>";
- 				$(".bookmark-div").append(bookmarkNull);
- 			}else{
- 				for(let dto of data.bookmarkList){
- 					let bookmark = "<div class='row bookmark-header m-1'>"
- 									+ "<div class='col-10'>"
- 									+ "<a href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
- 									+ "</div>" 
- 									+ "<div class='col-2'>"
- 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
- 									+ "</div>"
- 									+ "</div>"
- 					$(".bookmark-div").append(bookmark);
- 				}
- 				
- 				let startNavi = data.settingMap.startNavi;
- 				let endNavi = data.settingMap.endNavi;
- 				
- 				let paging = "<nav class='col' aria-label='Page navigation example'>"
- 							+ "<ul class='pagination justify-content-center'>";
- 							
- 							if(data.settingMap.needPrev == true){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + startNavi + "- 1);'>Previous</a></li>";
- 							}
- 							
- 							for(var i= startNavi; i<= endNavi; i++){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
- 							}
- 							
- 							if(data.settingMap.needNext == true){
- 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + endNavi + "+ 1);'>Next</a></li>";
- 							}
- 							
- 					paging += "</ul>" + "</nav>";		
- 							
- 					$(".cmt-paging").append(paging);
- 			}
- 		}).fail(function(e){
- 			console.log(e);
- 		})
- 	}
-    </script>

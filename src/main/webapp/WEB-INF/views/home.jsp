@@ -467,7 +467,7 @@ a:hover {
 	}
 
 	
-		ws = new WebSocket("ws://172.30.1.60/column");
+		ws = new WebSocket("ws://14.39.9.188:8001/column");
 		     //메세지수신
 		ws.onmessage = function(e) {
 			//console.log( e.data );
@@ -1120,18 +1120,26 @@ a:hover {
 	}
 	
 	// 로그아웃 함수
-	function logoutFunc() {
-		<c:choose>
-			<c:when test="${loginSession.naver_num != null or loginSession.kakao_num != null}"> // 네이버 로그인이면 네이버 로그아웃하고 로그아웃
-				naverLogout();
-				kakaoLogout();
-				location.href = "${pageContext.request.contextPath}/member/logout.do";
-			</c:when>
-			<c:otherwise>
-				location.href = "${pageContext.request.contextPath}/member/logout.do";
-			</c:otherwise>
-		</c:choose>
-	}
+    function logoutFunc() {
+        <c:choose>
+            <c:when test="${loginSession.naver_num != 0}"> // 네이버 로그인이면 네이버 로그아웃하고 로그아웃
+                naverLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0}">
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0 and loginSession.naver_num != 0}">
+                naverLogout();
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:otherwise>
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:otherwise>
+        </c:choose>
+    }
 	
 	/* 카카오 스크립트 */
  	Kakao.init('291e1386943e6e2a3a90ccb0c0cb9f27'); //발급받은 키 중 javascript키를 사용해준다.
@@ -1296,7 +1304,7 @@ a:hover {
 	var naverLogin = new naver.LoginWithNaverId(
 			{
 				clientId: "MJ4BRMl5k9pVssgoUg87", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-				callbackUrl: "http://localhost:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+				callbackUrl: "http://14.39.9.188:8001/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 				isPopup: true,
 				//callbackHandle: true,
 				loginButton: {color: "green", type: 1, height: 40}

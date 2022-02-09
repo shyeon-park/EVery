@@ -212,15 +212,34 @@ left: 0px;
 }
 </style>
 <style>
+	.main-comment-container{
+		
+	}
+
 	textarea {
 		resize: none;
 		font-size:12px;
 		height:100%;
+		maxlength:200;
+	}
+	
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
 	}
 	
 	.cmt-container {
 		background-color: white !important;
 		border: 1px solid lightgrey;
+		height:400px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
 	}
 	
 	.comment-header {
@@ -241,6 +260,19 @@ left: 0px;
 		font-size: 12px;
 		font-weight: bold;
 	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -452,6 +484,7 @@ left: 0px;
 		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
 		if(id == null || id == ""){
 			alert("로그인 후 댓글을 남겨주세요.");
+			$("#review").val("");
 			return;
 		}
 		
@@ -493,6 +526,11 @@ left: 0px;
 		$(".btn-modifyCmt").on("click", function(e){
 			let seq_review = $(e.target).val();
 			let review = $(e.target).parent().next().next().children().val();
+			if(review == ""){
+				alert("내용을 입력하세요.");	
+				return;
+			}
+			
 			console.log("댓글 번호 : " + seq_review + "수정 내용 : " + review);
 			let data = {"seq_review" : seq_review, "review" : review}
 			console.log(data);
@@ -539,7 +577,7 @@ left: 0px;
 			});
 		}else if($(e.target).html() == "취소"){
 			//getCommentList();
-			$(e.target).parent().prev().prev().children().attr("readonly", true);
+			$(e.target).parent().next().children().attr("readonly", true);
 			$(e.target).parent().prev().children().html("수정");
 			$(e.target).html("삭제");
 		}
@@ -547,11 +585,19 @@ left: 0px;
 	
 	/* 즐겨찾기 추가 삭제 */ 
 	$(document).on("click", "#btn_navi_menu", function(e){
+		let id = "${loginSession.id}"
+            console.log(id);
+		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
+		if(id == null || id == ""){
+			alert("로그인 후 즐겨찾기를 추가해 주세요.");
+			return;
+		}
+		
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=${station}"
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
 		}).done(function(data){
-			getBookmark();
+			getBookmark($("#station").val());
 		}).fail(function(e){
 			console.log(e);
 		})
@@ -601,10 +647,10 @@ left: 0px;
 				for(let dto of data1.reviewList){
 				
 				let comment = "<div class='row comment-header m-1'>"
-				 + "<div class='col-2 cmt-info'>"
+				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
-	             + "<div class='col-8 plusBtn cmt-info'>"
+	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
@@ -616,7 +662,7 @@ left: 0px;
 	             // 댓글 동적 요소 추가
 	             $(".cmt-showBox").append(comment);
 	             
-	          	// 수정 삭제 버튼 영역	
+	          	// 수정 삭제 버튼 영역	 
 	          	if("${loginSession.id}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
 	          		let btns = "<div class='col-1 d-flex justify-content-center' style='padding:0px;'>"
 	          		 + "<button type='button' class='btn btn-modifyCmt' style='color:grey; padding:0px; font-size: 11px; font-weight: bold; width:30px;' value='" + dto.seq_review +"'>수정</button>"
@@ -636,7 +682,7 @@ left: 0px;
 						+ "<ul class='pagination justify-content-center'>";
 						
 						if(data1.settingMap.needPrev == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, " + data1.settingMap.station + ");'>Previous</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><<</a></li>";
 						}
 						
 						for(var i= startNavi; i<= endNavi; i++){
@@ -644,7 +690,7 @@ left: 0px;
 						}
 						
 						if(data1.settingMap.needNext == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, " + data1.settingMap.station + ");'>Next</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>>></a></li>";
 						}
 						
 				paging += "</ul>" + "</nav>";		
