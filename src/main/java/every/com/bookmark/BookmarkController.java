@@ -48,7 +48,7 @@ public class BookmarkController {
 	@RequestMapping(value = "/delete.do")
 	@ResponseBody
 	public String delete(String station) throws Exception{
-		String id = (String)((HashMap)session.getAttribute("loginSession")).get("id");
+		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
 		HashMap<String, String> map = new HashMap<>();
 		map.put("station", station);
 		map.put("id", id);
@@ -80,15 +80,20 @@ public class BookmarkController {
 	@RequestMapping(value = "/getBookmark.do")
 	@ResponseBody
 	public String isExistBookmark(String station) throws Exception{
-		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
-		HashMap<String, String> map = new HashMap<>();
-		map.put("station", station);
-		map.put("id", id);
-		if(service.bookmarkCount(map) > 0) {
-			return "ok";
-		}else {
+		if(session.getAttribute("loginSession") == null) {
 			return "no";
+		}else {
+			String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
+			HashMap<String, String> map = new HashMap<>();
+			map.put("station", station);
+			map.put("id", id);
+			if(service.bookmarkCount(map) > 0) {
+				return "ok";
+			}else {
+				return "no";
+			}
 		}
+		
 	}
 	
 	/* 추가 해제 부분 */

@@ -484,6 +484,7 @@ left: 0px;
 		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
 		if(id == null || id == ""){
 			alert("로그인 후 댓글을 남겨주세요.");
+			$("#review").val("");
 			return;
 		}
 		
@@ -525,6 +526,11 @@ left: 0px;
 		$(".btn-modifyCmt").on("click", function(e){
 			let seq_review = $(e.target).val();
 			let review = $(e.target).parent().next().next().children().val();
+			if(review == ""){
+				alert("내용을 입력하세요.");	
+				return;
+			}
+			
 			console.log("댓글 번호 : " + seq_review + "수정 내용 : " + review);
 			let data = {"seq_review" : seq_review, "review" : review}
 			console.log(data);
@@ -571,7 +577,7 @@ left: 0px;
 			});
 		}else if($(e.target).html() == "취소"){
 			//getCommentList();
-			$(e.target).parent().prev().prev().children().attr("readonly", true);
+			$(e.target).parent().next().children().attr("readonly", true);
 			$(e.target).parent().prev().children().html("수정");
 			$(e.target).html("삭제");
 		}
@@ -579,6 +585,14 @@ left: 0px;
 	
 	/* 즐겨찾기 추가 삭제 */ 
 	$(document).on("click", "#btn_navi_menu", function(e){
+		let id = "${loginSession.id}"
+            console.log(id);
+		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
+		if(id == null || id == ""){
+			alert("로그인 후 즐겨찾기를 추가해 주세요.");
+			return;
+		}
+		
 		$.ajax({
 			type : "get"
 			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
@@ -633,10 +647,10 @@ left: 0px;
 				for(let dto of data1.reviewList){
 				
 				let comment = "<div class='row comment-header m-1'>"
-				 + "<div class='col-2 cmt-info'>"
+				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
-	             + "<div class='col-8 plusBtn cmt-info1'>"
+	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
