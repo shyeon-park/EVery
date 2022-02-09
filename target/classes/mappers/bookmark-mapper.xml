@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookmarkMapper">
+
+	<!-- 즐겨찾기 되어있는지 아닌지 여부를 알기위한 카운팅 -->
+	<select id="bookmarkCount" parameterType="Map" resultType="int">
+		select count(*) from tbl_bookmark where id = #{id} and station = #{station}
+	</select>
+	
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="delete" parameterType="Map">
+		delete from tbl_bookmark where id = #{id} and station = #{station}
+	</delete>
+	
+	<!-- 즐겨찾기 전체 삭제 -->
+	<delete id="deleteAll">
+		delete from tbl_bookmark where id = #{id}
+	</delete>
+	
+	<!-- 즐겨찾기 추가 -->
+	<insert id="insert" parameterType="Map">
+		insert into tbl_bookmark values(#{id}, #{station})
+	</insert>
+	
+	<!-- 즐겨찾기 페이징을 하기 위한 전체 카운딩 -->
+	<select id="countAll" resultType="int">
+		select count(*) from tbl_bookmark where id = #{id}
+	</select>
+	
+	<!-- 즐겨찾기 리스트 가져오기 -->
+	<select id="selectAll" parameterType="Map" resultType="ReviewDTO">
+		select * from(select row_number() over(order by station desc) 순위, a.* from(select * from tbl_bookmark where id = #{id}) a) where (순위 between #{startRange} and #{endRange})
+	</select>
+	
+</mapper>

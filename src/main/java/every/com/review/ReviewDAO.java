@@ -39,14 +39,14 @@ public class ReviewDAO {
 	}
 	
 	/* 댓글 삭제 */
-	public int delete(int seq_reviewSS) throws Exception{
-		return session.delete("reviewMapper.delete", seq_reviewSS);
+	public int delete(int seq_review) throws Exception{
+		return session.delete("reviewMapper.delete", seq_review);
 	}
 	
 	/* 댓글 수정 */
-	public int update(int seq_reviewSS, String review) throws Exception{
+	public int update(int seq_review, String review) throws Exception{
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("seq_reviewSS", seq_reviewSS);
+		map.put("seq_review", seq_review);
 		map.put("review", review);
 		return session.update("reviewMapper.update", map);
 	}
