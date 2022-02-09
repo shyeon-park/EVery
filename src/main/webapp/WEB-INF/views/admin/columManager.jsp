@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-	crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>컬럼리스트 관리자 페이지</title>
+<title>컬럼_관리자</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <style>
@@ -172,32 +166,7 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 }
-table th td {
-border: 1px solid black;
-}
-  #bell{
-      position: relative;
-      cursor: pointer;
-      
-    }
-    .fa-bell{
-      position: absolute;
-      font-size: 38px;
-    }
-    #bell_text{
-      position: relative;
-      color: white;
-      font-weight: 700;
-      font-size: large;
-      width: 27px;
-      left: 25px;
-      top : -10px;
-      display: inline-block;
-      background-color: red;
-      border-radius: 100%;
-      text-align: center;
-    }
-   
+
 </style>
 </head>
 <body>
@@ -241,101 +210,28 @@ border: 1px solid black;
 		</div>
 	</div>
 	<div class="main">
-		<div>
-
-	
-	
-	<table class="table">
-	<h3>신청자 목록</h3>
-		<thead>
-		<tr class="text-center">
-			<th><input type="checkbox" name="" id="cbx_chkAll"></th>
-			<th>ID</th>
-			<th>닉네임</th>
-		</tr>
-		</thead>
-		<tbody>
-		
-		</tbody>
-		<tfoot>
-			<tr>
-              <td class="text-center"></td>
-              <td class="text-center"></td>
-              <td class="text-end">
-              	<button type='button' class='btn btn-success' id='approval'>승인</button>
-               	<button type='button' class='btn btn-danger' id='reject'>거부</button>
-              </td>
+		<div class="container">
+            <h3>칼럼관리</h3>
+            <table class="table">
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>칼럼제목</th>
+                <th>칼럼리스트</th>
             </tr>
-		</tfoot>
-	</table>
-</div>
-	<script type="text/javascript">
-	ws = new WebSocket("ws://172.30.1.60/column");
+            
+            <tbody>
+            </tbody>
 
-	$('#approval').on("click",function(e){
-	 	 var approvaList = new Array(); // 배열 선언
-	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-	 		approvaList.push(this.value);
-	 	 });
-	 	 if(approvaList.length != 0){
-	 		let msg = { category: "Approval", list: approvaList };
-	 		let msgToJson = JSON.stringify(msg);
-	 		ws.send(msgToJson);
-		 }else{
-	 		 alert("승인할 사람을 선택하세요.")
-	 	 }
-	})
-	
-		$('#reject').on("click",function(e){
-	 	
-	 	 var rejectList = new Array(); // 배열 선언
-	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-	 		rejectList.push(this.value);
-	 	 });
-	 	 if(rejectList.length != 0){
-	 		let msg = { category: "Reject", list: rejectList };
-	 		let msgToJson = JSON.stringify(msg);
-	 		ws.send(msgToJson);
-	 	 }else{
-	 		 alert("거절할 사람을 선택하세요.")
-	 	 }
-	})
-	
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'cbx_chkAll'){
-        if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
-        else  $("input[name=columId]").prop("checked", false)
-        }});
-	
- 
-	 //메세지수신
-	 ws.onmessage = function(e) {
-	    		let msgObj = JSON.parse(e.data);
-	    		console.log(msgObj);
-	    			notCheckedcount = msgObj.notCheckedcount
-	    			console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
-	    			$("#bell_text").empty();
-	    			//$(".modal-footer").empty();
-	    			$("#bell_text").append(notCheckedcount);
-	 
-	 			if(msgObj.getColumAppList != null){
-	 				getColumAppList = msgObj.getColumAppList;
-	 				
-	 				$("tbody").empty();
-	 				for(newList of getColumAppList){
-						let newTr = $("<tr>");
-						let addTable = "<td class='text-center'><input type='checkbox' name = 'columId' value='"+newList.id+"'></td>"
-								  	   +"<td class='text-center'>"+newList.id+"</td>"
-								  	   + "<td class='text-center'>"+newList.nickname+"</td>"
-					    newTr = newTr.append(addTable);		
-						$("tbody").append(newTr);
-					}	
-	 			}
-	}
-	 
-	 
-	 
-	</script>
+            <tfoot>
+            </tfoot>
+         
+            </table>
+        </div>
+        <script>
+            
+        </script>
+		
+		
 		
 		
 	</div>
@@ -408,7 +304,3 @@ border: 1px solid black;
 	</script>
 </body>
 </html>
-
-
-
-

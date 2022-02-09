@@ -222,9 +222,14 @@ public class ColumnEndPoint {
 				}
 				
 					if (category.equals("Approval")) {
-					
 					HashMap<String, Object> map = new HashMap<String, Object>(); 
 					map.put("category", message);
+					for(String approvalId : list) {
+						String nickname = service.getNickname(approvalId);
+						String msg = nickname+"님 칼럼리스트 신청이 승인되었습니다.";
+						int rs = messageService.messageInsert(approvalId, nickname,msg);
+					}
+					
 					//승인완료 
 					int result = messageService.approval(list);
 						if(result != -1) {
@@ -238,22 +243,23 @@ public class ColumnEndPoint {
 										int notCheckedcount = messageService.notCheckedcount(id);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("getColumAppList", cal);
-										map.put("uncheckedList", mnc);
+										//map.put("uncheckedList", mnc);
 										String jObj = gson.toJson(map).toString();
 										client.getBasicRemote().sendText(jObj.toString());
 										//신청리스트 + 신청목록 list
 										
 									}else {
-										for(String approvalId : list) {
-											HttpSession httpSessionList = sessionMap.get(client);
-											//String columListId = ((MemberDTO) httpSessionList.getAttribute("loginSession")).getId();
-											String columListNickname = ((MemberDTO) httpSessionList.getAttribute("loginSession")).getNickname();
-												String msg = columListNickname+"님 칼럼리스트가 되신 것을 환영합니다.";
-												int rs = messageService.messageInsert(approvalId, columListNickname,msg);
+										HttpSession httpSessionList = sessionMap.get(client);
+										if (httpSessionList.getAttribute("loginSession") != null) {
+											for(String approvalId : list) {
+												String nickname = service.getNickname(approvalId);
 												int notCheckedcount = messageService.notCheckedcount(approvalId);
 												map.put("notCheckedcount", notCheckedcount);
 												String jObj = gson.toJson(map).toString();
 												client.getBasicRemote().sendText(jObj.toString());
+											}
+										}else {
+											continue;
 										}
 									}
 								}
@@ -264,6 +270,12 @@ public class ColumnEndPoint {
 				}else if(category.equals("Reject")) {
 					HashMap<String, Object> map = new HashMap<String, Object>(); 
 					map.put("category", message);
+
+					for(String rejectId : list) {
+						String nickname = service.getNickname(rejectId);
+						String msg = nickname+"님 칼럼리스트 신청이 거절되었습니다.";
+						int rs = messageService.messageInsert(rejectId, nickname,msg);
+					}
 					//컬럼리스트 요청 거절 
 					int result = messageService.reject(list);
 						if(result != -1) {
@@ -277,22 +289,23 @@ public class ColumnEndPoint {
 										int notCheckedcount = messageService.notCheckedcount(id);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("getColumAppList", cal);
-										map.put("uncheckedList", mnc);
+										//map.put("uncheckedList", mnc);
 										String jObj = gson.toJson(map).toString();
 										client.getBasicRemote().sendText(jObj.toString());
 										//신청리스트 + 신청목록 list
 										
 									}else {
-										for(String approvalId : list) {
-											HttpSession httpSessionList = sessionMap.get(client);
-											//String columListId = ((MemberDTO) httpSessionList.getAttribute("loginSession")).getId();
-											String columListNickname = ((MemberDTO) httpSessionList.getAttribute("loginSession")).getNickname();
-												String msg = columListNickname+"님 칼럼리스트 신청이 거절되었습니다.";
-												int rs = messageService.messageInsert(approvalId, columListNickname,msg);
-												int notCheckedcount = messageService.notCheckedcount(approvalId);
+										HttpSession httpSessionList = sessionMap.get(client);
+										if (httpSessionList.getAttribute("loginSession") != null) {
+											for(String rejectId : list) {
+												String nickname = service.getNickname(rejectId);
+												int notCheckedcount = messageService.notCheckedcount(rejectId);
 												map.put("notCheckedcount", notCheckedcount);
 												String jObj = gson.toJson(map).toString();
 												client.getBasicRemote().sendText(jObj.toString());
+											}
+										}else {
+											continue;
 										}
 									}
 								}

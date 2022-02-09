@@ -199,8 +199,10 @@ border-radius: 3;
 width: 100%;
 height: 100%;
 }
+
 .titleImg{
- width: 100%;
+ width: 300px;
+ height: 250px;
  padding-bottom: 15px;
  border: none;
 }
@@ -219,6 +221,11 @@ text-decoration: none;
 color : black;
 font-size: 1.4rem;
 font-weight: bold;
+}
+.card-img-top{
+
+width: 100%;
+height: 100%;
 }
 .colum-text{
 margin: 0;
@@ -326,7 +333,7 @@ margin: 0;
 
 		<div class="row">
 			<div class="col d-flex justify-content-center">
-				<h2>게시판</h2>
+				<h4 class="mb-5">칼럼</h4>
 			</div>
 		</div>
 	    <div class="row list">
@@ -348,7 +355,7 @@ margin: 0;
 					console.log(res);
 					columnList = res.columnList;
 					$(".list").empty();
-					$("#nevi").empty();
+					$("#pagingNavi").empty();
 					let data = res.list
 					if(data == null || data =="" ){
 						let list = "리스트가 비어있습니다"
@@ -370,8 +377,9 @@ margin: 0;
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
 							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer'>"
-			                			+"<div class='titleImg w-100'>"
+			                			+"<div class='titleImg'>"
 				                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
+				                				
 				                				if(con.profile == null || con.profile==""){
 				                			    list +="<img src="
 				                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
@@ -382,7 +390,8 @@ margin: 0;
 				                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
 				                			       	+"class='card-img-top' alt='...'>"	
 												}
-												list += "</a>"
+												list += "</a></div>"
+											
 				                   				+"<div class='colum-body'>"
 					                   			+"<p class='colum-title'>"
 				                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
@@ -393,6 +402,7 @@ margin: 0;
 				                    			+"</div>"
 			                   				+"</div>"
 			            				+"</div>"
+			
 		            					$(".list").append(list)
 						  } // LIST 출력
 						  
