@@ -190,7 +190,7 @@ a:hover {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
-				<c:when test="${empty loginSession}">
+				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="">마이페이지</a>
 					</div>

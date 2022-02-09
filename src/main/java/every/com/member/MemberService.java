@@ -66,13 +66,18 @@ public class MemberService {
 		return dao.appCompleteList();
 	}
 	
+	//컬럼리스트 신청
 	public int columnApplication(String id) throws Exception {
 		return dao.columnApplication(id);
 	} 
 	
+	//컬럼리스트 신청 목록
 	public List<MemberDTO> columnList() throws Exception{
 		return dao.columnList();
 	} 
 	
+	public String getNickname(String id) throws Exception{
+		return dao.getNickname(id);
+	}
 	
 }

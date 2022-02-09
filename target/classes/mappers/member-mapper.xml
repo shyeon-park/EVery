@@ -105,7 +105,7 @@
 		UPDATE tbl_member SET pw=#{pw} WHERE id=#{id} AND phone=#{phone}
 	</update>
 	
-	
+	<!--************ 태환추가 ********************-->
 	<!-- 컬럼리스트 가져오기 -->
 	<select id = "appCompleteList" resultType = "MemberDTO">
 		select id, nickname, column_application from tbl_member where column_application = 1
@@ -119,9 +119,9 @@
 		</foreach>
 	</update>
 	
-		<!-- 컬럼리스트 신청 승인 시  -->
+	<!-- 컬럼리스트 신청 승인 시  -->
 	<update id="approval" parameterType="map">
-		update tbl_member set column_application = 2, identification_num = 2 where id in
+		update tbl_member set column_application = 1, identification_num = 2 where id in
 		<foreach collection="list" item="arr" open="(" close=")" separator=",">
 		 #{arr}
 		</foreach>
@@ -132,8 +132,13 @@
 		select count(*) from tbl_member where identification_num = 1
 	</select>
 	
+	<!-- 닉네임 가져오기 -->
+	<select id="getNickname" resultType="String">
+		select nickname from tbl_member where id = #{id} 
+	</select>
 	
-		<!-- 컬럼리스트 신청 -->
+	
+	<!-- 컬럼리스트 신청 -->
 	<update id="columnApplication">
 		update tbl_member set identification_num = 1 where id = #{id}
 	</update>

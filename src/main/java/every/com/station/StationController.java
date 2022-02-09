@@ -21,9 +21,18 @@ import io.ipinfo.api.model.IPResponse;
 @Controller
 @RequestMapping(value="/station")
 public class StationController {
+	@Autowired
+	private MapService map;
+	
 	@RequestMapping(value="/toGetStation")
 	public String toGetStation() throws Exception{
 		return "station/station";
+	}
+	
+	@RequestMapping(value = "/getLiveStatin.do",produces = "application/json;charset=utf-8;")
+	@ResponseBody
+	public String getMap(String chrstnNm) throws Exception {
+		return map.getData(chrstnNm);
 	}
 	
 	@RequestMapping(value="/getIP",produces = "application/json;charset=UTF-8;")

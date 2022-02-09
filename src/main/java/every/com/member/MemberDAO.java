@@ -62,7 +62,7 @@ public class MemberDAO {
 		return session.update("memberMapper.modifyPw", dto);
 	}
 	
-	/*태환 추가*/
+	/*******************태환 추가***********************/
 	//컬럼리스트 목록 가져오기
 	public List<MemberDTO> appCompleteList() throws Exception{
 		return session.selectList("memberMapper.appCompleteList");
@@ -90,5 +90,10 @@ public class MemberDAO {
 		map.put("list", list);
 		return session.update("memberMapper.reject",map);
 	}
-	/*태환 추가*/
+	
+	public String getNickname(String id) {
+		return session.selectOne("memberMapper.getNickname",id);
+	}
+	
+	/***************태환 추가*****************/
 }

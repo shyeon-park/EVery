@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -282,7 +283,7 @@ a:hover {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
-				<c:when test="${empty loginSession}">
+				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="">마이페이지</a>
 					</div>
@@ -352,7 +353,7 @@ a:hover {
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-			<a href="">마이페이지</a>
+					<a href="">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -392,11 +393,11 @@ a:hover {
             <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
           </div>
           <div class="row">
-           <table class="form-control w-100">
-                <tr>
-                  <th class="w-25"><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
-                  <th class="w-25">시간</th>
-                  <th class="w-25">메세지</th>
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
                 </tr>
             <tbody id="listPrint">
             </tbody>
@@ -465,56 +466,6 @@ a:hover {
 		 		 alert("확인할 메세지를 선택하세요.")
 		 	 }
 	}
-
-	
-		ws = new WebSocket("ws://172.30.1.60/column");
-		     //메세지수신
-		ws.onmessage = function(e) {
-			//console.log( e.data );
-			let msgObj = JSON.parse(e.data);
-			console.log(msgObj);
-			
-				notCheckedcount = msgObj.notCheckedcount
-				console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
-				$("#bell_text").empty();
-				$(".modal-footer").empty();
-				$("#bell_text").append(notCheckedcount);
-				
-				//새로운 메세지 리스트 출력
-				if(msgObj.category == "getUncheckedList"){
-					let uncheckedList = msgObj.uncheckedList
-					$("#listPrint").empty();
-					$(".modal-footer").empty();
-					for(newMsg of uncheckedList){
-						let newTr = $("<tr>");
-						let aa = "<td class='w-25'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
-								  +"<td class='w-25'>"+newMsg.written_date+"</td>"
-								  + "<td class='w-25'>"+newMsg.msg+"</td>"
-					    newTr = newTr.append(aa);		
-						$("#listPrint").append(newTr);
-					}	
-					
-					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
-					$(".modal-footer").append(newBtn);
-				//확인된 목록
-				}else if(msgObj.category == "getCheckedList"){
-					$("#listPrint").empty();
-					checkedList = msgObj.checkedList
-					for(newMsg of checkedList){
-						let newTr = $("<tr>");
-						let aa = "<td class='w-25'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
-								  +"<td class='w-25'>"+newMsg.written_date+"</td>"
-								  + "<td class='w-25'>"+newMsg.msg+"</td>"
-					    newTr = newTr.append(aa);		
-						$("#listPrint").append(newTr);
-					}
-					
-					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
-					$(".modal-footer").append(newBtn);
-				}	
-		}
-		
-	
 
 	</script>
 	
