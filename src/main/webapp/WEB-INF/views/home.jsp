@@ -324,7 +324,7 @@ a:hover {
 			
 			
 			<div class="col-xl-1 col-1 navi-menu">
-			<a id=""><img src="/resources/images/favorite.png" width="24px"
+			<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do" id=""><img src="/resources/images/favorite.png" width="24px"
 					height="24px"></a>
 <!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
 			</div>

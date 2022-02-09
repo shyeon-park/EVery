@@ -9,6 +9,7 @@
 	</settings>
 	
  	<typeAliases> 
+ 		<typeAlias type="every.com.bookmark.BookmarkDTO" alias="BookmarkDTO"/>
  		<typeAlias type="every.com.review.ReviewDTO" alias="ReviewDTO"/>
  		<typeAlias type="every.com.member.MemberDTO" alias="MemberDTO"/>
  		<typeAlias type="every.com.admin.AdminDTO" alias="AdminDTO"/> 
