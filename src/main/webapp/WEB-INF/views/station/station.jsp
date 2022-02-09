@@ -211,6 +211,37 @@ top:0px;
 left: 0px;
 }
 </style>
+<style>
+	textarea {
+		resize: none;
+		font-size:12px;
+		height:100%;
+	}
+	
+	.cmt-container {
+		background-color: white !important;
+		border: 1px solid lightgrey;
+	}
+	
+	.comment-header {
+		border-bottom: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-body {
+		padding: 2px;
+		border: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-input{
+		height:50px;
+		padding-bottom:5px;
+	}
+	
+	.cmt-info {
+		font-size: 12px;
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 <nav class="navber">
@@ -312,7 +343,10 @@ left: 0px;
 			<div class="d-none" id="commentDIV">
 				<div class="row">
 					<div class="col-10" id="div-top-name"></div>
-					<div class="col-2">
+					<div class="col-1 bmark-container">
+						<!-- 동적 즐찾 버튼 영역 -->
+					</div>
+					<div class="col-1">
 						<button type="button" class="btn btn-primary col-12"
 							id="btn_close">닫기</button>
 					</div>
@@ -320,8 +354,31 @@ left: 0px;
 
 				<div id="chargeList"></div>
 
-				<div id="cmt-showBox">
-					<!-- 성식님 댓글부분 -->
+				<div id="main-comment-container">
+					<div class="cmt-container">
+						<div class="cmt-inputBox">
+							<form id="reviewForm" method="post">
+								<div class="row comment-body m-1">
+									<div class="col-10 comment-input" style="padding:0px;">
+										<textarea class="form-control" id="review" name="review" style="font-size:12px; height:100%;" placeholder="댓글을 입력해주세요."></textarea>
+									</div>
+									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px;">
+										<button type="button" id="btnSave" style="padding:0px; font-size: 11px; height:30px; width:50px;" class="btn btn-secondary">등록</button>
+									</div>
+								</div>
+								<input type="text" name="station" value="${station}" hidden>
+							</form>
+						</div> 
+					
+				        <div class="cmt-showBox">
+				        <!-- 동적 댓글 영역 -->
+				        </div>
+					</div>
+					<div class="paging-container">
+						<div class="cmt-paging">
+						<!-- 동적 페이징 영역 -->
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-12" id="mapDIV">
@@ -378,7 +435,229 @@ left: 0px;
 	</div>
 <script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9cb655cdc9169e09018321558636d28d"></script>
-
+	
+	<script>
+	/* 댓글 스크립트 영역 */
+	
+	/* 페이지 로드되자마자 댓글도 ajax 로 로드 */
+	/* $(document).ready(function(){
+		getBookmark();
+		getCommentList(1);
+	}) */
+	
+	/* 댓글 등록 */ 
+	$("#btnSave").on("click", function(){
+		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
+		/* if(${loginSession.get('id')} == null){
+			alert("로그인 후 댓글을 남겨주세요.");
+			return;
+		} */
+		
+		if($("#review").val() == ""){
+			alert("댓글을 입력하세요.");
+			return;
+		}
+		
+		let data = $("#reviewForm").serialize(); // 댓글 form 안의 데이터 직렬화
+		console.log(data);
+		$("#review").val("");
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/review/insert.do"
+			, type : "post"
+			, data : data				
+		}).done(function(rs){
+			if(rs == "success"){
+				console.log("성공");
+				getCommentList(1);// 댓글 동록에 성공하면 댓글 리스트 리로드
+			}else if(rs == "fail"){
+				alert("댓글 등록에 실패했습니다."); // 댓글 등록에 실패하면 alert 
+			}				
+		}).fail(function(e){
+			console.log(e);
+		});
+		
+	});	
+	
+	/* 댓글 수정 */ 
+	$(document).on("click",".btn-modifyCmt", function(e){ 
+		$(e.target).parent().next().next().children().attr("readonly", false); //선택자를 따라서 댓글의 리드온리 속성이 풀린다.
+		
+		// 버튼의 상태가 수정한 후이기 때문에 완료와 취소로 바뀌게 된다.
+		$(e.target).html("완료"); 
+		$(e.target).parent().next().children().html("취소");
+		
+		// 바뀐 버튼을 다시 누르면 ajax를 통해 수정되게 만든다.
+		$(".btn-modifyCmt").on("click", function(e){
+			let seq_review = $(e.target).val();
+			let review = $(e.target).parent().next().next().children().val();
+			console.log("댓글 번호 : " + seq_review + "수정 내용 : " + review);
+			let data = {"seq_review" : seq_review, "review" : review}
+			console.log(data);
+			if($(e.target).html() == "완료"){
+				$.ajax({
+					type : "post"
+					,url : "${pageContext.request.contextPath}/review/update.do"
+					,data : data
+				}).done(function(rs){
+					if(rs == "success"){
+						getCommentList(1);
+					}else if(rs == "fail"){
+						alert("수정에 실패하였습니다.");
+					}
+				}).fail(function(e){
+					console.log(e);
+				});
+			}
+		}); 
+		
+	});
+	
+	/* 댓글 삭제, 취소를 눌렀을 때 */
+	$(document).on("click",".btn-deleteCmt", function(e){
+		console.log($(e.target).val()); //의 값을 가지고 그 시퀀스만 삭제되게 요청한 후 
+		//getCommentList(); // 를 시켜서 리로드 시킨다.
+		
+		if($(e.target).html() == "삭제"){
+			let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
+			}).done(function(rs){
+				if(rs == "success"){
+					getCommentList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+		}else if($(e.target).html() == "취소"){
+			//getCommentList();
+			$(e.target).parent().prev().prev().children().attr("readonly", true);
+			$(e.target).parent().prev().children().html("수정");
+			$(e.target).html("삭제");
+		}
+	});
+	
+	/* 즐겨찾기 추가 삭제 */ 
+	$(document).on("click", "#btn_navi_menu", function(e){
+		$.ajax({
+			type : "get"
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=${station}"
+		}).done(function(data){
+			getBookmark();
+		}).fail(function(e){
+			console.log(e);
+		})
+	});
+	
+	
+	/* 즐겨찾기 여부를 불러오는 함수 */ 
+	function getBookmark(){
+		$.ajax({
+			type : "get"
+			, url : "${pageContext.request.contextPath}/bookmark/getBookmark.do?station=${station}"
+		}).done(function(data){
+			$(".bmark-container").empty();
+			if(data == "ok"){
+				let mark = "<div><a id='btn_navi_menu'><img src='/resources/images/favorite -fill.png' width='24px'height='24px'></a></div>";
+				$(".bmark-container").append(mark);
+			}else if(data == "no"){
+				let mark = "<div><a id='btn_navi_menu'><img src='/resources/images/favorite.png' width='24px'height='24px'></a></div>";
+				$(".bmark-container").append(mark);
+			}
+		}).fail(function(e){
+			console.log(e);
+		})
+	}
+	
+	/* ajax를 이용해 댓글을 불러오는 함수 */ 
+	function getCommentList(currentPage, station){	
+		console.log(currentPage);
+		console.log(station);
+		
+		$.ajax({
+			type : "get"
+			, url : "${pageContext.request.contextPath}/review/getReview.do", 
+			data: {"station" : station, "currentPage" : currentPage}
+			
+		}).done(function(data1){
+			// 기존에 댓글이 있다면 모두 비워주는 작업 
+			// 페이징도 다시 해주어야 하기때문에 비워줌
+			$(".cmt-showBox").empty();
+			$(".cmt-paging").empty();
+			console.log(data1);
+			console.log(station);
+			if(data1.reviewList == ""){
+				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>댓글을 등록해보세요.</h4></div>";
+				$(".cmt-showBox").append(commentNull);
+			}else{
+				for(let dto of data1.reviewList){
+				
+				let comment = "<div class='row comment-header m-1'>"
+				 + "<div class='col-2 cmt-info'>"
+				 +  dto.id
+				 + "</div>"
+	             + "<div class='col-8 plusBtn cmt-info'>"
+	             + dto.written_date
+	             + "</div>"
+	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
+	             + "<textarea class='form-control' class='content-cmt' style='font-size:12px; height:100%;' name='comment' readonly>"
+	             + dto.review
+	             + "</textarea>"
+	             + "</div>"
+	             + "</div>"
+	             // 댓글 동적 요소 추가
+	             $(".cmt-showBox").append(comment);
+	             
+	          	// 수정 삭제 버튼 영역	
+	          	if("${loginSession.get('id')}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
+	          		let btns = "<div class='col-1 d-flex justify-content-center' style='padding:0px;'>"
+	          		 + "<button type='button' class='btn btn-modifyCmt' style='color:grey; padding:0px; font-size: 11px; font-weight: bold; width:30px;' value='" + dto.seq_review +"'>수정</button>"
+	          		 + "</div>"
+	          		 + "<div class='col-1 d-flex justify-content-center' style='padding:0px;'>"
+	          		 + "<button type='button' class='btn btn-deleteCmt' style='color:grey; padding:0px; font-size: 11px; font-weight: bold; width:30px;' value='" + dto.seq_review + "'>삭제</button>"
+	          		 + "</div>";
+	          		 // 가장 최신에 만들어진 댓글 영역 옆에 버튼 추가
+	          		$(".plusBtn:last").after(btns);
+	          	}
+			}
+			
+			let startNavi = data1.settingMap.startNavi;
+			let endNavi = data1.settingMap.endNavi;
+			console.log(data1.settingMap.station);
+			let paging = "<nav class='col' aria-label='Page navigation example'>"
+						+ "<ul class='pagination justify-content-center'>";
+						
+						if(data1.settingMap.needPrev == true){
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, " + data1.settingMap.station + ");'>Previous</a></li>";
+						}
+						
+						for(var i= startNavi; i<= endNavi; i++){
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ", " + data1.settingMap.station + ");'>" + i + "</a></li>";
+						}
+						
+						if(data1.settingMap.needNext == true){
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, " + data1.settingMap.station + ");'>Next</a></li>";
+						}
+						
+				paging += "</ul>" + "</nav>";		
+						
+				$(".cmt-paging").append(paging);
+			}
+			
+						
+		}).fail(function(e){
+			console.log(e);
+		});
+	}
+	
+	
+	</script>
 	
 	<script>
 		$(function() {
@@ -487,7 +766,6 @@ left: 0px;
 			
 			// 마커를 생성하고 지도위에 표시하는 함수입니다
 			function addMarker(position,data) {
-				
 				if(data.institutionNm == '한국전력공사'){
 					var markerImageUrl = '/resources/images/markers/한국전력공사.png', 
 				    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
@@ -517,8 +795,10 @@ left: 0px;
 			    marker.setMap(map);
 			    
 			    kakao.maps.event.addListener(marker, 'click', function() {
+			    	let station = data.chrstnNm;
 			    	showStation();
-			    	
+			    	getCommentList(1,station);
+				    getBookmark();
 			    	// 마커 클릭시 중앙좌표 추가해야됌
 			    	
 			    	
@@ -554,6 +834,7 @@ left: 0px;
 // 				    	$('#cmt-showBox').html(댓글을 넣으시면됩니다.);
 				    	//여기 성식님꺼 댓글을 불러온다.
 				    	//
+				    	
 			    	}).fail(function(e){
 			    		alert('해당 충전소의 실시간 정보를 가져오지 못했습니다.');
 			    		hideLoading();
