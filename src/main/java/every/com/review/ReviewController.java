@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import every.com.review.AdPagingService;
-import every.com.review.PagingService;
-import every.com.review.ReviewDTO;
-import every.com.review.ReviewService;
-import every.com.review.SearchPagingService;
+import every.com.member.MemberDTO;
 
 @Controller
 @RequestMapping("/review")
@@ -75,8 +71,9 @@ public class ReviewController {
 	public String insert(ReviewDTO dto) throws Exception{
 		System.out.println("충전소 이름 : " + dto.getStation());
 		System.out.println("댓글 내용 : " + dto.getReview());
-		String id = (String)((HashMap)session.getAttribute("loginSession")).get("id");
-		String nickname = (String)((HashMap)session.getAttribute("loginSession")).get("nickname");
+		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
+		String nickname = ((MemberDTO)session.getAttribute("loginSession")).getNickname();
+		System.out.println(id + nickname);
 		dto.setId(id);
 		dto.setNickname(nickname);
 		
@@ -115,9 +112,9 @@ public class ReviewController {
 	/* 댓글 삭제 */
 	@RequestMapping(value = "/delete.do")
 	@ResponseBody
-	public String delete(int seq_reviewSS) throws Exception{
-		System.out.println(seq_reviewSS);
-		if(service.delete(seq_reviewSS) != -1) {
+	public String delete(int seq_review) throws Exception{
+		System.out.println(seq_review);
+		if(service.delete(seq_review) != -1) {
 			return "success";
 		}else {
 			return "fail";
@@ -127,9 +124,9 @@ public class ReviewController {
 	/* 댓글 수정 */
 	@RequestMapping(value = "/update.do")
 	@ResponseBody
-	public String update(int seq_reviewSS, String review) throws Exception{
-		System.out.println("댓글 번호 : " + seq_reviewSS + "수정 내용 : " + review);
-		if(service.update(seq_reviewSS, review) != -1) {
+	public String update(int seq_review, String review) throws Exception{
+		System.out.println("댓글 번호 : " + seq_review + "수정 내용 : " + review);
+		if(service.update(seq_review, review) != -1) {
 			return "success";
 		}else {
 			return "fail";

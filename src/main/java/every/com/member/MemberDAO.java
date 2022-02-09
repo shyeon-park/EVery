@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-
-
 @Repository
 public class MemberDAO {
 
@@ -27,7 +24,7 @@ public class MemberDAO {
 //		return session.selectOne("memberMapper.checkMember", dto);
 //	}
 	
-	// 회원가입
+	// 일반 회원가입
 	public int insertMem(MemberDTO dto) throws Exception {
 		return session.insert("memberMapper.insertMem", dto);
 	}
@@ -42,9 +39,14 @@ public class MemberDAO {
 		return session.selectOne("memberMapper.getMember", dto);
 	}
 	
-	// 네이버 로그인 시 이미 가입되어 있는 사용자라면 naver_num에 네이버 고유id값 셋팅
+	// 네이버 로그인 시 이미 가입되어 있는 사용자라면 네이버 고유id값 셋팅
 	public int setNaverId(MemberDTO dto) throws Exception {
 		return session.update("memberMapper.setNaverId", dto);
+	}
+	
+	// 카카오 로그인 시 이미 가입되어 있는 사용자라면 카카오 고유id값 셋팅
+	public int setKakaoId(MemberDTO dto) throws Exception {
+		return session.update("memberMapper.setKakaoId", dto);
 	}
 	
 	// 회원 존재 여부

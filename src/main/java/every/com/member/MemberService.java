@@ -26,7 +26,7 @@ public class MemberService {
 //		return dao.checkMember(dto);
 //	}
 	
-	// 회원가입
+	// 일반 회원가입
 	public int insertMem(MemberDTO dto) throws Exception {
 		return dao.insertMem(dto);
 	}
@@ -41,9 +41,14 @@ public class MemberService {
 		return dao.getMember(dto);
 	}
 	
-	// 네이버 로그인 시 이미 가입되어 있는 사용자라면 naver_num에 네이버 고유id값 셋팅
+	// 네이버 로그인 시 이미 가입되어 있는 사용자라면 네이버 고유id값 셋팅
 	public int setNaverId(MemberDTO dto) throws Exception {
 		return dao.setNaverId(dto);
+	}
+	
+	// 카카오 로그인 시 이미 가입되어 있는 사용자라면 카카오 고유id값 셋팅
+	public int setKakaoId(MemberDTO dto) throws Exception {
+		return dao.setKakaoId(dto);
 	}
 	
 	// 회원 존재 여부
@@ -65,6 +70,7 @@ public class MemberService {
 	public List<MemberDTO> appCompleteList() throws Exception{
 		return dao.appCompleteList();
 	}
+
 	
 	//컬럼리스트 신청
 	public int columnApplication(String id) throws Exception {

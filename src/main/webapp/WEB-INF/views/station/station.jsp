@@ -212,15 +212,34 @@ left: 0px;
 }
 </style>
 <style>
+	.main-comment-container{
+		
+	}
+
 	textarea {
 		resize: none;
 		font-size:12px;
 		height:100%;
+		maxlength:200;
+	}
+	
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
 	}
 	
 	.cmt-container {
 		background-color: white !important;
 		border: 1px solid lightgrey;
+		height:400px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
 	}
 	
 	.comment-header {
@@ -241,6 +260,19 @@ left: 0px;
 		font-size: 12px;
 		font-weight: bold;
 	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -366,7 +398,7 @@ left: 0px;
 										<button type="button" id="btnSave" style="padding:0px; font-size: 11px; height:30px; width:50px;" class="btn btn-secondary">등록</button>
 									</div>
 								</div>
-								<input type="text" name="station" value="${station}" hidden>
+								<input id="station" type="text" name="station" value="" hidden>
 							</form>
 						</div> 
 					
@@ -447,11 +479,14 @@ left: 0px;
 	
 	/* 댓글 등록 */ 
 	$("#btnSave").on("click", function(){
+		let id = "${loginSession.id}"
+            console.log(id);
 		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
-		/* if(${loginSession.get('id')} == null){
+		if(id == null || id == ""){
 			alert("로그인 후 댓글을 남겨주세요.");
+			$("#review").val("");
 			return;
-		} */
+		}
 		
 		if($("#review").val() == ""){
 			alert("댓글을 입력하세요.");
@@ -469,7 +504,7 @@ left: 0px;
 		}).done(function(rs){
 			if(rs == "success"){
 				console.log("성공");
-				getCommentList(1);// 댓글 동록에 성공하면 댓글 리스트 리로드
+				getCommentList(1, $("#station").val());// 댓글 동록에 성공하면 댓글 리스트 리로드
 			}else if(rs == "fail"){
 				alert("댓글 등록에 실패했습니다."); // 댓글 등록에 실패하면 alert 
 			}				
@@ -491,6 +526,11 @@ left: 0px;
 		$(".btn-modifyCmt").on("click", function(e){
 			let seq_review = $(e.target).val();
 			let review = $(e.target).parent().next().next().children().val();
+			if(review == ""){
+				alert("내용을 입력하세요.");	
+				return;
+			}
+			
 			console.log("댓글 번호 : " + seq_review + "수정 내용 : " + review);
 			let data = {"seq_review" : seq_review, "review" : review}
 			console.log(data);
@@ -501,7 +541,7 @@ left: 0px;
 					,data : data
 				}).done(function(rs){
 					if(rs == "success"){
-						getCommentList(1);
+						getCommentList(1, $("#station").val());
 					}else if(rs == "fail"){
 						alert("수정에 실패하였습니다.");
 					}
@@ -528,7 +568,7 @@ left: 0px;
 				,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
 			}).done(function(rs){
 				if(rs == "success"){
-					getCommentList(1);
+					getCommentList(1, $("#station").val());
 				}else if(rs == "fail"){
 					alert("삭제에 실패하였습니다.");
 				}
@@ -537,7 +577,7 @@ left: 0px;
 			});
 		}else if($(e.target).html() == "취소"){
 			//getCommentList();
-			$(e.target).parent().prev().prev().children().attr("readonly", true);
+			$(e.target).parent().next().children().attr("readonly", true);
 			$(e.target).parent().prev().children().html("수정");
 			$(e.target).html("삭제");
 		}
@@ -545,11 +585,19 @@ left: 0px;
 	
 	/* 즐겨찾기 추가 삭제 */ 
 	$(document).on("click", "#btn_navi_menu", function(e){
+		let id = "${loginSession.id}"
+            console.log(id);
+		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
+		if(id == null || id == ""){
+			alert("로그인 후 즐겨찾기를 추가해 주세요.");
+			return;
+		}
+		
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=${station}"
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
 		}).done(function(data){
-			getBookmark();
+			getBookmark($("#station").val());
 		}).fail(function(e){
 			console.log(e);
 		})
@@ -557,10 +605,10 @@ left: 0px;
 	
 	
 	/* 즐겨찾기 여부를 불러오는 함수 */ 
-	function getBookmark(){
+	function getBookmark(station){
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/getBookmark.do?station=${station}"
+			, url : "${pageContext.request.contextPath}/bookmark/getBookmark.do?station=" + station
 		}).done(function(data){
 			$(".bmark-container").empty();
 			if(data == "ok"){
@@ -583,7 +631,7 @@ left: 0px;
 		$.ajax({
 			type : "get"
 			, url : "${pageContext.request.contextPath}/review/getReview.do", 
-			data: {"station" : station, "currentPage" : currentPage}
+			data: {"station" : station, "currentPage" : currentPage}, async: false
 			
 		}).done(function(data1){
 			// 기존에 댓글이 있다면 모두 비워주는 작업 
@@ -599,10 +647,10 @@ left: 0px;
 				for(let dto of data1.reviewList){
 				
 				let comment = "<div class='row comment-header m-1'>"
-				 + "<div class='col-2 cmt-info'>"
+				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
-	             + "<div class='col-8 plusBtn cmt-info'>"
+	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
@@ -614,8 +662,8 @@ left: 0px;
 	             // 댓글 동적 요소 추가
 	             $(".cmt-showBox").append(comment);
 	             
-	          	// 수정 삭제 버튼 영역	
-	          	if("${loginSession.get('id')}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
+	          	// 수정 삭제 버튼 영역	 
+	          	if("${loginSession.id}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
 	          		let btns = "<div class='col-1 d-flex justify-content-center' style='padding:0px;'>"
 	          		 + "<button type='button' class='btn btn-modifyCmt' style='color:grey; padding:0px; font-size: 11px; font-weight: bold; width:30px;' value='" + dto.seq_review +"'>수정</button>"
 	          		 + "</div>"
@@ -634,15 +682,15 @@ left: 0px;
 						+ "<ul class='pagination justify-content-center'>";
 						
 						if(data1.settingMap.needPrev == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, " + data1.settingMap.station + ");'>Previous</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><<</a></li>";
 						}
 						
 						for(var i= startNavi; i<= endNavi; i++){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ", " + data1.settingMap.station + ");'>" + i + "</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ", \"" + data1.settingMap.station + "\");'>" + i + "</a></li>";
 						}
 						
 						if(data1.settingMap.needNext == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, " + data1.settingMap.station + ");'>Next</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>>></a></li>";
 						}
 						
 				paging += "</ul>" + "</nav>";		
@@ -766,6 +814,7 @@ left: 0px;
 			
 			// 마커를 생성하고 지도위에 표시하는 함수입니다
 			function addMarker(position,data) {
+				
 				if(data.institutionNm == '한국전력공사'){
 					var markerImageUrl = '/resources/images/markers/한국전력공사.png', 
 				    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
@@ -795,10 +844,11 @@ left: 0px;
 			    marker.setMap(map);
 			    
 			    kakao.maps.event.addListener(marker, 'click', function() {
+			    	$('#station').val(data.chrstnNm);
 			    	let station = data.chrstnNm;
 			    	showStation();
 			    	getCommentList(1,station);
-				    getBookmark();
+				    getBookmark(station);
 			    	// 마커 클릭시 중앙좌표 추가해야됌
 			    	
 			    	

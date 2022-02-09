@@ -1,7 +1,7 @@
 package every.com.review;
 
 public class ReviewDTO {
-	private int seq_reviewSS;
+	private int seq_review;
 	private String station;
 	private String id;
 	private String nickname;
@@ -10,9 +10,9 @@ public class ReviewDTO {
 	
 	public ReviewDTO() {}
 
-	public ReviewDTO(int seq_reviewSS, String station, String id, String nickname, String review, String written_date) {
+	public ReviewDTO(int seq_review, String station, String id, String nickname, String review, String written_date) {
 		super();
-		this.seq_reviewSS = seq_reviewSS;
+		this.seq_review = seq_review;
 		this.station = station;
 		this.id = id;
 		this.nickname = nickname;
@@ -20,12 +20,12 @@ public class ReviewDTO {
 		this.written_date = written_date;
 	}
 
-	public int getSeq_reviewSS() {
-		return seq_reviewSS;
+	public int getSeq_review() {
+		return seq_review;
 	}
 
-	public void setSeq_reviewSS(int seq_reviewSS) {
-		this.seq_reviewSS = seq_reviewSS;
+	public void setSeq_review(int seq_review) {
+		this.seq_review = seq_review;
 	}
 
 	public String getStation() {

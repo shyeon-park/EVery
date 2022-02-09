@@ -9,14 +9,15 @@ public class MemberDTO {
 	private String phone;
 	private int identification_num;
 	private int column_application;
-	private String naver_num; 
+	private String naver_num;
+	private String kakao_num;
 	private Date signup_date;
 	
 	
 	public MemberDTO() {}
 
 	public MemberDTO(String id, String pw, String nickname, String phone, int identification_num,
-			int column_application, String naver_num, Date signup_date) {
+			int column_application, String naver_num, String kakao_num, Date signup_date) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -25,6 +26,7 @@ public class MemberDTO {
 		this.identification_num = identification_num;
 		this.column_application = column_application;
 		this.naver_num = naver_num;
+		this.kakao_num = kakao_num;
 		this.signup_date = signup_date;
 	}
 	
@@ -83,6 +85,14 @@ public class MemberDTO {
 	public void setNaver_num(String naver_num) {
 		this.naver_num = naver_num;
 	}
+	
+	public String getKakao_num() {
+		return kakao_num;
+	}
+	
+	public void setKakao_num(String kakao_num) {
+		this.kakao_num = kakao_num;
+	}
 
 	public Date getSignup_date() {
 		return signup_date;
@@ -93,7 +103,7 @@ public class MemberDTO {
 	}
 
 	public String toString() {
-		return "id: " + id + ", pw: " + pw + ", nickname: " + nickname + ", phone: " + phone + ", naver_num: " + naver_num;  
+		return "id: " + id + ", pw: " + pw + ", nickname: " + nickname + ", phone: " + phone + ", naver_num: " + naver_num + ", kakao_num: " + kakao_num;  
 	}
 	
 }

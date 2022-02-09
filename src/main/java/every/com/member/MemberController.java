@@ -28,7 +28,6 @@ public class MemberController {
 	private CoolSmsService smsService;
 	@Autowired
 	private HttpSession session;
-
 	
 	// 네이버 팝업페이지 요청
 	@RequestMapping("/getNaverPopup.do")
@@ -36,55 +35,78 @@ public class MemberController {
 		return "naver/naverPopup";
 	}
 	
-	// 네이버 로그인 요청
-	@RequestMapping("/naverLogin.do")
+	// sns와 연동 요청
+	@RequestMapping("/getLinkWithSns.do")
 	@ResponseBody
-	public String naverLogin(String naverNum, String phone) throws Exception {
-		System.out.println(naverNum);
-		System.out.println(phone);
-		
-		MemberDTO dto = new MemberDTO();
-		dto.setNaver_num(naverNum);
-		System.out.println(dto);
-		
-		// 네이버 가입이 되어있는지 확인
-		if(!service.checkMember(dto)) { // 네이버 고유번호가 존재할 시 (dto에 네이버 고유값만 셋팅하여 비교)
-			MemberDTO memberDto = service.getMember(dto);
-			this.session.setAttribute("loginSession", memberDto);
-			return "naverLoginOk";
-		} else { // 네이버 고유번호가 존재하지 않을 시
-			// dto에 휴대폰 번호만 셋팅되어야 비교할 수 있기 때문에 이전에 셋팅한 네이버 고유값을 null값으로 셋팅
-			dto.setNaver_num(null);
-			// 네이버에서 넘어온 핸드폰 값을 가지고 이미 가입되어 있는 핸드폰인지 검사
-			dto.setPhone(phone);
-			
-			if(!service.checkMember(dto)) { // 이미 가입되어 있는 핸드폰번호라면 연동여부 요청
-				return "linkWithNaver";
-			} else { // 회원가입이 처음인 경우
-				return "naverSignup";
-			}
-		}
-	}
-	
-	// 네이버와 연동 요청
-	@RequestMapping("/getLinkWithNaver.do")
-	@ResponseBody
-	public String getLinkWithNaber(String naverNum, String phone) throws Exception {
+	public String getLinkWithSns(String naver_num, String phone, String kakao_num) throws Exception {
+		System.out.println(kakao_num);
 		MemberDTO dto = new MemberDTO();
 		dto.setPhone(phone);
 		dto = service.getMember(dto);
 		System.out.println(dto);
 		
-		// 네이버 고유값이 없을 경우, 다른 네이버 아이디와 연동이 안된 경우라면
-		if(dto.getNaver_num() == null || dto.getNaver_num().equals("0")) {
-			dto.setNaver_num(naverNum);
-			service.setNaverId(dto);
-			this.session.setAttribute("loginSession", dto);
-			return "linkWithNaverOk";
-		} else { // 이미 가입되어 있는 핸드폰 번호인데 다른 네이버 고유값이 이미 존재한다면, 이미 다른 네이버 아이디와 연동이 된 경우라면, 핸드폰 정보가 불일치 하다면
-			return "linkWithNaverFail";
+		if(naver_num != null) {		// 네이버 연동 요청			
+			// 네이버 고유값이 없을 경우, 다른 네이버 아이디와 연동이 안된 경우라면
+			if(dto.getNaver_num() == null || dto.getNaver_num().equals("0")) {
+				dto.setNaver_num(naver_num);
+				service.setNaverId(dto);
+				this.session.setAttribute("loginSession", dto);
+				return "linkWithNaverOk";
+			} else { // 이미 가입되어 있는 핸드폰 번호인데 다른 네이버 고유값이 이미 존재한다면, 이미 다른 네이버 아이디와 연동이 된 경우라면, 핸드폰 정보가 불일치 하다면
+				return "linkWithNaverFail";
+			}
+		} else {					// 카카오 연동 요청
+			// 카카오 고유값이 없을 경우, 다른 카카오 아이디와 연동이 안된 경우라면
+			if(dto.getKakao_num() == null || dto.getKakao_num().equals("0")) {
+				dto.setKakao_num(kakao_num);
+				service.setKakaoId(dto);
+				this.session.setAttribute("loginSession", dto);
+				return "linkWithKakaoOk";
+			} else { // 이미 가입되어 있는 핸드폰 번호인데 다른 네이버 고유값이 이미 존재한다면, 이미 다른 네이버 아이디와 연동이 된 경우라면, 핸드폰 정보가 불일치 하다면
+				return "linkWithKakaoFail";
+			}
 		}
+		
 	}
+	
+	// sns 로그인 요청
+		@RequestMapping("/snsLogin.do")
+		@ResponseBody
+		public String snsLogin(MemberDTO dto) throws Exception {
+			System.out.println(dto);
+			
+			if(dto.getKakao_num() != null) { // 카카오 로그인
+				// 카카오 가입이 되어있는지 확인
+				if(service.checkMember(dto)) { // 해당 카카오 아이디를 가진 회원이 없는 경우 핸드폰 인증 요청
+					return "kakaoAuthPhone";
+				} else { // 해당 카카오 아이디를 가진 회원이 존재
+					MemberDTO memberDto = service.getMember(dto);
+					this.session.setAttribute("loginSession", memberDto);
+					return "kakaoLoginOk";
+				}
+			} else { // 네이버 로그인
+				MemberDTO mDto = new MemberDTO();
+				mDto.setNaver_num(dto.getNaver_num());
+				
+				// 네이버 가입이 되어있는지 확인
+				if(!service.checkMember(mDto)) { // 네이버 고유번호가 존재할 시 (dto에 네이버 고유값만 셋팅하여 비교)
+					MemberDTO memberDto = service.getMember(mDto);
+					this.session.setAttribute("loginSession", memberDto);
+					return "naverLoginOk";
+				} else { // 네이버 고유번호가 존재하지 않을 시
+					// dto에 휴대폰 번호만 셋팅되어야 비교할 수 있기 때문에 이전에 셋팅한 네이버 고유값을 null값으로 셋팅
+					mDto.setNaver_num(null);
+					// 네이버에서 넘어온 핸드폰 값을 가지고 이미 가입되어 있는 핸드폰인지 검사
+					mDto.setPhone(dto.getPhone());
+					
+					if(!service.checkMember(mDto)) { // 이미 가입되어 있는 핸드폰번호라면 연동여부 요청
+						return "linkWithNaver";
+					} else { // 회원가입이 처음인 경우
+						return "naverSignup";
+					}
+				}
+			}
+		}
 
 	// 중복확인 요청(아이디, 닉네임)
 	@RequestMapping("/checkMember.do")
@@ -206,26 +228,6 @@ public class MemberController {
 	@ResponseBody
 	public String getRequestAuthNum(MemberDTO dto) throws Exception {
 		System.out.println(dto);
-		
-//		if(service.checkMember(dto)) { // 해당 핸드폰 번호가 존재하지 않으면  
-//			 return "notFoundPhone";
-//		} else { // 해당 핸드폰 번호가 존재하면
-//			// 6자리 인증번호 생성
-//			int authNum = (int) (Math.random() * (999999 - 100000 + 1)) + 100000;
-//			System.out.println(authNum);
-//
-//			String phone = dto.getPhone();
-//			
-//			// 세션에 핸드폰 번호와 인증번호를 담고 time-out 2분으로 설정
-//			session.setAttribute(phone, authNum);
-//			session.setMaxInactiveInterval(2 * 60);
-//			System.out.println(session.getMaxInactiveInterval());
-//			System.out.println(session.getAttribute(phone));
-//
-//			// 인증번호 전송
-//			//smsService.certifiedPhoneNum(phone, authNum);
-//			return "success";
-//		}
 		
 		int authNum = (int) (Math.random() * (999999 - 100000 + 1)) + 100000;
 		System.out.println(authNum);
