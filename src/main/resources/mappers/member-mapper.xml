@@ -21,6 +21,9 @@
 			<if test="naver_num != null">
 				naver_num=#{naver_num}
 			</if>
+			<if test="kakao_num != null">
+				kakao_num=#{kakao_num}
+			</if>
 		</trim>
 	</select>
 	
@@ -47,11 +50,15 @@
 			<choose>
 				<!-- 네이버 회원가입이면 네이버 고유값도 같이 셋팅-->
 				<when test="naver_num != null">
-					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, #{naver_num}, sysdate)
+					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, #{naver_num}, 0, sysdate)
+				</when>
+				<!-- 카카오 회원가입이면 카카오 고유값도 같이 셋팅 -->
+				<when test="kakao_num != null">
+				 	(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, 0, #{kakao_num}, sysdate)
 				</when>
 				<!-- 일반 회원가입이면 -->
 				<otherwise>
-					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, 0, sysdate)
+					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, 0, 0, sysdate)
 				</otherwise>
 			</choose>
 		</trim>
@@ -62,7 +69,7 @@
 		SELECT * FROM tbl_member WHERE id=#{id} AND pw=#{pw}
 	</select>
 	
-	<!-- 핸드폰값 또는 네이버 고유값으로 사용자 정보 불러오기 -->
+	<!-- 핸드폰값 또는 네이버 고유값으로 사용자 정보 불러오기, 카카오 고유값으로 사용자 정보 불러오기 -->
 	<select id="getMember" parameterType="MemberDTO" resultType="MemberDTO">
 		SELECT * FROM tbl_member 
 		<trim prefix="where">
@@ -72,12 +79,20 @@
 			<if test="naver_num != null">
 				naver_num=#{naver_num}
 			</if>
+			<if test="kakao_num != null">
+				kakao_num=#{kakao_num}
+			</if>
 		</trim>
 	</select>
 	
 	<!-- 네이버 로그인 시 이미 가입되어 있는 사용자라면 네이버 고유id 셋팅 -->
 	<update id="setNaverId" parameterType="MemberDTO">
 		UPDATE tbl_member SET naver_num=#{naver_num} WHERE phone=#{phone}
+	</update>
+	
+	<!-- 카카오 로그인 시 이미 가입되어 있는 사용자라면 카카오 고유id 셋팅 -->
+	<update id="setKakaoId" parameterType="MemberDTO">
+		UPDATE tbl_member SET kakao_num=#{kakao_num} WHERE phone=#{phone}
 	</update>
 	
 	<!-- 회원 존재 여부 -->
