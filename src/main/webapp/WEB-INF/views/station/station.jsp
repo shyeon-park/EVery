@@ -212,15 +212,34 @@ left: 0px;
 }
 </style>
 <style>
+	.main-comment-container{
+		
+	}
+
 	textarea {
 		resize: none;
 		font-size:12px;
 		height:100%;
+		maxlength:200;
+	}
+	
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
 	}
 	
 	.cmt-container {
 		background-color: white !important;
 		border: 1px solid lightgrey;
+		height:400px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
 	}
 	
 	.comment-header {
@@ -241,6 +260,19 @@ left: 0px;
 		font-size: 12px;
 		font-weight: bold;
 	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -549,9 +581,9 @@ left: 0px;
 	$(document).on("click", "#btn_navi_menu", function(e){
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=${station}"
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
 		}).done(function(data){
-			getBookmark();
+			getBookmark($("#station").val());
 		}).fail(function(e){
 			console.log(e);
 		})
@@ -604,7 +636,7 @@ left: 0px;
 				 + "<div class='col-2 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
-	             + "<div class='col-8 plusBtn cmt-info'>"
+	             + "<div class='col-8 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
@@ -616,7 +648,7 @@ left: 0px;
 	             // 댓글 동적 요소 추가
 	             $(".cmt-showBox").append(comment);
 	             
-	          	// 수정 삭제 버튼 영역	
+	          	// 수정 삭제 버튼 영역	 
 	          	if("${loginSession.id}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
 	          		let btns = "<div class='col-1 d-flex justify-content-center' style='padding:0px;'>"
 	          		 + "<button type='button' class='btn btn-modifyCmt' style='color:grey; padding:0px; font-size: 11px; font-weight: bold; width:30px;' value='" + dto.seq_review +"'>수정</button>"
@@ -636,7 +668,7 @@ left: 0px;
 						+ "<ul class='pagination justify-content-center'>";
 						
 						if(data1.settingMap.needPrev == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, " + data1.settingMap.station + ");'>Previous</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><<</a></li>";
 						}
 						
 						for(var i= startNavi; i<= endNavi; i++){
@@ -644,7 +676,7 @@ left: 0px;
 						}
 						
 						if(data1.settingMap.needNext == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, " + data1.settingMap.station + ");'>Next</a></li>";
+							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>>></a></li>";
 						}
 						
 				paging += "</ul>" + "</nav>";		

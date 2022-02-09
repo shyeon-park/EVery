@@ -25,7 +25,7 @@ public class PagingService {
 		
 		// currentPage는 사용자에게 유동적으로 받는것이기때문에 변수로 받아준다.
 		// 하나의 페이지에 보여질 데이터의 수 : recordCntPerPage 와 네비 범위 : naviCntPerPage 를 고정으로 정한다.	
-		private int recordCntPerPage = 5;
+		private int recordCntPerPage = 10;
 		private int naviCntPerPage = 5;
 		
 		// 클라이언트가 currentPage를 컨트롤러에 요청을 보내면

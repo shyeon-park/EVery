@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import every.com.bookmark.BookmarkDTO;
-import every.com.bookmark.BookmarkPagingService;
-import every.com.bookmark.BookmarkService;
+import every.com.member.MemberDTO;
 
 @Controller
 @RequestMapping("/bookmark")
@@ -82,7 +80,7 @@ public class BookmarkController {
 	@RequestMapping(value = "/getBookmark.do")
 	@ResponseBody
 	public String isExistBookmark(String station) throws Exception{
-		String id = (String)((HashMap)session.getAttribute("loginSession")).get("id");
+		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
 		HashMap<String, String> map = new HashMap<>();
 		map.put("station", station);
 		map.put("id", id);
@@ -97,7 +95,7 @@ public class BookmarkController {
 	@RequestMapping(value = "/setBookmark.do")
 	@ResponseBody
 	public void setBookmark(String station) throws Exception{
-		String id = (String)((HashMap)session.getAttribute("loginSession")).get("id");
+		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
 		HashMap<String, String> map = new HashMap<>();
 		map.put("station", station);
 		map.put("id", id);

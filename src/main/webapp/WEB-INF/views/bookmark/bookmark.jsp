@@ -344,7 +344,7 @@ a:hover {
  				$(".bookmark-div").append(bookmarkNull);
  			}else{
  				for(let dto of data.bookmarkList){
- 					let bookmark = "<div class='row bookmark-header m-1'>"
+ 					let bookmark = "<div class='row bookmark-header m-1' style='border-bottom:1px solid black;'>"
  									+ "<div class='col-10'>"
  									+ "<a href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
  									+ "</div>" 
