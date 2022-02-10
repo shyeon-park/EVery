@@ -1,6 +1,7 @@
 package every.com.board;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -151,12 +152,19 @@ public int deleteBoard(int board_seq, String realPath) throws Exception{
 	
 	return rs;
 }
-	
+	public int countAll() throws Exception{
+		return boardDao.countAll();
+	}
 	public BoardDTO selectOne(int board_seq) throws Exception{
 		return boardDao.selectOne(board_seq);
 	}
 	
-	public List<BoardDTO> selectAll() throws Exception{
+	public List<BoardDTO> selectAll() throws Exception {
 		return boardDao.selectAll();
 	}
+	
+	public List<BoardDTO> getMainList(ArrayList<Integer> list) throws Exception{
+		return boardDao.getMainList(list);
+	}
+	
 }

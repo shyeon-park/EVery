@@ -40,11 +40,20 @@ public class BoardDAO {
 		return session.selectOne("boardMapper.selectOne", seq_column);
 	}
 	
-	public int countAll() {
+	public int countAll() throws Exception {
 		return session.selectOne("boardMapper.countAll");
 	}
 	
-	public List<BoardDTO> getBoardList(int startRange, int endRange){
+	public int searchCountAll(String checkOption, String keyword) throws Exception {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("checkOption", checkOption);
+		map.put("keyword", keyword);
+		return session.selectOne("boardMapper.searchCountAll",map);
+	}
+	
+	
+	
+	public List<BoardDTO> getBoardList(int startRange, int endRange) throws Exception{
 		System.out.println("startRange " + startRange +" endRange "+ endRange );
 		HashMap<String, Integer> map = new HashMap<>();
 		map.put("startRange", startRange);
@@ -52,9 +61,22 @@ public class BoardDAO {
 		return session.selectList("boardMapper.getBoardList",map);
 	}
 	
-	public int deleteBoard(int seq_column) {
+	public int deleteBoard(int seq_column) throws Exception {
 		return session.delete("boardMapper.deleteBoard",seq_column);
 	}
 	
+	public List<BoardDTO> getMainList(ArrayList<Integer> list) throws Exception{
+	HashMap<String, Object> map = new HashMap<>();
+	map.put("list", list);
+	return session.selectList("boardMapper.getMainList",map);
+	}
 	
+	public List<BoardDTO> getSearchBoardList(String checkOption, String keyword,int startRange, int endRange) throws Exception{
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("checkOption", checkOption);
+		map.put("keyword", keyword);
+		map.put("startRange", startRange);
+		map.put("endRange", endRange);
+		return session.selectList("boardMapper.getSearchBoardList",map);
+	}
 }
