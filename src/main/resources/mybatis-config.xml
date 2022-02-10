@@ -16,6 +16,10 @@
  		<typeAlias type="every.com.board.BoardDTO" alias="BoardDTO"/> 
  		<typeAlias type="every.com.file.FileDTO" alias="FileDTO"/> 
  		<typeAlias type="every.com.message.MessageDTO" alias="MessageDTO"/>
+ 		<typeAlias type="every.com.blacklist.blacklistDTO" alias="blacklistDTO"/>
+ 		<typeAlias type="every.com.faq.faqDTO" alias="faqDTO"/>
+ 		<typeAlias type="every.com.info.infoDTO" alias="infoDTO"/>
+ 		<typeAlias type="every.com.qna.qnaDTO" alias="qnaDTO"/>
  		
 <!-- 		<typeAlias type="kh.com.board.board.BoardDTO" alias="BoardDTO"/> -->
 <!-- 		<typeAlias type="kh.com.board.files.FilesDTO" alias="FilesDTO"/> -->
