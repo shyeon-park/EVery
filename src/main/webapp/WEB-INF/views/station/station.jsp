@@ -17,20 +17,23 @@
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
 @font-face {
-    font-family: 'Pretendard-SemiBold';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
+	font-family: 'Pretendard-SemiBold';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
+		format('woff');
+	font-weight: 600;
+	font-style: normal;
 }
 </style>
 <!-- 배달의민족 도현 글꼴 -->
 <style>
 * {
 	box-sizing: border-box;
-/* 	font-family: 'Do Hyeon', sans-serif; */
+	/* 	font-family: 'Do Hyeon', sans-serif; */
 	font-family: 'Pretendard-SemiBold';
-	color:black;
+	color: black;
 }
 
 html {
@@ -108,7 +111,7 @@ a:hover {
 
 /* main 영역 */
 .main {
-	position:relative;
+	position: relative;
 	padding-top: 92px;
 	width: 82.6vw;
 	margin: auto;
@@ -170,6 +173,7 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 }
+
 .foot-bottom-right {
 	text-align: right;
 }
@@ -205,78 +209,78 @@ a:hover {
 	height: 80vh;
 	border: 1px solid gray;
 }
-#chrgtype{
-position: absolute;
-top:0px;
-left: 0px;
+
+#chrgtype {
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }
 </style>
 <style>
-	.main-comment-container{
-		
-	}
+.main-comment-container {
+	
+}
 
-	textarea {
-		resize: none;
-		font-size:12px;
-		height:100%;
-		maxlength:200;
-	}
-	
-	.main-comment-container{
-		height:450px;
-	}
-	
-	.paging-container{
-		height:50px;
-	}
-	
-	.cmt-container {
-		background-color: white !important;
-		border: 1px solid lightgrey;
-		height:400px;
-	}
-	
-	.cmt-showBox{
-		height:330px;
-		overflow:auto;
-	}
-	
-	.comment-header {
-		border-bottom: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-body {
-		padding: 2px;
-		border: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-input{
-		height:50px;
-		padding-bottom:5px;
-	}
-	
-	.cmt-info {
-		font-size: 12px;
-		font-weight: bold;
-	}
-	
-	.cmt-info1 {
-		font-size: 11px;
-	}
-	
-	.pagination{
-		column-gap: 2px;
-	}
-	
-	.page-item{
-		color:black;
-	}
-	
+textarea {
+	resize: none;
+	font-size: 12px;
+	height: 100%;
+	maxlength: 200;
+}
+
+.main-comment-container {
+	height: 450px;
+}
+
+.paging-container {
+	height: 50px;
+}
+
+.cmt-container {
+	background-color: white !important;
+	border: 1px solid lightgrey;
+	height: 400px;
+}
+
+.cmt-showBox {
+	height: 330px;
+	overflow: auto;
+}
+
+.comment-header {
+	border-bottom: 1px solid rgb(214, 214, 214);
+}
+
+.comment-body {
+	padding: 2px;
+	border: 1px solid rgb(214, 214, 214);
+}
+
+.comment-input {
+	height: 50px;
+	padding-bottom: 5px;
+}
+
+.cmt-info {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.cmt-info1 {
+	font-size: 11px;
+}
+
+.pagination {
+	column-gap: 2px;
+}
+
+.page-item {
+	color: black;
+}
 </style>
 </head>
 <body>
-<nav class="navber">
+	<nav class="navber">
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
@@ -305,7 +309,7 @@ left: 0px;
 			</c:choose>
 			<c:choose>
 				<c:when test="${empty loginSession}">
-				<div class="col-xl-5 col-8 navi-menu"></div>
+					<div class="col-xl-5 col-8 navi-menu"></div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
 					<div class="col-xl-4 col-6 navi-menu"></div>
@@ -324,19 +328,19 @@ left: 0px;
 				</c:when>
 			</c:choose>
 			<div class="col-xl-1 col-1 navi-menu">
-			<a id=""><img src="/resources/images/favorite.png" width="24px"
+				<a id=""><img src="/resources/images/favorite.png" width="24px"
 					height="24px"></a>
-<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
 			</div>
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
+				<a id="btn_navi_menu"><img src="/resources/images/menu.png"
+					width="20px" height="24px"></a>
 			</div>
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소 조회</a>
+			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소
+				조회</a>
 		</div>
 		<div class="col-12">
 			<a href="">칼럼</a>
@@ -352,11 +356,11 @@ left: 0px;
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-			<a href="">마이페이지</a>
+					<a href="">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>
-		
+
 		<c:choose>
 			<c:when test="${empty loginSession}">
 				<div class="col-12">
@@ -391,24 +395,30 @@ left: 0px;
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding:0px;">
-										<textarea class="form-control" id="review" name="review" style="font-size:12px; height:100%;" placeholder="댓글을 입력해주세요."></textarea>
+									<div class="col-10 comment-input" style="padding: 0px;">
+										<textarea class="form-control" id="review" name="review"
+											style="font-size: 12px; height: 100%;"
+											placeholder="댓글을 입력해주세요."></textarea>
 									</div>
-									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px;">
-										<button type="button" id="btnSave" style="padding:0px; font-size: 11px; height:30px; width:50px;" class="btn btn-secondary">등록</button>
+									<div
+										class="col-2 comment-input d-flex align-items-center justify-content-center"
+										style="padding: 0px;">
+										<button type="button" id="btnSave"
+											style="padding: 0px; font-size: 11px; height: 30px; width: 50px;"
+											class="btn btn-secondary">등록</button>
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>
 							</form>
-						</div> 
-					
-				        <div class="cmt-showBox">
-				        <!-- 동적 댓글 영역 -->
-				        </div>
+						</div>
+
+						<div class="cmt-showBox">
+							<!-- 동적 댓글 영역 -->
+						</div>
 					</div>
 					<div class="paging-container">
 						<div class="cmt-paging">
-						<!-- 동적 페이징 영역 -->
+							<!-- 동적 페이징 영역 -->
 						</div>
 					</div>
 				</div>
@@ -421,20 +431,20 @@ left: 0px;
 			<img src="/resources/images/loading.gif">
 		</div>
 		<div id="chrgtype">
-				<!-- fastChrstnType -->
-				<p>충전타입</p>
-				<label><input type="checkbox" id="chrgtype_1"
-					name="chrgtype_1" checked>전체</label> <label><input
-					type="checkbox" id="chrgtype_2" name="chrgtype_2" disabled>DC콤보</label>
-				<label><input type="checkbox" id="chrgtype_3"
-					name="chrgtype_3" disabled>DC차데모</label> <label><input
-					type="checkbox" id="chrgtype_4" name="chrgtype_4" disabled>AC3상</label>
-				<label><input type="checkbox" id="chrgtype_5"
-					name="chrgtype_5" disabled>완속</label>
-			</div>
+			<!-- fastChrstnType -->
+			<p>충전타입</p>
+			<label><input type="checkbox" id="chrgtype_1"
+				name="chrgtype_1" checked>전체</label> <label><input
+				type="checkbox" id="chrgtype_2" name="chrgtype_2" disabled>DC콤보</label>
+			<label><input type="checkbox" id="chrgtype_3"
+				name="chrgtype_3" disabled>DC차데모</label> <label><input
+				type="checkbox" id="chrgtype_4" name="chrgtype_4" disabled>AC3상</label>
+			<label><input type="checkbox" id="chrgtype_5"
+				name="chrgtype_5" disabled>완속</label>
+		</div>
 	</div>
 	<div class="footer">
-		
+
 		<div class="row footer-body">
 			<div class="col-12 col-xl-6 footer-body-left">
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
@@ -456,18 +466,16 @@ left: 0px;
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
-				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
+			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
 			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>	
+				<a href="">관리자</a>
 			</div>
 		</div>
-		
+
 	</div>
-<script type="text/javascript"
+	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9cb655cdc9169e09018321558636d28d"></script>
-	
+
 	<script>
 	/* 댓글 스크립트 영역 */
 	
@@ -706,7 +714,7 @@ left: 0px;
 	
 	
 	</script>
-	
+
 	<script>
 		$(function() {
 			
@@ -744,7 +752,8 @@ left: 0px;
 			});
 		});
 	</script>
-		<script type="application/javascript">
+	<script type="application/javascript">
+		
 			showLoading();
 			
 			let cmtDivStatus = false;
@@ -813,85 +822,84 @@ left: 0px;
 			var markers = [];
 			
 			// 마커를 생성하고 지도위에 표시하는 함수입니다
-			function addMarker(position,data) {
+			function addMarker(datas) {
+				let temp = [];
 				
-				if(data.institutionNm == '한국전력공사'){
-					var markerImageUrl = '/resources/images/markers/한국전력공사.png', 
-				    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
-				    markerImageOptions = { 
-				        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
-				    };
-				}else{
-					var markerImageUrl = 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png', 
-				    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
-				    markerImageOptions = { 
-				        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
-				    };
+				for(let i=0; i<datas.length;i++){
+					temp.push({"chrstnNm":datas[i].chrstnNm,"fastChrstnType":datas[i].fastChrstnType});
+					
+					if(!((i+1)==datas.length)){
+						if(datas[i].chrstnNm != datas[i+1].chrstnNm){
+						
+	 						if(datas[i].institutionNm == '한국전력공사'){
+								var markerImageUrl = '/resources/images/markers/한국전력공사.png', 
+							    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
+							    markerImageOptions = { 
+							        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
+							    };
+							}else{
+								var markerImageUrl = 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png', 
+							    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
+							    markerImageOptions = { 
+							        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
+							    };
+							}
+							// 마커 이미지를 생성한다
+							var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+							
+							// 마커를 생성합니다
+						    var marker = new kakao.maps.Marker({
+						        position: new kakao.maps.LatLng(datas[i].latitude, datas[i].longitude),
+							    image : markerImage // 마커의 이미지
+						    });
+	
+						    // 마커가 지도 위에 표시되도록 설정합니다
+						    marker.setMap(map);					 
+						    // 생성된 마커를 배열에 추가합니다
+						    markers.push(marker);
+						    
+						    addMarkerEvent(temp, marker);
+						   // console.log(temp);
+						    
+						    temp = [];
+						}
+					}
 				}
-				
-
-				// 마커 이미지를 생성한다
-				var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
-				
-				
-			    // 마커를 생성합니다
-			    var marker = new kakao.maps.Marker({
-			        position: position,
-				    image : markerImage // 마커의 이미지
-			    });
-
-			    // 마커가 지도 위에 표시되도록 설정합니다
-			    marker.setMap(map);
-			    
+			}
+			
+			function addMarkerEvent(temp, marker){
 			    kakao.maps.event.addListener(marker, 'click', function() {
-			    	$('#station').val(data.chrstnNm);
-			    	let station = data.chrstnNm;
+			    	console.log(temp);
+			    	let seq = 1;
+			    	$('#station').val(temp[0].chrstnNm);
+			    	let station = temp[0].chrstnNm;
 			    	showStation();
-			    	getCommentList(1,station);
-				    getBookmark(station);
+				    getCommentList(1,temp[0].chrstnNm);
+					getBookmark(temp[0].chrstnNm);
 			    	// 마커 클릭시 중앙좌표 추가해야됌
 			    	
 			    	
-			    	let seq = 1;
 			    	$('#chargeList').html("");
 			    	
-			    	$.ajax({
-			    		url:"/station/getLiveStatin.do",
-			    		data:{"chrstnNm":data.chrstnNm}
-// 			    		timeout: 5000
-			    	}).done(function(rs){
-			    		selectStations = JSON.parse(JSON.stringify(rs));
-			    		selectStations = selectStations.response.body.items;
-			    		console.log(selectStations);
-			    		hideLoading();
-			    		$('#div-top-name').html("<h5>"+data.chrstnNm+"<h5>");
-				    	for(selectStation of selectStations){
-				    		let tempDiv = "<div class='row'>"+
-					    				  "<div class='col-1' id='seq_"+seq+"'>"+
-					    				  seq +
-					    				  "</div>";
-					    				  if(!selectStation.fastChrstnType==""){
-					    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>"+
-									    				  selectStation.fastChrstnType +
-									    				  "</div>";
-					    				  }else{
-					    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
-					    				  }
-					    				  "</div>";
-				    		$('#chargeList').append(tempDiv);
-					    	seq++;
-				    	}
-// 				    	$('#cmt-showBox').html(댓글을 넣으시면됩니다.);
-				    	//여기 성식님꺼 댓글을 불러온다.
-				    	//
-				    	
-			    	}).fail(function(e){
-			    		alert('해당 충전소의 실시간 정보를 가져오지 못했습니다.');
-			    		hideLoading();
-			    	});
+			    	$('#div-top-name').html("<h5>"+temp[0].chrstnNm+"<h5>");
+			    	
+    				  for(let j=0;j<temp.length;j++){
+    					  let tempDiv = "<div class='row'>"+
+	    				  "<div class='col-1' id='seq_"+seq+"'>"+
+	    				  seq +
+	    				  "</div>";
+    					  if(temp[j].fastChrstnType=="" || temp[j].fastChrstnType=="X"){
+    						  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
+	    				  }else{
+	    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>"+
+		    				  temp[j].fastChrstnType +
+		    				  "</div>";
+	    				  }
+    					seq++;
+    					tempDiv += "</div>";
+    					$('#chargeList').append(tempDiv);
+    				  }
 				});
-			    // 생성된 마커를 배열에 추가합니다
-			    markers.push(marker);
 			}
 
 			// 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
@@ -927,7 +935,7 @@ left: 0px;
 					cmtDivStatus = true;
 				}
 				relayout();
-				showLoading();
+// 				showLoading();
 				// 여기에 탭 내용 구성
 				
 			}
@@ -948,7 +956,7 @@ left: 0px;
 						if (request.status == 200) {
 							var xml = request.responseXML;
 							var items = xml.getElementsByTagName("item");
-							console.log(items);
+// 							console.log(items);
 							for (let i = 0; i < items.length; i++) {
 								
 								for(let j = 0; j < items[i].childNodes.length ; j++){
@@ -974,10 +982,13 @@ left: 0px;
 									else if(items[i].childNodes[j].nodeName == 'insttCode') data.insttCode = items[i].childNodes[j].innerHTML;
 									else{}
 									}
-								addMarker(new kakao.maps.LatLng(data.latitude, data.longitude),data);
+// 								console.log(data);
+								
 								datas.push(data);
 								data = {};
-								}console.log(datas);
+								}
+							addMarker(datas);
+							console.log(datas);
 								hideLoading();
 						} else{
 							alert(request.status);
@@ -988,6 +999,7 @@ left: 0px;
 					hideStation();
 					hideLoading();
 				})
+	
 	</script>
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
