@@ -12,8 +12,5 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
-	@RequestMapping(value = "/aSample")
-	public String aSample() {
-		return "a_sample";
-	}
+	
 }

@@ -1210,7 +1210,7 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 				ⓒ EVery Inc. All Rights Reserved.	
 			</div>
 			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>	
+				<a href="${pageContext.request.contextPath }/admin/">관리자</a>	
 			</div>
 		</div>
 		

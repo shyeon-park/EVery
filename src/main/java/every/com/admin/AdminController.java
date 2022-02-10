@@ -39,4 +39,9 @@ public class AdminController {
 		System.out.println(session.getAttribute("adminLoginSession"));
 		return "redirect: /";
 	}
+	
+	@RequestMapping("/")
+	public String home() throws Exception {
+		return "/admin/a_home";
+	}
 }
