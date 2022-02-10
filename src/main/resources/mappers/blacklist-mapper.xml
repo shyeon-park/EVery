@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blacklistMapper">
+
+	<!-- 블랙리스트 전체 조회 -->
+	<select id="blacklist" resultType="blacklistDTO">
+		select  id, nickname, reason, black_date
+			from tbl_blacklist
+			order by id
+	</select>
+	
+	<!-- 회원 전체 조회(블랙리스트 추가용) -->
+	<select id="memberList" resultType="MemberDTO">
+		select  id, nickname, signup_date
+			from tbl_member
+			order by id
+	</select>
+	
+	<!-- 블랙리스트 수정 -->
+	<update id="modify" parameterType="blacklistDTO">
+		update tbl_blacklist set
+			reason = #{reason}
+			where id = #{id}
+	</update>
+	
+	<!-- 블랙리스트 삭제 -->
+	<delete id="delete">
+		delete from tbl_blacklist
+			where id = #{id}
+	</delete>
+	
+	<!-- 블랙리스트 추가 -->
+	<insert id="insert" parameterType="blacklistDTO">
+		insert into tbl_blacklist values
+			(#{id}, #{nickname}, #{reason}, sysdate)
+	</insert>
+	
+</mapper>
