@@ -14,7 +14,6 @@
 	<!-- 보드 수정하기 -->
 	<update id="updateBoard" parameterType="BoardDTO">
 		update tbl_column set nickname = #{nickname}, title = #{title} , content = #{content} where seq_column = #{seq_column}
-
 	</update>
 	
 	<!-- seq 한단계 업하기 -->
@@ -57,17 +56,13 @@
 		delete from tbl_column where seq_column=#{seq_column}
 	</delete>
 	
-	<!-- 메인페이지 보드 리스트 가져오기 -->
-	<select id="getMainList" parameterType="map" resultType="BoardDTO">
+	<!-- 메인페이지 보드 리스트  -->
+	<select id="getMainList" resultType="BoardDTO">
 		select * 
 		from( select row_number() over(order by seq_column desc) rank, a.* from tbl_column a ) LEFT OUTER join (select * from tbl_column_file 
 		where profile = 1)
 		using(seq_column)
-		where rank in 
-		<foreach collection="list" item="arr" open="(" close=")" separator=",">
-			 #{arr}
-		</foreach>
-			
+		order by rank asc
 	</select>
 	
 	<!-- 검색할 보드 카운트하기 -->

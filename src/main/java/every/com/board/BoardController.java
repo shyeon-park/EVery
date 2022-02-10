@@ -136,24 +136,10 @@ public class BoardController {
 	@RequestMapping(value = "/mainList.do",produces="application/json;charset=UTF-8" )
 	@ResponseBody
 	public String mainList() throws Exception{
-		 Random rd = new Random();//랜덤 객체 생성
-		 int count = service.countAll();
-		    ArrayList<Integer> numList = new ArrayList<>();
-	        for(int i=0;i<3;i++) {
-	        	int num = rd.nextInt(count)+1;
-	            if(!numList.contains(num)) {
-	            	numList.add(num);
-	            }else --i;
-	        }
-	        for(int j : numList) {
-	        	 System.out.print("seq 번호는 ["+j+"]"); //seq 번호 출력
-	        }
-	        
-	        ArrayList mainList = (ArrayList)service.getMainList(numList);
+	        ArrayList mainList = (ArrayList)service.getMainList();
 	        HashMap<String, Object> map = new HashMap<>();   
 	        map.put("mainList", mainList);
 	        Gson json = new Gson();
-	        
 		return (json.toJson(map)).toString();
 	}
 	
@@ -177,11 +163,6 @@ public class BoardController {
 		naviMap.put("list", list);
 		Gson json = new Gson();
 		String result = (json.toJson(naviMap)).toString();
-	
-		return result;
-		
+		return result;	
 	}
-	
-	
-
 }
