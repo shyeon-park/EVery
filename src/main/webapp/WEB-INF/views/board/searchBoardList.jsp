@@ -376,10 +376,11 @@ margin: 0;
         <div class="col">
             <div class="searchBox w-100">
             <select class="selectBox" id="checkOption" name ="checkOption">
-                <option value="title" selected>제목</option>
-                <option value="nickname">작성자</option>
+               
+                <option value="title"  <c:if test="${checkOption eq 'title'}">selected</c:if>>제목</option>
+                <option value="nickname"  <c:if test="${checkOption eq 'nickname'}">selected</c:if>>작성자</option>
             </select>
-            <input type="text" class="inputBox" id="keyword" name="keyword" placeholder="검색어를 입력해주세요">
+            <input type="text" class="inputBox" id="keyword" name="keyword" placeholder="검색어를 입력해주세요" value="${keyword}">
             <button class="searchBtn" id="searchBtn"><i class="bi bi-search"></i></button>
             </div>
             
@@ -394,24 +395,31 @@ margin: 0;
 		</div>
 	</div>
 		<script>
+		
+		let checkOption = $("#checkOption").val();
+		let keyword = $("#keyword").val();
+		
+		console.log(checkOption + " : " + keyword)
+		
 		//검색버튼 클릭
+		
 		$("#searchBtn").on("click",function(){
 			if($("#keyword").val() != ""){
-				let checkOption = $("#checkOption").val();
-				let keyword = $("#keyword").val();
-				console.log(checkOption + " : "+ keyword);
-				let url = "${pageContext.request.contextPath}/board/searchProc.do?checkOption="+checkOption+"&keyword="+keyword
-				$(location).attr("href",url);		
-			
-				}
-			
+				checkOption = $("#checkOption").val();
+				keyword = $("#keyword").val();
+				getBoardList(checkOption,keyword,1);
+			}
 		});
-		getBoardList(1)
+		
+		getBoardList("${checkOption}","${keyword}",1);
+		
 		//리스트 출력
-		function getBoardList(currentPage){
+		function getBoardList(checkOption,keyword,currentPage){
+			let url = "${pageContext.request.contextPath}/board/search.do?checkOption="+checkOption+"&keyword="+keyword+"&currentPage="+currentPage
+			console.log(url)
 			$.ajax({
 				type: "post", //요청 메소드 방식
-				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
+				url:url,
 				success : function(res){
 					console.log(res);
 					columnList = res.columnList;
@@ -419,11 +427,11 @@ margin: 0;
 					$("#pagingNavi").empty();
 					let data = res.list
 					if(data == null || data =="" ){
-						let list = "리스트가 비어있습니다"
+						let list = "<span class='m-3'>검색결과가 존재하지 않습니다.</span> <a class='m-3' href ='${pageContext.request.contextPath }/board/toBoard.do'>전체 목록으로 돌아가기</a>"
 						$("#nevi").empty();
-						let writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+						//let writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
 						$(".list").append(list)
-						$("#pagingNavi").append(writeBtn)
+						//$("#pagingNavi").append(writeBtn)
 						
 					}else{
 						for(var con of data){
@@ -474,11 +482,11 @@ margin: 0;
 						  let endNavi = res.endNavi
 						  let pagingNavi = "<nav aria-label='Page navigation example'>"
 							  		+"<ul class='pagination d-flex justify-content-center m-0'>"
-							if(res.needPrev) pagingNavi +="<li class='page-item'><a class='page-link' onclick='getBoardList(" + startNavi + "-1);'>Prev</a></li>"
+							if(res.needPrev) pagingNavi +="<li class='page-item'><a class='page-link' onclick='getBoardList(\"" + checkOption + "\",\"" + keyword + "\"," + startNavi + "-1);'>Prev</a></li>"
 							for(let i = startNavi; i<=endNavi; i++){
-								pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" + i + ");'>" + i + "</a></li>"
+								pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(\"" + checkOption + "\",\"" + keyword + "\"," + i + ");'>" + i + "</a></li>"
 							}
-							if(res.needNext) pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" +endNavi+ "+1);'>Next</a></li>"
+							if(res.needNext) pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(\"" + checkOption + "\",\"" + keyword + "\"," +endNavi+ "+1);'>Next</a></li>"
 							
 							
 							pagingNavi +="</ul>"

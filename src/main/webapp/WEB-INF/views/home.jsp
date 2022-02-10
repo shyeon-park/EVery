@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <style>
@@ -259,6 +260,60 @@ a:hover {
       text-align: center;
     }
 
+/*메인페이지 리스트 css */
+.cardContainer{
+ margin-bottom: 15px;
+ padding-left: 20px;
+ padding-right: 20px;
+
+}
+.atag{
+width: 100%;
+height: 100%;
+}
+
+.titleImg{
+ width: 300px;
+ height: 250px;
+ padding-bottom: 15px;
+ border: none;
+}
+.colum-body{
+margin: 0;
+padding: 0;
+}
+.colum-title {
+width: 100%;.
+height: auto;
+}
+.colum-title > a{
+width: 100%;
+height: auto;
+text-decoration: none;
+color : black;
+font-size: 1.4rem;
+font-weight: bold;
+}
+.card-img-top{
+width: 100%;
+height: 100%;
+}
+.colum-text{
+margin: 0;
+}
+
+/*캐러셀 버튼*/
+.carouselPrevIcon{
+    position: absolute;
+    left: 0px;
+    font-size: 2rem
+}
+.carouselNextIcon{
+    position: absolute;
+    right: 0px;
+    font-size: 2rem
+}
+
 </style>
 </head>
 <body>
@@ -372,13 +427,123 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
+	<!-- *********************** -->
+	<!-- *******메인******** -->
+	<!-- *********************** -->
 	
-	<button type="button" onclick="ws.send('application');">칼럼리스트 신청</button>
 	
+	
+	
+	
+	<div class="row">
+		<div class="col-12">
+			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-interval="1000">
+			  <div class="carousel-inner">
+			    <div class="carousel-item active">
+			     <div class="row" id="printList"></div>
+			    </div>
+			    <div class="carousel-item">
+			      <div class="row" id="printList2"></div>
+			    </div>
+			
+			  </div>
+			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+			    <span class="carouselPrevIcon"><i class="bi bi-chevron-compact-left"></i></span>
+			    <span class="visually-hidden">Previous</span>
+			  </button>
+			  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+			    <span class="carouselNextIcon"><i class="bi bi-chevron-compact-right"></i></span>
+			    <span class="visually-hidden">Next</span>
+			  </button>
+			</div>
+		</div>
+	</div>
+	
+<button type="button" onclick="ws.send('application');">칼럼리스트 신청</button>
+<a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
+	
+<script type="text/javascript">
+$("#carouselExampleControls").on('slide.bs.carousel', function() {
+	//alert("이벤트 실행됨");
+	getBoardList(printList)
+	getBoardList(printList2)
+});
 
-	<a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
+
+getBoardList(printList)
+getBoardList(printList2)
+	function getBoardList(printId){
 	
-<!-- Modal -->
+	let id = printId
+	console.log(id)
+		$.ajax({  
+			 url : "${pageContext.request.contextPath}/board/mainList.do",  
+			 type : "POST",
+			 success : function(data){
+			//성공시
+				 console.log(data)
+				$(printId).empty();
+
+				let mainList= data.mainList
+				if(data == null || data =="" ){
+					let list = "리스트가 비어있습니다"
+					$(printId).empty();
+					$(printId).append(list)
+
+				}else{
+					for(var con of mainList){
+						let content = con.content  //상세게시글 내용 변수에 담는다
+						let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
+						content = content.replace(imgRemove, ''); // 이미지를 지움
+						content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
+						subtitle = content.substring(0,30)
+						 let date = con.written_date.replace(/,/,"")
+						 let written_date = date.split(" ");
+						 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+						let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+		                			+"<div>"
+									+"<div class='titleImg'>"
+			                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
+			                				
+			                				if(con.profile == null || con.profile==""){
+			                			    list +="<img src="
+			                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
+			                			    	+"class='card-img-top' alt='...'>"
+			                			    }else{
+			                			    console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
+			                			    list +="<img src="
+			                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
+			                			       	+"class='card-img-top' alt='...'>"	
+											}
+											list += "</a></div>"
+										
+			                   				+"<div class='colum-body ms-5'>"
+				                   			+"<p class='colum-title ms-3'>"
+			                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
+				                     		+con.title
+				                     		+"</a></p>"
+				                     		+"<p class='colum-text ms-3'>"+date+"</p>"
+			                      			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+			                    			+"</div>"
+		                   				+"</div>"
+		            				+"</div>"
+		            				+"</div>"
+		            				$(printId).append(list)
+	            					
+	            			
+					} // LIST 출력
+				}
+			 	
+			 }, 
+			 error : function (e){
+				//실패시
+				 console.log(e)
+				}
+			}); 
+	}
+</script>	
+	
+<!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -413,9 +578,7 @@ a:hover {
 </div>
 
 	<!-- modal script -->
- 	
- 	<script>
- 	
+ 	<script>	
  	//체크박스
 	document.addEventListener('click',function(e){
         if(e.target.id == 'newMsgAll'){
@@ -469,15 +632,7 @@ a:hover {
 
 	</script>
 	
- 
- 		
- 		
- 		
- 		<!--  
- 		/**************************************************************************/
- 		/**************************************************************************/
-		/**************************************************************************/
-		-->
+
 		<!-- 로그인 모달 -->
 	<div class="modal fade" id="loginModal" aria-hidden="true"
 		data-bs-backdrop="static" data-bs-keyboard="false"
@@ -1054,7 +1209,7 @@ a:hover {
 				ⓒ EVery Inc. All Rights Reserved.	
 			</div>
 			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>	
+				<a href="${pageContext.request.contextPath }/admin/">관리자</a>	
 			</div>
 		</div>
 		

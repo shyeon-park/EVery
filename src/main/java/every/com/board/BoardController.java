@@ -3,6 +3,7 @@ package every.com.board;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -74,7 +75,8 @@ public class BoardController {
 	} 
 	
 	@RequestMapping(value = "/toDetail.do",  produces="application/json;charset=UTF-8")
-	@ResponseBody()
+	@ResponseBody
+	//produces="application/json;charset=UTF-8"
 	public String toDetail(int seq_column) throws Exception{
 		BoardDTO dto = service.selectOne(seq_column);
 		Gson json = new Gson();
@@ -130,6 +132,56 @@ public class BoardController {
 	public String toManager() throws Exception{
 		return "/board/colum";
 	}
+	
+	@RequestMapping(value = "/mainList.do",produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String mainList() throws Exception{
+		 Random rd = new Random();//랜덤 객체 생성
+		 int count = service.countAll();
+		    ArrayList<Integer> numList = new ArrayList<>();
+	        for(int i=0;i<3;i++) {
+	        	int num = rd.nextInt(count)+1;
+	            if(!numList.contains(num)) {
+	            	numList.add(num);
+	            }else --i;
+	        }
+	        for(int j : numList) {
+	        	 System.out.print("seq 번호는 ["+j+"]"); //seq 번호 출력
+	        }
+	        
+	        ArrayList mainList = (ArrayList)service.getMainList(numList);
+	        HashMap<String, Object> map = new HashMap<>();   
+	        map.put("mainList", mainList);
+	        Gson json = new Gson();
+	        
+		return (json.toJson(map)).toString();
+	}
+	
+	@RequestMapping("/searchProc.do")
+	public String searchProc(String checkOption, String keyword, Model model) throws Exception{
+		System.out.println(checkOption + " : " + keyword );
+		model.addAttribute("checkOption",checkOption);
+		model.addAttribute("keyword",keyword);
+		return "/board/searchBoardList";
+	}
+	
+	
+	@RequestMapping(value = "/search.do",produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String search(int currentPage, String checkOption, String keyword) throws Exception{
+		System.out.println(checkOption + " : " + keyword );
+		HashMap<String, Object> naviMap = pagingService.getSearchPageNavi(currentPage, checkOption, keyword);
+		ArrayList<MemberDTO> columnList = (ArrayList)memService.appCompleteList();
+		ArrayList<BoardDTO> list = pagingService.getSearchBoardList((int)naviMap.get("currentPage"), checkOption, keyword);
+		naviMap.put("columnList", columnList);
+		naviMap.put("list", list);
+		Gson json = new Gson();
+		String result = (json.toJson(naviMap)).toString();
+	
+		return result;
+		
+	}
+	
 	
 
 }
