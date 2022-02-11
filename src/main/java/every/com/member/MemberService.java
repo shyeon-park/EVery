@@ -66,11 +66,36 @@ public class MemberService {
 		return dao.modifyPw(dto);
 	}
 	
+	// 회원탈퇴
+	public int getMemberWithdrawal(String id) throws Exception {
+		return dao.getMemberWithdrawal(id);
+	}
+		
+	// 닉네임 변경
+	public int modifyNickname(String beforeNickname, String afterNickname) throws Exception {
+		return dao.modifyNickname(beforeNickname, afterNickname);
+	}
+		
+	// 전화번호 변경
+	public int modifyPhone(String beforePhone, String afterPhone) throws Exception {
+		return dao.modifyPhone(beforePhone, afterPhone);
+	}
+		
+	// 닉네임으로 회원정보 불러오기
+	public MemberDTO getMemberByNickOrPhone(MemberDTO dto) throws Exception {
+		return dao.getMemberByNickOrPhone(dto);
+	}
+		
+	// 아이디와 비밀번호로 사용자 여부 체크
+	public int checkMemberByIdAndPw(String id, String pw) throws Exception {
+		return dao.checkMemberByIdAndPw(id, pw);
+	}
+	
+	
 	//컬럼리스트 목록 가져오기
 	public List<MemberDTO> appCompleteList() throws Exception{
 		return dao.appCompleteList();
 	}
-
 	
 	//컬럼리스트 신청
 	public int columnApplication(String id) throws Exception {

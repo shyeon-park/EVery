@@ -340,7 +340,7 @@ margin: 0;
 				</c:when>
 				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 					</div>
 				</c:when>
 			</c:choose>
@@ -408,7 +408,7 @@ margin: 0;
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-					<a href="">마이페이지</a>
+					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -1274,10 +1274,10 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
         	  			}).done(function(rs){
         	  				console.log(rs);
         	  				if(rs == "kakaoLoginOk") {
-        	  					alert("로그인에 성공하였습니다.");
+        	  					alert("카카오 로그인에 성공하였습니다.");
         	  					location.href = "${pageContext.request.contextPath}/";
         	  				} else if(rs == "kakaoAuthPhone") {
-        	  					alert("사용자 등록여부를 확인하기 위해 인증을 진행해주세요.");
+        	  					alert("등록된 카카오 정보를 찾을 수 없습니다. 회원 등록여부를 확인하기 위해 인증을 진행해주세요.");
         	  					$("#loginModal").modal("hide");
         	  					phoneState = false;
         	  					authState = false;
@@ -1341,6 +1341,8 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 			if(rs == "avaliable"){ // 입력한 핸드폰 번호와 일치하는 정보가 없으면 회원가입 진행
 				alert("등록된 사용자 정보가 존재하지 않습니다. 회원가입을 진행해주세요.");
 				snsJoinInit();
+				$(".snsSignupPwRow").attr("hidden", false);
+				$("#naverPwInfo").remove();
 				$("#snsPhoneNum1").val($("#kakaoAuthPhoneNum1").val()).prop("selected", true);
 				$("#snsPhoneNum1").attr("disabled", true);
 				$("#snsPhoneNum2").val($("#kakaoAuthPhoneNum2").val());
@@ -1411,7 +1413,7 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 	var naverLogin = new naver.LoginWithNaverId(
 			{
 				clientId: "MJ4BRMl5k9pVssgoUg87", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-				callbackUrl: "http://14.39.9.188:8001/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+				callbackUrl: "http://localhost:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 				isPopup: true,
 				//callbackHandle: true,
 				loginButton: {color: "green", type: 1, height: 40}
@@ -1446,13 +1448,23 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 		}).done(function(rs){
 			console.log(rs);
 			if(rs == "naverLoginOk"){
-				alert("로그인에 성공하였습니다.");
+				alert("네이버 로그인에 성공하였습니다.");
 				location.href = "${pageContext.request.contextPath}/";
 			} else if(rs == "naverSignup") {
 				alert("등록된 사용자 정보가 존재하지않습니다. 회원가입을 진행해주세요.");
 				$("#loginModal").modal("hide");
 				snsJoinInit();
 				$("#snsIdModal").modal("show");
+				$("#naverPwInfo").remove();
+				$(".snsSignupPwRow").attr("hidden", true);
+				let dynamicNaverPwInfo = "<div class='memberRow' id='naverPwInfo'>" +
+									   "<div class='col-12' style='text-align: center;'>" +
+									   "<span style='color: #18a8f1; font-size: 20px;'>네이버 회원가입은 비밀번호를 입력받지 않습니다. 계속 회원가입을 진행해주세요.</span>" +
+									   "</div>" +
+									   "</div>";
+				$(".snsSignupPw_body").append(dynamicNaverPwInfo);
+				pwState = true;
+				pwCheckState = true;
 				let naverNumInput = "<input type='text' id='naver_num' name='naver_num' value='" + naverNum + "' style='display : none;'>";
 				$("#snsJoin").append(naverNumInput);
 				$("#snsSignupId").val(userId[0]);
