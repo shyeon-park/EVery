@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="infoMapper">
+
+	<!-- 목록 조회 -->
+	<select id="infoList" resultType="infoDTO">
+		select  seq_info, info_title, info_written_date
+			from tbl_info
+			order by seq_info
+	</select>
+
+	<insert id="insertInfo" parameterType="infoDTO">
+		insert into tbl_info values
+			(#{seq_info}, #{admin_id}, #{info_title}, #{info_content}, sysdate)
+	</insert>
+	
+	<select id="selectAll" resultType="infoDTO">
+		select seq_info, admin_id, info_title, info_written_date
+		from tbl_info
+		order by seq_info desc
+	</select>
+	
+	<select id="selectOne" resultType="infoDTO">
+		select * from tbl_info
+		where seq_info = #{seq_info}
+	</select>
+	
+	<select id="searchByTitle" resultType="infoDTO">
+		select #{seq_info}, #{admin_id}, #{info_title}, #{info_written_date}
+		from tbl_info
+		where #{info_title} like %search%
+	</select>
+	
+	<update id="modify" parameterType="infoDTO">
+		update tbl_info set
+			info_title = #{info_title}, info_content = #{info_content}
+			where seq_info = #{seq_info}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_info
+			where seq_info = #{seq_info}
+	</delete>
+	
+</mapper>

@@ -18,6 +18,7 @@
 <title>게시판</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -199,8 +200,10 @@ border-radius: 3;
 width: 100%;
 height: 100%;
 }
+
 .titleImg{
- width: 100%;
+ width: 300px;
+ height: 250px;
  padding-bottom: 15px;
  border: none;
 }
@@ -220,9 +223,49 @@ color : black;
 font-size: 1.4rem;
 font-weight: bold;
 }
+.card-img-top{
+width: 100%;
+height: 100%;
+}
 .colum-text{
 margin: 0;
 }
+
+
+.selectBox{
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  border: 3px solid rgb(138, 205, 231);
+}
+.inputBox{
+  width: 55%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  outline:none;
+  border: 3px solid rgb(138, 205, 231);
+}
+
+.searchBox{
+    height: 60px;
+    text-align: center;
+    margin-bottom: 30px
+    
+}
+
+.searchBtn{
+    width: 10%;
+    border: none;
+    background-color:  rgb(138, 205, 231);
+    height: 100%;
+}
+.searchBtn:hover{
+    background-color:  rgb(68, 159, 195);
+}
+
 
 </style>
 </head>
@@ -326,9 +369,23 @@ margin: 0;
 
 		<div class="row">
 			<div class="col d-flex justify-content-center">
-				<h2>게시판</h2>
+				<h4 class="mb-5">칼럼</h4>
 			</div>
 		</div>
+		<div class="row">
+        <div class="col">
+            <div class="searchBox w-100">
+            <select class="selectBox" id="checkOption" name ="checkOption">
+                <option value="title" selected>제목</option>
+                <option value="nickname">작성자</option>
+            </select>
+            <input type="text" class="inputBox" id="keyword" name="keyword" placeholder="검색어를 입력해주세요">
+            <button class="searchBtn" id="searchBtn"><i class="bi bi-search"></i></button>
+            </div>
+            
+        </div>
+    </div>
+ 
 	    <div class="row list">
 	    </div>
 		<div class="row">
@@ -337,9 +394,20 @@ margin: 0;
 		</div>
 	</div>
 		<script>
-		
-		getBoardList(1)
+		//검색버튼 클릭
+		$("#searchBtn").on("click",function(){
+			if($("#keyword").val() != ""){
+				let checkOption = $("#checkOption").val();
+				let keyword = $("#keyword").val();
+				console.log(checkOption + " : "+ keyword);
+				let url = "${pageContext.request.contextPath}/board/searchProc.do?checkOption="+checkOption+"&keyword="+keyword
+				$(location).attr("href",url);		
 			
+				}
+			
+		});
+		getBoardList(1)
+		//리스트 출력
 		function getBoardList(currentPage){
 			$.ajax({
 				type: "post", //요청 메소드 방식
@@ -348,7 +416,7 @@ margin: 0;
 					console.log(res);
 					columnList = res.columnList;
 					$(".list").empty();
-					$("#nevi").empty();
+					$("#pagingNavi").empty();
 					let data = res.list
 					if(data == null || data =="" ){
 						let list = "리스트가 비어있습니다"
@@ -369,9 +437,11 @@ margin: 0;
 							 let date = con.written_date.replace(/,/,"")
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer'>"
-			                			+"<div class='titleImg w-100'>"
+							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer d-flex justify-content-center'>"
+			                			+"<div>"
+										+"<div class='titleImg'>"
 				                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
+				                				
 				                				if(con.profile == null || con.profile==""){
 				                			    list +="<img src="
 				                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
@@ -382,7 +452,8 @@ margin: 0;
 				                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
 				                			       	+"class='card-img-top' alt='...'>"	
 												}
-												list += "</a>"
+												list += "</a></div>"
+											
 				                   				+"<div class='colum-body'>"
 					                   			+"<p class='colum-title'>"
 				                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
@@ -390,9 +461,12 @@ margin: 0;
 					                     		+"</a></p>"
 					                     		+"<p class='colum-text'>"+date+"</p>"
 				                      			+"<p class='colum-text'>"+subtitle+"...</p>"
+				                      			+"<p class='colum-text'> 칼럼리스트 : "+con.nickname+"</p>"
 				                    			+"</div>"
 			                   				+"</div>"
 			            				+"</div>"
+			            				+"</div>"
+			
 		            					$(".list").append(list)
 						  } // LIST 출력
 						  
