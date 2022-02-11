@@ -463,15 +463,16 @@ margin: 0;
 <a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
 	
 <script type="text/javascript">
+/*
 $("#carouselExampleControls").on('slide.bs.carousel', function() {
 	//alert("이벤트 실행됨");
 	getBoardList(printList)
 	getBoardList(printList2)
 });
+*/
 
-
-getBoardList(printList)
-getBoardList(printList2)
+//getBoardList(printList)
+//getBoardList(printList2)
 	function getBoardList(printId){
 	
 	let id = printId
