@@ -91,6 +91,7 @@ public class BoardController {
 		String filePath = session.getServletContext().getRealPath("upload");
 		System.out.println("캔슬페이지 도착");
 		ArrayList<String> list = (ArrayList)session.getAttribute("savedFileName");
+		if(list != null) {
 			for(String fileName : list) {
 				File file = new File(filePath+File.separator+fileName);
 				if(file.exists()) {
@@ -98,7 +99,8 @@ public class BoardController {
 					file.delete();
 					System.out.println("파일이 삭제되었습니다");
 				}
-			}
+		}
+    }
 		session.removeAttribute("savedFileName"); 
 			
 		return "redirect:/board/toBoard.do";
@@ -171,9 +173,7 @@ public class BoardController {
 	@RequestMapping(value = "/deleteManager.do",produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String deleteManager(@RequestParam("delList[]") Integer[] delList) throws Exception{
-
 		String fileRoot = session.getServletContext().getRealPath("upload");//파일이 저장될 경로
-
 		int rs = service.deleteBoardManager(delList, fileRoot);
 		return "success";
 	}

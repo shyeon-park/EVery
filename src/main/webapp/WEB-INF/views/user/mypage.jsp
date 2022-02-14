@@ -11,6 +11,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+
 <title>마이페이지</title>
 <style>
 @import
@@ -865,6 +866,73 @@ a:hover {
 	</div>
 
 	<script>
+	 ws = new WebSocket("ws://172.30.1.60/column");
+     //메세지수신
+		ws.onmessage = function(e) {
+			//console.log( e.data );
+			let msgObj = JSON.parse(e.data);
+			console.log(msgObj);
+			memDTO = msgObj.memDto;
+		
+		
+			if((memDTO.column_application == 1) && (memDTO.identification_num == 2) ){
+				$("#applicationColStBtn").attr("disabled", false);
+	        	$("#applicationColStBtn").html("컬럼리스트 신청 취소")
+			}else if(memDTO.column_application == 0 && memDTO.identification_num == 1){
+				$("#applicationColStBtn").attr("disabled", true);
+	        	$("#applicationColStBtn").html("컬럼리스트 승인 대기중 ")
+			}else{
+				$("#applicationColStBtn").attr("disabled", false);
+	        	$("#applicationColStBtn").html("컬럼리스트 신청")
+			}
+			
+				notCheckedcount = msgObj.notCheckedcount
+				console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+				$("#bell_text").empty();
+				$(".modal-footer").empty();
+				$("#bell_text").append(notCheckedcount);
+				
+				//새로운 메세지 리스트 출력
+				if(msgObj.category == "getUncheckedList"){
+					let uncheckedList = msgObj.uncheckedList
+					$("#listPrint").empty();
+					$(".modal-footer").empty();
+					for(newMsg of uncheckedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class=''>"+newMsg.written_date+"</td>"
+								  + "<td class=''>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}	
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
+					$(".modal-footer").append(newBtn);
+				//확인된 목록
+				}else if(msgObj.category == "getCheckedList"){
+					$("#listPrint").empty();
+					checkedList = msgObj.checkedList
+					for(newMsg of checkedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class=''>"+newMsg.written_date+"</td>"
+								  + "<td class=''>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
+					$(".modal-footer").append(newBtn);
+				}	
+		}
+		//컬럼리스트 신청 클릭시 메세지 전송
+		document.addEventListener('click',function(e){
+	        if(e.target.id == 'applicationColStBtn'){
+	        	if($("#applicationColStBtn").html() == "컬럼리스트 신청 취소") ws.send("Cancel");
+	        	else if($("#applicationColStBtn").html() == "컬럼리스트 승인 대기중") return;
+	        	else if($("#applicationColStBtn").html() == "컬럼리스트 신청") ws.send("application");
+	        	else return
+	    }});
 		$(document).ready(function() {
 			let phone = "${loginSession.phone}";
 			console.log(phone);
