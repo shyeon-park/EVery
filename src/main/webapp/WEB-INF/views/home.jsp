@@ -342,6 +342,9 @@ margin: 0;
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 					</div>
+					<div class="col-xl-1 d-none d-xl-block navi-menu">
+						<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
+					</div>
 				</c:when>
 			</c:choose>
 			<c:choose>
@@ -379,11 +382,7 @@ margin: 0;
 		
 			
 			
-			<div class="col-xl-1 col-1 navi-menu">
-			<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do" id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
-			</div>
+			
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 					height="24px"></a>
@@ -409,6 +408,9 @@ margin: 0;
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
 					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+				</div>
+				<div class="col-12">
+					<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -636,13 +638,9 @@ function getList(id,printId, num, mnList){
 	document.addEventListener('click',function(e){
         if(e.target.id == 'bell'){
         	ws.send("getUncheckedList");
-        }});
+    }});
 	
-	//컬럼리스트 신청 클릭시 메세지 전송
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'testBtn'){
- 			ws.send("application");
-        }});
+
 	
 	function messageCheck(){
 			 let list = new Array(); // 배열 선언
@@ -2976,5 +2974,54 @@ function getList(id,printId, num, mnList){
 			});
 		});
 	</script>
+	
+	<!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	<!-- End Channel Plugin -->
+	
 </body>
 </html>
