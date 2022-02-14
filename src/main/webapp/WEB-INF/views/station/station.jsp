@@ -679,17 +679,18 @@ tr>td {
 	
 	/* 즐겨찾기 추가 삭제 */ 
 	$(document).on("click", "#btn_navi_menu", function(e){
-		let id = "${loginSession.id}"
+		let id = "${loginSession.id}";
             console.log(id);
 		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
 		if(id == null || id == ""){
 			alert("로그인 후 즐겨찾기를 추가해 주세요.");
 			return;
 		}
-		
+		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#latitude").html(), "longitude" :  $("#longitude").html()}
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
+			,data : data
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do"
 		}).done(function(data){
 			getBookmark($("#station").val());
 		}).fail(function(e){
@@ -740,14 +741,14 @@ tr>td {
 			}else{
 				for(let dto of data1.reviewList){
 				
-				let comment = "<div class='row comment-header m-1' style='height:outo;'>"
+				let comment = "<div class='row comment-header m-1' style='height:auto;'>"
 				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
 	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
-	             + "<div class='col-12 contentDiv-cmt' style='height:80px; padding-bottom:5px;'>"
+	             + "<div class='col-12 contentDiv-cmt' style='height:auto; padding-bottom:5px;'>"
 	             + "<textarea class='content-cmt' style='font-size:12px; height:100%; width:100%;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
@@ -978,7 +979,7 @@ tr>td {
 				    // 지도 중심을 이동 시킵니다
 				    map.setCenter(moveLatLon);
 			    	
-				    $('#charge_name').html("<h4>"+temp[0].chrstnNm+"</h4>"); //충전소명 동적 추가
+				    $('#charge_name').html(temp[0].chrstnNm); //충전소명 동적 추가
 				    if(temp[0].institutionNm == "" || temp[0].institutionNm == "-"){ // 충전 제공 업체 동적 추가
 				    	$('#institutionNm').html("정보 없음");
 				    }else{
