@@ -406,8 +406,8 @@ margin: 0;
 				}
 			
 		});
+		
 		getBoardList(1)
-		//리스트 출력
 		function getBoardList(currentPage){
 			$.ajax({
 				type: "post", //요청 메소드 방식
@@ -420,9 +420,15 @@ margin: 0;
 					let data = res.list
 					if(data == null || data =="" ){
 						let list = "리스트가 비어있습니다"
-						$("#nevi").empty();
-						let writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
-						$(".list").append(list)
+							let writeBtn = ""
+								for(col_id of columnList){
+									console.log("아이디는" + col_id)
+									if("${loginSession.id}" == col_id.id){
+										writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+									}else{
+										writeBtn = "";
+									}
+								}
 						$("#pagingNavi").append(writeBtn)
 						
 					}else{
@@ -491,8 +497,7 @@ margin: 0;
 							
 							$("#pagingNavi").append(pagingNavi)
 							
-							//prev start +1
-							//next end +1
+						
 					}
 				},
 				error : function(e){
@@ -551,7 +556,6 @@ margin: 0;
 
 	<script>
 		$(function() {
-			
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
 			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
 				if (onNavbar == 0) {
