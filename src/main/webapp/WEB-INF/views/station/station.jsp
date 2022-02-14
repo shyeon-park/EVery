@@ -217,11 +217,9 @@ a:hover {
 }
 </style>
 <style>
-.main-comment-container {
-	
-}
-
-<<<<<<< HEAD
+	.main-comment-container {
+		
+	}
 	textarea {
 		resize: none;
 		font-size:12px;
@@ -284,64 +282,6 @@ a:hover {
 		color:black;
 	}
 	
-=======
-textarea {
-	resize: none;
-	font-size: 12px;
-	height: 100%;
-	maxlength: 200;
-}
-
-.main-comment-container {
-	height: 450px;
-}
-
-.paging-container {
-	height: 50px;
-}
-
-.cmt-container {
-	background-color: white !important;
-	border: 1px solid lightgrey;
-	height: 400px;
-}
-
-.cmt-showBox {
-	height: 330px;
-	overflow: auto;
-}
-
-.comment-header {
-	border-bottom: 1px solid rgb(214, 214, 214);
-}
-
-.comment-body {
-	padding: 2px;
-	border: 1px solid rgb(214, 214, 214);
-}
-
-.comment-input {
-	height: 50px;
-	padding-bottom: 5px;
-}
-
-.cmt-info {
-	font-size: 12px;
-	font-weight: bold;
-}
-
-.cmt-info1 {
-	font-size: 11px;
-}
-
-.pagination {
-	column-gap: 2px;
-}
-
-.page-item {
-	color: black;
-}
->>>>>>> 6f05c9a55880f35b35f85a3fa79d76eec4621f7e
 </style>
 </head>
 <body>
@@ -460,25 +400,11 @@ textarea {
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-<<<<<<< HEAD
 									<div class="col-10 comment-input" style="padding:0px;">
 										<textarea class="review" id="review" name="review" style="resize: none; font-size:12px; height:100%;" placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 									</div>
 									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px; position:relative;">
 										<button type="button" id="btnSave" style="position:absolute; bottom:0px; padding:0px; border:1px solid lightgrey; font-size: 11px; height:30px; width:100%;" class="btn btn-btnSave">등록</button>
-=======
-									<div class="col-10 comment-input" style="padding: 0px;">
-										<textarea class="form-control" id="review" name="review"
-											style="font-size: 12px; height: 100%;"
-											placeholder="댓글을 입력해주세요."></textarea>
-									</div>
-									<div
-										class="col-2 comment-input d-flex align-items-center justify-content-center"
-										style="padding: 0px;">
-										<button type="button" id="btnSave"
-											style="padding: 0px; font-size: 11px; height: 30px; width: 50px;"
-											class="btn btn-secondary">등록</button>
->>>>>>> 6f05c9a55880f35b35f85a3fa79d76eec4621f7e
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>

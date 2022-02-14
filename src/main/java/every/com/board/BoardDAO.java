@@ -65,10 +65,8 @@ public class BoardDAO {
 		return session.delete("boardMapper.deleteBoard",seq_column);
 	}
 	
-	public List<BoardDTO> getMainList(ArrayList<Integer> list) throws Exception{
-	HashMap<String, Object> map = new HashMap<>();
-	map.put("list", list);
-	return session.selectList("boardMapper.getMainList",map);
+	public List<BoardDTO> getMainList() throws Exception{
+	return session.selectList("boardMapper.getMainList");
 	}
 	
 	public List<BoardDTO> getSearchBoardList(String checkOption, String keyword,int startRange, int endRange) throws Exception{

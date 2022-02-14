@@ -170,7 +170,6 @@ a:hover {
 <style>
 	.bookmark-div {
 		background-color: white !important;
-		border: 1px solid lightgrey;
 	}
 </style>
 </head>

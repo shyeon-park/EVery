@@ -163,8 +163,8 @@ public int deleteBoard(int board_seq, String realPath) throws Exception{
 		return boardDao.selectAll();
 	}
 	
-	public List<BoardDTO> getMainList(ArrayList<Integer> list) throws Exception{
-		return boardDao.getMainList(list);
+	public List<BoardDTO> getMainList() throws Exception{
+		return boardDao.getMainList();
 	}
 	
 }
