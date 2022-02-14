@@ -1,4 +1,4 @@
-![Alt text](/logo.png)
+![Alt text](/src/main/webapp/resources/images/logo.png)
 
 
 It is a community where you can check the location of electric vehicle charging stations🔥
