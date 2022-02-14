@@ -50,7 +50,7 @@
 			<choose>
 				<!-- 네이버 회원가입이면 네이버 고유값도 같이 셋팅-->
 				<when test="naver_num != null">
-					(#{id}, #{pw}, #{nickname}, #{phone}, 0, 0, #{naver_num}, 0, sysdate)
+					(#{id}, null, #{nickname}, #{phone}, 0, 0, #{naver_num}, 0, sysdate)
 				</when>
 				<!-- 카카오 회원가입이면 카카오 고유값도 같이 셋팅 -->
 				<when test="kakao_num != null">
@@ -117,8 +117,48 @@
 	
 	<!-- 비밀번호 변경 -->
 	<update id="modifyPw" parameterType="MemberDTO">
-		UPDATE tbl_member SET pw=#{pw} WHERE id=#{id} AND phone=#{phone}
+		UPDATE tbl_member SET pw=#{pw} WHERE
+		<choose>
+			<when test="phone != null">
+				id=#{id} AND phone=#{phone}
+			</when>
+			<otherwise>
+				id=#{id}
+			</otherwise>
+		</choose>
 	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="getMemberWithdrawal">
+		DELETE FROM tbl_member WHERE id=#{id}
+	</delete>
+	
+	<!-- 닉네임 변경 -->
+	<update id="modifyNickname" parameterType="map">
+		UPDATE tbl_member SET nickname=#{afterNickname} WHERE nickname=#{beforeNickname}
+	</update>
+	
+	<!-- 전화번호 변경 -->
+	<update id="modifyPhone" parameterType="map">
+		UPDATE tbl_member SET phone=#{afterPhone} WHERE phone=#{beforePhone}
+	</update>
+	
+	<!-- 닉네임 또는 전화번호로 회원정보 불러오기 -->
+	<select id="getMemberByNickOrPhone" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM tbl_member WHERE
+			<if test="nickname != null">
+				nickname=#{nickname}
+			</if>
+			<if test="phone != null">
+				phone=#{phone}
+			</if>
+	</select>
+	
+	<!-- 아이디와 비밀번호로 사용자 여부 체크 -->
+	<select id="checkMemberByIdAndPw" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM tbl_member WHERE id=#{id} AND pw=#{pw}
+	</select>
+	
 	
 	<!--************ 태환추가 ********************-->
 	<!-- 컬럼리스트 가져오기 -->

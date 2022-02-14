@@ -3,6 +3,7 @@ package every.com.member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,40 @@ public class MemberDAO {
 	// 비밀번호 변경
 	public int modifyPw(MemberDTO dto) throws Exception {
 		return session.update("memberMapper.modifyPw", dto);
+	}
+	
+	// 회원탈퇴
+	public int getMemberWithdrawal(String id) throws Exception {
+		return session.delete("memberMapper.getMemberWithdrawal", id);
+	}
+	
+	// 닉네임 변경
+	public int modifyNickname(String beforeNickname, String afterNickname) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("beforeNickname", beforeNickname);
+		map.put("afterNickname", afterNickname);
+		return session.update("memberMapper.modifyNickname", map);
+	}
+		
+	// 전화번호 변경
+	public int modifyPhone(String beforePhone, String afterPhone) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("beforePhone", beforePhone);
+		map.put("afterPhone", afterPhone);
+		return session.update("memberMapper.modifyPhone", map);
+	}
+		
+	// 닉네임으로 회원정보 불러오기
+	public MemberDTO getMemberByNickOrPhone(MemberDTO dto) throws Exception {
+		return session.selectOne("memberMapper.getMemberByNickOrPhone", dto);
+	}
+		
+	// 아이디와 비밀번호로 사용자 여부 체크
+	public int checkMemberByIdAndPw(String id, String pw) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("pw", pw);
+		return session.selectOne("memberMapper.checkMemberByIdAndPw", map);
 	}
 	
 	/*******************태환 추가***********************/
