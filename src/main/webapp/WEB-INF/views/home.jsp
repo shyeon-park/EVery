@@ -1648,14 +1648,18 @@ function getList(id,printId, num, mnList){
 	// 일반 로그인 요청
 	$("#loginBtn").on("click", function(){
 		let loginForm = $("#loginForm").serialize();
-			
+		
+		/*
 		console.log(document.cookie);
 		let regex = /rememberId=(.*)/g;
 		console.log(regex.test(document.cookie));
 		console.log(RegExp.$1);
 		console.log(loginForm);
 		let cookieRememberId = RegExp.$1;
-		console.log(rememberId);
+		console.log(rememberId); */
+		
+		let cookieRememberId = getCookie("rememberId");
+		console.log(cookieRememberId);
 			
 		if($("#loginId").val() == "" || $("#loginPw").val() == "") {
 			alert("로그인 정보를 정확히 입력해주세요.");
@@ -2677,13 +2681,17 @@ function getList(id,printId, num, mnList){
 			let regex = /rememberId=(.*)/g;
 			console.log(regex.test(document.cookie));
 			
+			document.getElementById("loginId").value = getCookie("rememberId");
+			console.log(document.getElementById("loginId").value);
+			
 			if(document.cookie != "") {
-				console.log(RegExp.$1);
-				document.getElementById("loginId").value = RegExp.$1;
+				/*console.log(RegExp.$1);
+				document.getElementById("loginId").value = RegExp.$1;*/
+				document.getElementById("loginId").value = getCookie("rememberId");
 				$(".rememberId").prop("checked", true);
 			} else {
 				$(".rememberId").prop("checked", false);
-			}
+			} 
 		})
 		
 		// 로그인 쿠키 삭제 함수
@@ -2704,7 +2712,7 @@ function getList(id,printId, num, mnList){
 			let expiryDate = new Date();
 			console.log("오늘 날짜", expiryDate);
 			expiryDate.setDate(expiryDate.getDate() + 7);
-			console.log("30일 뒤", expiryDate);
+			console.log("7일 뒤", expiryDate);
 			
 			// 쿠기 생성 -> 이름
 			let key = "rememberId";
@@ -2714,6 +2722,22 @@ function getList(id,printId, num, mnList){
 			// document.cookie = "key=value;Expires=만료일"
 			document.cookie = key + "=" + value + ";Expires=" + expiryDate;
 		}
+		
+		// 쿠키값 가져오기
+		function getCookie(cookieName) {
+	        cookieName = cookieName + '=';
+	        var cookieData = document.cookie;
+	        var start = cookieData.indexOf(cookieName);
+	        console.log(start);
+	        var cookieValue = '';
+	        if(start != -1){
+	            start += cookieName.length;
+	            var end = cookieData.indexOf(';', start);
+	            if(end == -1)end = cookieData.length;
+	            cookieValue = cookieData.substring(start, end);
+	        }
+	        return cookieValue;
+	    }
 		
 		
 		/* 아이디/비밀번호 찾기 스크립트 */
