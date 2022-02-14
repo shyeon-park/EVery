@@ -49,7 +49,7 @@ public class BookmarkController {
 	@ResponseBody
 	public String delete(String station) throws Exception{
 		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("station", station);
 		map.put("id", id);
 		if(service.delete(map) != -1) {
@@ -67,7 +67,7 @@ public class BookmarkController {
 		HashMap<String, Object> settingMap = servicePage.getPageNavi(currentPage, id);
 		ranges.put("id", id);
 		List<BookmarkDTO> bookmarkList = service.selectAll(ranges);
-		System.out.println(bookmarkList);
+		System.out.println("select" + bookmarkList);
 		HashMap<String, Object> allMap = new HashMap<>();
 		allMap.put("bookmarkList", bookmarkList);
 		allMap.put("settingMap", settingMap);
@@ -84,7 +84,7 @@ public class BookmarkController {
 			return "no";
 		}else {
 			String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
-			HashMap<String, String> map = new HashMap<>();
+			HashMap<String, Object> map = new HashMap<>();
 			map.put("station", station);
 			map.put("id", id);
 			if(service.bookmarkCount(map) > 0) {
@@ -99,11 +99,18 @@ public class BookmarkController {
 	/* 추가 해제 부분 */
 	@RequestMapping(value = "/setBookmark.do")
 	@ResponseBody
-	public void setBookmark(String station) throws Exception{
-		String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
-		HashMap<String, String> map = new HashMap<>();
-		map.put("station", station);
-		map.put("id", id);
+	public void setBookmark(BookmarkDTO dto) throws Exception{
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("station", dto.getStation());
+		map.put("id", dto.getId());
+		map.put("institutionNm", dto.getInstitutionNm());
+		map.put("rdnmadr", dto.getRdnmadr());
+		map.put("chrstnLcDesc", dto.getChrstnLcDesc());
+		map.put("useTime", dto.getUseTime());
+		map.put("phoneNumber", dto.getPhoneNumber());
+		map.put("latitude", dto.getLatitude());
+		map.put("longitude", dto.getLongitude());
+		
 		System.out.println(map);
 		if(service.bookmarkCount(map) > 0) {
 			service.delete(map);

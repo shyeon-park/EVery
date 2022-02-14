@@ -33,6 +33,12 @@ public class ReviewController {
 	@Autowired
 	private SearchPagingService SearchServicePage;
 	
+	/* 댓글관리 페이지로 이동*/
+	@RequestMapping(value = "/toAdReview.do")
+	public String toAdReview() throws Exception{
+		return "/admin/adreview";
+	}
+	
 	/* 검색하여 관리자 댓글리스트 불러오기 */
 	@RequestMapping(value = "/searchByKey.do", produces="application/json;charset=UTF-8")
 	@ResponseBody

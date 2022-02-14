@@ -644,7 +644,7 @@ a:hover {
 					<!-- 추가 -->
 			</div>
 			<div class="row paging-div" style="height:10%;">
-				<!-- 추가 -->
+					<!-- 추가 -->
 			</div>
 		</div>
 
@@ -666,11 +666,11 @@ a:hover {
 					$(".review-div").append(commentNull);
 				}else{
 					for(let dto of data.byIdList){
-					let comment = "<div class='row comment-header m-1' style='height:outo; border-bottom: 2px solid lightgrey; margin:0px; padding:0px;'>"
+					let comment = "<div class='row comment-header m-1' style='height:auto; border-bottom: 2px solid lightgrey; margin:0px; padding:0px;'>"
 								+ "<div class='col-5'>" + dto.station + "</div>"
 								+ "<div class='col-5'>" + dto.written_date + "</div>"
 								+ "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn deleteCmt' style='padding:0px;' value='" + dto.seq_review + "'>삭제</button></div>"
-								+ "<div class='col-12' style='height:outo; margin-bottom:5px'>" + dto.review + "</div>"
+								+ "<div class='col-12' style='height:auto; margin-bottom:5px'>" + dto.review + "</div>"
 								+ "</div>"
 						$(".review-div").append(comment);			
 					}
@@ -748,9 +748,10 @@ a:hover {
 	 			}else{
 	 				for(let dto of data.bookmarkList){
 	 					let bookmark = "<div class='row bookmark-header m-1' style='height:outo; border-bottom:1px solid black;'>"
-	 									+ "<div class='col-10 d-flex justify-content-start'>"
+	 									+ "<div class='col-5 d-flex justify-content-start'>"
 	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
-	 									+ "</div>" 
+	 									+ "</div>"
+	 									+ "<div class='col-5'>" + dto.rdnmadr + "</div>"
 	 									+ "<div class='col-2 d-flex justify-content-center'>"
 	 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
 	 									+ "</div>"
