@@ -77,4 +77,11 @@ public class BoardDAO {
 		map.put("endRange", endRange);
 		return session.selectList("boardMapper.getSearchBoardList",map);
 	}
+	
+	//삭제 작업
+	public int deleteBoardManager(Integer[] list) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		return session.update("boardMapper.deleteBoardManager",map);
+	}
 }

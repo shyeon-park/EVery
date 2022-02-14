@@ -1,5 +1,6 @@
 package every.com.file;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,5 +32,12 @@ public class FileDAO {
 	public int deleteFile(int seq_file) throws Exception{
 		return session.delete("fileMapper.deleteFile",seq_file);
 	}
+	
+	public int deleteFileManager(Integer[] list) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		return session.update("fileMapper.deleteFileManager",map);
+	}
+	
 	
 }

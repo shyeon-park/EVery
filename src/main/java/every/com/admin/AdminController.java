@@ -44,4 +44,10 @@ public class AdminController {
 	public String home() throws Exception {
 		return "/admin/a_home";
 	}
+	
+	@RequestMapping("/columManager.do")
+	public String columManager() throws Exception{
+		System.out.println("ㅁㅁㅁ접속완료");
+		return "/admin/columManager";
+	}
 }
