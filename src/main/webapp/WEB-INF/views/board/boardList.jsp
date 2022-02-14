@@ -409,6 +409,104 @@ margin: 0;
 		
 		getBoardList(1)
 		function getBoardList(currentPage){
+<<<<<<< HEAD
+         $.ajax({
+            type: "post", //요청 메소드 방식
+            url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
+            success : function(res){
+               console.log(res);
+               columnList = res.columnList;
+               $(".list").empty();
+               $("#pagingNavi").empty();
+               let data = res.list
+               if(data == null || data =="" ){
+                  let list = "리스트가 비어있습니다"
+                     let writeBtn = ""
+                        for(col_id of columnList){
+                           console.log("아이디는" + col_id)
+                           if("${loginSession.id}" == col_id.id){
+                              writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+                           }else{
+                              writeBtn = "";
+                           }
+                        }
+                  $("#pagingNavi").append(writeBtn)
+                  
+               }else{
+                  for(var con of data){
+                     
+                     //console.log(con.profile == null)
+                     let content = con.content  //상세게시글 내용 변수에 담는다
+                     let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
+                     content = content.replace(imgRemove, ''); // 이미지를 지움
+                     content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
+                     subtitle = content.substring(0,30)
+                      let date = con.written_date.replace(/,/,"")
+                      let written_date = date.split(" ");
+                      date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+                     let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer d-flex justify-content-center'>"
+                                  +"<div>"
+                              +"<div class='titleImg'>"
+                                  +"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
+                                        
+                                        if(con.profile == null || con.profile==""){
+                                         list +="<img src="
+                                            +"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
+                                            +"class='card-img-top' alt='...'>"
+                                         }else{
+                                         console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");   
+                                         list +="<img src="
+                                            +"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
+                                               +"class='card-img-top' alt='...'>"   
+                                    }
+                                    list += "</a></div>"
+                                 
+                                           +"<div class='colum-body'>"
+                                           +"<p class='colum-title'>"
+                                           +"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
+                                          +con.title
+                                          +"</a></p>"
+                                          +"<p class='colum-text'>"+date+"</p>"
+                                           +"<p class='colum-text'>"+subtitle+"...</p>"
+                                           +"<p class='colum-text'> 칼럼리스트 : "+con.nickname+"</p>"
+                                         +"</div>"
+                                        +"</div>"
+                                 +"</div>"
+                                 +"</div>"
+         
+                                 $(".list").append(list)
+                    } // LIST 출력
+                    
+                    let startNavi = res.startNavi
+                    let endNavi = res.endNavi
+                    let pagingNavi = "<nav aria-label='Page navigation example'>"
+                             +"<ul class='pagination d-flex justify-content-center m-0'>"
+                     if(res.needPrev) pagingNavi +="<li class='page-item'><a class='page-link' onclick='getBoardList(" + startNavi + "-1);'>Prev</a></li>"
+                     for(let i = startNavi; i<=endNavi; i++){
+                        pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" + i + ");'>" + i + "</a></li>"
+                     }
+                     if(res.needNext) pagingNavi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" +endNavi+ "+1);'>Next</a></li>"
+                     
+                     
+                     pagingNavi +="</ul>"
+                     pagingNavi += "</nav>"
+                        for(col_id of columnList){
+                           if("${loginSession.id}" == col_id.id){
+                              pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+                           }
+                        }
+                     
+                     $("#pagingNavi").append(pagingNavi)
+                     
+                  
+               }
+            },
+            error : function(e){
+               console.log(e);
+            }
+         });
+      }
+=======
 			$.ajax({
 				type: "post", //요청 메소드 방식
 				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
@@ -505,6 +603,7 @@ margin: 0;
 				}
 			});
 		}
+>>>>>>> 5f7d9fc6ceec6f6547d784371d921686fed50145
 		
 		
 		// 로그아웃 요청
