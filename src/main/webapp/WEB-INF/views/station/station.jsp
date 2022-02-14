@@ -253,66 +253,71 @@ tr>td {
 }
 </style>
 <style>
-.main-comment-container {
+	.main-comment-container {
+		
+	}
+	textarea {
+		resize: none;
+		font-size:12px;
+		height:100%;
+		maxlength:200;
+		width:100%;
+		border:none;
+		outline: none;
+		overflow:hidden;
+	}
 	
-}
-
-textarea {
-	resize: none;
-	font-size: 12px;
-	height: 100%;
-	maxlength: 200;
-}
-
-.main-comment-container {
-	height: 450px;
-}
-
-.paging-container {
-	height: 50px;
-}
-
-.cmt-container {
-	background-color: white !important;
-	border: 1px solid lightgrey;
-	height: 400px;
-}
-
-.cmt-showBox {
-	height: 330px;
-	overflow: auto;
-}
-
-.comment-header {
-	border-bottom: 1px solid rgb(214, 214, 214);
-}
-
-.comment-body {
-	padding: 2px;
-	border: 1px solid rgb(214, 214, 214);
-}
-
-.comment-input {
-	height: 50px;
-	padding-bottom: 5px;
-}
-
-.cmt-info {
-	font-size: 12px;
-	font-weight: bold;
-}
-
-.cmt-info1 {
-	font-size: 11px;
-}
-
-.pagination {
-	column-gap: 2px;
-}
-
-.page-item {
-	color: black;
-}
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
+	}
+	
+	.cmt-container {
+		background-color: white !important;
+		border: 1px solid lightgrey;
+		height:400px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
+	}
+	
+	.comment-header {
+		border-bottom: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-body {
+		padding: 2px;
+		border: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-input{
+		height:50px;
+		padding-bottom:5px;
+	}
+	
+	.cmt-info {
+		font-size: 12px;
+		font-weight: bold;
+	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+		padding-top:2px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -476,17 +481,11 @@ textarea {
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding: 0px;">
-										<textarea class="form-control" id="review" name="review"
-											style="font-size: 12px; height: 100%;"
-											placeholder="댓글을 입력해주세요."></textarea>
+									<div class="col-10 comment-input" style="padding:0px;">
+										<textarea class="review" id="review" name="review" style="resize: none; font-size:12px; height:100%;" placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 									</div>
-									<div
-										class="col-2 comment-input d-flex align-items-center justify-content-center"
-										style="padding: 0px;">
-										<button type="button" id="btnSave"
-											style="padding: 0px; font-size: 11px; height: 30px; width: 50px;"
-											class="btn btn-secondary">등록</button>
+									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px; position:relative;">
+										<button type="button" id="btnSave" style="position:absolute; bottom:0px; padding:0px; border:1px solid lightgrey; font-size: 11px; height:30px; width:100%;" class="btn btn-btnSave">등록</button>
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>
@@ -635,6 +634,7 @@ textarea {
 					,data : data
 				}).done(function(rs){
 					if(rs == "success"){
+						alert("댓글이 수정되었습니다.");
 						getCommentList(1, $("#station").val());
 					}else if(rs == "fail"){
 						alert("수정에 실패하였습니다.");
@@ -735,20 +735,20 @@ textarea {
 			console.log(data1);
 			console.log(station);
 			if(data1.reviewList == ""){
-				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>댓글을 등록해보세요.</h4></div>";
+				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h5>댓글을 등록해보세요.</h5></div>";
 				$(".cmt-showBox").append(commentNull);
 			}else{
 				for(let dto of data1.reviewList){
 				
-				let comment = "<div class='row comment-header m-1'>"
+				let comment = "<div class='row comment-header m-1' style='height:outo;'>"
 				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
 	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
-	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
-	             + "<textarea class='form-control' class='content-cmt' style='font-size:12px; height:100%;' name='comment' readonly>"
+	             + "<div class='col-12 contentDiv-cmt' style='height:80px; padding-bottom:5px;'>"
+	             + "<textarea class='content-cmt' style='font-size:12px; height:100%; width:100%;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
 	             + "</div>"
@@ -796,8 +796,16 @@ textarea {
 		}).fail(function(e){
 			console.log(e);
 		});
-	}
+	} 
 	
+	$(document).ready(function() {
+	    $('.review').on('keyup', function() {
+	        if($(this).val().length > 80) {
+	            $(this).val($(this).val().substring(0, 80));
+	        }
+	    });
+	});
+
 	
 	</script>
 

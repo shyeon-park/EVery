@@ -218,7 +218,7 @@ a:hover {
 	border: 1px solid #ccc;
 	width: 80%;
 	border-left: none;
-	height: 500px;
+	height: 550px;
 }
 
 /* 내정보 css */
@@ -640,16 +640,197 @@ a:hover {
 		
 		<!-- 댓글 관리 영역 -->
 		<div id="myReviews" class="tabContent">
-			<h3>Paris</h3>
-			<p>파리는 프랑스의 수도입니다.</p>
+			<div class="row review-div" style="height:90%; width:100%; overflow-x:hidden;">
+					<!-- 추가 -->
+			</div>
+			<div class="row paging-div" style="height:10%;">
+				<!-- 추가 -->
+			</div>
 		</div>
 
+		<script>
+		/* 자신이 쓴 댓글 불러오기 */
+		function getCommentList(currentPage){
+			let data = {"searchKey" : "${loginSession.id}", "selected" : "id"};
+			$.ajax({
+				type : "post"
+				,data : data
+				, url : "${pageContext.request.contextPath}/review/searchByKey.do?currentPage=" + currentPage
+			}).done(function (data){
+				// 기존에 댓글이 있다면 모두 비워주는 작업 
+				$(".review-div").empty();
+				$(".paging-div").empty();
+				if(data.byIdList == ""){
+					alert("검색 내용이 없습니다.");
+					let commentNull = "<div><h4>검색 내용이 없습니다.</h4></div>";
+					$(".review-div").append(commentNull);
+				}else{
+					for(let dto of data.byIdList){
+					let comment = "<div class='row comment-header m-1' style='height:outo; border-bottom: 2px solid lightgrey; margin:0px; padding:0px;'>"
+								+ "<div class='col-5'>" + dto.station + "</div>"
+								+ "<div class='col-5'>" + dto.written_date + "</div>"
+								+ "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn deleteCmt' style='padding:0px;' value='" + dto.seq_review + "'>삭제</button></div>"
+								+ "<div class='col-12' style='height:outo; margin-bottom:5px'>" + dto.review + "</div>"
+								+ "</div>"
+						$(".review-div").append(comment);			
+					}
+					
+					let startNavi = data.settingMap.startNavi;
+					let endNavi = data.settingMap.endNavi;
+					
+					let paging = "<nav class='col' aria-label='Page navigation example'>"
+								+ "<ul class='pagination justify-content-center'>";
+								
+								if(data.settingMap.needPrev == true){
+									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1)'>Previous</a></li>";
+								}
+								
+								for(var i= startNavi; i<= endNavi; i++){
+									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ")'>" + i + "</a></li>";
+								}
+								
+								if(data.settingMap.needNext == true){
+									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1)'>Next</a></li>";
+								}
+								
+					paging += "</ul>" + "</nav>";		
+								
+					$(".paging-div").append(paging);
+				
+			}
+			}).fail(function(e){
+				console.log(e);
+			});
+		}
+		
+		/* 삭제버튼을 눌렀을 때 */ 
+		$(document).on("click",".deleteCmt", function(e){
+			let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
+			}).done(function(rs){
+				if(rs == "success"){
+					getCommentList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+		});
+		
+		</script>
 		<!-- 즐겨찾기 관리 영역 -->
 		<div id="myBookmarker" class="tabContent">
-			<h3>Tokyo</h3>
-			<p>도쿄는 일본의 수도입니다.</p>
+			<div class="row bookmark-div" style="height:90%; width:100%; overflow:auto;">
+				<!-- 추가 -->
+			</div>
+			<div class="row cmt-paging" style="height:10%;">
+				<!-- 추가 -->
+			</div>
 		</div>
-
+		<script>
+		// 즐겨찾기 목록 불러오는 함수
+		function getBookmarkList(currentPage){
+	 		$.ajax({
+	 			type : "get"
+	 			, url : "${pageContext.request.contextPath}/bookmark/getList.do?id=${loginSession.id}&currentPage=" + currentPage
+	 		}).done(function(data){
+	 			$(".bookmark-div").empty();
+	 			$(".cmt-paging").empty();
+	 			if(data.bookmarkList == ""){
+	 				let bookmarkNull = "<div class='emptyDiv' style='text-align:center; height:100px; padding-top:40px;'><h4>즐겨찾기목록이 없습니다.</h4></div>";
+	 				$(".bookmark-div").append(bookmarkNull);
+	 			}else{
+	 				for(let dto of data.bookmarkList){
+	 					let bookmark = "<div class='row bookmark-header m-1' style='height:outo; border-bottom:1px solid black;'>"
+	 									+ "<div class='col-10 d-flex justify-content-start'>"
+	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "</div>" 
+	 									+ "<div class='col-2 d-flex justify-content-center'>"
+	 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
+	 									+ "</div>"
+	 									+ "</div>"
+	 					$(".bookmark-div").append(bookmark);
+	 				}
+	 				
+	 				let startNavi = data.settingMap.startNavi;
+	 				let endNavi = data.settingMap.endNavi;
+	 				
+	 				let paging = "<nav class='col' aria-label='Page navigation example'>"
+	 							+ "<ul class='pagination justify-content-center'>";
+	 							
+	 							if(data.settingMap.needPrev == true){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + startNavi + "- 1);'>Previous</a></li>";
+	 							}
+	 							
+	 							for(var i= startNavi; i<= endNavi; i++){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
+	 							}
+	 							
+	 							if(data.settingMap.needNext == true){
+	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + endNavi + "+ 1);'>Next</a></li>";
+	 							}
+	 							
+	 					paging += "</ul>" + "</nav>";		
+	 							
+	 					$(".cmt-paging").append(paging);
+	 			}
+	 		}).fail(function(e){
+	 			console.log(e);
+	 		})
+	 	}
+		
+		// 전체 삭제 버튼
+	    $("#btn-deleteAll").on("click", function(){
+	    	if($(".emptyDiv").html() == "<h4>즐겨찾기목록이 없습니다.</h4>"){
+	    		alert("삭제할 항목이 없습니다.");
+	    		return;
+	    	}
+	    	let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				, url : "${pageContext.request.contextPath}/bookmark/deleteAll.do?id=${loginSession.id}"
+			}).done(function(rs){
+				if(rs == "success"){
+					getBookmarkList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+	    })
+	    
+	    // 삭제 버튼
+	    $(document).on("click",".btn-delete", function(e){
+	    	if($(e.target).html() == "삭제"){
+				let rs = confirm("삭제하시겠습니까?");
+				if(!rs){
+					return;
+				}
+				$.ajax({
+					type : "get"
+					, url : "${pageContext.request.contextPath}/bookmark/delete.do?station=" + $(e.target).val()
+				}).done(function(rs){
+					if(rs == "success"){
+						getBookmarkList(1);
+					}else if(rs == "fail"){
+						alert("삭제에 실패하였습니다.");
+					}
+				}).fail(function(e){
+					console.log(e);
+				});
+	    	}
+	    })
+		</script>
 
 
 	</div>
@@ -776,6 +957,11 @@ a:hover {
 			}
 			document.getElementById(content).style.display = "block";
 			evt.currentTarget.className += " active";
+			if(content == "myReviews"){
+				getCommentList(1);
+			}else if(content == "myBookmarker"){
+				getBookmarkList(1);
+			}
 		}
 
 		// Get the element with id="defaultOpen" and click on it
