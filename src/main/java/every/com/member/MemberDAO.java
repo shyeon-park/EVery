@@ -128,9 +128,18 @@ public class MemberDAO {
 		return session.update("memberMapper.reject",map);
 	}
 	
+	//닉네임 가져오기
 	public String getNickname(String id) {
 		return session.selectOne("memberMapper.getNickname",id);
 	}
 	
+	//dto 가져오기
+	public MemberDTO getMemberDTO (String id) {
+		return session.selectOne("memberMapper.getMemberDTO",id);
+	}
+	//칼럼리스트 신청 취소
+	public int cancelColumnList(String id) {
+		return session.update("memberMapper.cancelColumnList",id);
+	}
 	/***************태환 추가*****************/
 }

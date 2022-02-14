@@ -107,8 +107,17 @@ public class MemberService {
 		return dao.columnList();
 	} 
 	
+	//닉네임 가져오기
 	public String getNickname(String id) throws Exception{
 		return dao.getNickname(id);
 	}
+
+	//dto 가져오기 
+	public MemberDTO getMemberDTO (String id) {
+		return dao.getMemberDTO(id);
+	}
 	
+	public int cancelColumnList(String id) {
+		return dao.cancelColumnList(id);
+	}
 }

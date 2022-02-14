@@ -636,13 +636,9 @@ function getList(id,printId, num, mnList){
 	document.addEventListener('click',function(e){
         if(e.target.id == 'bell'){
         	ws.send("getUncheckedList");
-        }});
+    }});
 	
-	//컬럼리스트 신청 클릭시 메세지 전송
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'testBtn'){
- 			ws.send("application");
-        }});
+
 	
 	function messageCheck(){
 			 let list = new Array(); // 배열 선언

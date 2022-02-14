@@ -268,7 +268,7 @@ a:hover {
 							console.log(e.data)
 	    	   	 		}
     	   	 		 }); 
-    	   	 		 //location.href ="${pageContext.request.contextPath}/board/deleteManager.do?delList="+
+    	   	 		 
     	   	
     	   	 	 }else{
     	   	 		 alert("삭제할 컬럼을 선택하세요.")
@@ -294,7 +294,9 @@ a:hover {
 						for(board of data){
 							let list = "<tr>"
 								   +"<td class='text-center'><input type='checkbox' name = 'columId' value='"+board.seq_column+"'></td>"
-							  	   +"<td class='text-center'>"+board.title+"</td>"
+							  	   +"<td class='text-center'>"
+							  	   + "<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+board.seq_column+"' class='atag'>"
+							  	   +board.title+"</a></td>"
 							  	   +"<td class='text-center'>"+board.nickname+"</td>"
 							       +"</tr>"
 							       $("tbody").append(list);
