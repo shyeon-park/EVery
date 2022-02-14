@@ -27,4 +27,11 @@
 	<delete id ="deleteFile">
 		delete from tbl_column_file where seq_column= #{seq_column}
 	</delete>
+	
+	<delete id ="deleteFileManager">
+		delete from tbl_column_file where seq_column in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>
+	</delete>
 </mapper>

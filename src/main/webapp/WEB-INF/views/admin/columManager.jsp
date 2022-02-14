@@ -167,6 +167,7 @@ a:hover {
 	margin: 0px;
 }
 
+
 </style>
 </head>
 <body>
@@ -213,22 +214,116 @@ a:hover {
 		<div class="container">
             <h3>칼럼관리</h3>
             <table class="table">
+            <thead>
             <tr>
-                <th><input type="checkbox"></th>
-                <th>칼럼제목</th>
-                <th>칼럼리스트</th>
+                <th class= "text-center"><input type="checkbox" id="cbx_chkAll"></th>
+                <th class= "text-center">칼럼제목</th>
+                <th class= "text-center">칼럼리스트</th>
             </tr>
+            </thead>
+          
             
             <tbody>
+            
             </tbody>
 
             <tfoot>
             </tfoot>
          
             </table>
+            <div class="row">
+            <div id ="navi" class="col-12 d-flex justify-content-between"></div>
+            </div>
         </div>
         <script>
-            
+        
+    	document.addEventListener('click',function(e){
+            if(e.target.id == 'cbx_chkAll'){
+            if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
+            else  $("input[name=columId]").prop("checked", false)
+        }});
+    	
+    	
+    	document.addEventListener('click',function(e){
+    		 if(e.target.id == 'delBtn'){
+    			 var delList = new Array(); // 배열 선언
+    	   	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+    	   	 		delList.push(this.value);
+    	   	 	 });
+    	   	 	 
+    	   	 	 if(delList.length != 0){
+    	   	 		
+    	   	 		 
+    	   	 		$.ajax({  
+    	   	 		 url : '${pageContext.request.contextPath}/board/deleteManager.do',              
+    	   	 		 type : 'POST',
+    	   	 		 data : { "delList" : delList,},        
+    	   	 		 success : function(data){
+						console.log(data)
+						if(data == "success"){
+						    getBoardList(1)
+						}
+    	   	 		 }, 
+    	   	 		 error : function (e){
+							console.log(e.data)
+	    	   	 		}
+    	   	 		 }); 
+    	   	 		 //location.href ="${pageContext.request.contextPath}/board/deleteManager.do?delList="+
+    	   	
+    	   	 	 }else{
+    	   	 		 alert("삭제할 컬럼을 선택하세요.")
+    	   	 	 }
+    		 }
+   	 	
+   		})
+    	
+        getBoardList(1)
+		function getBoardList(currentPage){
+			$.ajax({
+				type: "post", //요청 메소드 방식
+				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
+				success : function(res){
+					console.log(res);
+					$("tbody").empty();
+					$("#navi").empty();
+					let data = res.list
+					if(data == null || data =="" ){
+						let list = "리스트가 비어있습니다"
+						$(".list").append(list)
+					}else{
+						for(board of data){
+							let list = "<tr>"
+								   +"<td class='text-center'><input type='checkbox' name = 'columId' value='"+board.seq_column+"'></td>"
+							  	   +"<td class='text-center'>"+board.title+"</td>"
+							  	   +"<td class='text-center'>"+board.nickname+"</td>"
+							       +"</tr>"
+							       $("tbody").append(list);
+						  }
+						
+					
+						  let startNavi = res.startNavi
+						  let endNavi = res.endNavi
+						  let navi = "<nav aria-label='Page navigation example'>"
+							  		+"<ul class='pagination d-flex justify-content-center m-0'>"
+							if(res.needPrev) navi +="<li class='page-item'><a class='page-link' onclick='getBoardList(" + startNavi + "-1);'>Prev</a></li>"
+							for(let i = startNavi; i<=endNavi; i++){
+								navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" + i + ");'>" + i + "</a></li>"
+							}
+							if(res.needNext) navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" +endNavi+ "+1);'>Next</a></li>"
+
+							navi +="</ul>"
+							navi += "</nav>"
+							navi += "<button type='button' class='btn btn-success' id='delBtn'>삭제</button>";
+							$("#navi").append(navi)
+	
+						
+					}
+				},
+				error : function(e){
+					console.log(e);
+				}
+			});
+		}
         </script>
 		
 		

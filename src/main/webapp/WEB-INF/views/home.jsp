@@ -437,23 +437,26 @@ margin: 0;
 	
 	<div class="row">
 		<div class="col-12">
-			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-interval="1000">
+			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
-			    <div class="carousel-item active">
-			     <div class="row" id="printList"></div>
-			    </div>
-			    <div class="carousel-item">
-			      <div class="row" id="printList2"></div>
-			    </div>
+			    <div class="carousel-item active col-12 d-flex" id = "printList">
+             
+                </div>
+                
+                <div class="carousel-item  col-12 d-flex" id = "printList2">
+                    
+                </div>
 			
 			  </div>
 			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
 			    <span class="carouselPrevIcon"><i class="bi bi-chevron-compact-left"></i></span>
 			    <span class="visually-hidden">Previous</span>
 			  </button>
-			  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+			  <button class="carousel-control-next"  id = "" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
 			    <span class="carouselNextIcon"><i class="bi bi-chevron-compact-right"></i></span>
 			    <span class="visually-hidden">Next</span>
+			    <input type="hidden" value="0" id="carousel-value">
+			    <input type="hidden" value="0" id="carousel-currentPage">
 			  </button>
 			</div>
 		</div>
@@ -463,78 +466,120 @@ margin: 0;
 <a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
 	
 <script type="text/javascript">
-/*
-$("#carouselExampleControls").on('slide.bs.carousel', function() {
-	//alert("이벤트 실행됨");
-	getBoardList(printList)
-	getBoardList(printList2)
-});
-*/
+let mnList = null 
 
-//getBoardList(printList)
-//getBoardList(printList2)
-	function getBoardList(printId){
+$("#carouselExampleControls").on('slide.bs.carousel', function(e) {
+	//console.log("mnList 는 ");
+	//console.log(mnList);
+	//console.log(mnList[0].id);
+	  let carouselCurrentPage
+	    //console.log(e.direction)
+	    if(e.direction == "left"){
+	        $("#carousel-value").val(1)
+	        carouselCurrentPage = Number($("#carousel-currentPage").val()); 
+	        remainder = (mnList.length) % 3
+	        mnListLength = mnList.length - remainder
+	        if(carouselCurrentPage == mnListLength -3 ){
+	            carouselCurrentPage = 0
+	        }else{
+	            carouselCurrentPage = carouselCurrentPage + 3 
+	        }
+	   
+	        $("#carousel-currentPage").val(carouselCurrentPage) 
+	    }else{
+	        $("#carousel-value").val(0)
+	        carouselCurrentPage = Number($("#carousel-currentPage").val()); 
+	        if(carouselCurrentPage <= 0){
+	            carouselCurrentPage = 0
+	        }else{
+	            carouselCurrentPage = carouselCurrentPage - 3 
+	        }
+	        $("#carousel-currentPage").val(carouselCurrentPage)
+	     
+	    }
+	   //console.log($("#carousel-value").val() +" : " + $("#carousel-currentPage").val())
+	  	$("#printList").empty(); 
+	    $("#printList2").empty(); 
+	    getList(printList,printList2, carouselCurrentPage, mnList)
+
+		
+});
+
+
+
+getBoardList()
+
+function getList(id,printId, num, mnList){
+	if((mnList.length) < 3){
+		$(id).append("리스트를 3개이상 추가해주세요");
+		$(printId).append("리스트를 3개이상 추가해주세요");
+	}else{
+		for(let i= num ; i<(num+3); i++){
+			
+			let content = mnList[i].content  //상세게시글 내용 변수에 담는다
+			let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
+			content = content.replace(imgRemove, ''); // 이미지를 지움
+			content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
+			subtitle = content.substring(0,30)
+			 let date =  mnList[i].written_date.replace(/,/,"")
+			 let written_date = date.split(" ");
+			 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+			let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+	        			+"<div>"
+						+"<div class='titleImg'>"
+	            		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"' class='atag'>"
+	            				
+	            				if( mnList[i].profile == null ||  mnList[i].profile==""){
+	            			    list +="<img src="
+	            			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
+	            			    	+"class='card-img-top' alt='...'>"
+	            			    }else{
+	            			    //console.log("'${pageContext.request.contextPath}/upload/"+ mnList[i].sys_name+"'");	
+	            			    list +="<img src="
+	            			    	+"'${pageContext.request.contextPath}/upload/"+ mnList[i].sys_name+"'"
+	            			       	+"class='card-img-top' alt='...'>"	
+								}
+								list += "</a></div>"
+							
+	               				+"<div class='colum-body ms-5'>"
+	                   			+"<p class='colum-title ms-3'>"
+	               				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"'>"
+	                     		+ mnList[i].title
+	                     		+"</a></p>"
+	                     		+"<p class='colum-text ms-3'>"+date+"</p>"
+	                  			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+	                			+"</div>"
+	           				+"</div>"
+	    				+"</div>"
+	    				+"</div>"	
+
+		$(id).append(list);
+		$(printId).append(list);
+		}
+	}
 	
-	let id = printId
-	console.log(id)
+}
+
+	function getBoardList(){
+	
 		$.ajax({  
 			 url : "${pageContext.request.contextPath}/board/mainList.do",  
 			 type : "POST",
 			 success : function(data){
 			//성공시
-				 console.log(data)
-				$(printId).empty();
+				 console.log(data);
+				//$(printId).empty();
 
 				let mainList= data.mainList
 				if(data == null || data =="" ){
 					let list = "리스트가 비어있습니다"
 					$(printId).empty();
-					$(printId).append(list)
+					$(printId).append(list);
 
 				}else{
-					for(var con of mainList){
-						let content = con.content  //상세게시글 내용 변수에 담는다
-						let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-						content = content.replace(imgRemove, ''); // 이미지를 지움
-						content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-						subtitle = content.substring(0,30)
-						 let date = con.written_date.replace(/,/,"")
-						 let written_date = date.split(" ");
-						 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-						let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
-		                			+"<div>"
-									+"<div class='titleImg'>"
-			                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
-			                				
-			                				if(con.profile == null || con.profile==""){
-			                			    list +="<img src="
-			                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
-			                			    	+"class='card-img-top' alt='...'>"
-			                			    }else{
-			                			    console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
-			                			    list +="<img src="
-			                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
-			                			       	+"class='card-img-top' alt='...'>"	
-											}
-											list += "</a></div>"
-										
-			                   				+"<div class='colum-body ms-5'>"
-				                   			+"<p class='colum-title ms-3'>"
-			                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
-				                     		+con.title
-				                     		+"</a></p>"
-				                     		+"<p class='colum-text ms-3'>"+date+"</p>"
-			                      			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
-			                    			+"</div>"
-		                   				+"</div>"
-		            				+"</div>"
-		            				+"</div>"
-		            				$(printId).append(list)
-	            					
-	            			
-					} // LIST 출력
+					mnList = data.mainList;
+					getList(printList,printList2, 0,mnList);
 				}
-			 	
 			 }, 
 			 error : function (e){
 				//실패시

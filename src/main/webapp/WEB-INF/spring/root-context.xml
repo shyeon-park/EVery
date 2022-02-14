@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 		<bean id="bds" class="org.apache.commons.dbcp2.BasicDataSource">
+<<<<<<< HEAD
 			
 			<property name="username" value="EVery"/>
 			<property name="password" value="Q2201"/>
@@ -13,6 +14,13 @@
 			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 			<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
 <!-- 			<property name="url" value="jdbc:oracle:thin:@54.180.113.2:1521:xe"/> -->
+=======
+			<property name="username" value="EVery_test2"/>
+			<property name="password" value="manager"/>
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+			<!-- <property name="url" value="jdbc:oracle:thin:@3.35.218.139:1521:xe"/>  -->
+>>>>>>> 281d01a437b6bc4339caedce973aac6cef7fb5cf
 			<property name="initialSize" value="30"/>
 		</bean>
 	
