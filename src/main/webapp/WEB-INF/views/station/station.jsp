@@ -36,6 +36,10 @@
 	color: black;
 }
 
+p {
+	margin: 0px;
+}
+
 html {
 	width: 100vw;
 	height: 100%;
@@ -89,6 +93,10 @@ a:hover {
 
 .navi-menu>a, img {
 	line-height: 32px;
+}
+
+.navi-item-img>a:hover {
+	border-bottom: 0px;
 }
 
 .navi-onButtons {
@@ -191,6 +199,7 @@ a:hover {
 	padding: 0px;
 	margin: auto;
 	transition: 1s;
+	height: 80vh;
 }
 
 #mapDIV {
@@ -198,9 +207,9 @@ a:hover {
 }
 
 #commentDIV {
-	padding: 0px;
+	height: 100%;
+	overflow: scroll;
 	border: 1px solid gray;
-	box-shadow: 5px 0px 5px black;
 	transition: 0.5s;
 }
 
@@ -210,10 +219,37 @@ a:hover {
 	border: 1px solid gray;
 }
 
-#chrgtype {
+#chargetype {
+	z-index:999;
+	width: auto;
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+	background-color: #ffffff;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	bottom: 4px;
+	right: 4px;
+}
+
+.type-check-box {
+	transition: 1s;
+	display: flex;
+	flex-direction: column;
+}
+
+#charge_header {
+	text-align: center;
+	background-color: #18a8f1;
+	font-size: 32px;
+	margin: 0px;
+}
+
+tr>th {
+	padding: 0px;
+}
+
+tr>td {
+	padding: 0px;
 }
 </style>
 <style>
@@ -332,11 +368,11 @@ a:hover {
 					</div>
 				</c:when>
 			</c:choose>
-			<div class="col-xl-1 col-1 navi-menu">
+			<div class="col-xl-1 col-1 navi-menu navi-item-img">
 				<a id=""><img src="/resources/images/favorite.png" width="24px"
 					height="24px"></a>
 			</div>
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
+			<div class="col-xl-0 col-1 d-xl-none navi-menu navi-item-img">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png"
 					width="20px" height="24px"></a>
 			</div>
@@ -383,16 +419,61 @@ a:hover {
 		<div class="row" id="mainDIV">
 			<div class="d-none" id="commentDIV">
 				<div class="row">
-					<div class="col-10" id="div-top-name"></div>
-					<div class="col-1 bmark-container">
-						<!-- 동적 즐찾 버튼 영역 -->
-					</div>
-					<div class="col-1">
-						<button type="button" class="btn btn-primary col-12"
-							id="btn_close">닫기</button>
+					<div class="col"
+						style="border: 1px solid gray; padding: 0px; position: relative;">
+						<p id="charge_header">충전소 운영현황</p>
+						<a onclick="hideStation();"
+							style="position: absolute; top: 0; right: 1%; transform: translate(-50%, 0);"><img
+							src="/resources/images/close.png" width="20px" height="20px"></a>
 					</div>
 				</div>
-
+				<div class="row">
+					<div class="col-10" id="charge_name"></div>
+					<div class="col-2 bmark-container">
+						<!-- 동적 즐찾 버튼 영역 -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<span class="badge bg-primary" id="institutionNm"></span>
+					</div>
+					<div class="col-6" style="text-align: right;">
+						<span class="badge bg-primary" id="useTime"></span>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col" colspan="7">상세정보</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row" colspan="2">주소</th>
+							<td colspan="5" id="detail_rdnmadr">경기도 의왕시 문화예술로 65</td>
+						</tr>
+						<tr>
+							<th scope="row" colspan="2">상세주소</th>
+							<td colspan="5" id="detail_chrstnLcDesc"></td>
+						</tr>
+						<tr>
+							<th scope="row" colspan="2">운영시간</th>
+							<td colspan="5" id="detail_useTime"></td>
+						</tr>
+						<tr>
+							<th scope="row" colspan="2">제공업체</th>
+							<td colspan="5" id="detail_institutionNm"></td>
+						</tr>
+						<tr>
+							<th scope="row" colspan="2">연락처</th>
+							<td colspan="5" id="detail_phoneNumber"></td>
+						</tr>
+						<tr>
+							<th scope="row" colspan="2">휴무</th>
+							<td colspan="5" id="detail_restde"></td>
+						</tr>
+					</tbody>
+				</table>
 				<div id="chargeList"></div>
 
 				<div id="main-comment-container">
@@ -429,17 +510,22 @@ a:hover {
 		<div class="loading">
 			<img src="/resources/images/loading.gif">
 		</div>
-		<div id="chrgtype">
+		<div id="chargetype">
 			<!-- fastChrstnType -->
-			<p>충전타입</p>
-			<label><input type="checkbox" id="chrgtype_1"
-				name="chrgtype_1" checked>전체</label> <label><input
-				type="checkbox" id="chrgtype_2" name="chrgtype_2" disabled>DC콤보</label>
-			<label><input type="checkbox" id="chrgtype_3"
-				name="chrgtype_3" disabled>DC차데모</label> <label><input
-				type="checkbox" id="chrgtype_4" name="chrgtype_4" disabled>AC3상</label>
-			<label><input type="checkbox" id="chrgtype_5"
-				name="chrgtype_5" disabled>완속</label>
+			<span>충전타입</span> <span style="text-align: right; margin-left: 10px;"
+				id="charge_hide">숨기기</span>
+			<div class="type-check-box">
+				<label><input type="checkbox" id="chargetype_1"
+					name="chargetypeList" value="전체" checked>전체</label> <label><input
+					type="checkbox" id="chargetype_2" name="chargetypeList"
+					value="DC콤보" disabled>DC콤보</label> <label><input
+					type="checkbox" id="chargetype_3" name="chargetypeList"
+					value="DC차데모" disabled>DC차데모</label> <label><input
+					type="checkbox" id="chargetype_4" name="chargetypeList"
+					value="AC3상" disabled>AC3상</label> <label><input
+					type="checkbox" id="chargetype_5" name="chargetypeList"
+					value="AC완속" disabled>AC완속</label>
+			</div>
 		</div>
 	</div>
 	<div class="footer">
@@ -762,6 +848,8 @@ a:hover {
 	</script>
 	<script type="application/javascript">
 		
+		
+		
 			showLoading();
 			
 			let cmtDivStatus = false;
@@ -771,15 +859,18 @@ a:hover {
 
 	
 			function showLoading(){ // 로딩이 보여지는 함수
+				
 				$(".loading").css({"display":"block","z-index":"10000"});
 				$("#mainDIV").css({"opacity":"0.2"});
 				$('#commentDIV').css({"opacity":"0.2"});
+				$('#chargetype').css({"opacity":"0.2"});
 			}
 			
 			function hideLoading(){ // 로딩이 지워지는 함수
 				$(".loading").css({"display":"none","z-index":"-9999"});
 				$("#mainDIV").css({"opacity":"1"});
 				$('#commentDIV').css({"opacity":"1"});
+				$('#chargetype').css({"opacity":"1"});
 			}
 			
 			
@@ -815,7 +906,7 @@ a:hover {
 			    	
 // 			    	console.log(latitude+" : "+longitude)
 					
-					  // 이동할 위도 경도 위치를 생성합니다 
+					// 이동할 위도 경도 위치를 생성합니다 
 				    var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
 				    
 				    // 지도 중심을 이동 시킵니다
@@ -834,24 +925,18 @@ a:hover {
 				let temp = [];
 				
 				for(let i=0; i<datas.length;i++){
-					temp.push({"chrstnNm":datas[i].chrstnNm,"fastChrstnType":datas[i].fastChrstnType});
+					temp.push({"chrstnNm":datas[i].chrstnNm,"fastChrstnType":datas[i].fastChrstnType,"latitude":datas[i].latitude,"longitude":datas[i].longitude,"rdnmadr":datas[i].rdnmadr,"institutionNm":datas[i].institutionNm,"fastChrstnYn":datas[i].fastChrstnYn,"slowChrstnYn":datas[i].slowChrstnYn,"chrstnLcDesc":datas[i].chrstnLcDesc,"useOpenTime":datas[i].useOpenTime,"useCloseTime":datas[i].useCloseTime});
 					
 					if(!((i+1)==datas.length)){
 						if(datas[i].chrstnNm != datas[i+1].chrstnNm){
 						
-	 						if(datas[i].institutionNm == '한국전력공사'){
-								var markerImageUrl = '/resources/images/markers/한국전력공사.png', 
-							    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
-							    markerImageOptions = { 
-							        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
-							    };
-							}else{
-								var markerImageUrl = 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png', 
-							    markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
-							    markerImageOptions = { 
-							        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
-							    };
-							}
+							setMarkerImage(datas[i].institutionNm);
+							var markerImageUrl = setMarkerImage(datas[i].institutionNm);
+							var markerImageSize = new kakao.maps.Size(40, 42), // 마커 이미지의 크기
+								markerImageOptions = { 
+								offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
+							   	};
+				
 							// 마커 이미지를 생성한다
 							var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 							
@@ -878,20 +963,51 @@ a:hover {
 			function addMarkerEvent(temp, marker){
 			    kakao.maps.event.addListener(marker, 'click', function() {
 			    	console.log(temp);
+			    	console.log(temp[0].phoneNumber);
 			    	let seq = 1;
 			    	$('#station').val(temp[0].chrstnNm);
 			    	let station = temp[0].chrstnNm;
 			    	showStation();
-				    getCommentList(1,station);
-					getBookmark(station);
-			    	// 마커 클릭시 중앙좌표 추가해야됌
+				    getCommentList(1,temp[0].chrstnNm);
+					getBookmark(temp[0].chrstnNm);
+
+
+					// 이동할 위도 경도 위치를 생성합니다 
+				    var moveLatLon = new kakao.maps.LatLng(temp[0].latitude, temp[0].longitude);
+				    
+				    // 지도 중심을 이동 시킵니다
+				    map.setCenter(moveLatLon);
 			    	
-			    	
-			    	$('#chargeList').html("");
-			    	
-			    	$('#div-top-name').html("<h5>"+temp[0].chrstnNm+"<h5>");
-			    	
-    				  for(let j=0;j<temp.length;j++){
+				    $('#charge_name').html("<h4>"+temp[0].chrstnNm+"</h4>"); //충전소명 동적 추가
+				    if(temp[0].institutionNm == "" || temp[0].institutionNm == "-"){ // 충전 제공 업체 동적 추가
+				    	$('#institutionNm').html("정보 없음");
+				    }else{
+				    	$('#institutionNm').html(temp[0].institutionNm);
+				    }
+				    $('#useTime').html(temp[0].useOpenTime+"~"+temp[0].useCloseTime); // 운영시간 동적 추가
+				    
+				    
+				    $('#detail_rdnmadr').html(temp[0].rdnmadr); // 주소 동적 추가
+				    $('#detail_chrstnLcDesc').html(temp[0].chrstnLcDesc); // 상세주소 동적 추가
+				    $('#detail_useTime').html(temp[0].useOpenTime+"~"+temp[0].useCloseTime); // 운영시간 동적 추가
+				    if(temp[0].institutionNm == "" || temp[0].institutionNm == "-"){ // 충전 제공 업체 동적 추가
+				    	$('#detail_institutionNm').html("정보 없음");
+				    }else{
+				    	$('#detail_institutionNm').html(temp[0].institutionNm);
+				    }
+				    if(temp[0].phoneNumber == "" || temp[0].phoneNumber == null){ // 연락처 추가
+				    	 $('#detail_phoneNumber').html("정보 없음");
+				    }else{
+				    	$('#detail_phoneNumber').html(temp[0].phoneNumber);
+				    }
+				    if(temp[0].restde == "" || temp[0].restde == null){ // 휴무 추가
+				    	$('#detail_restde').html("정보 없음");
+				    }else{
+				    	$('#detail_restde').html(temp[0].restde);
+				    }
+				    
+				    $('#chargeList').html(""); // 충전기 목록 초기화
+    				  for(let j=0;j<temp.length;j++){ // 충전기 목록 리스트 동적 추가
     					  let tempDiv = "<div class='row'>"+
 	    				  "<div class='col-1' id='seq_"+seq+"'>"+
 	    				  seq +
@@ -942,15 +1058,14 @@ a:hover {
 					$('#mapDIV').attr('class','col-xl-9 col-12');
 					cmtDivStatus = true;
 				}
+				$('#map').css({"height":"100%"});
 				relayout();
-// 				showLoading();
-				// 여기에 탭 내용 구성
-				
 			}
 			function hideStation(){ // 선택되어있던 충전소가 사라집니다.
 				$('#commentDIV').attr('class','d-none');
 				$('#mapDIV').attr('class','col-12');
 				cmtDivStatus = false;
+				$('#map').css({"height":""});
 				relayout();
 			}
 			
@@ -1003,10 +1118,233 @@ a:hover {
 						}
 				}
 				
+				function setMarkerImage(institutionNm){
+					switch (institutionNm) {
+					case '한국전력공사':
+						return '/resources/images/markers/한국전력공사.png';
+						break;
+					case '한국전력':
+						return '/resources/images/markers/한국전력공사.png';
+						break;
+					case '한국전력공사 강원지역본부':
+						return '/resources/images/markers/한국전력공사.png';
+						break;
+					case '한전홍천지사 전력공급부':
+						return '/resources/images/markers/한국전력공사.png';
+						break;
+					case '지엔텔':
+						return '/resources/images/markers/지엔텔.png';
+						break;
+					case 'Gcharger':
+						return '/resources/images/markers/지엔텔.png';
+						break;
+					case '한국자동차환경협회/지엔텔':
+						return '/resources/images/markers/지엔텔.png';
+						break;
+					case '케이티':
+						return '/resources/images/markers/케이티.png';
+						break;
+					case 'KT':
+						return '/resources/images/markers/케이티.png';
+						break;
+					case '환경부':
+						return '/resources/images/markers/환경부.png';
+						break;
+					case '에버온':
+						return '/resources/images/markers/에버온.png';
+						break;
+					case '㈜에버온':
+						return '/resources/images/markers/에버온.png';
+						break;
+					case '(주)에버온':
+						return '/resources/images/markers/에버온.png';
+						break;						
+					case '주식회사 에버온':
+						return '/resources/images/markers/에버온.png';
+						break;	
+					case '환경부(자동차환경협회)':
+						return '/resources/images/markers/환경부.png';
+						break;
+					case '환경부(한국자동차환경협회)':
+						return '/resources/images/markers/환경부.png';
+						break;
+					case '포스코ICT':
+						return '/resources/images/markers/포스코ICT.png';
+						break;
+					case '대영채비':
+						return '/resources/images/markers/대영채비.png';
+						break;
+					case '대영채비㈜':
+						return '/resources/images/markers/대영채비.png';
+						break;
+					case '국립백두대간수목원':
+						return '/resources/images/markers/국립백두대간수목원.png';
+						break;
+					case '(주)한국전기차충전서비스':
+						return '/resources/images/markers/한국전기차충전서비스.png';
+						break;
+					case '(주)한국전기차충전':
+						return '/resources/images/markers/한국전기차충전서비스.png';
+						break;
+					case '한충전':
+						return '/resources/images/markers/한국전기차충전서비스.png';
+						break;
+					case '한국전기차충전서비스':
+						return '/resources/images/markers/한국전기차충전서비스.png';
+						break;
+					case '한국전기차충전소':
+						return '/resources/images/markers/한국전기차충전서비스.png';
+						break;
+					case '에스트래픽':
+						return '/resources/images/markers/에스트래픽.png';
+						break;
+					case '에스트래픽(주)':
+						return '/resources/images/markers/에스트래픽.png';
+						break;
+					case '수원시청':
+						return '/resources/images/markers/수원시청.png';
+						break;
+					case '한국자동차환경협희':
+						return '/resources/images/markers/한국자동차환경협회.png';
+						break;
+					case '한국자동차환경협회':
+						return '/resources/images/markers/한국자동차환경협회.png';
+						break;
+					case '자동차환경협회':
+						return '/resources/images/markers/한국자동차환경협회.png';
+						break;
+					case '중앙제어㈜':
+						return '/resources/images/markers/중앙제어.png';
+						break;
+					case '이카플러그':
+						return '/resources/images/markers/이카플러그.png';
+						break;
+					case '한국환경공단':
+						return '/resources/images/markers/한국환경공단.png';
+						break;
+					case '환경관리공단':
+						return '/resources/images/markers/환경관리공단.png';
+						break
+					case '제주전기자동차서비스':
+						return '/resources/images/markers/제주전기자동차서비스.png';
+						break;
+					case '정성군':
+						return '/resources/images/markers/정성군.png';
+						break;
+					case '피엔이시스템즈(PNE)':
+						return '/resources/images/markers/피엔이시스템즈(PNE).png';
+						break;
+					case '강원도 양양군청':
+						return '/resources/images/markers/강원도 양양군청.png';
+						break;
+					case '테슬라':
+						return '/resources/images/markers/테슬라.png';
+						break;
+					case '한국알박':
+						return '/resources/images/markers/한국알박.png';
+						break;
+					case '파워큐브':
+						return '/resources/images/markers/파워큐브.png';
+						break;
+					case '울릉군 전기차 서비스 주민협동조합':
+						return '/resources/images/markers/울릉군청.png';
+						break;
+					case '차지비':
+						return '/resources/images/markers/차지비.png';
+						break;
+					default:
+						return 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png';
+						break;
+					}
+					
+				}
+				
+				
 				$('#btn_close').on('click',function(){ //충전소 상세정보에서 닫기 버튼을 클릭했을때
 					hideStation();
 					hideLoading();
 				})
+				
+				var chargeArr = []; // 체크된 값들을 담기 위한 배열
+				$('input:checkbox[name=chargetypeList]').on('click',function(){ // 충전타입 체크박스를 클릭했을때
+					hideMarkers();
+					if(this.value == "전체"){ // 클릭한 값이 전체일때
+						if($(this).is(":checked")){ // 체크되었을때
+							$('input:checkbox[name=chargetypeList]:not(:first)').attr('disabled',true);
+							$('input:checkbox[name=chargetypeList]:not(:first)').prop('checked', false);
+						}else{						// 체크 해제되었을때
+							$('input:checkbox[name=chargetypeList]:not(:first)').attr('disabled',false);
+						}
+					}
+					
+					$('input:checkbox[name=chargetypeList]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+						chargeArr.push(this.value); // 배열에 체크된 값을 push
+				 	});
+					
+					let selectMarker = [];
+					for(let c=0;c<chargeArr.length;c++){
+						switch (chargeArr[c]) {
+						case "전체":
+							for(let k=0;k<datas.length;k++){
+								selectMarker.push(datas[k]);
+							}	
+							break;
+						case "DC콤보":
+							for(let k=0;k<datas.length;k++){
+								let regex01 = /콤보/g;
+								if(regex01.test(datas[k].fastChrstnType)){
+									selectMarker.push(datas[k]);
+								}
+							}	
+							break;
+						case "DC차데모":
+							for(let k=0;k<datas.length;k++){
+								let regex01 = /데모/g;
+								if(regex01.test(datas[k].fastChrstnType)){
+									selectMarker.push(datas[k]);
+								}
+							}	
+							break;
+						case "AC3상":
+							for(let k=0;k<datas.length;k++){
+								let regex01 = /3상/g;
+								if(regex01.test(datas[k].fastChrstnType)){
+									selectMarker.push(datas[k]);
+								}
+							}	
+							break;
+						case "AC완속":
+							for(let k=0;k<datas.length;k++){
+								let regex01 = /완속/g;
+								if(regex01.test(datas[k].fastChrstnType)){
+									selectMarker.push(datas[k]);
+								}
+							}	
+							break;
+						}
+					}
+					addMarker(selectMarker);
+					hideStation();
+					console.log(selectMarker);
+					console.log(chargeArr);
+					chk_val = []; // 배열 초기화
+				});
+				
+				let chargetype_state = true;
+				$('#charge_hide').on('click',function(){
+					if(chargetype_state){
+						$('.type-check-box').css('display','none');
+						$('#charge_hide').html('보이기');
+						chargetype_state = false;
+					}else{
+						$('.type-check-box').css('display','flex');	
+						$('#charge_hide').html('숨기기');
+						chargetype_state = true;
+					}
+					
+				});
+				
+	
 	
 	</script>
 	<script type="application/javascript"

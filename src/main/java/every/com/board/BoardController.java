@@ -3,7 +3,7 @@ package every.com.board;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -164,5 +165,16 @@ public class BoardController {
 		Gson json = new Gson();
 		String result = (json.toJson(naviMap)).toString();
 		return result;	
+	}
+	
+	
+	@RequestMapping(value = "/deleteManager.do",produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String deleteManager(@RequestParam("delList[]") Integer[] delList) throws Exception{
+
+		String fileRoot = session.getServletContext().getRealPath("upload");//파일이 저장될 경로
+
+		int rs = service.deleteBoardManager(delList, fileRoot);
+		return "success";
 	}
 }

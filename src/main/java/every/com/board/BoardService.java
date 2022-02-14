@@ -65,29 +65,6 @@ public int updateBoard(BoardDTO dto, MultipartFile[] files, String realPath) thr
 		
 		int board_seq = dto.getSeq_column();
 		System.out.println("업데이트 보드 실행 " + board_seq);
-	
-		/*
-		// 1. 기존 폴더 안 파일 제거  
-		ArrayList<FileDTO> delFileList = (ArrayList)fileDao.selectDTO(board_seq);
-		for(FileDTO fileDto : delFileList) {
-			System.out.println("이 보드가 가지고있는 사진은 " + fileDto.getFile_seq());
-			System.out.println("이 보드가 가지고있는 사진은 " + fileDto.getSys_name());
-			
-		}
-		
-			for(FileDTO fileDto : delFileList) {
-				File file = new File(realPath+File.separator+fileDto.getSys_name());
-				if(file.exists()) {
-					System.out.println(realPath+File.separator+fileDto.getSys_name());
-					file.delete();
-					System.out.println("파일이 삭제되었습니다");
-				}
-			}
-		
-		//db 삭제
-			int deleteFileLength = fileDao.deleteFile(board_seq);
-			System.out.println("삭제된 파일의 수는 " + deleteFileLength);
-		*/
 		
 		// 2. 게시글 수정
 
@@ -124,8 +101,6 @@ public int updateBoard(BoardDTO dto, MultipartFile[] files, String realPath) thr
 
 public int deleteBoard(int board_seq, String realPath) throws Exception{
 
-
-	
 	// 1. 기존 폴더 안 파일 제거  
 	ArrayList<FileDTO> delFileList = (ArrayList)fileDao.selectDTO(board_seq);
 	for(FileDTO fileDto : delFileList) {
@@ -151,6 +126,41 @@ public int deleteBoard(int board_seq, String realPath) throws Exception{
 		System.out.println("삭제된 보드는 " + rs);
 	
 	return rs;
+}
+
+public int deleteBoardManager(Integer[] seqList, String realPath) throws Exception{
+	
+	for(int board_seq : seqList) {
+	
+	
+	// 1. 기존 폴더 안 파일 제거  
+	ArrayList<FileDTO> delFileList = (ArrayList)fileDao.selectDTO(board_seq);
+	for(FileDTO fileDto : delFileList) {
+		System.out.println("이 보드가 가지고있는 사진은 " + fileDto.getSeq_file());
+		System.out.println("이 보드가 가지고있는 사진은 " + fileDto.getSys_name());
+		
+	}
+	
+		for(FileDTO fileDto : delFileList) {
+			File file = new File(realPath+File.separator+fileDto.getSys_name());
+			if(file.exists()) {
+				System.out.println(realPath+File.separator+fileDto.getSys_name());
+				file.delete();
+				System.out.println("파일이 삭제되었습니다");
+			}
+		}
+	}
+	
+	//db 파일 삭제
+		int deleteFileLength = fileDao.deleteFileManager(seqList);
+		System.out.println("삭제된 파일의 수는 " + deleteFileLength);
+	
+		int rs = boardDao.deleteBoardManager(seqList);
+		System.out.println("삭제된 보드는 " + rs);
+	
+	
+	return rs;
+	
 }
 	public int countAll() throws Exception{
 		return boardDao.countAll();

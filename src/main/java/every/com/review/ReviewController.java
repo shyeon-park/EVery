@@ -37,11 +37,13 @@ public class ReviewController {
 	@RequestMapping(value = "/searchByKey.do", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String searchByKey(int currentPage, String searchKey, String selected) throws Exception{
+		System.out.println(currentPage + searchKey + selected);
 		HashMap<String, Object> ranges = SearchServicePage.getRange(currentPage);
 		HashMap<String, Object> settingMap = SearchServicePage.getPageNavi(currentPage, searchKey, selected);
 		ranges.put("searchKey", searchKey);
 		ranges.put("selected", selected);
 		List<ReviewDTO> byIdList = service.searchByKey(ranges);
+		System.out.println(byIdList);
 		HashMap<String, Object> byIdMap = new HashMap<>();
 		byIdMap.put("byIdList", byIdList);
 		byIdMap.put("settingMap", settingMap);

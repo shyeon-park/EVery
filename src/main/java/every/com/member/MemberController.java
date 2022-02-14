@@ -160,7 +160,7 @@ public class MemberController {
 		if (session.getAttribute(phone) == null) { // 세션값이 null이면 시간초과로 세션이 사라진상태
 			return "timeout";
 		} else if ((int) session.getAttribute(phone) == authNum) { // 일치하면 세션값 초기화하고 인증 성공 
-			session.invalidate();
+			session.removeAttribute(phone);
 			return "success";
 		} else { // 인증번호가 일치하지 않아 인증 실패
 			return "fail";
@@ -174,7 +174,7 @@ public class MemberController {
 		session.invalidate();
 	}
 
-	// 일반 회원가입 요청
+	// 회원가입 요청
 	@RequestMapping("/signup.do")
 	@ResponseBody
 	public String signup(MemberDTO dto) throws Exception {
@@ -183,10 +183,12 @@ public class MemberController {
 		// application_num(컬럼니스트 신청여부/0이면 신청x/1이면 신청o)
 		System.out.println(dto);
 
-		// 비밀번호 암호화
-		String pw = EncrytionUtils.getSHA512(dto.getPw());
-		System.out.println(pw);
-		dto.setPw(pw);
+		if(dto.getPw() != "") {   // 카카오, 일반 회원가입
+			// 비밀번호 암호화
+			String pw = EncrytionUtils.getSHA512(dto.getPw());
+			System.out.println(pw);
+			dto.setPw(pw);
+		} 
 
 		int rs = service.insertMem(dto);
 		if (rs == 1) {
@@ -281,6 +283,81 @@ public class MemberController {
 			return "success";
 		} else {
 			return "fail";
+		}
+	}
+	
+	// 마이페이지 요청
+	@RequestMapping("/getMypage.do")
+	public String getMypage() throws Exception {
+		return "user/mypage";
+	}
+		
+	// 회원탈퇴 요청
+	@RequestMapping("/getMemberWithdrawal.do")
+	@ResponseBody
+	public String getMemberWithdrawal(String id) throws Exception{
+		System.out.println(id);
+		
+		if(service.getMemberWithdrawal(id) == 1) {
+			this.session.removeAttribute("loginSession");
+			return "deleteMem";
+		} else {
+			return "fail";
+		}
+	}
+		
+	// 닉네임 변경
+	@RequestMapping("/modifyNickname.do")
+	@ResponseBody
+	public String modifyNickname(String beforeNickname, String afterNickname) throws Exception {
+			
+		System.out.println("변경 전: " + beforeNickname);
+		System.out.println("변경 후: " + afterNickname);
+		
+		if(service.modifyNickname(beforeNickname, afterNickname) == 1) {
+			MemberDTO dto = new MemberDTO();
+			dto.setNickname(afterNickname);
+			System.out.println(dto);
+			dto = service.getMemberByNickOrPhone(dto);
+			this.session.setAttribute("loginSession", dto);
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+		
+	// 전화번호 변경
+	@RequestMapping("/modifyPhone.do")
+	@ResponseBody
+	public String modifyPhone(String beforePhone, String afterPhone) throws Exception {
+			
+		System.out.println("변경 전: " + beforePhone);
+		System.out.println("변경 후: " + afterPhone);
+			
+		if(service.modifyPhone(beforePhone, afterPhone) == 1) {
+			MemberDTO dto = new MemberDTO();
+			dto.setPhone(afterPhone);
+			System.out.println(dto);
+			dto = service.getMemberByNickOrPhone(dto);
+			this.session.setAttribute("loginSession", dto);
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+		
+	// 아이디와 비밀번호로 사용자 여부 체크
+	@RequestMapping("/checkMemberByIdAndPw.do")
+	@ResponseBody
+	public String checkMemberByIdAndPw(String id, String pw) throws Exception {
+		System.out.println(id);
+		System.out.println(pw);
+			
+		String password = EncrytionUtils.getSHA512(pw);
+		if(service.checkMemberByIdAndPw(id, password) == 1) {
+			return "checkOk";
+		} else {
+			return "checkFail";
 		}
 	}
 

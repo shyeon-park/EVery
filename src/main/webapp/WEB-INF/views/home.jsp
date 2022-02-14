@@ -340,7 +340,10 @@ margin: 0;
 				</c:when>
 				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+					</div>
+					<div class="col-xl-1 d-none d-xl-block navi-menu">
+						<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
 					</div>
 				</c:when>
 			</c:choose>
@@ -379,11 +382,7 @@ margin: 0;
 		
 			
 			
-			<div class="col-xl-1 col-1 navi-menu">
-			<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do" id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
-			</div>
+			
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 					height="24px"></a>
@@ -408,7 +407,10 @@ margin: 0;
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-					<a href="">마이페이지</a>
+					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+				</div>
+				<div class="col-12">
+					<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -437,23 +439,26 @@ margin: 0;
 	
 	<div class="row">
 		<div class="col-12">
-			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-interval="1000">
+			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
-			    <div class="carousel-item active">
-			     <div class="row" id="printList"></div>
-			    </div>
-			    <div class="carousel-item">
-			      <div class="row" id="printList2"></div>
-			    </div>
+			    <div class="carousel-item active col-12 d-flex" id = "printList">
+             
+                </div>
+                
+                <div class="carousel-item  col-12 d-flex" id = "printList2">
+                    
+                </div>
 			
 			  </div>
 			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
 			    <span class="carouselPrevIcon"><i class="bi bi-chevron-compact-left"></i></span>
 			    <span class="visually-hidden">Previous</span>
 			  </button>
-			  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+			  <button class="carousel-control-next"  id = "" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
 			    <span class="carouselNextIcon"><i class="bi bi-chevron-compact-right"></i></span>
 			    <span class="visually-hidden">Next</span>
+			    <input type="hidden" value="0" id="carousel-value">
+			    <input type="hidden" value="0" id="carousel-currentPage">
 			  </button>
 			</div>
 		</div>
@@ -463,78 +468,120 @@ margin: 0;
 <a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
 	
 <script type="text/javascript">
-/*
-$("#carouselExampleControls").on('slide.bs.carousel', function() {
-	//alert("이벤트 실행됨");
-	getBoardList(printList)
-	getBoardList(printList2)
-});
-*/
+let mnList = null 
 
-//getBoardList(printList)
-//getBoardList(printList2)
-	function getBoardList(printId){
+$("#carouselExampleControls").on('slide.bs.carousel', function(e) {
+	//console.log("mnList 는 ");
+	//console.log(mnList);
+	//console.log(mnList[0].id);
+	  let carouselCurrentPage
+	    //console.log(e.direction)
+	    if(e.direction == "left"){
+	        $("#carousel-value").val(1)
+	        carouselCurrentPage = Number($("#carousel-currentPage").val()); 
+	        remainder = (mnList.length) % 3
+	        mnListLength = mnList.length - remainder
+	        if(carouselCurrentPage == mnListLength -3 ){
+	            carouselCurrentPage = 0
+	        }else{
+	            carouselCurrentPage = carouselCurrentPage + 3 
+	        }
+	   
+	        $("#carousel-currentPage").val(carouselCurrentPage) 
+	    }else{
+	        $("#carousel-value").val(0)
+	        carouselCurrentPage = Number($("#carousel-currentPage").val()); 
+	        if(carouselCurrentPage <= 0){
+	            carouselCurrentPage = 0
+	        }else{
+	            carouselCurrentPage = carouselCurrentPage - 3 
+	        }
+	        $("#carousel-currentPage").val(carouselCurrentPage)
+	     
+	    }
+	   //console.log($("#carousel-value").val() +" : " + $("#carousel-currentPage").val())
+	  	$("#printList").empty(); 
+	    $("#printList2").empty(); 
+	    getList(printList,printList2, carouselCurrentPage, mnList)
+
+		
+});
+
+
+
+getBoardList()
+
+function getList(id,printId, num, mnList){
+	if((mnList.length) < 3){
+		$(id).append("리스트를 3개이상 추가해주세요");
+		$(printId).append("리스트를 3개이상 추가해주세요");
+	}else{
+		for(let i= num ; i<(num+3); i++){
+			
+			let content = mnList[i].content  //상세게시글 내용 변수에 담는다
+			let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
+			content = content.replace(imgRemove, ''); // 이미지를 지움
+			content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
+			subtitle = content.substring(0,30)
+			 let date =  mnList[i].written_date.replace(/,/,"")
+			 let written_date = date.split(" ");
+			 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+			let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+	        			+"<div>"
+						+"<div class='titleImg'>"
+	            		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"' class='atag'>"
+	            				
+	            				if( mnList[i].profile == null ||  mnList[i].profile==""){
+	            			    list +="<img src="
+	            			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
+	            			    	+"class='card-img-top' alt='...'>"
+	            			    }else{
+	            			    //console.log("'${pageContext.request.contextPath}/upload/"+ mnList[i].sys_name+"'");	
+	            			    list +="<img src="
+	            			    	+"'${pageContext.request.contextPath}/upload/"+ mnList[i].sys_name+"'"
+	            			       	+"class='card-img-top' alt='...'>"	
+								}
+								list += "</a></div>"
+							
+	               				+"<div class='colum-body ms-5'>"
+	                   			+"<p class='colum-title ms-3'>"
+	               				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"'>"
+	                     		+ mnList[i].title
+	                     		+"</a></p>"
+	                     		+"<p class='colum-text ms-3'>"+date+"</p>"
+	                  			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+	                			+"</div>"
+	           				+"</div>"
+	    				+"</div>"
+	    				+"</div>"	
+
+		$(id).append(list);
+		$(printId).append(list);
+		}
+	}
 	
-	let id = printId
-	console.log(id)
+}
+
+	function getBoardList(){
+	
 		$.ajax({  
 			 url : "${pageContext.request.contextPath}/board/mainList.do",  
 			 type : "POST",
 			 success : function(data){
 			//성공시
-				 console.log(data)
-				$(printId).empty();
+				 console.log(data);
+				//$(printId).empty();
 
 				let mainList= data.mainList
 				if(data == null || data =="" ){
 					let list = "리스트가 비어있습니다"
 					$(printId).empty();
-					$(printId).append(list)
+					$(printId).append(list);
 
 				}else{
-					for(var con of mainList){
-						let content = con.content  //상세게시글 내용 변수에 담는다
-						let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-						content = content.replace(imgRemove, ''); // 이미지를 지움
-						content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-						subtitle = content.substring(0,30)
-						 let date = con.written_date.replace(/,/,"")
-						 let written_date = date.split(" ");
-						 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-						let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
-		                			+"<div>"
-									+"<div class='titleImg'>"
-			                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
-			                				
-			                				if(con.profile == null || con.profile==""){
-			                			    list +="<img src="
-			                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
-			                			    	+"class='card-img-top' alt='...'>"
-			                			    }else{
-			                			    console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
-			                			    list +="<img src="
-			                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
-			                			       	+"class='card-img-top' alt='...'>"	
-											}
-											list += "</a></div>"
-										
-			                   				+"<div class='colum-body ms-5'>"
-				                   			+"<p class='colum-title ms-3'>"
-			                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
-				                     		+con.title
-				                     		+"</a></p>"
-				                     		+"<p class='colum-text ms-3'>"+date+"</p>"
-			                      			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
-			                    			+"</div>"
-		                   				+"</div>"
-		            				+"</div>"
-		            				+"</div>"
-		            				$(printId).append(list)
-	            					
-	            			
-					} // LIST 출력
+					mnList = data.mainList;
+					getList(printList,printList2, 0,mnList);
 				}
-			 	
 			 }, 
 			 error : function (e){
 				//실패시
@@ -1274,10 +1321,10 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
         	  			}).done(function(rs){
         	  				console.log(rs);
         	  				if(rs == "kakaoLoginOk") {
-        	  					alert("로그인에 성공하였습니다.");
+        	  					alert("카카오 로그인에 성공하였습니다.");
         	  					location.href = "${pageContext.request.contextPath}/";
         	  				} else if(rs == "kakaoAuthPhone") {
-        	  					alert("사용자 등록여부를 확인하기 위해 인증을 진행해주세요.");
+        	  					alert("등록된 카카오 정보를 찾을 수 없습니다. 회원 등록여부를 확인하기 위해 인증을 진행해주세요.");
         	  					$("#loginModal").modal("hide");
         	  					phoneState = false;
         	  					authState = false;
@@ -1341,6 +1388,8 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 			if(rs == "avaliable"){ // 입력한 핸드폰 번호와 일치하는 정보가 없으면 회원가입 진행
 				alert("등록된 사용자 정보가 존재하지 않습니다. 회원가입을 진행해주세요.");
 				snsJoinInit();
+				$(".snsSignupPwRow").attr("hidden", false);
+				$("#naverPwInfo").remove();
 				$("#snsPhoneNum1").val($("#kakaoAuthPhoneNum1").val()).prop("selected", true);
 				$("#snsPhoneNum1").attr("disabled", true);
 				$("#snsPhoneNum2").val($("#kakaoAuthPhoneNum2").val());
@@ -1411,7 +1460,7 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 	var naverLogin = new naver.LoginWithNaverId(
 			{
 				clientId: "MJ4BRMl5k9pVssgoUg87", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-				callbackUrl: "http://14.39.9.188:8001/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+				callbackUrl: "http://localhost:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 				isPopup: true,
 				//callbackHandle: true,
 				loginButton: {color: "green", type: 1, height: 40}
@@ -1446,13 +1495,23 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 		}).done(function(rs){
 			console.log(rs);
 			if(rs == "naverLoginOk"){
-				alert("로그인에 성공하였습니다.");
+				alert("네이버 로그인에 성공하였습니다.");
 				location.href = "${pageContext.request.contextPath}/";
 			} else if(rs == "naverSignup") {
 				alert("등록된 사용자 정보가 존재하지않습니다. 회원가입을 진행해주세요.");
 				$("#loginModal").modal("hide");
 				snsJoinInit();
 				$("#snsIdModal").modal("show");
+				$("#naverPwInfo").remove();
+				$(".snsSignupPwRow").attr("hidden", true);
+				let dynamicNaverPwInfo = "<div class='memberRow' id='naverPwInfo'>" +
+									   "<div class='col-12' style='text-align: center;'>" +
+									   "<span style='color: #18a8f1; font-size: 20px;'>네이버 회원가입은 비밀번호를 입력받지 않습니다. 계속 회원가입을 진행해주세요.</span>" +
+									   "</div>" +
+									   "</div>";
+				$(".snsSignupPw_body").append(dynamicNaverPwInfo);
+				pwState = true;
+				pwCheckState = true;
 				let naverNumInput = "<input type='text' id='naver_num' name='naver_num' value='" + naverNum + "' style='display : none;'>";
 				$("#snsJoin").append(naverNumInput);
 				$("#snsSignupId").val(userId[0]);
@@ -2937,8 +2996,8 @@ $("#carouselExampleControls").on('slide.bs.carousel', function() {
 		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
 		    "memberId": "${loginSession.id}", //fill with user id
 		    "profile": {
-		      "name": "YOUR_USER_NAME", //fill with user name
-		      "mobileNumber": "YOUR_USER_MOBILE_NUMBER" //fill with user phone number
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
 		    }
 		  });
 	</script>

@@ -82,5 +82,12 @@
 			order by rank asc
 	</select>
 	
+	<!-- 보드삭제 -->
+	<delete id="deleteBoardManager">
+		delete from tbl_column where seq_column in 
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>
+	</delete>
 	
 </mapper>

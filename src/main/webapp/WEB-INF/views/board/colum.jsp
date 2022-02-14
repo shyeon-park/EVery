@@ -305,7 +305,7 @@ border: 1px solid black;
         if(e.target.id == 'cbx_chkAll'){
         if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
         else  $("input[name=columId]").prop("checked", false)
-        }});
+    }});
 	
  
 	 //메세지수신
