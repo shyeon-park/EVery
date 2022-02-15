@@ -51,9 +51,11 @@
 			<exclude-mapping path="/member/getRequestAuthNum.do"/>
 			<exclude-mapping path="/member/getMemberId.do"/>
 			<exclude-mapping path="/member/getExistMember.do"/>
+			<exclude-mapping path="/member/getMypage.do"/>
 			
 			<!-- 관리자  -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/a_home"/>
 			
 			<!-- 보드 -->
 			<exclude-mapping path="/board/toBoard.do"/>
