@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -342,9 +343,6 @@ margin: 0;
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 					</div>
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
-					</div>
 				</c:when>
 			</c:choose>
 			<c:choose>
@@ -408,9 +406,6 @@ margin: 0;
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
 					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
-				</div>
-				<div class="col-12">
-					<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
 				</div>
 			</c:when>
 		</c:choose>

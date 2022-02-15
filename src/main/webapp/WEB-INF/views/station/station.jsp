@@ -279,6 +279,7 @@ tr>td {
 		background-color: white !important;
 		border: 1px solid lightgrey;
 		height:400px;
+		margin-top:20px;
 	}
 	
 	.cmt-showBox{
@@ -736,7 +737,7 @@ tr>td {
 			console.log(data1);
 			console.log(station);
 			if(data1.reviewList == ""){
-				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h5>댓글을 등록해보세요.</h5></div>";
+				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h6>댓글을 등록해보세요.</h6></div>";
 				$(".cmt-showBox").append(commentNull);
 			}else{
 				for(let dto of data1.reviewList){
@@ -749,7 +750,7 @@ tr>td {
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:auto; padding-bottom:5px;'>"
-	             + "<textarea class='content-cmt' style='font-size:12px; height:100%; width:100%;' name='comment' readonly>"
+	             + "<textarea class='content-cmt' style='font-size:12px; height:90px; width:100%;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
 	             + "</div>"
@@ -777,15 +778,15 @@ tr>td {
 						+ "<ul class='pagination justify-content-center'>";
 						
 						if(data1.settingMap.needPrev == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><<</a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><</a></li>";
 						}
 						
 						for(var i= startNavi; i<= endNavi; i++){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ", \"" + data1.settingMap.station + "\");'>" + i + "</a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + i + ", \"" + data1.settingMap.station + "\");'>" + i + "</a></li>";
 						}
 						
 						if(data1.settingMap.needNext == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>>></a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>></a></li>";
 						}
 						
 				paging += "</ul>" + "</nav>";		
