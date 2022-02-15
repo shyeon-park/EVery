@@ -249,7 +249,75 @@ a:hover {
 }
 </style>
 <style>
+<<<<<<< HEAD
 .main-comment-container {
+=======
+	.main-comment-container {
+		
+	}
+	textarea {
+		resize: none;
+		font-size:12px;
+		height:100%;
+		maxlength:200;
+		width:100%;
+		border:none;
+		outline: none;
+		overflow:hidden;
+	}
+	
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
+	}
+	
+	.cmt-container {
+		background-color: white !important;
+		border: 1px solid lightgrey;
+		height:400px;
+		margin-top:20px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
+	}
+	
+	.comment-header {
+		border-bottom: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-body {
+		padding: 2px;
+		border: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-input{
+		height:50px;
+		padding-bottom:5px;
+	}
+	
+	.cmt-info {
+		font-size: 12px;
+		font-weight: bold;
+	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+		padding-top:2px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+>>>>>>> 02baf5ead1996ac2baf5085ed06798352feadb99
 	
 }
 
@@ -742,7 +810,7 @@ textarea {
 			console.log(data1);
 			console.log(station);
 			if(data1.reviewList == ""){
-				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h5>댓글을 등록해보세요.</h5></div>";
+				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h6>댓글을 등록해보세요.</h6></div>";
 				$(".cmt-showBox").append(commentNull);
 			}else{
 				for(let dto of data1.reviewList){
@@ -755,7 +823,7 @@ textarea {
 	             + dto.written_date
 	             + "</div>"
 	             + "<div class='col-12 contentDiv-cmt' style='height:auto; padding-bottom:5px;'>"
-	             + "<textarea class='content-cmt' style='font-size:12px; height:100%; width:100%;' name='comment' readonly>"
+	             + "<textarea class='content-cmt' style='font-size:12px; height:90px; width:100%;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
 	             + "</div>"
@@ -783,15 +851,15 @@ textarea {
 						+ "<ul class='pagination justify-content-center'>";
 						
 						if(data1.settingMap.needPrev == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><<</a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + startNavi + "- 1, \"" + data1.settingMap.station + "\");'><</a></li>";
 						}
 						
 						for(var i= startNavi; i<= endNavi; i++){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ", \"" + data1.settingMap.station + "\");'>" + i + "</a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + i + ", \"" + data1.settingMap.station + "\");'>" + i + "</a></li>";
 						}
 						
 						if(data1.settingMap.needNext == true){
-							paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>>></a></li>";
+							paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + endNavi + "+ 1, \"" + data1.settingMap.station + "\");'>></a></li>";
 						}
 						
 				paging += "</ul>" + "</nav>";		
