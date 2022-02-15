@@ -489,12 +489,18 @@ margin: 0;
 							
 							pagingNavi +="</ul>"
 							pagingNavi += "</nav>"
-								for(col_id of columnList){
-									if("${loginSession.id}" == col_id.id){
-										pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
-									}
-								}
 							
+							let clientId = "${loginSession.id}"
+							if("${adminLoginSession}" != ""){
+								console.log("${adminLoginSession}" == null)
+								console.log("${adminLoginSession}" == "")
+								pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+							}else if("${loginSession.id}" != ""){
+								for(col_id of columnList){
+									if("${loginSession.id}" == col_id.id) pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
+								}	
+							}
+
 							$("#pagingNavi").append(pagingNavi)
 							
 						

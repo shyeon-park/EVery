@@ -693,7 +693,7 @@ a:hover {
 			console.log(msgObj);
 			memDTO = msgObj.memDto;
 		
-		
+			console.log()
 			if((memDTO.column_application == 1) && (memDTO.identification_num == 2) ){
 				$("#applicationColStBtn").attr("disabled", false);
 	        	$("#applicationColStBtn").html("컬럼리스트 신청 취소")

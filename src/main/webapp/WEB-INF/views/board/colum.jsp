@@ -197,7 +197,12 @@ border: 1px solid black;
       border-radius: 100%;
       text-align: center;
     }
-   
+    
+    /*
+    .main_table{
+    overflow-y: scroll;
+    
+    }*/
 </style>
 </head>
 <body>
@@ -241,7 +246,7 @@ border: 1px solid black;
 		</div>
 	</div>
 	<div class="main">
-		<div>
+		<div class="main_table">
 
 	
 	
