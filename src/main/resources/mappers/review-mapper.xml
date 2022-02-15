@@ -31,12 +31,8 @@
 	</select>
 	
 	<!-- 관리자 페이지 (검색했을 때에 따른 리스트를 가져옴) -->
-	<select id="searchById" resultType="ReviewDTO">
-		select * from(select row_number() over(order by seq_review desc) 순위, a.* from (select * from tbl_review where id = #{searchKey}) a) where (순위 between #{startRange} and #{endRange})
-	</select>
-	
-	<select id="searchByStation" resultType="ReviewDTO">
-		select * from(select row_number() over(order by seq_review desc) 순위, a.* from (select * from tbl_review where station = #{searchKey}) a) where (순위 between #{startRange} and #{endRange})
+	<select id="searchBySelected" resultType="ReviewDTO">
+		select * from(select row_number() over(order by seq_review desc) 순위, a.* from (select * from tbl_review where ${selected} like '%'||#{searchKey}||'%' ) a) where (순위 between #{startRange} and #{endRange})
 	</select>
 	
 	<!-- 관리자 페이지 전체 댓글 불러오기 -->
@@ -49,14 +45,9 @@
 		select count(*) from tbl_review
 	</select>
 	
-	<!-- 관리자 페이지 id검색에 따른 카운팅 -->
-	<select id="idCountAll" resultType="int">
-		select count(*) from tbl_review where id = #{searchKey}
-	</select>
-	
-	<!-- 관리자 페이지 station검색에 따른 카운팅 -->
-	<select id="stationCountAll" resultType="int">
-		select count(*) from tbl_review where station = #{searchKey}
+	<!-- 관리자 페이지 검색에 따른 카운팅 -->
+	<select id="selectedCountAll" parameterType="Map" resultType="int">
+		select count(*) from tbl_review where ${selected} like '%'||#{searchKey}||'%'
 	</select>
 	
 </mapper>

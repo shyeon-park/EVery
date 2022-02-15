@@ -668,7 +668,6 @@ a:hover {
 				$(".review-div").empty();
 				$(".paging-div").empty();
 				if(data.byIdList == ""){
-					alert("검색 내용이 없습니다.");
 					let commentNull = "<div><h4>검색 내용이 없습니다.</h4></div>";
 					$(".review-div").append(commentNull);
 				}else{
