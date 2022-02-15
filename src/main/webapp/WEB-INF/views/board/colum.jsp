@@ -197,7 +197,12 @@ border: 1px solid black;
       border-radius: 100%;
       text-align: center;
     }
-   
+    
+    /*
+    .main_table{
+    overflow-y: scroll;
+    
+    }*/
 </style>
 </head>
 <body>
@@ -241,10 +246,8 @@ border: 1px solid black;
 		</div>
 	</div>
 	<div class="main">
-		<div>
+		<div class="main_table">
 
-	
-	
 	<table class="table">
 	<h3>신청자 목록</h3>
 		<thead>
@@ -332,9 +335,7 @@ border: 1px solid black;
 					}	
 	 			}
 	}
-	 
-	 
-	 
+
 	</script>
 		
 		

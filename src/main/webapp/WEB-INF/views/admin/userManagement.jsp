@@ -370,11 +370,58 @@ ul.tabs li.current {
 			
 			<!-- 컬럼니스트 관리 영역 -->
 			<div id="columnistManage" class="col-10 tabContent">
-			
+				<div class="app_table">
+				<h3>신청자 목록</h3>
+					
+					<div class="row mb-1">
+			            <div class="col d-flex" style="border-bottom: 1px solid black;">
+			                <div class = "text-center" style="width: 10%;"><input type="checkbox" name="" id="cbx_chkAll"></div>
+			                <div class = "text-center" style="width: 45%;">ID</div>
+			                <div class = "text-center" style="width: 45%;">닉네임</div>
+			            </div>
+				    </div>
+					
+					
+					<div class="col" id="beforeAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
+						
+					</div>
+					<div class="row">
+			            <div class="col d-flex justify-content-end">
+			                <div>
+			                <button type='button' class='btn btn-success' id='approval'>승인</button>
+			                </div>
+			                 <div>
+				            <button type='button' class='btn btn-danger' id='reject'>거부</button>
+				             </div>
+			            </div>
+				    </div>
+				</div>
+				
+				<h3>칼럼리스트 목록</h3>
+				<div class="columListTable">
+			        <div class="row">
+			            <div class="col d-flex" style="border-bottom: 1px solid black;">
+			                <div class = "text-center" style="width: 10%;"><input type="checkbox" id="cbx_roa"></div>
+			                <div class = "text-center" style="width: 45%;">ID</div>
+			                <div class = "text-center" style="width: 45%;">닉네임</div>
+			            </div>
+				    </div>
+				    <div id="afterAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
+				        
+			        </div>
+			        
+			        <div class="row">
+			            <div class="col d-flex justify-content-end">
+			                <div>
+			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한해제</button>
+			                </div>
+			            </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 			
-			
+		</div>	
 		<!-- 가로 탭 -->
 		<!-- 
 		<div class="container"  style="padding-bottom: 50px;">
@@ -598,6 +645,112 @@ ul.tabs li.current {
 	
 	
 		/* 컬럼니스트 관리 영역 */
+		
+		ws = new WebSocket("ws://172.30.1.60/column");
+
+	$('#approval').on("click",function(e){
+	 	 var approvaList = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		approvaList.push(this.value);
+	 	 });
+	 	 if(approvaList.length != 0){
+	 		let msg = { category: "Approval", list: approvaList };
+	 		let msgToJson = JSON.stringify(msg);
+	 		ws.send(msgToJson);
+		 }else{
+	 		 alert("승인할 사람을 선택하세요.")
+	 	 }
+	})
+	
+
+	
+	
+	
+		$('#reject').on("click",function(e){
+	 	
+	 	 var rejectList = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		rejectList.push(this.value);
+	 	 });
+	 	 if(rejectList.length != 0){
+	 		let msg = { category: "Reject", list: rejectList };
+	 		let msgToJson = JSON.stringify(msg);
+	 		ws.send(msgToJson);
+	 	 }else{
+	 		 alert("거절할 사람을 선택하세요.")
+	 	 }
+	})
+	
+	$('#releaseOfAuthority').on("click",function(e){
+	 	 var releaseOfAuthorityList = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=getApprovalId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		releaseOfAuthorityList.push(this.value);
+	 	 });
+	 	 if(releaseOfAuthorityList.length != 0){
+	 		let msg = { category: "releaseOfAuthority", list: releaseOfAuthorityList };
+	 		let msgToJson = JSON.stringify(msg);
+	 		ws.send(msgToJson);
+		 }else{
+	 		 alert("권한해제 할 사람을 선택하세요.")
+	 	 }
+	})
+	
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'cbx_chkAll'){
+        if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
+        else  $("input[name=columId]").prop("checked", false)
+    }});
+	
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'cbx_roa'){
+        if ($("#cbx_roa").prop("checked"))  $("input[name=getApprovalId]").prop("checked", true)
+        else  $("input[name=getApprovalId]").prop("checked", false)
+    }});
+	
+ 
+	
+	 //메세지수신
+	 ws.onmessage = function(e) {
+	    		let msgObj = JSON.parse(e.data);
+	    		//console.log(msgObj);
+	    			notCheckedcount = msgObj.notCheckedcount
+	    			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+	    			$("#bell_text").empty();
+	    			//$(".modal-footer").empty();
+	    			$("#bell_text").append(notCheckedcount);
+	    			
+	 			if(msgObj.getColumAppList != null){
+	 				getColumAppList = msgObj.getColumAppList;
+	 				
+	 				$("#beforeAuthorization").empty();
+	 				for(newList of getColumAppList){
+	 				    let beforeAuthorization  ="<div class='row'>" 
+	 								+"<div class='col d-flex' style='border-bottom: 1px solid gray;'>"
+	 			       			 	+"<div class = 'text-center' style='width: 10%;'><input type='checkbox' name = 'columId' value='"+newList.id+"'></div>"
+	 			          			+"<div class = 'text-center' style='width: 45%;'>"+newList.id+"</div>"
+	 			            		+"<div class = 'text-center' style='width: 45%;'>"+newList.nickname+"</div>"
+	 			          			+"</div>"
+					$("#beforeAuthorization").append(beforeAuthorization);
+					}	
+	 			}
+	 			
+	 			if(msgObj.approvalColumnList != null){
+	 				approvalColumnList = msgObj.approvalColumnList;
+	 				//console.log(approvalColumnList)
+	 				$("#afterAuthorization").empty();
+	 				for(getApproval of approvalColumnList){
+	 				    let afterAuthorization  ="<div class='row'>" 
+	 								+"<div class='col d-flex' style='border-bottom: 1px solid gray;'>"
+	 			       			 	+"<div class = 'text-center' style='width: 10%;'><input type='checkbox' name = 'getApprovalId' value='"+getApproval.id+"'></div>"
+	 			          			+"<div class = 'text-center' style='width: 45%;'>"+getApproval.id+"</div>"
+	 			            		+"<div class = 'text-center' style='width: 45%;'>"+getApproval.nickname+"</div>"
+	 			          			+"</div>"
+					$("#afterAuthorization").append(afterAuthorization);
+					}	
+	 			}
+	}
+	 
+	
 	</script>
 </body>
 </html>

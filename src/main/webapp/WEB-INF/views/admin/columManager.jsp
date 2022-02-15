@@ -167,7 +167,15 @@ a:hover {
 	margin: 0px;
 }
 
+.page-link {
+	color: #fff;
+	background-color: #333;
+}
 
+.page-link:hover {
+	color: grey;
+	background-color: #ccc;
+}
 </style>
 </head>
 <body>
