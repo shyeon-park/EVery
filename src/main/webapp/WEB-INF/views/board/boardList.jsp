@@ -432,6 +432,7 @@ margin: 0;
 					if(data == null || data =="" ){
 						let list = "리스트가 비어있습니다"
 							let writeBtn = ""
+								 if(("${loginSession}" != "") && columnList != null){
 								for(col_id of columnList){
 									//console.log("아이디는" + col_id)
 									if("${loginSession.id}" == col_id.id){
@@ -439,6 +440,7 @@ margin: 0;
 									}else{
 										writeBtn = "";
 									}
+								   }
 								}
 						$("#pagingNavi").append(writeBtn)
 						
@@ -500,15 +502,12 @@ margin: 0;
 							
 							pagingNavi +="</ul>"
 							pagingNavi += "</nav>"
-							
-							let clientId = "${loginSession.id}"
-							if("${adminLoginSession}" != ""){
-								pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
-							}else if("${loginSession.id}" != ""){
+							console.log(columnList)
+							 if(("${loginSession}" != "") && columnList != null){
 								for(col_id of columnList){
 									if("${loginSession.id}" == col_id.id) pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
 								}	
-							}
+							 }
 
 							$("#pagingNavi").append(pagingNavi)
 					}
