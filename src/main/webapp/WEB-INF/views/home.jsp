@@ -342,6 +342,9 @@ margin: 0;
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
 						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 					</div>
+					<div class="col-xl-1 d-none d-xl-block navi-menu">
+						<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
+					</div>
 				</c:when>
 			</c:choose>
 			<c:choose>
@@ -379,11 +382,7 @@ margin: 0;
 		
 			
 			
-			<div class="col-xl-1 col-1 navi-menu">
-			<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do" id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
-			</div>
+			
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 					height="24px"></a>
@@ -409,6 +408,9 @@ margin: 0;
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
 					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+				</div>
+				<div class="col-12">
+					<a href="${pageContext.request.contextPath}/bookmark/toBookmark.do">즐겨찾기</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -462,16 +464,11 @@ margin: 0;
 		</div>
 	</div>
 	
-<button type="button" onclick="ws.send('application');">칼럼리스트 신청</button>
-<a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
-	
 <script type="text/javascript">
 let mnList = null 
 
 $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
-	//console.log("mnList 는 ");
-	//console.log(mnList);
-	//console.log(mnList[0].id);
+	
 	  let carouselCurrentPage
 	    //console.log(e.direction)
 	    if(e.direction == "left"){
@@ -567,7 +564,7 @@ function getList(id,printId, num, mnList){
 			 type : "POST",
 			 success : function(data){
 			//성공시
-				 console.log(data);
+				 //console.log(data);
 				//$(printId).empty();
 
 				let mainList= data.mainList
@@ -646,7 +643,7 @@ function getList(id,printId, num, mnList){
 		 		list.push(this.value);
 		 	 });
 			 	 if(list.length != 0){
-			 		console.log(list)
+			 		//console.log(list)
 			 		let msg = { category: "msgCheck", list: list };
 			 		let msgToJson = JSON.stringify(msg);
 			 		ws.send(msgToJson);
@@ -662,7 +659,7 @@ function getList(id,printId, num, mnList){
 	 		list.push(this.value);
 	 	 });
 		 	 if(list.length != 0){
-		 		console.log(list)
+		 		//console.log(list)
 		 		let msg = { category: "msgDel", list: list };
 		 		let msgToJson = JSON.stringify(msg);
 		 		ws.send(msgToJson);
@@ -1644,14 +1641,18 @@ function getList(id,printId, num, mnList){
 	// 일반 로그인 요청
 	$("#loginBtn").on("click", function(){
 		let loginForm = $("#loginForm").serialize();
-			
+		
+		/*
 		console.log(document.cookie);
 		let regex = /rememberId=(.*)/g;
 		console.log(regex.test(document.cookie));
 		console.log(RegExp.$1);
 		console.log(loginForm);
 		let cookieRememberId = RegExp.$1;
-		console.log(rememberId);
+		console.log(rememberId); */
+		
+		let cookieRememberId = getCookie("rememberId");
+		console.log(cookieRememberId);
 			
 		if($("#loginId").val() == "" || $("#loginPw").val() == "") {
 			alert("로그인 정보를 정확히 입력해주세요.");
@@ -1697,7 +1698,7 @@ function getList(id,printId, num, mnList){
 				console.log(rs);
 				if(rs == "loginSuccess") {
 					alert("관리자 로그인에 성공하였습니다.");
-					location.href = "${pageContext.request.contextPath}/";
+					location.href = "${pageContext.request.contextPath}/admin/";
 				} else if(rs == "loginFail") {
 					alert("로그인 정보가 올바르지 않습니다. 다시 입력해주세요.");
 					$("#loginId").val("");
@@ -2673,13 +2674,17 @@ function getList(id,printId, num, mnList){
 			let regex = /rememberId=(.*)/g;
 			console.log(regex.test(document.cookie));
 			
+			document.getElementById("loginId").value = getCookie("rememberId");
+			console.log(document.getElementById("loginId").value);
+			
 			if(document.cookie != "") {
-				console.log(RegExp.$1);
-				document.getElementById("loginId").value = RegExp.$1;
+				/*console.log(RegExp.$1);
+				document.getElementById("loginId").value = RegExp.$1;*/
+				document.getElementById("loginId").value = getCookie("rememberId");
 				$(".rememberId").prop("checked", true);
 			} else {
 				$(".rememberId").prop("checked", false);
-			}
+			} 
 		})
 		
 		// 로그인 쿠키 삭제 함수
@@ -2700,7 +2705,7 @@ function getList(id,printId, num, mnList){
 			let expiryDate = new Date();
 			console.log("오늘 날짜", expiryDate);
 			expiryDate.setDate(expiryDate.getDate() + 7);
-			console.log("30일 뒤", expiryDate);
+			console.log("7일 뒤", expiryDate);
 			
 			// 쿠기 생성 -> 이름
 			let key = "rememberId";
@@ -2710,6 +2715,22 @@ function getList(id,printId, num, mnList){
 			// document.cookie = "key=value;Expires=만료일"
 			document.cookie = key + "=" + value + ";Expires=" + expiryDate;
 		}
+		
+		// 쿠키값 가져오기
+		function getCookie(cookieName) {
+	        cookieName = cookieName + '=';
+	        var cookieData = document.cookie;
+	        var start = cookieData.indexOf(cookieName);
+	        console.log(start);
+	        var cookieValue = '';
+	        if(start != -1){
+	            start += cookieName.length;
+	            var end = cookieData.indexOf(';', start);
+	            if(end == -1)end = cookieData.length;
+	            cookieValue = cookieData.substring(start, end);
+	        }
+	        return cookieValue;
+	    }
 		
 		
 		/* 아이디/비밀번호 찾기 스크립트 */
@@ -2948,5 +2969,54 @@ function getList(id,printId, num, mnList){
 			});
 		});
 	</script>
+	
+	<!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	<!-- End Channel Plugin -->
+	
 </body>
 </html>

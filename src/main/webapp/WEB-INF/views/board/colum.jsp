@@ -248,8 +248,6 @@ border: 1px solid black;
 	<div class="main">
 		<div class="main_table">
 
-	
-	
 	<table class="table">
 	<h3>신청자 목록</h3>
 		<thead>
@@ -337,9 +335,7 @@ border: 1px solid black;
 					}	
 	 			}
 	}
-	 
-	 
-	 
+
 	</script>
 		
 		

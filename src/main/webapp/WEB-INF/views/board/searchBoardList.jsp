@@ -399,7 +399,7 @@ margin: 0;
 		let checkOption = $("#checkOption").val();
 		let keyword = $("#keyword").val();
 		
-		console.log(checkOption + " : " + keyword)
+		//console.log(checkOption + " : " + keyword)
 		
 		//검색버튼 클릭
 		
@@ -416,12 +416,12 @@ margin: 0;
 		//리스트 출력
 		function getBoardList(checkOption,keyword,currentPage){
 			let url = "${pageContext.request.contextPath}/board/search.do?checkOption="+checkOption+"&keyword="+keyword+"&currentPage="+currentPage
-			console.log(url)
+			//console.log(url)
 			$.ajax({
 				type: "post", //요청 메소드 방식
 				url:url,
 				success : function(res){
-					console.log(res);
+					//console.log(res);
 					columnList = res.columnList;
 					$(".list").empty();
 					$("#pagingNavi").empty();
@@ -455,7 +455,7 @@ margin: 0;
 				                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
 				                			    	+"class='card-img-top' alt='...'>"
 				                			    }else{
-				                			    console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
+				                			    //console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
 				                			    list +="<img src="
 				                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
 				                			       	+"class='card-img-top' alt='...'>"	
@@ -516,7 +516,7 @@ margin: 0;
 		});
 		// 글쓰기 페이지 요청
 		document.addEventListener('click',function(e){
-			console.log(e.target.id)
+			//console.log(e.target.id)
 	        if(e.target.id == 'writeBtn'){
 	        	location.href = "${pageContext.request.contextPath}/board/toWrite.do";
 	     }});

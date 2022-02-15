@@ -18,8 +18,7 @@ public class MessageService {
 	
 	@Autowired
 	MessageDAO dao;
-	@Autowired
-	MemberDAO memDao;
+
 	
 	public int messageInsert(String id, String nickname,String msg) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 hh시 mm분");
@@ -50,15 +49,7 @@ public class MessageService {
 		return dao.messageCheckList(id);
 	}
 	
-	//승인작업완료
-	public int approval(ArrayList<String> list) throws Exception{
-		return memDao.approval(list);
-	}
-	
-	//거절작업완료
-	public int reject(ArrayList<String> list) throws Exception{
-		return memDao.reject(list);
-	}
+
 	
 
 }

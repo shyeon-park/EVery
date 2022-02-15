@@ -253,66 +253,71 @@ tr>td {
 }
 </style>
 <style>
-.main-comment-container {
+	.main-comment-container {
+		
+	}
+	textarea {
+		resize: none;
+		font-size:12px;
+		height:100%;
+		maxlength:200;
+		width:100%;
+		border:none;
+		outline: none;
+		overflow:hidden;
+	}
 	
-}
-
-textarea {
-	resize: none;
-	font-size: 12px;
-	height: 100%;
-	maxlength: 200;
-}
-
-.main-comment-container {
-	height: 450px;
-}
-
-.paging-container {
-	height: 50px;
-}
-
-.cmt-container {
-	background-color: white !important;
-	border: 1px solid lightgrey;
-	height: 400px;
-}
-
-.cmt-showBox {
-	height: 330px;
-	overflow: auto;
-}
-
-.comment-header {
-	border-bottom: 1px solid rgb(214, 214, 214);
-}
-
-.comment-body {
-	padding: 2px;
-	border: 1px solid rgb(214, 214, 214);
-}
-
-.comment-input {
-	height: 50px;
-	padding-bottom: 5px;
-}
-
-.cmt-info {
-	font-size: 12px;
-	font-weight: bold;
-}
-
-.cmt-info1 {
-	font-size: 11px;
-}
-
-.pagination {
-	column-gap: 2px;
-}
-
-.page-item {
-	color: black;
-}
+	.main-comment-container{
+		height:450px;
+	}
+	
+	.paging-container{
+		height:50px;
+	}
+	
+	.cmt-container {
+		background-color: white !important;
+		border: 1px solid lightgrey;
+		height:400px;
+	}
+	
+	.cmt-showBox{
+		height:330px;
+		overflow:auto;
+	}
+	
+	.comment-header {
+		border-bottom: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-body {
+		padding: 2px;
+		border: 1px solid rgb(214, 214, 214);
+	}
+	
+	.comment-input{
+		height:50px;
+		padding-bottom:5px;
+	}
+	
+	.cmt-info {
+		font-size: 12px;
+		font-weight: bold;
+	}
+	
+	.cmt-info1 {
+		font-size: 11px;
+		padding-top:2px;
+	}
+	
+	.pagination{
+		column-gap: 2px;
+	}
+	
+	.page-item{
+		color:black;
+	}
+	
 </style>
 </head>
 <body>
@@ -476,17 +481,11 @@ textarea {
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding: 0px;">
-										<textarea class="form-control" id="review" name="review"
-											style="font-size: 12px; height: 100%;"
-											placeholder="댓글을 입력해주세요."></textarea>
+									<div class="col-10 comment-input" style="padding:0px;">
+										<textarea class="review" id="review" name="review" style="resize: none; font-size:12px; height:100%;" placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 									</div>
-									<div
-										class="col-2 comment-input d-flex align-items-center justify-content-center"
-										style="padding: 0px;">
-										<button type="button" id="btnSave"
-											style="padding: 0px; font-size: 11px; height: 30px; width: 50px;"
-											class="btn btn-secondary">등록</button>
+									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px; position:relative;">
+										<button type="button" id="btnSave" style="position:absolute; bottom:0px; padding:0px; border:1px solid lightgrey; font-size: 11px; height:30px; width:100%;" class="btn btn-btnSave">등록</button>
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>
@@ -635,6 +634,7 @@ textarea {
 					,data : data
 				}).done(function(rs){
 					if(rs == "success"){
+						alert("댓글이 수정되었습니다.");
 						getCommentList(1, $("#station").val());
 					}else if(rs == "fail"){
 						alert("수정에 실패하였습니다.");
@@ -679,17 +679,18 @@ textarea {
 	
 	/* 즐겨찾기 추가 삭제 */ 
 	$(document).on("click", "#btn_navi_menu", function(e){
-		let id = "${loginSession.id}"
+		let id = "${loginSession.id}";
             console.log(id);
 		// 로그인이 안되어있다면 alert을 띄워주게 만들어야함.
 		if(id == null || id == ""){
 			alert("로그인 후 즐겨찾기를 추가해 주세요.");
 			return;
 		}
-		
+		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#latitude").html(), "longitude" :  $("#longitude").html()}
 		$.ajax({
 			type : "get"
-			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do?station=" + $("#station").val()
+			,data : data
+			, url : "${pageContext.request.contextPath}/bookmark/setBookmark.do"
 		}).done(function(data){
 			getBookmark($("#station").val());
 		}).fail(function(e){
@@ -735,20 +736,20 @@ textarea {
 			console.log(data1);
 			console.log(station);
 			if(data1.reviewList == ""){
-				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>댓글을 등록해보세요.</h4></div>";
+				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h5>댓글을 등록해보세요.</h5></div>";
 				$(".cmt-showBox").append(commentNull);
 			}else{
 				for(let dto of data1.reviewList){
 				
-				let comment = "<div class='row comment-header m-1'>"
+				let comment = "<div class='row comment-header m-1' style='height:auto;'>"
 				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
 	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
-	             + "<div class='col-12 contentDiv-cmt' style='height:40px; padding-bottom:5px;'>"
-	             + "<textarea class='form-control' class='content-cmt' style='font-size:12px; height:100%;' name='comment' readonly>"
+	             + "<div class='col-12 contentDiv-cmt' style='height:auto; padding-bottom:5px;'>"
+	             + "<textarea class='content-cmt' style='font-size:12px; height:100%; width:100%;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
 	             + "</div>"
@@ -796,8 +797,16 @@ textarea {
 		}).fail(function(e){
 			console.log(e);
 		});
-	}
+	} 
 	
+	$(document).ready(function() {
+	    $('.review').on('keyup', function() {
+	        if($(this).val().length > 80) {
+	            $(this).val($(this).val().substring(0, 80));
+	        }
+	    });
+	});
+
 	
 	</script>
 
@@ -970,7 +979,7 @@ textarea {
 				    // 지도 중심을 이동 시킵니다
 				    map.setCenter(moveLatLon);
 			    	
-				    $('#charge_name').html("<h4>"+temp[0].chrstnNm+"</h4>"); //충전소명 동적 추가
+				    $('#charge_name').html(temp[0].chrstnNm); //충전소명 동적 추가
 				    if(temp[0].institutionNm == "" || temp[0].institutionNm == "-"){ // 충전 제공 업체 동적 추가
 				    	$('#institutionNm').html("정보 없음");
 				    }else{

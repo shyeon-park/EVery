@@ -67,8 +67,12 @@ public class ColumnEndPoint {
 				String adminID = ((AdminDTO)this.httpSession.getAttribute("adminLoginSession")).getAdmin_Id();
 		
 			  	HashMap<String, Object> map = new HashMap<>();
+			  	//칼럼리스트 신청목록
 				ArrayList<MemberDTO> getColumAppList = (ArrayList)service.columnList();
 		    	map.put("getColumAppList", getColumAppList);
+		    	//칼럼리스트 승인완료 목록
+		    	ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+		    	map.put("approvalColumnList", approvalColumnList);
 		    	int notCheckedcount = messageService.notCheckedcount(adminID);
 				  map.put("category", "listPrint");
 				 // map.put("id", id);
@@ -261,7 +265,7 @@ public class ColumnEndPoint {
 					}
 					
 					//승인완료 
-					int result = messageService.approval(list);
+					int result = service.approval(list);
 						if(result != -1) {
 							synchronized (clients) {
 								for (Session client : clients) {
@@ -270,6 +274,8 @@ public class ColumnEndPoint {
 										System.out.println(id);
 										ArrayList<MemberDTO> cal = (ArrayList)service.columnList();//칼럼리스트 신청리스트
 										ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
+										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+								    	map.put("approvalColumnList", approvalColumnList);
 										int notCheckedcount = messageService.notCheckedcount(id);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("getColumAppList", cal);
@@ -310,7 +316,7 @@ public class ColumnEndPoint {
 						int rs = messageService.messageInsert(rejectId, nickname,msg);
 					}
 					//컬럼리스트 요청 거절 
-					int result = messageService.reject(list);
+					int result = service.reject(list);
 						if(result != -1) {
 							synchronized (clients) {
 								for (Session client : clients) {
@@ -319,6 +325,58 @@ public class ColumnEndPoint {
 										System.out.println(id);
 										ArrayList<MemberDTO> cal = (ArrayList)service.columnList();//칼럼리스트 신청리스트
 										ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
+										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+								    	map.put("approvalColumnList", approvalColumnList);
+										int notCheckedcount = messageService.notCheckedcount(id);
+										map.put("notCheckedcount", notCheckedcount);
+										map.put("getColumAppList", cal);
+										//map.put("uncheckedList", mnc);
+										String jObj = gson.toJson(map).toString();
+										client.getBasicRemote().sendText(jObj.toString());
+										//신청리스트 + 신청목록 list
+										
+									}else {
+										HttpSession httpSessionList = sessionMap.get(client);
+										if (httpSessionList.getAttribute("loginSession") != null) {
+											for(String rejectId : list) {
+												String nickname = service.getNickname(rejectId);
+												int notCheckedcount = messageService.notCheckedcount(rejectId);
+												map.put("notCheckedcount", notCheckedcount);
+												MemberDTO memDto = service.getMemberDTO(rejectId);
+												map.put("memDto", memDto);
+												String jObj = gson.toJson(map).toString();
+												client.getBasicRemote().sendText(jObj.toString());
+											}
+										}else {
+											continue;
+										}
+									}
+								}
+							}
+						}else {
+							return;
+						}
+				}else if(category.equals("releaseOfAuthority")) {
+					HashMap<String, Object> map = new HashMap<String, Object>(); 
+					map.put("category", message);
+
+					for(String releaseOfAuthorityId : list) {
+						String nickname = service.getNickname(releaseOfAuthorityId);
+						String msg = nickname+"님 칼럼리스트 권한이 삭제되었습니다. 자세한 내용은 관리자에게 문의하세요.";
+						int rs = messageService.messageInsert(releaseOfAuthorityId, nickname,msg);
+					}
+					//컬럼리스트 요청 거절 
+					int result = service.reject(list);
+						if(result != -1) {
+							synchronized (clients) {
+								for (Session client : clients) {
+									if (client.equals(session)) {
+										//String id = ((MemberDTO) this.httpSession.getAttribute("loginSession")).getId();
+										System.out.println(id);
+										ArrayList<MemberDTO> cal = (ArrayList)service.columnList();//칼럼리스트 신청리스트
+										ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
+										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+								    	map.put("approvalColumnList", approvalColumnList);
 										int notCheckedcount = messageService.notCheckedcount(id);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("getColumAppList", cal);

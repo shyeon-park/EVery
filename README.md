@@ -1,4 +1,4 @@
-![Alt text](/logo.png)
+![Alt text](/src/main/webapp/resources/images/logo.png)
 
 
 It is a community where you can check the location of electric vehicle charging stations🔥
@@ -23,7 +23,7 @@ It is a community where you can check the location of electric vehicle charging 
 + DBMS : Oracle11g
 + Frontend : HTML, CSS, javascript, jsp/servlet
 + Library : Jquery, ojdbc, MyBatis, JSTL , Jackson , Bootstrap5 , SweetAlert2
-+ Server : Apache Tomca 8.5
++ Server : Apache Tomcat 8.5
 + Control : GitHub
 + IDE : Eclipse, SQL Developer, VS Code
 

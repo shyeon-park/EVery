@@ -33,15 +33,23 @@ public class ReviewController {
 	@Autowired
 	private SearchPagingService SearchServicePage;
 	
+	/* 댓글관리 페이지로 이동*/
+	@RequestMapping(value = "/toAdReview.do")
+	public String toAdReview() throws Exception{
+		return "/admin/adreview";
+	}
+	
 	/* 검색하여 관리자 댓글리스트 불러오기 */
 	@RequestMapping(value = "/searchByKey.do", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String searchByKey(int currentPage, String searchKey, String selected) throws Exception{
+		System.out.println(currentPage + searchKey + selected);
 		HashMap<String, Object> ranges = SearchServicePage.getRange(currentPage);
 		HashMap<String, Object> settingMap = SearchServicePage.getPageNavi(currentPage, searchKey, selected);
 		ranges.put("searchKey", searchKey);
 		ranges.put("selected", selected);
 		List<ReviewDTO> byIdList = service.searchByKey(ranges);
+		System.out.println(byIdList);
 		HashMap<String, Object> byIdMap = new HashMap<>();
 		byIdMap.put("byIdList", byIdList);
 		byIdMap.put("settingMap", settingMap);

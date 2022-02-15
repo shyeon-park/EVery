@@ -170,7 +170,6 @@ a:hover {
 <style>
 	.bookmark-div {
 		background-color: white !important;
-		border: 1px solid lightgrey;
 	}
 </style>
 </head>
@@ -389,10 +388,10 @@ a:hover {
 	 			}else{
 	 				for(let dto of data.bookmarkList){
 	 					let bookmark = "<div class='row bookmark-header m-1' style='border-bottom:1px solid black;'>"
-	 									+ "<div class='col-10'>"
-	 									+ "<a href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "<div class='col-10 d-flex justify-content-start'>"
+	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
 	 									+ "</div>" 
-	 									+ "<div class='col-2'>"
+	 									+ "<div class='col-2 d-flex justify-content-center'>"
 	 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
 	 									+ "</div>"
 	 									+ "</div>"

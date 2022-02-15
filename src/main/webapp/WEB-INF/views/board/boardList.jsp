@@ -266,7 +266,17 @@ margin: 0;
     background-color:  rgb(68, 159, 195);
 }
 
+.container{
+  width: 82.6vw;
+    padding: 0px;
+    margin: auto;
+}
 
+.list{
+  width: 82.6vw;
+    padding: 0px;
+    margin: auto;
+}
 </style>
 </head>
 <body>
@@ -365,7 +375,7 @@ margin: 0;
 		</c:choose>
 	</div>
 	<div class="main">
-			<div class="container">
+			
 
 		<div class="row">
 			<div class="col d-flex justify-content-center">
@@ -387,19 +397,20 @@ margin: 0;
     </div>
  
 	    <div class="row list">
+	    
 	    </div>
 		<div class="row">
 			<div class="col-12 d-flex justify-content-between" id ="pagingNavi"></div>
 			
 		</div>
-	</div>
+	
 		<script>
 		//검색버튼 클릭
 		$("#searchBtn").on("click",function(){
 			if($("#keyword").val() != ""){
 				let checkOption = $("#checkOption").val();
 				let keyword = $("#keyword").val();
-				console.log(checkOption + " : "+ keyword);
+				//console.log(checkOption + " : "+ keyword);
 				let url = "${pageContext.request.contextPath}/board/searchProc.do?checkOption="+checkOption+"&keyword="+keyword
 				$(location).attr("href",url);		
 			
@@ -413,7 +424,7 @@ margin: 0;
 				type: "post", //요청 메소드 방식
 				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
 				success : function(res){
-					console.log(res);
+					//console.log(res);
 					columnList = res.columnList;
 					$(".list").empty();
 					$("#pagingNavi").empty();
@@ -422,7 +433,7 @@ margin: 0;
 						let list = "리스트가 비어있습니다"
 							let writeBtn = ""
 								for(col_id of columnList){
-									console.log("아이디는" + col_id)
+									//console.log("아이디는" + col_id)
 									if("${loginSession.id}" == col_id.id){
 										writeBtn = "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
 									}else{
@@ -453,7 +464,7 @@ margin: 0;
 				                			    	+"'${pageContext.request.contextPath}/resources/images/colum/imagedoesnot exist.png'"
 				                			    	+"class='card-img-top' alt='...'>"
 				                			    }else{
-				                			    console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
+				                			    //console.log("'${pageContext.request.contextPath}/upload/"+con.sys_name+"'");	
 				                			    list +="<img src="
 				                			    	+"'${pageContext.request.contextPath}/upload/"+con.sys_name+"'"
 				                			       	+"class='card-img-top' alt='...'>"	
@@ -492,8 +503,6 @@ margin: 0;
 							
 							let clientId = "${loginSession.id}"
 							if("${adminLoginSession}" != ""){
-								console.log("${adminLoginSession}" == null)
-								console.log("${adminLoginSession}" == "")
 								pagingNavi += "<button type='button' class='btn btn-success' id='writeBtn'>글쓰기</button>";
 							}else if("${loginSession.id}" != ""){
 								for(col_id of columnList){
@@ -519,7 +528,7 @@ margin: 0;
 		});
 		// 글쓰기 페이지 요청
 		document.addEventListener('click',function(e){
-			console.log(e.target.id)
+			//console.log(e.target.id)
 	        if(e.target.id == 'writeBtn'){
 	        	location.href = "${pageContext.request.contextPath}/board/toWrite.do";
 	     }});

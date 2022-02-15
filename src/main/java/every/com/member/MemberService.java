@@ -1,5 +1,6 @@
 package every.com.member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,11 +92,13 @@ public class MemberService {
 		return dao.checkMemberByIdAndPw(id, pw);
 	}
 	
-	
-	//컬럼리스트 목록 가져오기
-	public List<MemberDTO> appCompleteList() throws Exception{
-		return dao.appCompleteList();
+	// 관리자 회원 삭제
+	public int deleteMember(String[] userId) throws Exception{
+		return dao.deleteMember(userId);
 	}
+	
+	
+
 	
 	//컬럼리스트 신청
 	public int columnApplication(String id) throws Exception {
@@ -117,7 +120,27 @@ public class MemberService {
 		return dao.getMemberDTO(id);
 	}
 	
+	//칼럼리스트 취소신청시
 	public int cancelColumnList(String id) {
 		return dao.cancelColumnList(id);
+	}
+	
+	//컬럼리스트 가져오기 getApprovalColumnList
+	public List<MemberDTO> getApprovalColumnList() throws Exception{
+		return dao.getApprovalColumnList();
+	}
+	
+	//승인작업완료
+	public int approval(ArrayList<String> list) throws Exception{
+		return dao.approval(list);
+	}
+	
+	//거절작업완료
+	public int reject(ArrayList<String> list) throws Exception{
+		return dao.reject(list);
+	}
+	//권한해제 작업완료
+	public int releaseOfAuthority(ArrayList<String> list) throws Exception{
+		return dao.releaseOfAuthority(list);
 	}
 }

@@ -16,12 +16,12 @@ public class BookmarkDAO {
 	private SqlSession session;
 	
 	/* 즐겨찾기 되어있는지 아닌지 여부를 알기위한 카운팅 */
-	public int bookmarkCount(HashMap<String, String> map) throws Exception{
+	public int bookmarkCount(HashMap<String, Object> map) throws Exception{
 		return session.selectOne("bookmarkMapper.bookmarkCount", map);
 	}
 	
 	/* 즐겨찾기 삭제 */
-	public int delete(HashMap<String, String> map) throws Exception{
+	public int delete(HashMap<String, Object> map) throws Exception{
 		return session.delete("bookmarkMapper.delete", map);
 	}
 	
@@ -31,7 +31,7 @@ public class BookmarkDAO {
 	}
 	
 	/* 즐겨찾기 추가 */
-	public int insert(HashMap<String, String> map) throws Exception{
+	public int insert(HashMap<String, Object> map) throws Exception{
 		return session.insert("bookmarkMapper.insert", map);
 	}
 	
