@@ -99,6 +99,28 @@ public class MemberDAO {
 		return session.selectOne("memberMapper.checkMemberByIdAndPw", map);
 	}
 	
+	// 모든 회원수 불러오기
+	public int countAllMember() throws Exception {
+		return session.selectOne("memberMapper.countAllMember");
+	}
+		
+	// 모든 회원 정보 불러오기
+	public List<MemberDTO> getMemberList(int startRange, int endRange) throws Exception{
+		System.out.println("startRange " + startRange +" endRange "+ endRange );
+		Map<String, Integer> map = new HashMap<>();
+		map.put("startRange", startRange);
+		map.put("endRange", endRange);
+		return session.selectList("memberMapper.getMemberList", map);
+	}
+		
+	// 관리자 회원 삭제
+	public int deleteMember(String[] userId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		return session.delete("memberMapper.deleteMember", map);
+	}
+	
+	
 	/*******************태환 추가***********************/
 	//컬럼리스트 목록 가져오기
 	public List<MemberDTO> appCompleteList() throws Exception{

@@ -1703,7 +1703,7 @@ function getList(id,printId, num, mnList){
 				console.log(rs);
 				if(rs == "loginSuccess") {
 					alert("관리자 로그인에 성공하였습니다.");
-					location.href = "${pageContext.request.contextPath}/";
+					location.href = "${pageContext.request.contextPath}/admin/";
 				} else if(rs == "loginFail") {
 					alert("로그인 정보가 올바르지 않습니다. 다시 입력해주세요.");
 					$("#loginId").val("");

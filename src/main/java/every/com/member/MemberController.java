@@ -1,22 +1,21 @@
 package every.com.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import every.com.utils.CoolSmsService;
 import every.com.utils.EncrytionUtils;
+import every.com.utils.MemberPagingService;
 
 @Controller
 @RequestMapping("/member")
@@ -28,6 +27,8 @@ public class MemberController {
 	private CoolSmsService smsService;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private MemberPagingService pagingService;
 	
 	// 네이버 팝업페이지 요청
 	@RequestMapping("/getNaverPopup.do")
@@ -359,6 +360,33 @@ public class MemberController {
 		} else {
 			return "checkFail";
 		}
+	}
+	
+	// 모든 회원정보 불러오기
+	@RequestMapping("/selectAllUser.do")
+	@ResponseBody
+	public String selectAllUser(int currentPage) throws Exception{
+		//System.out.println("currentPage = " + currentPage);
+		HashMap<String, Object> naviMap = pagingService.getPageNavi(currentPage);
+		ArrayList<MemberDTO> list = pagingService.getMemberList((int)naviMap.get("currentPage"));
+		naviMap.put("list", list);
+		Gson json = new Gson();
+		String result = json.toJson(naviMap).toString();
+		//System.out.println(result);
+		return result;
+	}
+		
+	// 관리자 회원정보 삭제
+	@RequestMapping("/deleteMember.do")
+	@ResponseBody
+	public String deleteMember(@RequestParam(value="users[]")String[] userId) throws Exception {
+		System.out.println(userId[0]);
+			
+		if(service.deleteMember(userId) == userId.length) {
+			return "deleteSuccess";
+		} else {
+			return "fail";
+		}	
 	}
 
 }
