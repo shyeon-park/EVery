@@ -354,7 +354,7 @@ font-size: 0.8rem
 		url:"${pageContext.request.contextPath}/board/toDetail.do?seq_column=${seq_column}",
 		//dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
 		success : function(data){
-		console.log(data);
+		//console.log(data);
 			//console.log(data.content);
 			 let date = data.written_date.replace(/,/,"")
 						let written_date = date.split(" ");
@@ -374,7 +374,7 @@ font-size: 0.8rem
 
 		},
 		error : function(e){
-			console.log(e);
+			//console.log(e);
 		}
 	});
 	
@@ -388,7 +388,7 @@ font-size: 0.8rem
 		});
 		// 삭제 페이지 요청
 		document.addEventListener('click',function(e){
-			console.log(e.target.id)
+			//console.log(e.target.id)
 	        if(e.target.id == 'deleteBtn'){
 	        	location.href = "${pageContext.request.contextPath}/board/delete.do?seq_column=${seq_column}";
 	     }});

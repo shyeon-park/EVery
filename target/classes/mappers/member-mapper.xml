@@ -182,10 +182,7 @@
 	
 	
 	<!--************ 태환추가 ********************-->
-	<!-- 컬럼리스트 가져오기 -->
-	<select id = "appCompleteList" resultType = "MemberDTO">
-		select id, nickname, column_application from tbl_member where column_application = 1
-	</select>
+
 	
 	<!-- 컬럼리스트 신청 거절 시  -->
 	<update id="reject" parameterType="map">
@@ -198,6 +195,14 @@
 	<!-- 컬럼리스트 신청 승인 시  -->
 	<update id="approval" parameterType="map">
 		update tbl_member set column_application = 1, identification_num = 2 where id in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>
+	</update>
+	
+	<!-- 컬럼리스트 권한 해제 시  -->
+	<update id="releaseOfAuthority" parameterType="map">
+		update tbl_member set column_application = 0, identification_num = 0 where id in
 		<foreach collection="list" item="arr" open="(" close=")" separator=",">
 		 #{arr}
 		</foreach>
@@ -237,4 +242,11 @@
 	<update id="cancelColumnList">
 		update tbl_member set column_application = 0, identification_num = 0 where id = #{id}
 	</update>
+	
+	<!-- 컬럼리스트 승인 목록 -->
+	<select id="getApprovalColumnList" resultType="MemberDTO">
+		select id,nickname,identification_num,column_application 
+		from tbl_member 
+		where column_application = 1 and identification_num = 2
+	</select>
 </mapper>

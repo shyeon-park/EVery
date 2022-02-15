@@ -46,7 +46,7 @@ public class BoardController {
 		//System.out.println("currentPage = " + currentPage);
 		HashMap<String, Object> naviMap = pagingService.getPageNavi(currentPage);
 		ArrayList<BoardDTO> list = pagingService.getBoardList((int)naviMap.get("currentPage"));
-		ArrayList<MemberDTO> columnList = (ArrayList)memService.appCompleteList();
+		ArrayList<MemberDTO> columnList = (ArrayList)memService.getApprovalColumnList();
 		naviMap.put("columnList", columnList);
 		naviMap.put("list", list);
 		Gson json = new Gson();
@@ -160,7 +160,7 @@ public class BoardController {
 	public String search(int currentPage, String checkOption, String keyword) throws Exception{
 		System.out.println(checkOption + " : " + keyword );
 		HashMap<String, Object> naviMap = pagingService.getSearchPageNavi(currentPage, checkOption, keyword);
-		ArrayList<MemberDTO> columnList = (ArrayList)memService.appCompleteList();
+		ArrayList<MemberDTO> columnList = (ArrayList)memService.getApprovalColumnList();
 		ArrayList<BoardDTO> list = pagingService.getSearchBoardList((int)naviMap.get("currentPage"), checkOption, keyword);
 		naviMap.put("columnList", columnList);
 		naviMap.put("list", list);
