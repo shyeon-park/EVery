@@ -640,12 +640,19 @@ a:hover {
 		
 		<!-- 댓글 관리 영역 -->
 		<div id="myReviews" class="tabContent">
-			<div class="row review-div" style="height:90%; width:100%; overflow-x:hidden;">
-					<!-- 추가 -->
+			<div class="row">
+				<div class="col-10"><h3 style="text-decoration: underline;">내 댓글 관리</h3></div>
 			</div>
-			<div class="row paging-div" style="height:10%;">
-					<!-- 추가 -->
+			<div class="row" style="height:90%; width:100%; overflow-x:hidden;">
+				<div class="col-12 review-div" style="height:100%; width:100%;">
+						<!-- 추가 -->
+				</div>
 			</div>
+			<div class="row" style="height:10%; width:100%;">
+				<div class="col-12 paging-div" style="height:100%; width:100%">
+						<!-- 추가 -->
+				</div>
+			</div>\
 		</div>
 
 		<script>
@@ -667,10 +674,10 @@ a:hover {
 				}else{
 					for(let dto of data.byIdList){
 					let comment = "<div class='row comment-header m-1' style='height:auto; border-bottom: 2px solid lightgrey; margin:0px; padding:0px;'>"
-								+ "<div class='col-5'>" + dto.station + "</div>"
 								+ "<div class='col-5'>" + dto.written_date + "</div>"
+								+ "<div class='col-5'>" + dto.station + "</div>"
 								+ "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn deleteCmt' style='padding:0px;' value='" + dto.seq_review + "'>삭제</button></div>"
-								+ "<div class='col-12' style='height:auto; margin-bottom:5px'>" + dto.review + "</div>"
+								+ "<div class='col-12' style='height:48px; margin-bottom:5px;'>" + dto.review + "</div>"
 								+ "</div>"
 						$(".review-div").append(comment);			
 					}
@@ -682,15 +689,15 @@ a:hover {
 								+ "<ul class='pagination justify-content-center'>";
 								
 								if(data.settingMap.needPrev == true){
-									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + startNavi + "- 1)'>Previous</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + startNavi + "- 1)'><</a></li>";
 								}
 								
 								for(var i= startNavi; i<= endNavi; i++){
-									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + i + ")'>" + i + "</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + i + ")'>" + i + "</a></li>";
 								}
 								
 								if(data.settingMap.needNext == true){
-									paging += "<li class='page-item'><a class='page-link' onclick='getCommentList(" + endNavi + "+ 1)'>Next</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + endNavi + "+ 1)'>></a></li>";
 								}
 								
 					paging += "</ul>" + "</nav>";		
@@ -726,11 +733,19 @@ a:hover {
 		</script>
 		<!-- 즐겨찾기 관리 영역 -->
 		<div id="myBookmarker" class="tabContent">
-			<div class="row bookmark-div" style="height:90%; width:100%; overflow:auto;">
-				<!-- 추가 -->
+			<div class="row">
+				<div class="col-10"><h3 style="text-decoration: underline;">즐겨찾기</h3></div>
+				<div class="col-2 d-flex justify-content-end"><button type="button" class="btn btn-secondary" id="btn-deleteAll">전체삭제</button></div>
 			</div>
-			<div class="row cmt-paging" style="height:10%;">
-				<!-- 추가 -->
+			<div class="row">
+				<div class="row bookmark-div" style="height:90%; width:100%; overflow-x:hidden;">
+					<!-- 추가 -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="row cmt-paging" style="height:10%;">
+					<!-- 추가 -->
+				</div>
 			</div>
 		</div>
 		<script>
@@ -766,15 +781,15 @@ a:hover {
 	 							+ "<ul class='pagination justify-content-center'>";
 	 							
 	 							if(data.settingMap.needPrev == true){
-	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + startNavi + "- 1);'>Previous</a></li>";
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + startNavi + "- 1);'><</a></li>";
 	 							}
 	 							
 	 							for(var i= startNavi; i<= endNavi; i++){
-	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
 	 							}
 	 							
 	 							if(data.settingMap.needNext == true){
-	 								paging += "<li class='page-item'><a class='page-link' onclick='getBookmarkList(" + endNavi + "+ 1);'>Next</a></li>";
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + endNavi + "+ 1);'>></a></li>";
 	 							}
 	 							
 	 					paging += "</ul>" + "</nav>";		

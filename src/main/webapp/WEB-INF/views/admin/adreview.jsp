@@ -179,15 +179,16 @@ a:hover {
 	  margin: 0;
 	  padding: 0;
 	  text-align: center;
-	  border: 3px solid rgb(138, 205, 231);
+	  border: 6px solid rgb(167, 166, 170);
 	  outline: none;
+	  color: rgb(167, 166, 170);
 	}
 	.inputBox{
 	  width: 55%;
 	  height: 100%;
 	  margin: 0;
 	  padding: 0;
-	  border: 3px solid rgb(138, 205, 231);
+	  border: 5px solid rgb(167, 166, 170);
 	  outline: none;
 	}
 	
@@ -201,8 +202,9 @@ a:hover {
 	#searchOne, #searchAll{
 	    width: 10%;
 	    border: none;
-	    background-color:  rgb(138, 205, 231);
+	    background-color: rgb(167, 166, 170);
 	    height: 100%;
+	    color: white;
 	}
 	.searchBtn:hover{
 	    background-color:  rgb(68, 159, 195);
@@ -228,6 +230,9 @@ a:hover {
 				<a href="">컬럼관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
+			</div>
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">고객지원</a>
 			</div>
 			<div class="col-xl-7 col-9 navi-menu"></div>
@@ -248,6 +253,9 @@ a:hover {
 			<a href="">컬럼관리</a>
 		</div>
 		<div class="col-12">
+			<a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
+		</div>
+		<div class="col-12">
 			<a href="">고객지원</a>
 		</div>
 	</div>
@@ -259,24 +267,24 @@ a:hover {
 				</div>
 			</div>
 			<div class="row">	
-				<div class="col-12">
-					<div class="row review-div">
-						<!-- 추가 -->
-					</div>
-					<div class="row input-div">
-				        <div class="col">
-				            <div class="searchBox w-100" style="margin:0px; padding:auto;">
-					            <select class="selected" id="selected" name ="selected">
-					                <option value="id" selected>ID</option>
-					                <option value="station">충전소</option>
-					            </select>
-					            <input type="text" class="inputBox" id="searchKey" name="searchKey" placeholder="검색어를 입력해주세요">
-					            <button class="btn btn-searchBtn" id="searchOne">검색</button>
-					            <button class="btn btn-searchBtn" id="searchAll">전체보기</button>
-				            </div>
-				        </div>
-					</div>
+				<div class="col-12 review-div mb-3">
+					<!-- 추가 -->
 				</div>
+			</div>
+			<div class="row input-div mb-3">
+		        <div class="col-12 d-flex justify-content-center" style="margin:auto;">
+		            <div class="searchBox w-70" style="margin:0px; padding:auto; width:70%; height:90%;">
+			            <select class="selected" id="selected" name ="selected" style="height:auto;">
+			                <option value="id" selected>ID</option>
+			                <option value="station">충전소</option>
+			            </select>
+			            <input type="text" class="inputBox" id="searchKey" name="searchKey" placeholder="검색어를 입력해주세요" style="height:auto;">
+			            <button class="btn btn-searchBtn" id="searchOne">검색</button>
+			            <button class="btn btn-searchBtn" id="searchAll">전체보기</button>
+		            </div>
+		        </div>
+			</div>
+			<div class="row">
 				<div class="col-12 paging-div" style="height:10%;">
 					<!-- 추가 -->
 				</div>
@@ -327,15 +335,17 @@ a:hover {
 			$(".review-div").empty();
 			$(".paging-div").empty();
 			if(data.adList == ""){
-				let commentNull = "<div class='col'><h4>등록된 댓글이 없습니다.</h4></div>";
+				let commentNull = "<div class='col' style='border-bottom: 2px solid black;'><h4>등록된 댓글이 없습니다.</h4></div>";
 				$(".review-div").append(commentNull);
 			}else{
 				for(let dto of data.adList){
-					let comment = "<div class='col-2'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-3'>" + dto.written_date + "</div>"
-								+ "<div class='col-3'>" + dto.review + "</div>"
-								+ "<div class='col-2' style='text-align:center'><button type='button' class='btn btn-secondary deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+					let comment = "<div class='row d-flex justify-content-center' style='border-bottom: 2px dotted black; margin:0px;'>"
+								+ "<div class='col-2' style='margin:auto;'>" + dto.id + "</div>"
+								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
+								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
+								+ "<div class='col-4' style='margin:auto;'>" + dto.review + "</div>"
+								+ "<div class='col-1' style='margin:auto;'><button type='button' class='btn deleteCmt' style='background-color: rgb(167, 166, 170); color:white;' value='" + dto.seq_review + "'>삭제</button></div>"
+								+ "</div>"
 					$(".review-div").append(comment);
 				}
 				
@@ -346,15 +356,15 @@ a:hover {
 							+ "<ul class='pagination justify-content-center'>";
 							
 							if(data.settingMap.needPrev == true){
-								paging += "<li class='page-item'><a class='page-link' onclick='getAdCommentList(" + startNavi + "- 1);'>Previous</a></li>";
+								paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getAdCommentList(" + startNavi + "- 1);'><</a></li>";
 							}
 							
 							for(var i= startNavi; i<= endNavi; i++){
-								paging += "<li class='page-item'><a class='page-link' onclick='getAdCommentList(" + i + ");'>" + i + "</a></li>";
+								paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getAdCommentList(" + i + ");'>" + i + "</a></li>";
 							}
 							
 							if(data.settingMap.needNext == true){
-								paging += "<li class='page-item'><a class='page-link' onclick='getAdCommentList(" + endNavi + "+ 1);'>Next</a></li>";
+								paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getAdCommentList(" + endNavi + "+ 1);'>></a></li>";
 							}
 							
 					paging += "</ul>" + "</nav>";		
@@ -384,15 +394,17 @@ a:hover {
 				$(".paging-div").empty();
 				if(data.byIdList == ""){
 					alert("검색 내용이 없습니다.");
-					let commentNull = "<div><h4>검색 내용이 없습니다.</h4></div>";
+					let commentNull = "<div class='col-12 mt-4'><h4>검색 내용이 없습니다.</h4></div>";
 					$(".review-div").append(commentNull);
 				}else{
 					for(let dto of data.byIdList){
-					let comment = "<div class='col-2'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-3'>" + dto.written_date + "</div>"
-								+ "<div class='col-3'>" + dto.review + "</div>"
-								+ "<div class='col-2' style='text-align:center'><button type='button' class='btn btn-secondary deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+					let comment = "<div class='row d-flex justify-content-center' style='border-bottom: 2px dotted black; margin:0px;'>"
+								+ "<div class='col-2' style='margin:auto;'>" + dto.id + "</div>"
+								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
+								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
+								+ "<div class='col-3' style='margin:auto;'>" + dto.review + "</div>"
+								+ "<div class='col-2' style='margin:auto;' text-align:center'><button type='button' class='btn btn-secondary deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+								+ "</div>"
 						$(".review-div").append(comment);			
 					}
 					
@@ -403,15 +415,15 @@ a:hover {
 								+ "<ul class='pagination justify-content-center'>";
 								
 								if(data.settingMap.needPrev == true){
-									paging += "<li class='page-item'><a class='page-link' onclick='getByList(" + startNavi + "- 1)'>Previous</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getByList(" + startNavi + "- 1)'><</a></li>";
 								}
 								
 								for(var i= startNavi; i<= endNavi; i++){
-									paging += "<li class='page-item'><a class='page-link' onclick='getByList(" + i + ")'>" + i + "</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getByList(" + i + ")'>" + i + "</a></li>";
 								}
 								
 								if(data.settingMap.needNext == true){
-									paging += "<li class='page-item'><a class='page-link' onclick='getByList(" + endNavi + "+ 1)'>Next</a></li>";
+									paging += "<li class='page-item'><a class='page-link' style='color:black; background-color:lightgrey;' onclick='getByList(" + endNavi + "+ 1)'>></a></li>";
 								}
 								
 					paging += "</ul>" + "</nav>";		
