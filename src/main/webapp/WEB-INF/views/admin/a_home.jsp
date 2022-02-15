@@ -177,7 +177,7 @@ a:hover {
 					src="/resources/images/a_logo.png" width="80px"></a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">회원관리</a>
+				<a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">블랙리스트</a>
@@ -200,7 +200,7 @@ a:hover {
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="">회원관리</a>
+			<a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
 		</div>
 		<div class="col-12">
 			<a href="">블랙리스트</a>
@@ -216,7 +216,7 @@ a:hover {
 		</div>
 	</div>
 	<div class="main">
-		ㅇ
+		관리자 메인
 	</div>
 	<div class="footer">
 		
