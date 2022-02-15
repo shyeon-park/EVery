@@ -511,8 +511,6 @@ margin: 0;
 							}
 
 							$("#pagingNavi").append(pagingNavi)
-							
-						
 					}
 				},
 				error : function(e){

@@ -195,6 +195,9 @@ a:hover {
 				<a href="">컬럼관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
+			</div>
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">고객지원</a>
 			</div>
 			<div class="col-xl-7 col-9 navi-menu"></div>
@@ -213,6 +216,9 @@ a:hover {
 		</div>
 		<div class="col-12">
 			<a href="">컬럼관리</a>
+		</div>
+		<div class="col-12">
+			<a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
 		</div>
 		<div class="col-12">
 			<a href="">고객지원</a>
