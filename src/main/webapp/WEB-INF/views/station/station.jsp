@@ -220,7 +220,7 @@ a:hover {
 }
 
 #chargetype {
-	z-index:999;
+	z-index: 999;
 	width: auto;
 	padding: 10px;
 	border-radius: 3px;
@@ -244,80 +244,76 @@ a:hover {
 	margin: 0px;
 }
 
-tr>th {
-	padding: 0px;
-}
-
-tr>td {
-	padding: 0px;
+#charge_name {
+	font-size: 24px;
 }
 </style>
 <style>
-	.main-comment-container {
-		
-	}
-	textarea {
-		resize: none;
-		font-size:12px;
-		height:100%;
-		maxlength:200;
-		width:100%;
-		border:none;
-		outline: none;
-		overflow:hidden;
-	}
+.main-comment-container {
 	
-	.main-comment-container{
-		height:450px;
-	}
-	
-	.paging-container{
-		height:50px;
-	}
-	
-	.cmt-container {
-		background-color: white !important;
-		border: 1px solid lightgrey;
-		height:400px;
-	}
-	
-	.cmt-showBox{
-		height:330px;
-		overflow:auto;
-	}
-	
-	.comment-header {
-		border-bottom: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-body {
-		padding: 2px;
-		border: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-input{
-		height:50px;
-		padding-bottom:5px;
-	}
-	
-	.cmt-info {
-		font-size: 12px;
-		font-weight: bold;
-	}
-	
-	.cmt-info1 {
-		font-size: 11px;
-		padding-top:2px;
-	}
-	
-	.pagination{
-		column-gap: 2px;
-	}
-	
-	.page-item{
-		color:black;
-	}
-	
+}
+
+textarea {
+	resize: none;
+	font-size: 12px;
+	height: 100%;
+	maxlength: 200;
+	width: 100%;
+	border: none;
+	outline: none;
+	overflow: hidden;
+}
+
+.main-comment-container {
+	height: 450px;
+}
+
+.paging-container {
+	height: 50px;
+}
+
+.cmt-container {
+	background-color: white !important;
+	border: 1px solid lightgrey;
+	height: 400px;
+}
+
+.cmt-showBox {
+	height: 330px;
+	overflow: auto;
+}
+
+.comment-header {
+	border-bottom: 1px solid rgb(214, 214, 214);
+}
+
+.comment-body {
+	padding: 2px;
+	border: 1px solid rgb(214, 214, 214);
+}
+
+.comment-input {
+	height: 50px;
+	padding-bottom: 5px;
+}
+
+.cmt-info {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.cmt-info1 {
+	font-size: 11px;
+	padding-top: 2px;
+}
+
+.pagination {
+	column-gap: 2px;
+}
+
+.page-item {
+	color: black;
+}
 </style>
 </head>
 <body>
@@ -474,6 +470,10 @@ tr>td {
 						</tr>
 					</tbody>
 				</table>
+				<div class="d-none">
+					<p id="detail_latitude"></p>
+					<p id="detail_longitude"></p>
+				</div>
 				<div id="chargeList"></div>
 
 				<div id="main-comment-container">
@@ -481,11 +481,17 @@ tr>td {
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding:0px;">
-										<textarea class="review" id="review" name="review" style="resize: none; font-size:12px; height:100%;" placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
+									<div class="col-10 comment-input" style="padding: 0px;">
+										<textarea class="review" id="review" name="review"
+											style="resize: none; font-size: 12px; height: 100%;"
+											placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 									</div>
-									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px; position:relative;">
-										<button type="button" id="btnSave" style="position:absolute; bottom:0px; padding:0px; border:1px solid lightgrey; font-size: 11px; height:30px; width:100%;" class="btn btn-btnSave">등록</button>
+									<div
+										class="col-2 comment-input d-flex align-items-center justify-content-center"
+										style="padding: 0px; position: relative;">
+										<button type="button" id="btnSave"
+											style="position: absolute; bottom: 0px; padding: 0px; border: 1px solid lightgrey; font-size: 11px; height: 30px; width: 100%;"
+											class="btn btn-btnSave">등록</button>
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>
@@ -686,7 +692,7 @@ tr>td {
 			alert("로그인 후 즐겨찾기를 추가해 주세요.");
 			return;
 		}
-		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#latitude").html(), "longitude" :  $("#longitude").html()}
+		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#detail_latitude").html(), "longitude" :  $("#detail_longitude").html()}
 		$.ajax({
 			type : "get"
 			,data : data
@@ -848,9 +854,8 @@ tr>td {
 		});
 	</script>
 	<script type="application/javascript">
-		
-		
-		
+			console.log("${BookmarkDTO.station}");
+			
 			showLoading();
 			
 			let cmtDivStatus = false;
@@ -951,6 +956,7 @@ tr>td {
 						    marker.setMap(map);					 
 						    // 생성된 마커를 배열에 추가합니다
 						    markers.push(marker);
+						    console.log("마커 추가");
 						    
 						    addMarkerEvent(temp, marker);
 						   // console.log(temp);
@@ -1007,6 +1013,9 @@ tr>td {
 				    	$('#detail_restde').html(temp[0].restde);
 				    }
 				    
+				    $('#detail_latitude').html(temp[0].latitude); // 위도 동적 추가
+				    $('#detail_longitude').html(temp[0].longitude); // 경도 동적 추가
+				    
 				    $('#chargeList').html(""); // 충전기 목록 초기화
     				  for(let j=0;j<temp.length;j++){ // 충전기 목록 리스트 동적 추가
     					  let tempDiv = "<div class='row'>"+
@@ -1053,22 +1062,29 @@ tr>td {
 			    map.relayout();
 			}
 			
-			function showStation(){ // 선택한 충전소가 표시됩니다.
-				if(cmtDivStatus == false){
-					$('#commentDIV').attr('class','col-xl-3 col-12');
-					$('#mapDIV').attr('class','col-xl-9 col-12');
-					cmtDivStatus = true;
-				}
-				$('#map').css({"height":"100%"});
-				relayout();
-			}
-			function hideStation(){ // 선택되어있던 충전소가 사라집니다.
-				$('#commentDIV').attr('class','d-none');
-				$('#mapDIV').attr('class','col-12');
-				cmtDivStatus = false;
-				$('#map').css({"height":""});
-				relayout();
-			}
+			 function showStation(){ // 선택한 충전소가 표시됩니다.
+		            if(cmtDivStatus == false){
+		               $('#commentDIV').attr('class','col-xl-4 col-12');
+		               $('#mapDIV').attr('class','col-xl-8 col-12');
+		               if (window.innerWidth < 1200){
+		                  $('#chargetype').css({"display":"none"});
+		               }else{
+		                  $('#chargetype').css({"display":"block"});
+		               }
+		                
+		               cmtDivStatus = true;
+		            }
+		            $('#map').css({"height":"100%"});
+		            relayout();
+		         }
+		         function hideStation(){ // 선택되어있던 충전소가 사라집니다.
+		            $('#commentDIV').attr('class','d-none');
+		            $('#mapDIV').attr('class','col-12');
+		            $('#chargetype').css({"display":"block"}); 
+		            cmtDivStatus = false;
+		            $('#map').css({"height":""});
+		            relayout();
+		         }
 			
 				var request= new XMLHttpRequest;
 				
@@ -1081,7 +1097,7 @@ tr>td {
 							var xml = request.responseXML;
 							var items = xml.getElementsByTagName("item");
 // 							console.log(items);
-							for (let i = 0; i < items.length; i++) {
+							for (let i=0; i < items.length; i++) {
 								
 								for(let j = 0; j < items[i].childNodes.length ; j++){
 									if(items[i].childNodes[j].nodeName == 'chrstnNm') data.chrstnNm = items[i].childNodes[j].innerHTML;
@@ -1106,14 +1122,80 @@ tr>td {
 									else if(items[i].childNodes[j].nodeName == 'insttCode') data.insttCode = items[i].childNodes[j].innerHTML;
 									else{}
 									}
-// 								console.log(data);
-								
 								datas.push(data);
 								data = {};
 								}
 							addMarker(datas);
 							console.log(datas);
-								hideLoading();
+//							-------------------
+			 				if("${BookmarkDTO}" != ""){ //즐겨찾기를 통해 들어온 경우
+		 					let seq = 1;
+		 			    	$('#station').val("${BookmarkDTO.station}");
+		 			    	let station = "${BookmarkDTO.station}";
+		 			    	showStation();
+		 				    getCommentList(1,station);
+		 					getBookmark(station);
+
+
+		 					// 이동할 위도 경도 위치를 생성합니다 
+		 				    var moveLatLon = new kakao.maps.LatLng("${BookmarkDTO.latitude}", "${BookmarkDTO.longitude}");
+						    
+		 				    // 지도 중심을 이동 시킵니다
+		 				    map.setCenter(moveLatLon);
+					    	
+		 				    $('#charge_name').html("${BookmarkDTO.station}"); //충전소명 동적 추가
+		 				    if("${BookmarkDTO.institutionNm}" == "" || "${BookmarkDTO.institutionNm}" == "-"){ // 충전 제공 업체 동적 추가
+		 				    	$('#institutionNm').html("정보 없음");
+		 				    }else{
+		 				    	$('#institutionNm').html("${BookmarkDTO.institutionNm}");
+		 				    }
+		 				    $('#useTime').html("${BookmarkDTO.useTime}"); // 운영시간 동적 추가
+						    
+						    
+		 				    $('#detail_rdnmadr').html("${BookmarkDTO.rdnmadr}"); // 주소 동적 추가
+		 				    $('#detail_chrstnLcDesc').html("${BookmarkDTO.chrstnLcDesc}"); // 상세주소 동적 추가
+		 				    $('#detail_useTime').html("${BookmarkDTO.useTime}"); // 운영시간 동적 추가
+		 				    if("${BookmarkDTO.institutionNm}" == "" || "${BookmarkDTO.institutionNm}" == "-"){ // 충전 제공 업체 동적 추가
+		 				    	$('#detail_institutionNm').html("정보 없음");
+		 				    }else{
+		 				    	$('#detail_institutionNm').html("${BookmarkDTO.institutionNm}");
+		 				    }
+		 				    if("${BookmarkDTO.phoneNumber}" == "" || "${BookmarkDTO.phoneNumber}" == null){ // 연락처 추가
+		 				    	 $('#detail_phoneNumber').html("정보 없음");
+		 				    }else{
+		 				    	$('#detail_phoneNumber').html("${BookmarkDTO.phoneNumber}");
+		 				    }
+						    
+		 				    $('#detail_latitude').html("${BookmarkDTO.latitude}"); // 위도 동적 추가
+		 				    $('#detail_longitude').html("${BookmarkDTO.longitude}"); // 경도 동적 추가
+						    
+		 				    $('#chargeList').html(""); // 충전기 목록 초기화
+						    
+		 				    let temp1 = [];
+		 				    for(let x=0;x<datas.length;x++){
+		 				    	if(datas[x].chrstnNm == "${BookmarkDTO.station}"){
+		 				    		temp1.push({"chrstnNm":datas[x].chrstnNm,"fastChrstnType":datas[x].fastChrstnType,"latitude":datas[x].latitude,"longitude":datas[x].longitude,"rdnmadr":datas[x].rdnmadr,"institutionNm":datas[x].institutionNm,"fastChrstnYn":datas[x].fastChrstnYn,"slowChrstnYn":datas[x].slowChrstnYn,"chrstnLcDesc":datas[x].chrstnLcDesc,"useOpenTime":datas[x].useOpenTime,"useCloseTime":datas[x].useCloseTime});
+		 				    	}
+		 				    }
+		 				      for(let z=0;z<temp1.length;z++){ // 충전기 목록 리스트 동적 추가
+		     					  let tempDiv1 = "<div class='row'>"+
+		 	    				  "<div class='col-1' id='seq_"+seq+"'>"+
+		 	    				  seq +
+		 	    				  "</div>";
+		     					  if(temp1[z].fastChrstnType=="" || temp1[z].fastChrstnType=="X"){
+		     						  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
+		 	    				  }else{
+		 	    					  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>"+
+		 		    				  temp1[z].fastChrstnType +
+		 		    				  "</div>";
+		 	    				  }
+		     					seq++;
+		     					tempDiv1 += "</div>";
+		     					$('#chargeList').append(tempDiv1);
+		     				  }
+		 				}
+//						-------------------
+							hideLoading();
 						} else{
 							alert(request.status);
 						}
@@ -1256,10 +1338,8 @@ tr>td {
 					default:
 						return 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png';
 						break;
-					}
-					
+					}	
 				}
-				
 				
 				$('#btn_close').on('click',function(){ //충전소 상세정보에서 닫기 버튼을 클릭했을때
 					hideStation();
@@ -1328,7 +1408,7 @@ tr>td {
 					hideStation();
 					console.log(selectMarker);
 					console.log(chargeArr);
-					chk_val = []; // 배열 초기화
+					chargeArr = []; // 배열 초기화
 				});
 				
 				let chargetype_state = true;
@@ -1345,8 +1425,17 @@ tr>td {
 					
 				});
 				
-	
-	
+				  $(window).resize(function() { //브라우저 크기를 조정했을때
+		               if (window.innerWidth < 1200) { //브라우저 크기가 1200 미만이라면
+		                  if(cmtDivStatus){ // 상세 정보 창이 열려있으면
+		                     $('#chargetype').css({"display":"none"}); //충전타입 div를 숨김
+		                  }
+		               }else{
+		                  if(!cmtDivStatus){ // 상세 정보 창이 닫혀있으면
+		                     $('#chargetype').css({"display":"block"}); //충전타입 div를 보임
+		                  }
+		               }
+		            });
 	</script>
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>

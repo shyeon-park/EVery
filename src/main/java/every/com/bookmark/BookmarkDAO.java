@@ -2,6 +2,7 @@ package every.com.bookmark;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,13 @@ public class BookmarkDAO {
 	/* 즐겨찾기 리스트 가져오기 */
 	public List<BookmarkDTO> selectAll(HashMap<String, Object> ranges) throws Exception{
 		return session.selectList("bookmarkMapper.selectAll", ranges);
+	}
+	
+	/* 즐겨찾기 선택 */
+	public BookmarkDTO selectByStation(String station,String id) throws Exception{
+		Map<String,String> map = new HashMap<>();
+		map.put("station", station);
+		map.put("id", id);
+		return session.selectOne("bookmarkMapper.selectByStation",map);
 	}
 }

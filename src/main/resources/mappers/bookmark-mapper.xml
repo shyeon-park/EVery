@@ -34,4 +34,10 @@
 		select * from(select row_number() over(order by station desc) 순위, a.* from(select * from tbl_bookmark where id = #{id}) a) where (순위 between #{startRange} and #{endRange})
 	</select>
 	
+	<!--  즐겨찾기 선택 -->
+	<select id="selectByStation" parameterType="Map" resultType="BookmarkDTO">
+		select * from tbl_bookmark where id = #{id} and station=#{station}
+	</select>
+	
+	
 </mapper>
