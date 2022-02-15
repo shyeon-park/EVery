@@ -1,0 +1,67 @@
+@charset "UTF-8";
+/* 멤버 모달 영역 */
+.memberContainer {
+	width: 80%;
+	margin: auto;
+	margin-bottom: 50px;
+	margin-top: 50px;
+}
+
+.memberRow {
+	margin-top: 10px;
+}
+
+.loginLogo {
+	text-align: center;
+	height: 100px;
+}
+
+.loginLogo>img {
+	width: 250px;
+	height: 100%;
+}
+
+.memberLabel {
+	font-size: 14px;
+}
+
+.loginInput {
+	border: none;
+	border-bottom: 1px solid lightgrey;
+	border-radius: 0;
+}
+
+.loginInput:focus {
+	box-shadow: 0 0 0 0;
+	outline: none;
+	border: none;
+	border-bottom: 2px solid #18a8f1;
+}
+
+.signupInput {
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid lightgrey;
+}
+
+.signupInput:focus {
+	box-shadow: 0 0 0 0;
+	/*outline: none;*/
+	border: none;
+	border-bottom: 2px solid grey;
+}
+
+.signupInput:read-only {
+	background-color: #fff;
+}
+
+.findBtn {
+	font-size: 12px;
+	background-color: #fff; 
+	border: none;
+	padding: 0;
+}
+
+.findBtn:hover, #signupBtn:hover {
+	color: #18a8f1;
+}
