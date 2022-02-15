@@ -108,8 +108,10 @@ public class BookmarkController {
 		map.put("chrstnLcDesc", dto.getChrstnLcDesc());
 		map.put("useTime", dto.getUseTime());
 		map.put("phoneNumber", dto.getPhoneNumber());
+		map.put("restde", dto.getRestde());
 		map.put("latitude", dto.getLatitude());
 		map.put("longitude", dto.getLongitude());
+
 		
 		System.out.println(map);
 		if(service.bookmarkCount(map) > 0) {

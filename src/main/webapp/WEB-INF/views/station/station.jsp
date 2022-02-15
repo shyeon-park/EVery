@@ -249,9 +249,6 @@ a:hover {
 }
 </style>
 <style>
-<<<<<<< HEAD
-.main-comment-container {
-=======
 	.main-comment-container {
 		
 	}
@@ -760,7 +757,7 @@ textarea {
 			alert("로그인 후 즐겨찾기를 추가해 주세요.");
 			return;
 		}
-		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#detail_latitude").html(), "longitude" :  $("#detail_longitude").html()}
+		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#detail_latitude").html(), "longitude" :  $("#detail_longitude").html(),"restde":$("#detail_restde").html()}
 		$.ajax({
 			type : "get"
 			,data : data
@@ -1024,7 +1021,6 @@ textarea {
 						    marker.setMap(map);					 
 						    // 생성된 마커를 배열에 추가합니다
 						    markers.push(marker);
-						    console.log("마커 추가");
 						    
 						    addMarkerEvent(temp, marker);
 						   // console.log(temp);
@@ -1233,7 +1229,7 @@ textarea {
 		 				    }else{
 		 				    	$('#detail_phoneNumber').html("${BookmarkDTO.phoneNumber}");
 		 				    }
-						    
+		 				   $('#detail_restde').html("${BookmarkDTO.restde}"); // 휴무 동적 추가
 		 				    $('#detail_latitude').html("${BookmarkDTO.latitude}"); // 위도 동적 추가
 		 				    $('#detail_longitude').html("${BookmarkDTO.longitude}"); // 경도 동적 추가
 						    

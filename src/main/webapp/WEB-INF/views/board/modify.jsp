@@ -375,7 +375,7 @@ font-size: 0.8rem
 		
 		
 		$(document).ready(function(e) {
-			console.log(e.target)
+			//console.log(e.target)
 			var toolbar = [
 			    // 글꼴 설정
 			    ['fontname', ['fontname']],
@@ -429,7 +429,7 @@ font-size: 0.8rem
 					enctype : 'multipart/form-data',
 					processData : false,
 					success : function(data) {
-						console.log(data);
+						//console.log(data);
 						
 						let img = $("<img>").attr({"src": data.url, "width" : "100%", "name" : data.url});
 			            // data.sys_path 에는 서버에 업로드된 이미지 경로값

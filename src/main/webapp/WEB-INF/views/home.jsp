@@ -459,16 +459,11 @@ margin: 0;
 		</div>
 	</div>
 	
-<button type="button" onclick="ws.send('application');">칼럼리스트 신청</button>
-<a href ="${pageContext.request.contextPath}/board/toManager.do";>	테스트용 관리자 페이지 </a>
-	
 <script type="text/javascript">
 let mnList = null 
 
 $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
-	//console.log("mnList 는 ");
-	//console.log(mnList);
-	//console.log(mnList[0].id);
+	
 	  let carouselCurrentPage
 	    //console.log(e.direction)
 	    if(e.direction == "left"){
@@ -564,7 +559,7 @@ function getList(id,printId, num, mnList){
 			 type : "POST",
 			 success : function(data){
 			//성공시
-				 console.log(data);
+				 //console.log(data);
 				//$(printId).empty();
 
 				let mainList= data.mainList
@@ -643,7 +638,7 @@ function getList(id,printId, num, mnList){
 		 		list.push(this.value);
 		 	 });
 			 	 if(list.length != 0){
-			 		console.log(list)
+			 		//console.log(list)
 			 		let msg = { category: "msgCheck", list: list };
 			 		let msgToJson = JSON.stringify(msg);
 			 		ws.send(msgToJson);
@@ -659,7 +654,7 @@ function getList(id,printId, num, mnList){
 	 		list.push(this.value);
 	 	 });
 		 	 if(list.length != 0){
-		 		console.log(list)
+		 		//console.log(list)
 		 		let msg = { category: "msgDel", list: list };
 		 		let msgToJson = JSON.stringify(msg);
 		 		ws.send(msgToJson);
