@@ -6,14 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>전기차의 모든것 EVery</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -220,7 +225,7 @@ a:hover {
 }
 
 #chargetype {
-	z-index:999;
+	z-index: 999;
 	width: auto;
 	padding: 10px;
 	border-radius: 3px;
@@ -244,12 +249,8 @@ a:hover {
 	margin: 0px;
 }
 
-tr>th {
-	padding: 0px;
-}
-
-tr>td {
-	padding: 0px;
+#charge_name {
+	font-size: 24px;
 }
 </style>
 <style>
@@ -318,7 +319,71 @@ tr>td {
 	.page-item{
 		color:black;
 	}
+>>>>>>> 02baf5ead1996ac2baf5085ed06798352feadb99
 	
+}
+
+textarea {
+	resize: none;
+	font-size: 12px;
+	height: 100%;
+	maxlength: 200;
+	width: 100%;
+	border: none;
+	outline: none;
+	overflow: hidden;
+}
+
+.main-comment-container {
+	height: 450px;
+}
+
+.paging-container {
+	height: 50px;
+}
+
+.cmt-container {
+	background-color: white !important;
+	border: 1px solid lightgrey;
+	height: 400px;
+}
+
+.cmt-showBox {
+	height: 330px;
+	overflow: auto;
+}
+
+.comment-header {
+	border-bottom: 1px solid rgb(214, 214, 214);
+}
+
+.comment-body {
+	padding: 2px;
+	border: 1px solid rgb(214, 214, 214);
+}
+
+.comment-input {
+	height: 50px;
+	padding-bottom: 5px;
+}
+
+.cmt-info {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.cmt-info1 {
+	font-size: 11px;
+	padding-top: 2px;
+}
+
+.pagination {
+	column-gap: 2px;
+}
+
+.page-item {
+	color: black;
+}
 </style>
 </head>
 <body>
@@ -360,12 +425,12 @@ tr>td {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그인</a>
+						<a onclick="openLoginModal(); loginFunc();">로그인</a>
 					</div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그아웃</a>
+						<a onclick="logoutFunc();">로그아웃</a>
 					</div>
 				</c:when>
 			</c:choose>
@@ -406,12 +471,12 @@ tr>td {
 		<c:choose>
 			<c:when test="${empty loginSession}">
 				<div class="col-12">
-					<a href="">로그인</a>
+					<a onclick="openLoginModal(); loginFunc();">로그인</a>
 				</div>
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-					<a href="">로그아웃</a>
+					<a onclick="logoutFunc();">로그아웃</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -475,6 +540,10 @@ tr>td {
 						</tr>
 					</tbody>
 				</table>
+				<div class="d-none">
+					<p id="detail_latitude"></p>
+					<p id="detail_longitude"></p>
+				</div>
 				<div id="chargeList"></div>
 
 				<div id="main-comment-container">
@@ -482,11 +551,17 @@ tr>td {
 						<div class="cmt-inputBox">
 							<form id="reviewForm" method="post">
 								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding:0px;">
-										<textarea class="review" id="review" name="review" style="resize: none; font-size:12px; height:100%;" placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
+									<div class="col-10 comment-input" style="padding: 0px;">
+										<textarea class="review" id="review" name="review"
+											style="resize: none; font-size: 12px; height: 100%;"
+											placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 									</div>
-									<div class="col-2 comment-input d-flex align-items-center justify-content-center" style="padding:0px; position:relative;">
-										<button type="button" id="btnSave" style="position:absolute; bottom:0px; padding:0px; border:1px solid lightgrey; font-size: 11px; height:30px; width:100%;" class="btn btn-btnSave">등록</button>
+									<div
+										class="col-2 comment-input d-flex align-items-center justify-content-center"
+										style="padding: 0px; position: relative;">
+										<button type="button" id="btnSave"
+											style="position: absolute; bottom: 0px; padding: 0px; border: 1px solid lightgrey; font-size: 11px; height: 30px; width: 100%;"
+											class="btn btn-btnSave">등록</button>
 									</div>
 								</div>
 								<input id="station" type="text" name="station" value="" hidden>
@@ -687,7 +762,7 @@ tr>td {
 			alert("로그인 후 즐겨찾기를 추가해 주세요.");
 			return;
 		}
-		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#latitude").html(), "longitude" :  $("#longitude").html()}
+		let data = {"id" :  id, "station" :  $("#charge_name").html(), "institutionNm" :  $("#institutionNm").html(), "rdnmadr" :  $("#detail_rdnmadr").html(), "chrstnLcDesc" :  $("#detail_chrstnLcDesc").html(), "useTime" :  $("#useTime").html(), "phoneNumber" :  $("#detail_phoneNumber").html(), "latitude" :  $("#detail_latitude").html(), "longitude" :  $("#detail_longitude").html(),"restde":$("#detail_restde").html()}
 		$.ajax({
 			type : "get"
 			,data : data
@@ -849,9 +924,8 @@ tr>td {
 		});
 	</script>
 	<script type="application/javascript">
-		
-		
-		
+			console.log("${BookmarkDTO.station}");
+			
 			showLoading();
 			
 			let cmtDivStatus = false;
@@ -1008,6 +1082,9 @@ tr>td {
 				    	$('#detail_restde').html(temp[0].restde);
 				    }
 				    
+				    $('#detail_latitude').html(temp[0].latitude); // 위도 동적 추가
+				    $('#detail_longitude').html(temp[0].longitude); // 경도 동적 추가
+				    
 				    $('#chargeList').html(""); // 충전기 목록 초기화
     				  for(let j=0;j<temp.length;j++){ // 충전기 목록 리스트 동적 추가
     					  let tempDiv = "<div class='row'>"+
@@ -1054,22 +1131,29 @@ tr>td {
 			    map.relayout();
 			}
 			
-			function showStation(){ // 선택한 충전소가 표시됩니다.
-				if(cmtDivStatus == false){
-					$('#commentDIV').attr('class','col-xl-3 col-12');
-					$('#mapDIV').attr('class','col-xl-9 col-12');
-					cmtDivStatus = true;
-				}
-				$('#map').css({"height":"100%"});
-				relayout();
-			}
-			function hideStation(){ // 선택되어있던 충전소가 사라집니다.
-				$('#commentDIV').attr('class','d-none');
-				$('#mapDIV').attr('class','col-12');
-				cmtDivStatus = false;
-				$('#map').css({"height":""});
-				relayout();
-			}
+			 function showStation(){ // 선택한 충전소가 표시됩니다.
+		            if(cmtDivStatus == false){
+		               $('#commentDIV').attr('class','col-xl-4 col-12');
+		               $('#mapDIV').attr('class','col-xl-8 col-12');
+		               if (window.innerWidth < 1200){
+		                  $('#chargetype').css({"display":"none"});
+		               }else{
+		                  $('#chargetype').css({"display":"block"});
+		               }
+		                
+		               cmtDivStatus = true;
+		            }
+		            $('#map').css({"height":"100%"});
+		            relayout();
+		         }
+		         function hideStation(){ // 선택되어있던 충전소가 사라집니다.
+		            $('#commentDIV').attr('class','d-none');
+		            $('#mapDIV').attr('class','col-12');
+		            $('#chargetype').css({"display":"block"}); 
+		            cmtDivStatus = false;
+		            $('#map').css({"height":""});
+		            relayout();
+		         }
 			
 				var request= new XMLHttpRequest;
 				
@@ -1082,7 +1166,7 @@ tr>td {
 							var xml = request.responseXML;
 							var items = xml.getElementsByTagName("item");
 // 							console.log(items);
-							for (let i = 0; i < items.length; i++) {
+							for (let i=0; i < items.length; i++) {
 								
 								for(let j = 0; j < items[i].childNodes.length ; j++){
 									if(items[i].childNodes[j].nodeName == 'chrstnNm') data.chrstnNm = items[i].childNodes[j].innerHTML;
@@ -1107,14 +1191,80 @@ tr>td {
 									else if(items[i].childNodes[j].nodeName == 'insttCode') data.insttCode = items[i].childNodes[j].innerHTML;
 									else{}
 									}
-// 								console.log(data);
-								
 								datas.push(data);
 								data = {};
 								}
 							addMarker(datas);
 							console.log(datas);
-								hideLoading();
+//							-------------------
+			 				if("${BookmarkDTO}" != ""){ //즐겨찾기를 통해 들어온 경우
+		 					let seq = 1;
+		 			    	$('#station').val("${BookmarkDTO.station}");
+		 			    	let station = "${BookmarkDTO.station}";
+		 			    	showStation();
+		 				    getCommentList(1,station);
+		 					getBookmark(station);
+
+
+		 					// 이동할 위도 경도 위치를 생성합니다 
+		 				    var moveLatLon = new kakao.maps.LatLng("${BookmarkDTO.latitude}", "${BookmarkDTO.longitude}");
+						    
+		 				    // 지도 중심을 이동 시킵니다
+		 				    map.setCenter(moveLatLon);
+					    	
+		 				    $('#charge_name').html("${BookmarkDTO.station}"); //충전소명 동적 추가
+		 				    if("${BookmarkDTO.institutionNm}" == "" || "${BookmarkDTO.institutionNm}" == "-"){ // 충전 제공 업체 동적 추가
+		 				    	$('#institutionNm').html("정보 없음");
+		 				    }else{
+		 				    	$('#institutionNm').html("${BookmarkDTO.institutionNm}");
+		 				    }
+		 				    $('#useTime').html("${BookmarkDTO.useTime}"); // 운영시간 동적 추가
+						    
+						    
+		 				    $('#detail_rdnmadr').html("${BookmarkDTO.rdnmadr}"); // 주소 동적 추가
+		 				    $('#detail_chrstnLcDesc').html("${BookmarkDTO.chrstnLcDesc}"); // 상세주소 동적 추가
+		 				    $('#detail_useTime').html("${BookmarkDTO.useTime}"); // 운영시간 동적 추가
+		 				    if("${BookmarkDTO.institutionNm}" == "" || "${BookmarkDTO.institutionNm}" == "-"){ // 충전 제공 업체 동적 추가
+		 				    	$('#detail_institutionNm').html("정보 없음");
+		 				    }else{
+		 				    	$('#detail_institutionNm').html("${BookmarkDTO.institutionNm}");
+		 				    }
+		 				    if("${BookmarkDTO.phoneNumber}" == "" || "${BookmarkDTO.phoneNumber}" == null){ // 연락처 추가
+		 				    	 $('#detail_phoneNumber').html("정보 없음");
+		 				    }else{
+		 				    	$('#detail_phoneNumber').html("${BookmarkDTO.phoneNumber}");
+		 				    }
+		 				   $('#detail_restde').html("${BookmarkDTO.restde}"); // 휴무 동적 추가
+		 				    $('#detail_latitude').html("${BookmarkDTO.latitude}"); // 위도 동적 추가
+		 				    $('#detail_longitude').html("${BookmarkDTO.longitude}"); // 경도 동적 추가
+						    
+		 				    $('#chargeList').html(""); // 충전기 목록 초기화
+						    
+		 				    let temp1 = [];
+		 				    for(let x=0;x<datas.length;x++){
+		 				    	if(datas[x].chrstnNm == "${BookmarkDTO.station}"){
+		 				    		temp1.push({"chrstnNm":datas[x].chrstnNm,"fastChrstnType":datas[x].fastChrstnType,"latitude":datas[x].latitude,"longitude":datas[x].longitude,"rdnmadr":datas[x].rdnmadr,"institutionNm":datas[x].institutionNm,"fastChrstnYn":datas[x].fastChrstnYn,"slowChrstnYn":datas[x].slowChrstnYn,"chrstnLcDesc":datas[x].chrstnLcDesc,"useOpenTime":datas[x].useOpenTime,"useCloseTime":datas[x].useCloseTime});
+		 				    	}
+		 				    }
+		 				      for(let z=0;z<temp1.length;z++){ // 충전기 목록 리스트 동적 추가
+		     					  let tempDiv1 = "<div class='row'>"+
+		 	    				  "<div class='col-1' id='seq_"+seq+"'>"+
+		 	    				  seq +
+		 	    				  "</div>";
+		     					  if(temp1[z].fastChrstnType=="" || temp1[z].fastChrstnType=="X"){
+		     						  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
+		 	    				  }else{
+		 	    					  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>"+
+		 		    				  temp1[z].fastChrstnType +
+		 		    				  "</div>";
+		 	    				  }
+		     					seq++;
+		     					tempDiv1 += "</div>";
+		     					$('#chargeList').append(tempDiv1);
+		     				  }
+		 				}
+//						-------------------
+							hideLoading();
 						} else{
 							alert(request.status);
 						}
@@ -1257,10 +1407,8 @@ tr>td {
 					default:
 						return 'https://t1.daumcdn.net/localimg/localimages/07/2012/img/marker_p.png';
 						break;
-					}
-					
+					}	
 				}
-				
 				
 				$('#btn_close').on('click',function(){ //충전소 상세정보에서 닫기 버튼을 클릭했을때
 					hideStation();
@@ -1329,7 +1477,7 @@ tr>td {
 					hideStation();
 					console.log(selectMarker);
 					console.log(chargeArr);
-					chk_val = []; // 배열 초기화
+					chargeArr = []; // 배열 초기화
 				});
 				
 				let chargetype_state = true;
@@ -1346,11 +1494,599 @@ tr>td {
 					
 				});
 				
-	
-	
+				  $(window).resize(function() { //브라우저 크기를 조정했을때
+		               if (window.innerWidth < 1200) { //브라우저 크기가 1200 미만이라면
+		                  if(cmtDivStatus){ // 상세 정보 창이 열려있으면
+		                     $('#chargetype').css({"display":"none"}); //충전타입 div를 숨김
+		                  }
+		               }else{
+		                  if(!cmtDivStatus){ // 상세 정보 창이 닫혀있으면
+		                     $('#chargetype').css({"display":"block"}); //충전타입 div를 보임
+		                  }
+		               }
+		            });
 	</script>
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+	
+	
+	<!-- 회원 관련 모달 -->
+	<!-- 로그인 모달 -->
+	<div class="modal fade" id="loginModal" aria-hidden="true"
+		data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel">Login</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="memberContainer">
+						<div class="row memberRow">
+							<div class="col-12 loginLogo">
+								<img src="/resources/images/logo.png">
+							</div>
+						</div>
+						<div class="row memberRow">
+								<!-- flexRadioDefault -->
+								<div class="col12">
+									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
+  									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
+				
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
+								</div>
+							</div>
+						<form id="loginForm">
+							<div class="row memberRow">
+								<div class="col-12">
+									<input type="text" class="form-control loginInput" id="loginId" name="id" placeholder="아이디 입력">
+								</div>
+							</div>
+							<div class="row memberRow">
+								<div class="col-12">
+									<input type="password" class="form-control loginInput" id="loginPw" name="pw" placeholder="비밀번호 입력">
+								</div>
+							</div>
+						</form>
+						<div class="row memberRow">
+							<div class="col-6">
+								<div class="form-check form-switch">
+  									<input class="form-check-input rememberId" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+  									<label class="form-check-label" style="font-size: 12px;">아이디 기억하기</label>
+								</div>
+							</div>
+							<div class="col-6" style="text-align: right;">
+								<button data-bs-target="#signupModal" data-bs-toggle="modal"
+									style="background-color: #fff; border: none;" id="signupBtn">회원가입</button>
+							</div>
+						</div>
+						<div class="row memberRow">
+							<div class="col-12">
+								<button type="button" id="loginBtn" class="btn btn-dark"
+									style="width: 100%;">로그인</button>
+							</div>
+						</div>
+						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+							<div class="col-12" style="text-align: center;">
+								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+							</div>
+						</div>
+						<div class="row memberRow">
+							<div class="col-12" style="text-align: center;">
+							<!-- <button type="button" id="naverIdLogin_loginButton" style="border:none; background-color:#fff;" onclick="naverLogout()">
+										<img src="https://static.nid.naver.com/oauth/button_g.PNG?version=js-2.0.1" height="40">
+								</button> -->
+								
+								<!-- 네이버 로그인 버튼 -->
+								<div id="naverIdLogin" style="display:none;"></div>
+								<a type="button" id="naverLogin">
+									<img src="/resources/images/naver_login.png" width="50" height="50">
+								</a>
+								<!-- 카카오 로그인 버튼 -->
+								<a type="button" id="kakao_login" onclick="kakaoLogin();">
+									<img src="/resources/images/kakao_login.png" width="50" height="50">
+								</a>
+							</div>
+							
+						</div>
+						<div class="row memberRow">
+							<div class="col-12" style="text-align: right;">
+								<button type="button" id="findId" class="findBtn" data-bs-target="#findIdPwModal" data-bs-toggle="modal">아이디 찾기</button>
+								<button type="button" id="findPw" class="findBtn findPw" data-bs-target="#findIdPwModal" data-bs-toggle="modal">비밀번호 찾기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 회원가입 모달 -->
+	<div class="modal fade" id="signupModal" aria-hidden="true"
+		data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">Signup</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body">
+					<form id="signupForm">
+						<div class="memberContainer">
+							<div class="row memberRow">
+								<div class="col-12">
+									<label class="form-check-label memberLabel" id="idLabel">아이디</label>
+								</div>
+								<div class="col-9">
+									<input type="text" class="form-control signupInput" id="id" name="id">
+								</div>
+								<div class="col-3">
+									<button type="button" id="checkIdBtn" class="btn btn-dark checkIdBtn"
+										style="width: 100%;">중복확인</button>
+								</div>
+								<p id="idTxt" class="txtCls idTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+							</div>
+							<div class="row memberRow">
+								<div class="col-12">
+									<label class="form-check-label memberLabel" id="pwLabel">비밀번호</label>
+								</div>
+								<div class="col-12">
+									<input type="password" id="pw" name="pw" class="form-control signupInput">
+									<p id="pwTxt" class="txtCls pwTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+								</div>
+							</div>
+							<div class="row memberRow">
+								<div class="col-12">
+									<label class="form-check-label memberLabel" id="pwCheckLabel">비밀번호 확인</label>
+								</div>
+								<div class="col-12">
+									<input type="password" id="pwCheck" name="pwCheck" class="form-control signupInput">
+									<p id="pwCheckTxt" class="txtCls pwCheckTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+								</div>
+							</div>
+							<div class="row memberRow">
+								<div class="col-12">
+									<label class="form-check-label memberLabel" id="nicknameLabel">닉네임</label>
+								</div>
+								<div class="col-9">
+									<input type="text" id="nickname" name="nickname" class="form-control signupInput">
+								</div>
+								<div class="col-3">
+									<button type="button" id="checkNicknameBtn" class="btn btn-dark checkNicknameBtn" style="width: 100%;">중복확인</button>
+								</div>
+								<p id="nicknameTxt" class="txtCls nicknameTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+							</div>
+							<!-- <div class="row" id="phoneDiv"> -->
+							<div class="row memberRow">	
+								<div class="col-12">
+									<label class="form-check-label memberLabel" id="phoneLabel">핸드폰</label>
+								</div>
+								<div class="col-3">
+									<select class="form-select signupInput selectPhone" aria-label="Default select example" id="phoneNum1">
+										<option value="선택" selected>선택</option>
+										<option value="010">010</option>
+										<option value="011">011</option>
+										<option value="012">012</option>
+										<option value="017">017</option>
+										<option value="019">019</option>
+									</select>
+								</div>
+								<div class="col-3">
+									<input type="text" id="phoneNum2" class="form-control signupInput phoneNum" name="phoneNum2" maxlength="4">
+								</div>
+								<div class="col-3">
+									<input type="text" id="phoneNum3" class="form-control signupInput phoneNum" name="phoneNum3" maxlength="4">
+								</div>
+								<div class="col-3">
+									<button type="button" class="btn btn-secondary sendSmsBtn" id="sendSmsBtn" style="width: 100%; font-size: 10px;">인증번호 전송</button>
+								</div>
+								<input type="text" id="phone" name="phone" class="phone" hidden>
+								<p class="txtCls phoneTxt" id="phonetxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+							</div>
+							<!-- <input type='text' id='phone' name='phone' class='phone' hidden> -->
+							<div class="row auth memberRow" id="auth"></div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal" onclick="invalidateAuthSession()">뒤로가기</button>
+					<button class="btn btn-dark" type="button" id="joinBtn">가입하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 아이디/비밀번호 찾기 모달 -->
+	<div class="modal fade" id="findIdPwModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title findTitle" id="exampleModalToggleLabel2"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body findModal-body">
+					<div class="row memberRow" id="findIdInput"></div>
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="phoneLabel">핸드폰</label>
+						</div>
+						<div class="col-3">
+							<select class="form-select signupInput selectPhone" aria-label="Default select example" id="phoneNum1_find">
+								<option value="선택" selected>선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="012">012</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						<div class="col-3">
+							<input type="text" id="phoneNum2_find" class="form-control signupInput phoneNum_find phoneNum" name="phoneNum2" maxlength="4">
+						</div>
+						<div class="col-3">
+							<input type="text" id="phoneNum3_find" class="form-control signupInput phoneNum_find phoneNum" name="phoneNum3" maxlength="4">
+						</div>
+						<div class="col-3">
+							<button type="button" class="btn btn-secondary sendAuthNumBtn" id="sendSmsBtn_find" style="width: 100%; font-size: 10px;">인증번호 전송</button>
+						</div>
+						<input type="text" id="phone_find" name="phone" class="phone" hidden>
+						<p class="txtCls phoneTxt" id="phoneTxt_find" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+					</div>
+					<div class="row auth memberRow" id="auth_find"></div>
+					<div class="row memberRow" id="idBox"></div>
+					
+				</div>
+				<div class="modal-footer findModalFooter"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 비밀번호 변경 모달 -->
+	<div class="modal fade" id="modifyPwModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">비밀번호 변경</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body">
+				<form id="modifyPwForm">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="pwLabel">새 비밀번호</label>
+						</div>
+						<div class="col-9">
+							<input type="password" id="newPw" name="pw" class="form-control signupInput">
+							<p id="pwTxt_update" class="txtCls pwTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px; color: grey;">비밀번호는 영문,숫자,특수문자를 포함하여 10자리 이상으로 설정해주세요.</p>
+						</div>
+					</div>
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="pwCheckLabel">새 비밀번호 확인</label>
+						</div>
+						<div class="col-9">
+							<input type="password" id="newPwCheck" class="form-control signupInput" name="pwCheck">
+							<p id="pwCheckTxt_update" class="txtCls pwCheckTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+						</div>
+					</div>
+				</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal">뒤로가기</button>
+					<button class="btn btn-dark" type="button" id="modifyPwBtn">변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- sns 회원가입 아이디 모달 -->
+	<div class="modal fade" id="snsIdModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">SNS 회원가입 (1/4)</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel">아이디</label>
+						</div>
+						<div class="col-9">
+							<input type="text" class="form-control signupInput" id="snsSignupId" name="id">
+						</div>
+						<div class="col-3">	
+							<button type="button" id="snsCheckIdBtn" class="btn btn-dark checkIdBtn" style="width: 100%;">중복확인</button>
+						</div>
+						<p id="snsIdTxt" class="txtCls idTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px; color: grey;">
+							영문 소문자로 시작하고 영문, 숫자를 조합하여 6~14 이내로 설정해주세요.
+						</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" style="background-color: #fff; border: none;" data-bs-target="#loginModal" data-bs-toggle="modal">
+						<i class="fas fa-arrow-left fa-lg" style="color: lightgrey;"></i>
+					</button>
+					<button type="button" style="background-color: #fff; border: none;" onclick="getSnsPwModal();">
+						<i class="fas fa-arrow-right fa-lg" style="color: #18a8f1;"></i>
+					</button> 
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- sns 회원가입 비밀번호 모달 -->
+	<div class="modal fade" id="snsPwModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">SNS 회원가입 (2/4)</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="pwLabel">비밀번호</label>
+						</div>
+						<div class="col-12">
+							<input type="password" id="snsSignupPw" name="pw" class="form-control signupInput">
+							<p id="snsPwTxt" class="txtCls pwTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;">
+								비밀번호는 영문,숫자,특수문자를 포함하여 10자리 이상으로 설정해주세요.
+							</p>
+						</div>
+					</div>
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="pwCheckLabel">비밀번호 확인</label>	
+						</div>
+						<div class="col-12">
+							<input type="password" id="snsSignupPwCheck" class="form-control signupInput"  name="pwCheck">
+							<p id="snsPwCheckTxt" class="txtCls pwCheckTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" style="background-color: #fff; border: none;" data-bs-target="#snsIdModal" data-bs-toggle="modal">
+						<i class="fas fa-arrow-left fa-lg" style="color: lightgrey;"></i>
+					</button>
+					<button type="button" style="background-color: #fff; border: none;" onclick="getSnsNicknameModal();">
+						<i class="fas fa-arrow-right fa-lg" style="color: #18a8f1;"></i>
+					</button> 
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- sns 회원가입 닉네임 모달 -->
+	<div class="modal fade" id="snsNicknameModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">SNS 회원가입 (3/4)</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="nicknameLabel">닉네임</label>
+						</div>
+						<div class="col-9">
+							<input type="text" id="snsSignupNickname" name="nickname" class="form-control signupInput">
+						</div>
+						<div class="col-3">
+							<button type="button" id="snsCheckNicknameBtn" class="btn btn-dark checkNicknameBtn" style="width: 100%;">중복확인</button>
+						</div>
+						<p id="snsNicknameTxt" class="txtCls nicknameTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;">
+							영문, 한글, 숫자를 조합하여 3자리 이상으로 설정해주세요.
+						</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" style="background-color: #fff; border: none;" data-bs-target="#snsPwModal" data-bs-toggle="modal">
+						<i class="fas fa-arrow-left fa-lg" style="color: lightgrey;"></i>
+					</button>
+					<button type="button" style="background-color: #fff; border: none;" onclick="getSnsPhoneModal();">
+						<i class="fas fa-arrow-right fa-lg" style="color: #18a8f1;"></i>
+					</button> 
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- sns 회원가입 휴대폰 모달 -->
+	<div class="modal fade" id="snsPhoneModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">SNS 회원가입 (4/4)</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" id="snsJoin" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="phoneLabel">핸드폰</label>
+						</div>
+						<div class="col-3">
+							<select class="form-select signupInput selectPhone" aria-label="Default select example" id="snsPhoneNum1">
+								<option value="선택" selected>선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="012">012</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						<div class="col-3">
+							<input type="text" id="snsPhoneNum2" class="form-control signupInput phoneNum snsPhoneNum" name="phoneNum2" maxlength="4">
+						</div>
+						<div class="col-3">
+							<input type="text" id="snsPhoneNum3" class="form-control signupInput phoneNum snsPhoneNum" name="phoneNum3" maxlength="4">
+						</div>
+						<div class="col-3">
+							<button type="button" class="btn btn-secondary sendSmsBtn" id="snsSendSmsBtn" style="width: 100%; font-size: 10px;">인증번호 전송</button>
+						</div>
+						<input type="text" id="snsPhone" name="phone" class="phone" hidden>
+						<p class="txtCls phoneTxt" id="snsPhoneTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+					</div>
+					<div class="row auth memberRow" id="snsSignupAuth"></div>
+				</div>
+				<div class="modal-footer">
+					<button type='button' style='background-color: #fff; border: none;' data-bs-target='#snsNicknameModal' data-bs-toggle='modal' onclick="invalidateAuthSession()">
+						<i class='fas fa-arrow-left fa-lg' style='color: lightgrey;'></i>
+					</button>
+					<button type='button' id='snsJoinBtn' style='background-color: #fff; border: none;'>
+						<i class='fas fa-check fa-lg' style='color: #18a8f1;'></i> 
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 네이버 연동 휴대폰인증 모달 -->
+	<div class="modal fade" id="naverAuthModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">네이버연동 휴대폰 인증</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" id="naverLinked" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel" id="phoneLabel">핸드폰</label>
+						</div>
+						<div class="col-3">
+							<select class="form-select signupInput selectPhone" aria-label="Default select example" id="snsPhoneAuthNum1">
+								<option value="선택" selected>선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="012">012</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						<div class="col-3">
+							<input type="text" id="snsPhoneAuthNum2" class="form-control signupInput phoneNum snsPhoneAuthNum" name="phoneNum2" maxlength="4">
+						</div>
+						<div class="col-3">
+							<input type="text" id="snsPhoneAuthNum3" class="form-control signupInput phoneNum snsPhoneAuthNum" name="phoneNum3" maxlength="4">
+						</div>
+						<div class="col-3">
+							<button type="button" class="btn btn-secondary sendAuthNumBtn" id="naverSendSmsBtn" style="width: 100%; font-size: 10px;">인증번호 전송</button>
+						</div>
+						<input type="text" id="snsPhoneAuth" name="phone" class="phone" hidden>
+						<p class="txtCls phoneTxt" id="snsPhoneAuthTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+					</div>
+					<div class="row auth memberRow" id="snsSignupAuth"></div>
+				</div>
+				<div class="modal-footer">
+					<button type='button' style='background-color: #fff; border: none;' data-bs-target='#loginModal' data-bs-toggle='modal' onclick="invalidateAuthSession()">
+						<i class='fas fa-arrow-left fa-lg' style='color: lightgrey;'></i>
+					</button>
+					<button type='button' id='naverLinkWithBtn' style='background-color: #fff; border: none;'>
+						<i class='fas fa-check fa-lg' style='color: #18a8f1;'></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 카카오 휴대폰인증 모달 -->
+	<div class="modal fade" id="kakaoAuthModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel2">카카오 휴대폰 인증</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="invalidateAuthSession()"></button>
+				</div>
+				<div class="modal-body" id="kakaoLinked" style="margin-top: 30px; margin-bottom: 30px;">
+					<div class="row memberRow">
+						<div class="col-12">
+							<label class="form-check-label memberLabel">핸드폰</label>
+						</div>
+						<div class="col-3">
+							<select class="form-select signupInput selectPhone" aria-label="Default select example" id="kakaoAuthPhoneNum1">
+								<option value="선택" selected>선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="012">012</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						<div class="col-3">
+							<input type="text" id="kakaoAuthPhoneNum2" class="form-control signupInput phoneNum kakaoPhoneAuthNum" name="phoneNum2" maxlength="4">
+						</div>
+						<div class="col-3">
+							<input type="text" id="kakaoAuthPhoneNum3" class="form-control signupInput phoneNum kakaoPhoneAuthNum" name="phoneNum3" maxlength="4">
+						</div>
+						<div class="col-3">
+							<button type="button" class="btn btn-secondary sendAuthNumBtn" id="kakaoSendSmsBtn" style="width: 100%; font-size: 10px;">인증번호 전송</button>
+						</div>
+						<input type="text" id="kakaoAuthPhone" name="phone" class="phone" hidden>
+						<p class="txtCls phoneTxt" id="kakaoAuthPhoneTxt" style="font-size: 8px; margin-bottom: 0; margin-top: 4px;"></p>
+					</div>
+					<div class="row auth memberRow"></div>
+					<input type="text" id="hiddenKakaoNum" hidden>
+					<input type="text" id="hiddenKakaoId" hidden>
+					<input type="text" id="hiddenKakaoNickname" hidden>
+				</div>
+				<div class="modal-footer">
+					<button type='button' style='background-color: #fff; border: none;' data-bs-target='#loginModal' data-bs-toggle='modal' onclick="invalidateAuthSession()">
+						<i class='fas fa-arrow-left fa-lg' style='color: lightgrey;'></i>
+					</button>
+					<button type='button' id='checkKakaoInfoBtn' style='background-color: #fff; border: none;'>
+						<i class='fas fa-check fa-lg' style='color: #18a8f1;'></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 회원가입, 로그인 스크립트 영역 -->
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/member.js"></script>
+	<script>
+	// 로그인 모달 오픈 함수
+	function openLoginModal() {
+		$("#loginModal").modal("show");
+	}
+	
+	// 로그아웃 함수
+    function logoutFunc() {
+        <c:choose>
+            <c:when test="${loginSession.naver_num != 0}"> // 네이버 로그인이면 네이버 로그아웃하고 로그아웃
+                naverLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0}">
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0 and loginSession.naver_num != 0}">
+                naverLogout();
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:otherwise>
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:otherwise>
+        </c:choose>
+    }
+	</script>
 
 </body>
 </html>

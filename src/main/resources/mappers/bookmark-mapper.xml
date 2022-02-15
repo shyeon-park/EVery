@@ -21,7 +21,7 @@
 	
 	<!-- 즐겨찾기 추가 -->
 	<insert id="insert" parameterType="map">
-		insert into tbl_bookmark values(#{id}, #{station}, #{institutionNm}, #{rdnmadr}, #{chrstnLcDesc}, #{useTime}, #{phoneNumber}, #{latitude}, #{longitude})
+		insert into tbl_bookmark values(#{id}, #{station}, #{institutionNm}, #{rdnmadr}, #{chrstnLcDesc}, #{useTime}, #{phoneNumber}, #{restde}, #{latitude}, #{longitude})
 	</insert>
 	
 	<!-- 즐겨찾기 페이징을 하기 위한 전체 카운딩 -->
@@ -33,5 +33,11 @@
 	<select id="selectAll" parameterType="Map" resultType="BookmarkDTO">
 		select * from(select row_number() over(order by station desc) 순위, a.* from(select * from tbl_bookmark where id = #{id}) a) where (순위 between #{startRange} and #{endRange})
 	</select>
+	
+	<!--  즐겨찾기 선택 -->
+	<select id="selectByStation" parameterType="Map" resultType="BookmarkDTO">
+		select * from tbl_bookmark where id = #{id} and station=#{station}
+	</select>
+	
 	
 </mapper>

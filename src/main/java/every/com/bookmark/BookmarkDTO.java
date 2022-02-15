@@ -8,13 +8,14 @@ public class BookmarkDTO {
 	private String chrstnLcDesc;
 	private String useTime;
 	private String phoneNumber;
+	private String restde;
 	private String latitude;
 	private String longitude;
 	
 	public BookmarkDTO() {}
-
+	
 	public BookmarkDTO(String id, String station, String institutionNm, String rdnmadr, String chrstnLcDesc,
-			String useTime, String phoneNumber, String latitude, String longitude) {
+			String useTime, String phoneNumber, String restde, String latitude, String longitude) {
 		super();
 		this.id = id;
 		this.station = station;
@@ -23,9 +24,12 @@ public class BookmarkDTO {
 		this.chrstnLcDesc = chrstnLcDesc;
 		this.useTime = useTime;
 		this.phoneNumber = phoneNumber;
+		this.restde = restde;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -83,6 +87,14 @@ public class BookmarkDTO {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public String getRestde() {
+		return restde;
+	}
+
+	public void setRestde(String restde) {
+		this.restde = restde;
+	}
+
 	public String getLatitude() {
 		return latitude;
 	}
@@ -98,6 +110,7 @@ public class BookmarkDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
 
 	
 	

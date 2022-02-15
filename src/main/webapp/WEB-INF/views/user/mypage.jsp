@@ -322,7 +322,7 @@ a:hover {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a onclick="openLoginModal();">로그인</a>
+						<a href="">로그인</a>
 					</div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
@@ -374,7 +374,7 @@ a:hover {
 		<c:choose>
 			<c:when test="${empty loginSession}">
 				<div class="col-12">
-					<a onclick="openLoginModal();">로그인</a>
+					<a href="#">로그인</a>
 				</div>
 			</c:when>
 			<c:when test="${!empty loginSession}">
@@ -764,7 +764,7 @@ a:hover {
 	 				for(let dto of data.bookmarkList){
 	 					let bookmark = "<div class='row bookmark-header m-1' style='height:outo; border-bottom:1px solid black;'>"
 	 									+ "<div class='col-5 d-flex justify-content-start'>"
-	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/station/toGetStation?station=" + dto.station + "'>" + dto.station + "</a>"
 	 									+ "</div>"
 	 									+ "<div class='col-5'>" + dto.rdnmadr + "</div>"
 	 									+ "<div class='col-2 d-flex justify-content-center'>"
@@ -1677,8 +1677,32 @@ a:hover {
 			console.log(e);
 		})
 	})	
+	
+	<!-- 로그아웃 스크립트 영역 -->
+	// 로그아웃 함수
+    function logoutFunc() {
+        <c:choose>
+            <c:when test="${loginSession.naver_num != 0}"> // 네이버 로그인이면 네이버 로그아웃하고 로그아웃
+                naverLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0}">
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0 and loginSession.naver_num != 0}">
+                naverLogout();
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:otherwise>
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:otherwise>
+        </c:choose>
+    }
 		
 	</script>
+	
 
 </body>
 </html>

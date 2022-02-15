@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import every.com.bookmark.BookmarkDTO;
+import every.com.bookmark.BookmarkService;
+import every.com.member.MemberDTO;
 import io.ipinfo.api.IPinfo;
 import io.ipinfo.api.errors.RateLimitedException;
 import io.ipinfo.api.model.IPResponse;
@@ -24,8 +27,22 @@ public class StationController {
 	@Autowired
 	private MapService map;
 	
+	@Autowired
+	private HttpSession session;
+	
+	@Autowired
+	private BookmarkService service;
+	
 	@RequestMapping(value="/toGetStation")
-	public String toGetStation() throws Exception{
+	public String toGetStation(String station) throws Exception{
+		System.out.println(station);
+		if(station != null && session.getAttribute("loginSession") != null) {
+			String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
+			BookmarkDTO dto = service.selectByStation(station,id);
+			session.setAttribute("BookmarkDTO", dto);
+		}else {
+			session.removeAttribute("BookmarkDTO");
+		}
 		return "station/station";
 	}
 	
