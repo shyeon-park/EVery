@@ -159,6 +159,27 @@
 		SELECT COUNT(*) FROM tbl_member WHERE id=#{id} AND pw=#{pw}
 	</select>
 	
+	<!-- 회원 전체 카운트하기 -->
+	<select id="countAllMember" resultType="int">
+		SELECT COUNT(*) FROM tbl_member
+	</select>
+	
+	<!-- 회원 리스트 출력 -->
+	<select id="getMemberList" parameterType="map" resultType="MemberDTO">
+		SELECT * 
+		FROM( SELECT ROW_NUMBER() OVER(ORDER BY signup_date desc) rank, a.* from tbl_member a )
+		where rank between #{startRange} and #{endRange}
+		order by rank asc
+	</select>
+	
+	<!-- 멤버삭제 -->
+	<delete id="deleteMember" parameterType="map">
+		DELETE FROM tbl_member WHERE
+		<foreach collection="userId" item="users" open="(" close=")" separator="or">
+			id=#{users}
+		</foreach>
+	</delete>
+	
 	
 	<!--************ 태환추가 ********************-->
 	<!-- 컬럼리스트 가져오기 -->

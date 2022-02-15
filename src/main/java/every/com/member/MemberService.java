@@ -91,6 +91,12 @@ public class MemberService {
 		return dao.checkMemberByIdAndPw(id, pw);
 	}
 	
+	// 관리자 회원 삭제
+	public int deleteMember(String[] userId) throws Exception{
+		return dao.deleteMember(userId);
+	}
+	
+	
 	
 	//컬럼리스트 목록 가져오기
 	public List<MemberDTO> appCompleteList() throws Exception{

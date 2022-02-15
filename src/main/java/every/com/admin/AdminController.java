@@ -42,12 +42,18 @@ public class AdminController {
 	
 	@RequestMapping("/")
 	public String home() throws Exception {
-		return "/admin/a_home";
+		return "admin/a_home";
 	}
 	
 	@RequestMapping("/columManager.do")
 	public String columManager() throws Exception{
 		System.out.println("ㅁㅁㅁ접속완료");
-		return "/admin/columManager";
+		return "admin/columManager";
+	}
+	
+	// 관리자 회원관리 페이지 요청
+	@RequestMapping("/getAdminUser.do")
+	public String getAdminUser() throws Exception {
+		return "admin/userManagement";
 	}
 }
