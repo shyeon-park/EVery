@@ -17,13 +17,21 @@
 	
 	<!-- 댓글 삭제 -->
 	<delete id="delete">
-		delete from   tbl_review where seq_review = #{seq_review}
+		delete from tbl_review where seq_review = #{seq_review}
 	</delete>
 	
 	<!-- 댓글 수정 -->
 	<update id="update" parameterType="Map">
 		update tbl_review set review = #{review} where seq_review = #{seq_review}
 	</update>
+	
+	<!-- 선택된 댓글 삭제 -->
+	<delete id="deleteManager" parameterType="map">
+		delete from tbl_review where seq_review in
+		<foreach collection="delList" item="arr" open="(" close=")" separator=",">
+		#{arr}
+		</foreach>
+	</delete>
 	
 	<!-- 각 충전소 별 페이징 카운팅 -->
 	<select id="countAll" resultType="int">

@@ -763,7 +763,7 @@ a:hover {
 	 				for(let dto of data.bookmarkList){
 	 					let bookmark = "<div class='row bookmark-header m-1' style='height:outo; border-bottom:1px solid black;'>"
 	 									+ "<div class='col-5 d-flex justify-content-start'>"
-	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/menu/toDetail.do?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/station/toGetStation?station=" + dto.station + "'>" + dto.station + "</a>"
 	 									+ "</div>"
 	 									+ "<div class='col-5'>" + dto.rdnmadr + "</div>"
 	 									+ "<div class='col-2 d-flex justify-content-center'>"

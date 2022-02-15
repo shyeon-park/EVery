@@ -38,4 +38,10 @@ public class BookmarkService {
 	public List<BookmarkDTO> selectAll(HashMap<String, Object> ranges) throws Exception{
 		return dao.selectAll(ranges);
 	}
+	
+	/* 즐겨찾기 선택 */
+	public BookmarkDTO selectByStation(String station,String id) throws Exception{
+		return dao.selectByStation(station,id);
+	}
+	
 }

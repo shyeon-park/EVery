@@ -47,6 +47,13 @@ public class ReviewDAO {
 		return session.update("reviewMapper.update", map);
 	}
 	
+	/* 선택된 댓글 삭제 */
+	public int deleteManager(Integer[] delList) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("delList", delList);
+		return session.delete("reviewMapper.deleteManager", map);
+	}
+	
 	/* 관리자 페이지 검색에 따른 카운팅 */
 	public int searchCountAll(String searchKey, String selected) throws Exception{
 		HashMap<String, Object> map = new HashMap<>();

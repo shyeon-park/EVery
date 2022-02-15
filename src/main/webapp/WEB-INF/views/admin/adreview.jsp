@@ -261,9 +261,12 @@ a:hover {
 	</div>
 	<div class="main">
 		<div class="container">
-			<div class="row" >
-				<div class="col-12" style="height:90%;">
+			<div class="row mt-5" >
+				<div class="col-10" style="height:90%;">
 					<h3>댓글 관리</h3>
+				</div>
+				<div class="col-2 d-flex justify-content-end" style="margin:auto;">
+					<button type="button" class="btn deleteCmt" style="background-color: rgb(167, 166, 170); color:white;">삭제</button>
 				</div>
 			</div>
 			<div class="row">	
@@ -340,11 +343,11 @@ a:hover {
 			}else{
 				for(let dto of data.adList){
 					let comment = "<div class='row d-flex justify-content-center' style='border-bottom: 2px dotted black; margin:0px;'>"
+								+ "<div class='col-1'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "<div class='col-2' style='margin:auto;'>" + dto.id + "</div>"
 								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
-								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
-								+ "<div class='col-4' style='margin:auto;'>" + dto.review + "</div>"
-								+ "<div class='col-1' style='margin:auto;'><button type='button' class='btn deleteCmt' style='background-color: rgb(167, 166, 170); color:white;' value='" + dto.seq_review + "'>삭제</button></div>"
+								+ "<div class='col-2' style='margin:auto;'>" + dto.written_date + "</div>"
+								+ "<div class='col-5' style='margin:auto;'>" + dto.review + "</div>"
 								+ "</div>"
 					$(".review-div").append(comment);
 				}
@@ -403,7 +406,6 @@ a:hover {
 								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
 								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
 								+ "<div class='col-3' style='margin:auto;'>" + dto.review + "</div>"
-								+ "<div class='col-2' style='margin:auto;' text-align:center'><button type='button' class='btn btn-secondary deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
 								+ "</div>"
 						$(".review-div").append(comment);			
 					}
@@ -453,18 +455,31 @@ a:hover {
 		if(!rs){
 			return;
 		}
-		$.ajax({
-			type : "get"
-			,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
-		}).done(function(rs){
-			if(rs == "success"){
-				getAdCommentList(1);
-			}else if(rs == "fail"){
-				alert("삭제에 실패하였습니다.");
-			}
-		}).fail(function(e){
-			console.log(e);
+		var delList = new Array();
+		$('input:checkbox[name=checkcheck]:checked').each(function(){
+			delList.push(this.value);	
 		});
+		console.log(delList);
+		if(delList.length != 0){
+		
+			$.ajax({
+				type : "post"
+				,data : {"delList" : delList}
+				,url : "${pageContext.request.contextPath}/review/deleteManager.do"
+			}).done(function(rs){
+				if(rs == "success"){
+					getAdCommentList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+		
+		}else{
+			alert("삭제할 컬럼을 선택하세요.");
+			return;
+		}
 	});
 	
 	
