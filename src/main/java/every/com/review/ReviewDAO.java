@@ -21,11 +21,7 @@ public class ReviewDAO {
 	
 	/* 관리자 페이지 (검색했을 때 그 결과만 가져옴) */
 	public List<ReviewDTO> searchByKey(HashMap<String, Object> ranges) throws Exception{
-		if(ranges.get("selected").equals("id")) {
-			return session.selectList("reviewMapper.searchById", ranges);
-		}else {
-			return session.selectList("reviewMapper.searchByStation", ranges);
-		}
+			return session.selectList("reviewMapper.searchBySelected", ranges);
 	}
 	
 	/* 관리자 페이지 전체 댓글 불러오기 */
@@ -51,13 +47,19 @@ public class ReviewDAO {
 		return session.update("reviewMapper.update", map);
 	}
 	
+	/* 선택된 댓글 삭제 */
+	public int deleteManager(Integer[] delList) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("delList", delList);
+		return session.delete("reviewMapper.deleteManager", map);
+	}
+	
 	/* 관리자 페이지 검색에 따른 카운팅 */
 	public int searchCountAll(String searchKey, String selected) throws Exception{
-		if(selected.equals("id")) {
-			return session.selectOne("reviewMapper.idCountAll", searchKey);
-		}else {
-			return session.selectOne("reviewMapper.stationCountAll", searchKey);
-		}
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("searchKey", searchKey);
+		map.put("selected", selected);
+		return session.selectOne("reviewMapper.selectedCountAll", map);
 		
 	}
 	

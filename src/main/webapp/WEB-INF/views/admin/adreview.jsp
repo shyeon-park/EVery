@@ -261,31 +261,36 @@ a:hover {
 	</div>
 	<div class="main">
 		<div class="container">
-			<div class="row" >
-				<div class="col-12" style="height:90%;">
-					<h3>댓글 관리</h3>
+			<div class="title-container" style="height:10%;">
+				<div class="row mb-3">
+					<div class="col-11">
+						<h3>댓글 관리</h3>
+					</div>
+					<div class="col-1 d-flex justify-content-center" style="margin:auto;">
+						<button type="button" class="btn deleteCmt" style="background-color: rgb(167, 166, 170); color:white;">삭제</button>
+					</div>
 				</div>
 			</div>
-			<div class="row">	
-				<div class="col-12 review-div mb-3">
-					<!-- 추가 -->
+			<div class="comment-container" style="height:60%; margin-bottom:20px;">
+				<!-- 추가 -->
+			</div>
+			<div class="search-container" style="height:10%;">
+				<div class="row input-div mb-3">
+			        <div class="col d-flex justify-content-center" style="margin:auto;">
+			            <div class="searchBox w-70" style="margin:0px; padding:auto; width:70%; height:90%;">
+				            <select class="selected" id="selected" name ="selected" style="height:auto;">
+				                <option value="id" selected>ID</option>
+				                <option value="station">충전소</option>
+				            </select>
+				            <input type="text" class="inputBox" id="searchKey" name="searchKey" placeholder="검색어를 입력해주세요" style="height:auto;">
+				            <button class="btn btn-searchBtn" id="searchOne">검색</button>
+				            <button class="btn btn-searchBtn" id="searchAll">전체보기</button>
+			            </div>
+			        </div>
 				</div>
 			</div>
-			<div class="row input-div mb-3">
-		        <div class="col-12 d-flex justify-content-center" style="margin:auto;">
-		            <div class="searchBox w-70" style="margin:0px; padding:auto; width:70%; height:90%;">
-			            <select class="selected" id="selected" name ="selected" style="height:auto;">
-			                <option value="id" selected>ID</option>
-			                <option value="station">충전소</option>
-			            </select>
-			            <input type="text" class="inputBox" id="searchKey" name="searchKey" placeholder="검색어를 입력해주세요" style="height:auto;">
-			            <button class="btn btn-searchBtn" id="searchOne">검색</button>
-			            <button class="btn btn-searchBtn" id="searchAll">전체보기</button>
-		            </div>
-		        </div>
-			</div>
-			<div class="row">
-				<div class="col-12 paging-div" style="height:10%;">
+			<div class="paging-div" style="height:10%;">
+				<div class="row paging-container">
 					<!-- 추가 -->
 				</div>
 			</div>
@@ -332,21 +337,21 @@ a:hover {
 			, url : "${pageContext.request.contextPath}/review/getAdReview.do?currentPage=" + currentPage
 		}).done(function(data){
 			// 기존에 댓글이 있다면 모두 비워주는 작업 
-			$(".review-div").empty();
-			$(".paging-div").empty();
+			$(".comment-container").empty();
+			$(".paging-container").empty();
 			if(data.adList == ""){
 				let commentNull = "<div class='col' style='border-bottom: 2px solid black;'><h4>등록된 댓글이 없습니다.</h4></div>";
-				$(".review-div").append(commentNull);
+				$(".comment-container").append(commentNull);
 			}else{
 				for(let dto of data.adList){
-					let comment = "<div class='row d-flex justify-content-center' style='border-bottom: 2px dotted black; margin:0px;'>"
-								+ "<div class='col-2' style='margin:auto;'>" + dto.id + "</div>"
-								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
-								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
-								+ "<div class='col-4' style='margin:auto;'>" + dto.review + "</div>"
-								+ "<div class='col-1' style='margin:auto;'><button type='button' class='btn deleteCmt' style='background-color: rgb(167, 166, 170); color:white;' value='" + dto.seq_review + "'>삭제</button></div>"
+					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
+								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-2'>" + dto.station + "</div>"
+								+ "<div class='col-2'>" + dto.written_date + "</div>"
+								+ "<div class='col-5'>" + dto.review + "</div>"
+								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
-					$(".review-div").append(comment);
+					$(".comment-container").append(comment);
 				}
 				
 				let startNavi = data.settingMap.startNavi;
@@ -369,7 +374,7 @@ a:hover {
 							
 					paging += "</ul>" + "</nav>";		
 							
-					$(".paging-div").append(paging);
+					$(".paging-container").append(paging);
 				
 			}
 		}).fail(function(e){
@@ -390,22 +395,22 @@ a:hover {
 			, url : "${pageContext.request.contextPath}/review/searchByKey.do?currentPage=" + currentPage
 			}).done(function(data){
 				// 기존에 댓글이 있다면 모두 비워주는 작업 
-				$(".review-div").empty();
-				$(".paging-div").empty();
+				$(".comment-container").empty();
+				$(".paging-container").empty();
 				if(data.byIdList == ""){
 					alert("검색 내용이 없습니다.");
 					let commentNull = "<div class='col-12 mt-4'><h4>검색 내용이 없습니다.</h4></div>";
-					$(".review-div").append(commentNull);
+					$(".comment-container").append(commentNull);
 				}else{
 					for(let dto of data.byIdList){
-					let comment = "<div class='row d-flex justify-content-center' style='border-bottom: 2px dotted black; margin:0px;'>"
-								+ "<div class='col-2' style='margin:auto;'>" + dto.id + "</div>"
-								+ "<div class='col-2' style='margin:auto;'>" + dto.station + "</div>"
-								+ "<div class='col-3' style='margin:auto;'>" + dto.written_date + "</div>"
-								+ "<div class='col-3' style='margin:auto;'>" + dto.review + "</div>"
-								+ "<div class='col-2' style='margin:auto;' text-align:center'><button type='button' class='btn btn-secondary deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
+								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-2'>" + dto.station + "</div>"
+								+ "<div class='col-2'>" + dto.written_date + "</div>"
+								+ "<div class='col-5'>" + dto.review + "</div>"
+								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
-						$(".review-div").append(comment);			
+						$(".comment-container").append(comment);			
 					}
 					
 					let startNavi = data.settingMap.startNavi;
@@ -428,7 +433,7 @@ a:hover {
 								
 					paging += "</ul>" + "</nav>";		
 								
-					$(".paging-div").append(paging);
+					$(".paging-container").append(paging);
 				
 			}
 				
@@ -445,6 +450,7 @@ a:hover {
 	// 전체 검색 버튼을 눌렀을 때
 	$("#searchAll").on("click", function(){
 		getAdCommentList(1);
+		$(".inputBox").val("");
 	});
 	
 	// 삭제버튼을 눌렀을 때 
@@ -453,18 +459,31 @@ a:hover {
 		if(!rs){
 			return;
 		}
-		$.ajax({
-			type : "get"
-			,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
-		}).done(function(rs){
-			if(rs == "success"){
-				getAdCommentList(1);
-			}else if(rs == "fail"){
-				alert("삭제에 실패하였습니다.");
-			}
-		}).fail(function(e){
-			console.log(e);
+		var delList = new Array();
+		$('input:checkbox[name=checkcheck]:checked').each(function(){
+			delList.push(this.value);	
 		});
+		console.log(delList);
+		if(delList.length != 0){
+		
+			$.ajax({
+				type : "post"
+				,data : {"delList" : delList}
+				,url : "${pageContext.request.contextPath}/review/deleteManager.do"
+			}).done(function(rs){
+				if(rs == "success"){
+					getAdCommentList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+		
+		}else{
+			alert("삭제할 컬럼을 선택하세요.");
+			return;
+		}
 	});
 	
 	

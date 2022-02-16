@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
-<script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
@@ -1234,7 +1233,6 @@ function getList(id,printId, num, mnList){
 	
 	<script>
 		$(function() {
-			
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
 			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
 				if (onNavbar == 0) {

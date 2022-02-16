@@ -43,4 +43,9 @@ public class ReviewService {
 	public int update(int seq_review, String review) throws Exception{
 		return dao.update(seq_review, review);
 	}
+	
+	/* 댓글 삭제 */
+	public int deleteManager(Integer[] delList) throws Exception{
+		return dao.deleteManager(delList);
+	}
 }
