@@ -27,24 +27,71 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+
 	<context:component-scan
 		base-package="every.com.*" />
-<!-- 	<interceptors> -->
-<!-- 		<interceptor> -->
-<!-- 			<mapping path="/**"/> -->
-<!-- 			<exclude-mapping path="/" /> -->
-<!-- 			<exclude-mapping path="/member/toSignup" /> -->
-<!-- 	<exclude-mapping path="/member/checkId" /> -->
-<!-- 	<exclude-mapping path="/member/signup" /> -->
-<!-- 	<exclude-mapping path="/member/login" /> -->
-<!-- 	<exclude-mapping path="/resources/**" /> -->
-<!-- 			<beans:bean class="kh.com.board.utils.LoginInterceptor"></beans:bean> -->
-<!-- 		</interceptor> -->
-<!-- 	</interceptors> -->
+	<interceptors>
+ 
+	<interceptor>
+  			<mapping path="/admin/**" /> 
+  			<exclude-mapping path="/admin/adminLogin.do"/>
+  		
 
+	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
+	
+	</interceptor> 
 
-<!-- 	<context:component-scan base-package="kh.com.board.* "/> -->
-<!-- 	<context:component-scan base-package="kh.com.board "/> -->
+	<interceptor>
+  			<mapping path="/**"/> 
+			<exclude-mapping path="/"/> 
+			<exclude-mapping path="/station/**"/> 
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/upload/**" />
+			
+			<!-- 멤버 -->
+			<exclude-mapping path="/member/getNaverPopup.do"/>
+			<exclude-mapping path="/member/snsLogin.do"/>
+			<exclude-mapping path="/member/snsLogin.do"/>
+			<exclude-mapping path="/member/checkMember.do"/>
+			<exclude-mapping path="/member/sendSms.do"/>
+			<exclude-mapping path="/member/authCheck.do"/>
+			<exclude-mapping path="/member/invalidateSession.do"/>
+			<exclude-mapping path="/member/signup.do"/>
+			<exclude-mapping path="/member/login.do"/>
+			<exclude-mapping path="/member/logout.do"/>
+			<exclude-mapping path="/member/getRequestAuthNum.do"/>
+			<exclude-mapping path="/member/getMemberId.do"/>
+			<exclude-mapping path="/member/getExistMember.do"/>
+			<exclude-mapping path="/member/getMypage.do"/>
+			<exclude-mapping path="/member/selectAllUser.do"/>
+            <exclude-mapping path="/member/deleteMember.do"/>
+			
+			<!-- 관리자 -->
+			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/getAdminUser.do"/>
+			
+			
+			<!-- 보드 -->
+			<exclude-mapping path="/board/toBoard.do"/>
+			<exclude-mapping path="/board/boardList"/>
+			<exclude-mapping path="/board/boardlist.do"/>
+			<exclude-mapping path="/board/detail.do"/>
+			<exclude-mapping path="/board/toDetail.do"/>
+			<exclude-mapping path="/board/mainList.do"/>
+			<exclude-mapping path="/board/searchProc.do"/>
+			<exclude-mapping path="/board/search.do"/>
+				
+			<!-- review -->
+			<exclude-mapping path="/review/getReview.do"/>
+			
+	<beans:bean id= "loginInterceptor" class="every.com.utils.LoginInterceptor"/> 
+	</interceptor> 
+	
+
+	
+</interceptors>
+			
+
 	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

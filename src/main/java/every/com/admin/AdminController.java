@@ -47,7 +47,6 @@ public class AdminController {
 	
 	@RequestMapping("/columManager.do")
 	public String columManager() throws Exception{
-		System.out.println("ㅁㅁㅁ접속완료");
 		return "admin/columManager";
 	}
 	

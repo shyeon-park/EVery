@@ -225,20 +225,20 @@ a:hover {
 
 
 .tabContents {
-   padding: 80px;
-   /*
-   border-left: 1px solid #333;
-   border-right: 1px solid #333;*/
-   border-bottom: 1px solid #333;
-   display: none;
+	padding: 80px;
+	/*
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;*/
+	/*border-bottom: 1px solid #333;*/
+	display: none;
 }
 
 .tabContents.current {
-   display: block;
-   /*
-   border-left: 2px solid #ccc;
-   border-right: 2px solid #ccc;*/
-   border-bottom: 2px solid #333;
+	display: block;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	/*border-bottom: 2px solid #333;*/
 }
 
 
@@ -408,7 +408,6 @@ a:hover {
       </c:choose>
    </div>
 
-
    <div class="main">
       <div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
          <div class="col-12" style="text-align: center;">
@@ -472,7 +471,7 @@ a:hover {
                </div>
                <div class="row mt-4">
                   <div class="col-12" style="text-align: right;">
-                     <button type="button" class="btn btn-danger" id="applicationColStBtn">컬럼니스트 신청</button>
+                     <button type="button" class="btn btn-danger" id="applicationColStBtn">칼럼리스트 신청</button>
                      <c:if test="${loginSession.pw != null}">
                         <button type="button" class="btn" id="modifyPwBtn">비밀번호 변경</button>
                      </c:if>
@@ -700,7 +699,7 @@ a:hover {
    </div>
 
 
-   <div class="footer" style="margin-top: 150px;">
+   <div class="footer">
       <div class="row footer-body">
          <div class="col-12 col-xl-6 footer-body-left">
             <p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
@@ -930,7 +929,7 @@ a:hover {
    })
    
    
-    ws = new WebSocket("ws://13.209.64.187:8080/column");
+    ws = new WebSocket("ws://172.30.1.60/column");
      //메세지수신
       ws.onmessage = function(e) {
          //console.log( e.data );

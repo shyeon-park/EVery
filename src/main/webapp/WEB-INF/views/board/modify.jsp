@@ -18,7 +18,7 @@
   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
   
     
-<title>상세보기</title>
+<title>칼럼 수정</title>
 
 <style>
 @import
