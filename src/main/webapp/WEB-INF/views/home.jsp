@@ -113,6 +113,10 @@ a:hover {
 	margin: auto;
 }
 
+#colum_list{
+	width: 82.6vw;
+	margin: auto;
+}
 .card {
 	border-radius: 10%;
 	margin: auto;
@@ -363,13 +367,17 @@ margin: 0;
 	<!-- *********************** -->
 	<!-- *******메인******** -->
 	<!-- *********************** -->
+		<img src="/resources/images/main.jpg" width="100%">
 	
 	
 	
-	
-	
-	<div class="row">
-		<div class="col-12">
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3" style="text-align:left;">
+			<a href="#" style="font-size:24px;">칼럼</a>
+		</div>
+	</div>
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3">
 			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
 			    <div class="carousel-item active col-12 d-flex" id = "printList">
