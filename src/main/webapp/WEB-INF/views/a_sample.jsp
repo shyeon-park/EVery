@@ -180,13 +180,13 @@ a:hover {
 				<a href="">회원관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">블랙리스트</a>
+				<a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">컬럼관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">고객지원</a>
+				<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
 			</div>
 			<div class="col-xl-7 col-9 navi-menu"></div>
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
@@ -200,13 +200,13 @@ a:hover {
 			<a href="">회원관리</a>
 		</div>
 		<div class="col-12">
-			<a href="">블랙리스트</a>
+			<a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 		</div>
 		<div class="col-12">
 			<a href="">컬럼관리</a>
 		</div>
 		<div class="col-12">
-			<a href="">고객지원</a>
+			<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
 		</div>
 	</div>
 	<div class="main">

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전기차의 모든것 EVery</title>
+<title>블랙리스트</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -45,6 +45,7 @@ html {
 body {
 	width: 100%;
 	height: auto;
+	background-color: lightgray;
 }
 
 a {
@@ -63,6 +64,7 @@ a {
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 1;
+	background-color: lightgray;
 }
 
 .nav-items {
@@ -171,10 +173,6 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 }
-
-.foot-bottom-right {
-	text-align: right;
-}
 </style>
 </head>
 <body>
@@ -182,55 +180,23 @@ a:hover {
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
-					src="/resources/images/logo.png" width="80px"></a>
+					src="/resources/images/a_logo.png" width="80px"></a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="${pageContext.request.contextPath }/station/toGetStation">충전소조회</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">칼럼</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
+				<a href="">회원관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a
-					href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
+					href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 			</div>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-					<div class="col-xl-5 col-8 navi-menu"></div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-4 col-6 navi-menu"></div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그인</a>
-					</div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그아웃</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<div class="col-xl-1 col-1 navi-menu">
-				<a id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-				<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a href="">컬럼관리</a>
 			</div>
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a
+					href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
+			</div>
+			<div class="col-xl-7 col-9 navi-menu"></div>
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png"
 					width="20px" height="24px"></a>
@@ -239,71 +205,69 @@ a:hover {
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소
-				조회</a>
+			<a href="">회원관리</a>
 		</div>
 		<div class="col-12">
-			<a href="">칼럼</a>
+			<a
+				href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 		</div>
 		<div class="col-12">
-			<a href="">커뮤니티</a>
+			<a href="">컬럼관리</a>
 		</div>
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
+			<a
+				href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
 		</div>
-		<c:choose>
-			<c:when test="${empty loginSession}">
-			</c:when>
-			<c:when test="${!empty loginSession}">
-				<div class="col-12">
-					<a href="">마이페이지</a>
-				</div>
-			</c:when>
-		</c:choose>
-
-		<c:choose>
-			<c:when test="${empty loginSession}">
-				<div class="col-12">
-					<a href="">로그인</a>
-				</div>
-			</c:when>
-			<c:when test="${!empty loginSession}">
-				<div class="col-12">
-					<a href="">로그아웃</a>
-				</div>
-			</c:when>
-		</c:choose>
 	</div>
 	<div class="main">
 		<div class="container">
-			<div class="row">
-				<div class="col d-flex justify-content-center">
-					<h2>자주 묻는 질문</h2>
+			<div class="row mt-4">
+				<div class="col-3 suv_title_div">
+					<h3>블랙리스트</h3>
+				</div>
+				<div class="col-9" style="text-align: right;">
+					<button type="button" id="btnToInsert" class="btn btn-dark">추가</button>
+					<button type="button" id="modifyBtn" class="btn btn-dark">수정</button>
+					<button type="button" id="deleteBtn" class="btn btn-dark">삭제</button>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-6">
-					<label for="title" class="form-label">제목</label> <input type="text"
-						class="form-control" id="title" name="faq_title"
-						value="${faqDTO.faq_title}" readonly>
-				</div>
-			</div>
-			<div class="row">
+			<div class="row mt-4" id="content">
 				<div class="col">
-					<label for="content" class="form-label">내용</label>
-					<textarea class="form-control" id="content" name="faq_content"
-						rows="10" readonly>${faqDTO.faq_content}</textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<input type="text" class="form-control" name="admin_id"
-						value="${faqDTO.admin_id}" hidden>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary" id="backBtn">목록으로</button>
+					<form id="blacklist">
+						<table class="table table-hover">
+							<thead>
+								<tr style="text-align: center;">
+									<th class="col-1"><input type="checkbox" id="checkAll"></th>
+									<th class="col-2">아이디</th>
+									<th class="col-2">닉네임</th>
+									<th class="col-4">사유</th>
+									<th class="col-3">추가일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${empty list}">
+										<tr>
+											<td colspan="6" style="text-align: center;">등록된 블랙리스트가
+												없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto">
+											<tr class="blacklist" style="text-align: center;">
+												<td><input type="checkbox" class="checkOne"
+													name="checkOne" value="${dto.id}"></td>
+												<td>${dto.id}</td>
+												<td>${dto.nickname}</td>
+												<td>${dto.reason}</td>
+												<td>${dto.black_date}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -331,62 +295,67 @@ a:hover {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>
-			</div>
+			<div class="col">ⓒ EVery Inc. All Rights Reserved.</div>
 		</div>
 
 	</div>
-	<script>
-		// 뒤로가기 
-		$("#backBtn")
-				.on(
-						"click",
-						function() {
-							location.href = "${pageContext.request.contextPath}/faq/toFaqList.do";
-						});
-	</script>
-	<script>
-		$(function() {
 
-			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
-				if (onNavbar == 0) {
-					$('.navi-onButtons').css({
-						"height" : "auto",
-						"display" : "block"
-					}); // 세로 네비영역 열기
-					$('.main').css({
-						"padding-top" : "10px"
-					});
-					onNavbar = 1;
-					$('html, body').animate({
-						scrollTop : 0
-					}, 100);
-					return false;
-				} else {
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					$('.main').css({
-						"padding-top" : "92px"
-					});
-					onNavbar = 0;
-				}
-			});
+	<script>
+		// 추가 페이지 이동 요청
+		document.getElementById("btnToInsert").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/blacklist/toInsert.do";
+		}
 
-			$(window).resize(function() { //브라우저 크기를 조정했을때
-				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					onNavbar = 0;
-				}
-			});
+		// 전체 선택
+		$("#checkAll").on('click', function() {
+			if ($("#checkAll").prop("checked")) {
+				$("input[name=checkOne]").prop("checked", true)
+			} else {
+				$("input[name=checkOne]").prop("checked", false)
+			}
 		});
+
+		// 선택 삭제
+		$(document).on("click", '#deleteBtn', function() {
+			var cnt = $("input[name='checkOne']:checked").length;
+			var arr = new Array();
+			
+			$("input[name='checkOne']:checked").each(function() {
+				arr.push($(this).attr('id'));
+			});
+
+			if (cnt == 0) {
+				alert("삭제할 항목을 선택해주세요.");
+			}else {
+				var confirm_val = confirm("정말 삭제하시겠습니까?");
+				if (confirm_val) {
+					$.ajax({
+						url : "/blacklist/delete.do",
+						type : "post",
+						data : "text",
+						dataType : "json",
+						success : alert("삭제되었습니다."),
+						error : function() {
+							alert("삭제에 실패하였습니다. 다시 시도해 주세요.");
+						}
+					});
+				}
+			}
+		});
+	</script>
+
+
+	$(function() { let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+	$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시 if (onNavbar
+	== 0) { $('.navi-onButtons').css({ "height" : "auto", "display" :
+	"block" }); // 세로 네비영역 열기 $('.main').css({ "padding-top" : "10px" });
+	onNavbar = 1; $('html, body').animate({ scrollTop : 0 }, 100); return
+	false; } else { $('.navi-onButtons').css({ "height" : "0", "display" :
+	"none" }); //세로 네비영역 닫기 $('.main').css({ "padding-top" : "92px" });
+	onNavbar = 0; } }); $(window).resize(function() { //브라우저 크기를 조정했을때 if
+	(window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+	$('.navi-onButtons').css({ "height" : "0", "display" : "none" }); //세로
+	네비영역 닫기 onNavbar = 0; } }); });
 	</script>
 </body>
 </html>

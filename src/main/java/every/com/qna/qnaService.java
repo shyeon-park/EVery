@@ -2,6 +2,8 @@ package every.com.qna;
 
 import java.util.List;
 
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,25 +16,28 @@ public class qnaService {
 	public List<qnaDTO> list() throws Exception {
 		return dao.qnaList();
 	}
-
-	// 전체 문의글 수
-	public int listCount() throws Exception {
-		return dao.listCount();
-	}
 	
+//	// 내 문의 조회
+//	public List<qnaDTO> myList() throws Exception {
+//	}
 	
+	// 상세 조회
 	public qnaDTO selectOne(int seq_qna) throws Exception {
 		return dao.selectOne(seq_qna);
 	}
 	
-	// 등록
-	public void insert(qnaDTO dto) throws Exception {
+	// 문의 등록
+	public void insertQuestion(qnaDTO dto) throws Exception {
 		dao.insertQuestion(dto);
 	}
 
 	// 삭제
 	public void delete(int seq_qna) throws Exception {
-		dao.deleteQna(seq_qna);
+		dao.delete(seq_qna);
 	}
 
+	// 답변 등록
+	public void insertAnswer(qnaDTO dto) throws Exception {
+		dao.insertAnswer(dto);
+	}
 }

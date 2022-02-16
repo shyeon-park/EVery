@@ -1,5 +1,6 @@
 package every.com.blacklist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,13 +19,18 @@ public class blacklistDAO {
 		return session.selectList("blacklistMapper.blacklist");
 	}
 	
+	// 회원 전체 조회(블랙리스트 추가용)
+	public List<MemberDTO> memberList() throws Exception {
+		return session.selectList("blacklistMapper.memberList");
+	}
+	
 	// 블랙리스트 등록
 	public int insert(blacklistDTO dto) throws Exception {
 		return session.insert("blacklistMapper.insert", dto);
 	}
 	
 	// 블랙 사유 수정
-	public int modifyReason(String reason) throws Exception {
+	public int modify(String reason) throws Exception {
 		return session.update("blacklistMapper.modify", reason);
 	}
 	
@@ -32,14 +38,6 @@ public class blacklistDAO {
 	public int delete(String id) throws Exception {
 		return session.delete("blacklistMapper.delete", id);
 	}
-	
-	// 아이디로 검색
-	public List<blacklistDTO> searchById(String id) throws Exception {
-		return session.selectList("blacklistMapper.searchById", id);
-	}
 		
-	// 회원 전체 조회(블랙리스트 추가용)
-	public List<MemberDTO> memberList() throws Exception {
-		return session.selectList("blacklistMapper.memberList");
-	}
+
 }

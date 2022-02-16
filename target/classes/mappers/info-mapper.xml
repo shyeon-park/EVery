@@ -11,35 +11,30 @@
 			from tbl_info
 			order by seq_info
 	</select>
-
-	<insert id="insertInfo" parameterType="infoDTO">
-		insert into tbl_info values
-			(#{seq_info}, #{admin_id}, #{info_title}, #{info_content}, sysdate)
-	</insert>
-	
-	<select id="selectAll" resultType="infoDTO">
-		select seq_info, admin_id, info_title, info_written_date
-		from tbl_info
-		order by seq_info desc
-	</select>
-	
+		
+	<!-- 상세조회 -->
 	<select id="selectOne" resultType="infoDTO">
 		select * from tbl_info
 		where seq_info = #{seq_info}
 	</select>
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="infoDTO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			select seq_info.nextval as seq_info from tbl_info
+		</selectKey>
+		insert into tbl_info values
+			(seq_info, #{admin_id}, #{info_title}, #{info_content}, sysdate)
+	</insert>
 	
-	<select id="searchByTitle" resultType="infoDTO">
-		select #{seq_info}, #{admin_id}, #{info_title}, #{info_written_date}
-		from tbl_info
-		where #{info_title} like %search%
-	</select>
-	
+	<!-- 수정 -->
 	<update id="modify" parameterType="infoDTO">
 		update tbl_info set
 			info_title = #{info_title}, info_content = #{info_content}
 			where seq_info = #{seq_info}
 	</update>
 	
+	<!-- 삭제 -->
 	<delete id="delete">
 		delete from tbl_info
 			where seq_info = #{seq_info}

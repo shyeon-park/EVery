@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전기차의 모든것 EVery</title>
+<title>EVery 관리자</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -45,6 +45,7 @@ html {
 body {
 	width: 100%;
 	height: auto;
+	background-color: lightgray;
 }
 
 a {
@@ -63,6 +64,7 @@ a {
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 1;
+	background-color: lightgray;
 }
 
 .nav-items {
@@ -171,10 +173,6 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 }
-
-.foot-bottom-right {
-	text-align: right;
-}
 </style>
 </head>
 <body>
@@ -182,55 +180,22 @@ a:hover {
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
-					src="/resources/images/logo.png" width="80px"></a>
+					src="/resources/images/a_logo.png" width="80px"></a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="${pageContext.request.contextPath }/station/toGetStation">충전소조회</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">칼럼</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
+				<a href="">회원관리</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a
-					href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
+					href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 			</div>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-					<div class="col-xl-5 col-8 navi-menu"></div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-4 col-6 navi-menu"></div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그인</a>
-					</div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그아웃</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<div class="col-xl-1 col-1 navi-menu">
-				<a id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-				<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a href="">컬럼관리</a>
 			</div>
+			<div class="col-xl-1 d-none d-xl-block navi-menu">
+				<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
+			</div>
+			<div class="col-xl-7 col-9 navi-menu"></div>
 			<div class="col-xl-0 col-1 d-xl-none navi-menu">
 				<a id="btn_navi_menu"><img src="/resources/images/menu.png"
 					width="20px" height="24px"></a>
@@ -239,74 +204,62 @@ a:hover {
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소
-				조회</a>
+			<a href="">회원관리</a>
 		</div>
 		<div class="col-12">
-			<a href="">칼럼</a>
+			<a
+				href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
 		</div>
 		<div class="col-12">
-			<a href="">커뮤니티</a>
+			<a href="">컬럼관리</a>
 		</div>
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
+			<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
 		</div>
-		<c:choose>
-			<c:when test="${empty loginSession}">
-			</c:when>
-			<c:when test="${!empty loginSession}">
-				<div class="col-12">
-					<a href="">마이페이지</a>
-				</div>
-			</c:when>
-		</c:choose>
-
-		<c:choose>
-			<c:when test="${empty loginSession}">
-				<div class="col-12">
-					<a href="">로그인</a>
-				</div>
-			</c:when>
-			<c:when test="${!empty loginSession}">
-				<div class="col-12">
-					<a href="">로그아웃</a>
-				</div>
-			</c:when>
-		</c:choose>
 	</div>
 	<div class="main">
-		<div class="container">
-			<div class="row">
-				<div class="col d-flex justify-content-center">
-					<h2>자주 묻는 질문</h2>
+		<form id="infoForm"
+			action="${pageContext.request.contextPath}/info/modify.do"
+			method="post" enctype="multipart/form-data">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex justify-content-center">
+						<h2>공지사항</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<label for="title" class="form-label">제목</label> <input
+							type="text" class="form-control" id="title" name="info_title"
+							value="${infoDTO.info_title}" readonly>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label for="content" class="form-label">내용</label>
+						<textarea class="form-control" id="content" name="info_content"
+							rows="10" readonly>${infoDTO.info_content}</textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<input type="text" class="form-control" name="admin_id"
+							value="${infoDTO.admin_id}" hidden> <input type="text"
+							class="form-control" name="seq_info" value="${infoDTO.seq_info}"
+							hidden>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col d-flex justify-content-end">
+						<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
+						<button type="button" class="btn btn-primary" id="modifyBtn">수정</button>
+						<button type="button" class="btn btn-primary" id="completeBtn"
+							hidden>완료</button>
+						<button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-6">
-					<label for="title" class="form-label">제목</label> <input type="text"
-						class="form-control" id="title" name="faq_title"
-						value="${faqDTO.faq_title}" readonly>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<label for="content" class="form-label">내용</label>
-					<textarea class="form-control" id="content" name="faq_content"
-						rows="10" readonly>${faqDTO.faq_content}</textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<input type="text" class="form-control" name="admin_id"
-						value="${faqDTO.admin_id}" hidden>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary" id="backBtn">목록으로</button>
-				</div>
-			</div>
-		</div>
+		</form>
 	</div>
 	<div class="footer">
 
@@ -331,21 +284,32 @@ a:hover {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>
-			</div>
+			<div class="col">ⓒ EVery Inc. All Rights Reserved.</div>
 		</div>
 
 	</div>
 	<script>
+	
+	$("#modifyBtn").on("click", function(){
+		$("#title").attr("readonly", false);
+		$("#content").attr("readonly", false);
+		$("#backBtn").hide();
+		$("#modifyBtn").hide();
+		$("#deleteBtn").hide();
+		$("#completeBtn").removeAttr("hidden");
+	});
+	
+	$("#completeBtn").on("click", function(){
+		// 원래 title, content 안에 있던 내용이 지금 수정한 내용과 비교했을 때 바뀌었다면 폼을 제출하게끔
+		
+		$("#infoForm").submit();
+		$("#backBtn").display();
+		$("deleteBtn").display();
+	})
 		// 뒤로가기 
-		$("#backBtn")
-				.on(
-						"click",
-						function() {
-							location.href = "${pageContext.request.contextPath}/faq/toFaqList.do";
-						});
+		$("#backBtn").on("click", function(){
+			location.href = "${pageContext.request.contextPath}/info/toAInfoList.do";
+		});
 	</script>
 	<script>
 		$(function() {

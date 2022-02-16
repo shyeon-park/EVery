@@ -32,13 +32,8 @@ public class infoDAO {
 	}
 	
 	// 공지사항 삭제
-	public int delete(int seq_info) throws Exception {
-		return session.delete("infoMapper.delete", seq_info);
-	}
-	
-	// 제목으로 검색
-	public List<infoDTO> searchByTitle(String title) throws Exception {
-		return session.selectList("infoMapper.searchByTitle", title);
+	public int delete(infoDTO dto) throws Exception {
+		return session.delete("infoMapper.delete", dto);
 	}
 
 	

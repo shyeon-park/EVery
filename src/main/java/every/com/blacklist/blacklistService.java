@@ -29,7 +29,7 @@ public class blacklistService {
 	
 	// 수정
 	public void modify(String reason) throws Exception {
-		dao.modifyReason(reason);
+		dao.modify(reason);
 	}
 	
 	// 삭제
@@ -37,12 +37,5 @@ public class blacklistService {
 		dao.delete(id);
 	}
 	
-	// 검색
-	public List<blacklistDTO> search(String id) throws Exception {
-		List<blacklistDTO> list = dao.searchById(id);
-		return list;
-	}
-
-	
-
 }
+
