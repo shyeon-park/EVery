@@ -254,83 +254,13 @@ a:hover {
 }
 </style>
 <style>
-	.main-comment-container {
-		
-	}
-	textarea {
-		resize: none;
-		font-size:12px;
-		height:100%;
-		maxlength:200;
-		width:100%;
-		border:none;
-		outline: none;
-		overflow:hidden;
-	}
-	
-	.main-comment-container{
-		height:450px;
-	}
-	
-	.paging-container{
-		height:50px;
-	}
-	
-	.cmt-container {
-		background-color: white !important;
-		border: 1px solid lightgrey;
-		height:400px;
-		margin-top:20px;
-	}
-	
-	.cmt-showBox{
-		height:330px;
-		overflow:auto;
-	}
-	
-	.comment-header {
-		border-bottom: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-body {
-		padding: 2px;
-		border: 1px solid rgb(214, 214, 214);
-	}
-	
-	.comment-input{
-		height:50px;
-		padding-bottom:5px;
-	}
-	
-	.cmt-info {
-		font-size: 12px;
-		font-weight: bold;
-	}
-	
-	.cmt-info1 {
-		font-size: 11px;
-		padding-top:2px;
-	}
-	
-	.pagination{
-		column-gap: 2px;
-	}
-	
-	.page-item{
-		color:black;
-	
-	
-}
-
 textarea {
 	resize: none;
 	font-size: 12px;
-	height: 100%;
-	maxlength: 200;
-	width: 100%;
 	border: none;
 	outline: none;
 	overflow: hidden;
+	width:100%;
 }
 
 .main-comment-container {
@@ -341,15 +271,10 @@ textarea {
 	height: 50px;
 }
 
-.cmt-container {
-	background-color: white !important;
-	border: 1px solid lightgrey;
-	height: 400px;
-}
-
-.cmt-showBox {
+.show-container {
 	height: 330px;
 	overflow: auto;
+	overflow-x: hidden;
 }
 
 .comment-header {
@@ -358,12 +283,12 @@ textarea {
 
 .comment-body {
 	padding: 2px;
-	border: 1px solid rgb(214, 214, 214);
+	border: 2px solid rgb(214, 214, 214);
 }
 
 .comment-input {
 	height: 50px;
-	padding-bottom: 5px;
+	margin:auto;
 }
 
 .cmt-info {
@@ -556,36 +481,30 @@ textarea {
 				</div>
 				
 
-				<div id="main-comment-container">
-					<div class="cmt-container">
-						<div class="cmt-inputBox">
-							<form id="reviewForm" method="post">
-								<div class="row comment-body m-1">
-									<div class="col-10 comment-input" style="padding: 0px;">
-										<textarea class="review" id="review" name="review"
-											style="resize: none; font-size: 12px; height: 100%;"
-											placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
-									</div>
-									<div
-										class="col-2 comment-input d-flex align-items-center justify-content-center"
-										style="padding: 0px; position: relative;">
-										<button type="button" id="btnSave"
-											style="position: absolute; bottom: 0px; padding: 0px; border: 1px solid lightgrey; font-size: 11px; height: 30px; width: 100%;"
-											class="btn btn-btnSave">등록</button>
-									</div>
+				<div class="row main-comment-container">
+					<div class="col-12 input-container">
+						<form id="reviewForm" method="post">
+							<div class="row comment-body mb-2">
+								<div class="col-10 comment-input">
+									<textarea class="review" id="review" name="review"
+										style="resize: none;"
+										placeholder="댓글을 입력해주세요. (80자 이내)"></textarea>
 								</div>
-								<input id="station" type="text" name="station" value="" hidden>
-							</form>
-						</div>
-
-						<div class="cmt-showBox">
-							<!-- 동적 댓글 영역 -->
-						</div>
+								<div class="col-2 comment-input d-flex align-items-center justify-content-center"
+									style="padding: 0px; position: relative;">
+									<button type="button" id="btnSave"
+										style="position: absolute; bottom: 0px; padding: 0px; border: 1px solid lightgrey; font-size: 11px; height: 30px; width: 100%;"
+										class="btn btn-btnSave">등록</button>
+								</div>
+							</div>
+							<input id="station" type="text" name="station" value="" hidden>
+						</form>
 					</div>
-					<div class="paging-container">
-						<div class="cmt-paging">
-							<!-- 동적 페이징 영역 -->
-						</div>
+					<div class="col-12 show-container">
+						<!-- 동적 댓글 영역 -->
+					</div>
+					<div class="col-12 paging-container">
+						<!-- 동적 페이징 영역 -->
 					</div>
 				</div>
 			</div>
@@ -817,31 +736,31 @@ textarea {
 		}).done(function(data1){
 			// 기존에 댓글이 있다면 모두 비워주는 작업 
 			// 페이징도 다시 해주어야 하기때문에 비워줌
-			$(".cmt-showBox").empty();
-			$(".cmt-paging").empty();
+			$(".show-container").empty();
+			$(".paging-container").empty();
 			console.log(data1);
 			console.log(station);
 			if(data1.reviewList == ""){
 				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h6>댓글을 등록해보세요.</h6></div>";
-				$(".cmt-showBox").append(commentNull);
+				$(".show-container").append(commentNull);
 			}else{
 				for(let dto of data1.reviewList){
 				
-				let comment = "<div class='row comment-header m-1' style='height:auto;'>"
+				let comment = "<div class='row comment-header mb-2'>"
 				 + "<div class='col-3 cmt-info'>"
 				 +  dto.id
 				 + "</div>"
 	             + "<div class='col-7 plusBtn cmt-info1'>"
 	             + dto.written_date
 	             + "</div>"
-	             + "<div class='col-12 contentDiv-cmt' style='height:auto;'>"
-	             + "<textarea class='content-cmt' style='font-size:12px;width:100%;' name='comment' readonly>"
+	             + "<div class='col-12 contentDiv-cmt'>"
+	             + "<textarea class='content-cmt' style='font-size:12px; height:80px;' name='comment' readonly>"
 	             + dto.review
 	             + "</textarea>"
 	             + "</div>"
 	             + "</div>"
 	             // 댓글 동적 요소 추가
-	             $(".cmt-showBox").append(comment);
+	             $(".show-container").append(comment);
 	             
 	          	// 수정 삭제 버튼 영역	 
 	          	if("${loginSession.id}" == dto.id){ // 작성자와 로그인 아이디가 같을 경우에만 수정삭제 버튼 추가 
@@ -876,7 +795,7 @@ textarea {
 						
 				paging += "</ul>" + "</nav>";		
 						
-				$(".cmt-paging").append(paging);
+				$(".paging-container").append(paging);
 			}
 			
 						
@@ -1112,7 +1031,7 @@ textarea {
 								tempDiv += "완속";
 							}
 							tempDiv += "</th>";
-							if(temp[j].fastChrstnType == ""){
+							if(temp[j].fastChrstnType == "" || temp[j].fastChrstnType == "X"){
 								tempDiv += "<td colspan='5'>정보 없음</td>";
 							}else{
 								let regex01 = /콤보/g;
@@ -1288,7 +1207,7 @@ textarea {
 										tempDiv += "완속";
 									}
 									tempDiv += "</th>";
-									if(temp[j].fastChrstnType == ""){
+									if(temp[j].fastChrstnType == "" || temp[j].fastChrstnType == "X"){
 										tempDiv += "<td colspan='5'>정보 없음</td>";
 									}else{
 										let regex01 = /콤보/g;

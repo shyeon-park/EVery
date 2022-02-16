@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -135,6 +136,20 @@ public class ReviewController {
 	public String update(int seq_review, String review) throws Exception{
 		System.out.println("댓글 번호 : " + seq_review + "수정 내용 : " + review);
 		if(service.update(seq_review, review) != -1) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	/* 댓글 삭제 */
+	@RequestMapping(value = "/deleteManager.do")
+	@ResponseBody
+	public String delete(@RequestParam("delList[]") Integer[] delList) throws Exception{
+		for(int i : delList) {
+			System.out.println("배열의 값 " + i);
+		}
+		if(service.deleteManager(delList) != -1) {
 			return "success";
 		}else {
 			return "fail";
