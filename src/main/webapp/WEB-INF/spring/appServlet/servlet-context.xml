@@ -33,6 +33,15 @@
 
 			
 <interceptors>
+
+
+	<interceptor>
+  			<mapping path="/admin/**" /> 
+  			<exclude-mapping path="/admin/adminLogin.do"/>
+	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
+	
+	</interceptor> 
+	
 	<interceptor>
   			<mapping path="/**"/> 
 			<exclude-mapping path="/"/> 
@@ -55,10 +64,11 @@
 			<exclude-mapping path="/member/getMemberId.do"/>
 			<exclude-mapping path="/member/getExistMember.do"/>
 			<exclude-mapping path="/member/getMypage.do"/>
-		
-		
-			<!-- 관리자  -->
+			
+			<!-- 관리자 -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/getAdminUser.do"/>
+			
 			
 			<!-- 보드 -->
 			<exclude-mapping path="/board/toBoard.do"/>
@@ -76,12 +86,8 @@
 	<beans:bean id= "loginInterceptor" class="every.com.utils.LoginInterceptor"/> 
 	</interceptor> 
 	
-	<interceptor>
-  			<mapping path="/admin/**" /> 
-  				<exclude-mapping path="/admin/adminLogin.do"/>
-		
-	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
-	</interceptor> 
+
+	
 </interceptors>
 	
 	<beans:bean id="multipartResolver"

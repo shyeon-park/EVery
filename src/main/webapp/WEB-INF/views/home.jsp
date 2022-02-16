@@ -113,6 +113,10 @@ a:hover {
 	margin: auto;
 }
 
+#colum_list{
+	width: 82.6vw;
+	margin: auto;
+}
 .card {
 	border-radius: 10%;
 	margin: auto;
@@ -173,6 +177,15 @@ a:hover {
 	text-align: right;
 }
 
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 
 /* 알람 css  */
  	#bell{
@@ -361,13 +374,25 @@ margin: 0;
 		</c:choose>
 	</div>
 	<div class="main">
-	<!-- *********************** -->
-	<!-- *******메인******** -->
-	<!-- *********************** -->
 
 	
 	<div class="row">
 		<div class="col-12">
+		<img src="/resources/images/main.jpg" width="100%">
+	
+	<div class="loadingDiv">
+		<img src="/resources/images/loading.gif">
+	</div>
+	
+	
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3" style="text-align:left;">
+			<a href="#" style="font-size:24px;">칼럼</a>
+		</div>
+	</div>
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3">
+
 			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
 			    <div class="carousel-item active col-12 d-flex" id = "printList">
@@ -443,7 +468,7 @@ function getList(id,printId, num, mnList){
 		for(let i= num ; i<(num+3); i++){
 			let listTitle = mnList[i].title;
 			subStringTitle = listTitle.substring(0, 20)
-			console.log(listTitle)
+			//console.log(listTitle)
 			
 		
 			 let date =  mnList[i].written_date.replace(/,/,"")
@@ -631,7 +656,7 @@ function getList(id,printId, num, mnList){
 									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
   									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
 				
-  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
   									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 								</div>
 							</div>
@@ -665,9 +690,9 @@ function getList(id,printId, num, mnList){
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">
@@ -1192,6 +1217,10 @@ function getList(id,printId, num, mnList){
 	<!-- 회원가입, 로그인 스크립트 영역 -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 	<script>
+	$(document).ready(function() {
+		var host = location.host;
+		console.log(host);
+	})
 	// 로그인 모달 오픈 함수
 	function openLoginModal() {
 		$("#loginModal").modal("show");
