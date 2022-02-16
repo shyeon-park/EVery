@@ -1,8 +1,10 @@
 /* 포트번호 */
-let portNum = location.port;
+/*let portNum = location.port;*/
 /* "http://localhost:"
 	"http://13.209.64.187:"  */
-let url = "http://localhost:";
+/*let url = "http://localhost:";*/
+/* 호스트명 + 포트번호 */
+let hostPort = "http://" + location.host;
 
 function showLoadingDiv(){ // 로딩이 보여지는 함수
 		$(".loadingDiv").css({"display":"block"});
@@ -41,7 +43,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
         	  			var link = document.location.href;
         	  			
         	  			$.ajax({
-        	  				url: url + portNum + "/member/snsLogin.do",
+        	  				url: hostPort + "/member/snsLogin.do",
         	  				type: "post",
         	  				data: {"kakao_num" : response.id}
         	  			}).done(function(rs){
@@ -108,7 +110,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		let phone = $("#kakaoAuthPhone").val();
 		showLoadingDiv();
 		$.ajax({
-			url: url + portNum + "/member/checkMember.do",
+			url: hostPort + "/member/checkMember.do",
 			type: "post",
 			data: {"phone" : phone}
 		}).done(function(rs){
@@ -220,7 +222,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		var link = document.location.href;			
 			 		
 		$.ajax({
-			url: url + portNum + "/member/snsLogin.do",
+			url: hostPort + "/member/snsLogin.do",
 			type: "post",
 			data: {"naver_num" : naverNum, "phone" : userPhone}
 		}).done(function(rs){
@@ -310,7 +312,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
  		$(".auth").empty();
  			
 		$.ajax({
-			url: url + portNum + "/member/invalidateSession.do"
+			url: hostPort + "/member/invalidateSession.do"
 		}).done(function(rs){
 			hideLoadingDiv();
 			console.log(rs);
@@ -410,7 +412,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		showLoadingDiv();	
 		if(checked == 0) {
 			$.ajax({
-				url: url + portNum + "/member/login.do",
+				url: hostPort + "/member/login.do",
 				type: "post",
 				data: loginForm
 			}).done(function(rs){
@@ -438,7 +440,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			})
 		} else {
 			$.ajax({
-				url: url + portNum + "/admin/adminLogin.do",
+				url: hostPort + "/admin/adminLogin.do",
 				type: "post",
 				data: loginForm
 			}).done(function(rs){
@@ -446,7 +448,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 				console.log(rs);
 				if(rs == "loginSuccess") {
 					alert("관리자 로그인에 성공하였습니다.");
-					location.href = url + portNum + "/admin/getAdminUser.do";
+					location.href = hostPort + "/admin/getAdminUser.do";
 				} else if(rs == "loginFail") {
 					alert("로그인 정보가 올바르지 않습니다. 다시 입력해주세요.");
 					$("#loginId").val("");
@@ -460,7 +462,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		
 	// 관리자 로그아웃
 	$("#adminLogoutBtn").on("click", function(){
-		location.href = url + portNum + "/admin/adminLogout.do";
+		location.href = hostPort + "/admin/adminLogout.do";
 	})
 		
 		
@@ -631,7 +633,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		if(id !== "" && regexId.test(id)){
 			showLoadingDiv();
 			$.ajax({
-				url: url + portNum + "/member/checkMember.do",
+				url: hostPort + "/member/checkMember.do",
 				type: "post",
 				data: {"id" : id}
 			}).done(function(rs){
@@ -867,7 +869,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		if(nickname !== "" && regexNickname.test(nickname)){
 			showLoadingDiv();
 			$.ajax({
-				url: url + portNum + "/member/checkMember.do",
+				url: hostPort + "/member/checkMember.do",
 				type: "post",
 				data: {"nickname" : nickname}
 			}).done(function(rs){
@@ -1031,7 +1033,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			//console.log($("#phone").val());
 			
 			$.ajax({
-				url: url + portNum + "/member/sendSms.do",
+				url: hostPort + "/member/sendSms.do",
 				type: "post",
 				data: {phone : phone}
 			}).done(function(rs){
@@ -1064,7 +1066,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		console.log(phone);
 	
 		$.ajax({
-			url: url + portNum + "/member/authCheck.do",
+			url: hostPort + "/member/authCheck.do",
 			type: "post",
 			data: {authNum : authNum, phone : phone}
 		}).done(function(rs){
@@ -1102,7 +1104,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 		console.log(phone);
 		
 		$.ajax({
-			url: url + portNum + "/member/getRequestAuthNum.do",
+			url: hostPort + "/member/getRequestAuthNum.do",
 			type: "post",
 			data: {phone : phone}
 		}).done(function(rs){
@@ -1136,7 +1138,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			showLoadingDiv();
 			
 			$.ajax({
-				url: url + portNum + "/member/getRequestAuthNum.do",
+				url: hostPort + "/member/getRequestAuthNum.do",
 				type: "post",
 				data: {phone : phone}
 			}).done(function(rs){
@@ -1266,7 +1268,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			console.log(signupForm);
 				
 			$.ajax({
-				url: url + portNum + "/member/signup.do",
+				url: hostPort + "/member/signup.do",
 				type: "post",
 				data: signupForm
 			}).done(function(rs){
@@ -1317,7 +1319,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			} else {
 				showLoadingDiv();
 				$.ajax({
-					url: url + portNum + "/member/getLinkWithSns.do",
+					url: hostPort + "/member/getLinkWithSns.do",
 					type: "post",
 					data: {"naver_num" : naverNum, "phone" : phone, "kakao_num" : kakaoNum}
 				}).done(function(rs){
@@ -1415,7 +1417,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			if(idState == true && pwState == true && pwCheckState == true && nickState == true && phoneState == true && authState == true) {
 				showLoadingDiv();
 				$.ajax({
-					url: url + portNum + "/member/signup.do",
+					url: hostPort + "/member/signup.do",
 					type: "post",
 					data: {"naver_num" : naver_num, "kakao_num" : kakao_num, "id" : id, "pw" : pw, "nickname" : nickname, "phone" : phone}
 				}).done(function(rs){
@@ -1586,7 +1588,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			} else {
 				showLoadingDiv();
 				$.ajax({
-					url: url + portNum + "/member/getExistMember.do",
+					url: hostPort + "/member/getExistMember.do",
 					type: "post",
 					data: {phone : $("#phone_find").val()}
 				}).done(function(rs){
@@ -1597,7 +1599,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 					} else if (rs == "existMem") {
 						showLoadingDiv();
 						$.ajax({
-							url: url + portNum + "/member/getMemberId.do",
+							url: hostPort + "/member/getMemberId.do",
 							type: "post",
 							data: {phone : $("#phone_find").val()}
 						}).done(function(data){
@@ -1646,7 +1648,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			} else {
 				showLoadingDiv();
 				$.ajax({
-					url: url + portNum + "/member/getExistMember.do",
+					url: hostPort + "/member/getExistMember.do",
 					type: "post",
 					data: {id : id_find, phone : phone_find}
 				}).done(function(rs){
@@ -1688,7 +1690,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			} else {
 				showLoadingDiv();
 				$.ajax({
-					url: url + portNum + "/member/modifyPw.do",
+					url: hostPort + "/member/modifyPw.do",
 					type: "post",
 					data : modifyPwForm
 				}).done(function(rs){

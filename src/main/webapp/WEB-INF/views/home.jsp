@@ -1200,6 +1200,10 @@ function getList(id,printId, num, mnList){
 	<!-- 회원가입, 로그인 스크립트 영역 -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 	<script>
+	$(document).ready(function() {
+		var host = location.host;
+		console.log(host);
+	})
 	// 로그인 모달 오픈 함수
 	function openLoginModal() {
 		$("#loginModal").modal("show");
