@@ -471,7 +471,7 @@ a:hover {
                </div>
                <div class="row mt-4">
                   <div class="col-12" style="text-align: right;">
-                     <button type="button" class="btn btn-danger" id="applicationColStBtn">컬럼니스트 신청</button>
+                     <button type="button" class="btn btn-danger" id="applicationColStBtn">칼럼리스트 신청</button>
                      <c:if test="${loginSession.pw != null}">
                         <button type="button" class="btn" id="modifyPwBtn">비밀번호 변경</button>
                      </c:if>
