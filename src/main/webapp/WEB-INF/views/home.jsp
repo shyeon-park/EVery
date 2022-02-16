@@ -270,7 +270,7 @@ margin: 0;
 				<a href="">커뮤니티</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">고객지원</a>
+				<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 			</div>
 			<c:choose>
 				<c:when test="${empty loginSession}">
@@ -334,7 +334,7 @@ margin: 0;
 			<a href="">커뮤니티</a>
 		</div>
 		<div class="col-12">
-			<a href="">고객지원</a>
+			<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 		</div>
 		<c:choose>
 			<c:when test="${empty loginSession}">

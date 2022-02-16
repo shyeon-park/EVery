@@ -53,4 +53,11 @@ public class faqDTO {
 	public void setFaq_written_date(Date faq_written_date) {
 		this.faq_written_date = faq_written_date;
 	}
+	@Override
+	public String toString() {
+		return "faqDTO [seq_faq=" + seq_faq + ", admin_id=" + admin_id + ", faq_title=" + faq_title + ", faq_content="
+				+ faq_content + ", faq_written_date=" + faq_written_date + "]";
+	}
+	
+	
 }

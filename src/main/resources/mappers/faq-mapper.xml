@@ -12,29 +12,29 @@
 			order by seq_faq
 	</select>
 	
+	<!-- 상세 조회 -->
 	<select id="selectOne" resultType="faqDTO">
-		select #{admin_id}, #{faq_title}, #{faq_content}, #{faq_written_date}
-		from tbl_faq
+		select * from tbl_faq
 		where seq_faq = #{seq_faq}
 	</select>
 	
-	<insert id="insertFaq" parameterType="faqDTO">
+	<!-- 등록 -->
+	<insert id="insert" parameterType="faqDTO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			select seq_faq.nextval as seq_faq from tbl_faq
+		</selectKey>
 		insert into tbl_faq values
-			(#{seq_faq}, #{admin_id}, #{faq_title}, #{faq_content}, sysdate)
+			(seq_faq, #{admin_id}, #{faq_title}, #{faq_content}, sysdate)
 	</insert>
 	
-	<select id="searchByTitle" resultType="faqDTO">
-		select #{seq_faq}, #{admin_id}, #{faq_title}, #{faq_written_date}
-		from tbl_faq
-		where #{faq_title} like %search%
-	</select>
-	
+	<!-- 수정 -->
 	<update id="modify" parameterType="faqDTO">
 		update tbl_faq set
 			faq_title = #{faq_title}, faq_content = #{faq_content}
 			where seq_faq = #{seq_faq}
 	</update>
 	
+	<!-- 삭제 -->
 	<delete id="delete">
 		delete from tbl_faq
 			where seq_faq = #{seq_faq}

@@ -56,4 +56,14 @@ public class AdminController {
 	public String getAdminUser() throws Exception {
 		return "admin/userManagement";
 	}
+	
+	@RequestMapping("/toClientSupport.do")
+	public String toClientSupport() throws Exception {
+		return "/clientSupport/clientSupport";
+	}
+	
+	@RequestMapping("/toAClientSupport.do")
+	public String toAClientSupport() throws Exception {
+		return "/admin/a_clientSupport";
+	}
 }
