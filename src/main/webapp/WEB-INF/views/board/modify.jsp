@@ -449,7 +449,6 @@ font-size: 0.8rem
 			
 			
 			//뒤로가기 감지코드
-			//공부좀해봐야할듯
 			history.pushState(null, null, '');
 			window.onpopstate = function(event) {
 				history.back();

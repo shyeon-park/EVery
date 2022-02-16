@@ -13,6 +13,7 @@
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <style>
@@ -170,7 +171,7 @@ a:hover {
  
     }
     */
-	#aaa{
+	#bellBox{
 	position: relative;
 	}
     #bell_text{
@@ -300,11 +301,12 @@ margin: 0;
 <%-- 			</c:choose> --%>
 			<c:choose>
 			  	<c:when test="${!empty loginSession}">
-			  		<div class="col-xl-1 col-1 navi-menu" id="aaa">
-			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"><img src="/resources/images/alarm.png" width="24px"
+			  		<div class="col-xl-1 col-1 navi-menu" id="bellBox">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell" onclick="ws.send('getUncheckedList');"><img src="/resources/images/alarm.png" width="24px"
                 		height="24px"></a>
                 	<div id ="bell_text"></div>
-                	</div>
+			  		</div>
+			  	
 
 				</c:when>
 			</c:choose>
@@ -1297,7 +1299,7 @@ function getList(id,printId, num, mnList){
 		    }
 		  });
 	</script>
-	<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+	
 	<!-- End Channel Plugin -->
 	
 </body>
