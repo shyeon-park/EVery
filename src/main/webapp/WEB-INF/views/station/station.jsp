@@ -204,6 +204,16 @@ a:hover {
 	left: 50%;
 }
 
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
+
 #mainDIV {
 	width: 82.6vw;
 	padding: 0px;
@@ -422,6 +432,12 @@ textarea {
 		</c:choose>
 	</div>
 	<div class="main">
+
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>
+		
+
 		<div class="row" id="searchDIV">
 			<div class="input-group mb-3 mt-4" style="padding: 0px;">
 				<input type="text" class="form-control" placeholder="충전소명 검색"
@@ -435,6 +451,7 @@ textarea {
 				</datalist>
 			</div>
 		</div>
+
 		<div class="row" id="mainDIV">
 			<div class="d-none" id="commentDIV">
 				<div class="row">
@@ -1579,15 +1596,14 @@ textarea {
 						<div class="row memberRow">
 							<!-- flexRadioDefault -->
 							<div class="col12">
-								<input class="form-check-input" name="flexRadioDefault"
-									type="radio" id="flexRadioDefault1 userLogin" value="0" checked>
-								<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
-
-								<input class="form-check-input" name="flexRadioDefault"
-									type="radio" id="flexRadioDefault2 adminLogin" value="1">
-								<label class="form-check-label" for="flexRadioDefault2">관리자</label>
+								<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
+  								<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
+				
+  								<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
+  								<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 							</div>
 						</div>
+						
 						<form id="loginForm">
 							<div class="row memberRow">
 								<div class="col-12">
@@ -1622,11 +1638,9 @@ textarea {
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow"
-							style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">-----------------------
-									SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">
@@ -1637,15 +1651,14 @@ textarea {
 
 								<!-- 네이버 로그인 버튼 -->
 								<div id="naverIdLogin" style="display: none;"></div>
-								<a type="button" id="naverLogin"> <img
-									src="/resources/images/naver_login.png" width="50" height="50">
+								<a type="button" id="naverLogin">
+									<img src="/resources/images/naver_login.png" width="50" height="50">
 								</a>
 								<!-- 카카오 로그인 버튼 -->
-								<a type="button" id="kakao_login" onclick="kakaoLogin();"> <img
-									src="/resources/images/kakao_login.png" width="50" height="50">
+								<a type="button" id="kakao_login" onclick="kakaoLogin();">
+									<img src="/resources/images/kakao_login.png" width="50" height="50">
 								</a>
 							</div>
-
 						</div>
 						<div class="row memberRow">
 							<div class="col-12" style="text-align: right;">

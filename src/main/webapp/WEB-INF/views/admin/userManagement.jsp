@@ -6,14 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>EVery 관리자</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -180,88 +182,68 @@ a:hover {
 	margin: 0px;
 }
 
-/* 탭 css */
-/* tap메뉴 css */
-/* Style the tab */
-.tab {
-	/*float: left;*/
-	/*border: 1px solid #ccc;*/
-	/*background-color: #333;*/
-	background-color: #ccc;
-	/*width: 20%;
-	height: 500px;*/
+
+/* 탭 영역 */
+#tab {
+	/*
+	width: 80%;
+	margin: auto;*/
 }
 
-/* Style the buttons inside the tab */
-.tab button {
-	display: block;
-	background-color: inherit;
-	color: #333;
-	padding: 22px 16px;
-	width: 100%;
-	border: none;
-	outline: none;
+.tabmenu {
 	text-align: center;
 	cursor: pointer;
-	transition: 0.3s;
-	font-size: 18px;
-	/*height: 20%;*/
+	/*border-bottom: 2px solid #333;*/
+	padding: 20px;
+	transition: 0.1s;
 }
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-	background-color: grey;
-}
-
-/* Create an active/current "tab button" class */
-.tab button.active {
-	background-color: #fff;
-	border-top: 1px solid lightgrey;
-	border-bottom: 1px solid lightgrey;
-	border-left: 1px solid lightgrey;
-}
-
-/* Style the tab content */
-.tabContent {
-	/*float: left;*/
-	padding: 80px;
-	border: 1px solid #ccc;
-	/*width: 80%;*/
-	border-left: none;
-	/*height: 500px;*/
-}
-
-
 /*
-ul.tabs {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 2px solid #ccc;*/
+
+
+.tabmenu:hover {
+	color: #fff;
+	/*backgrond-color: #ccc;*/
 }
 
-ul.tabs li {
-	background: none;
-	color: #222;
-	display: inline-block;
-	padding: 10px 15px;
-	cursor: pointer;
+.tabmenu.current {
+	/*background: #333;
+	color: #fff;*/
+	/*
+	border-top: 2px solid #333;
+	border-left: 2px solid #333;
+	border-right: 2px solid #333;
+	border-bottom: 0;*/
+	color: #fff;
+	background: #333;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	font-weight: bold;
+	/*border-top-left-radius: 10px;*/
+	/*border-top-right-radius: 5px;*/
 }
 
-ul.tabs li.current {
-	background: #ededed;
-	color: #222;
-}
 
-.tab-content {
+.tabContents {
+	padding: 80px;
+	/*
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;*/
+	/*border-bottom: 1px solid #333;*/
 	display: none;
-	padding: 15px 0;
-	border-top: 3px solid #eee;
 }
 
-.tab-content.current {
-	display: inherit;
+.tabContents.current {
+	display: block;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	border-top: 2px solid grey;
+	/*border-bottom: 2px solid grey;*/
 }
-*/
 
 
 .page-link {
@@ -303,7 +285,7 @@ ul.tabs li.current {
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="">회원관리</a>
+			<a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
 		</div>
 		<div class="col-12">
 			<a href="">블랙리스트</a>
@@ -324,102 +306,98 @@ ul.tabs li.current {
 			</div>
 		</div>
 
-		<!-- 세로 탭 -->
-		<div class="row infoDiv">
-			<div class="col-2 tab" style="padding: 0px;">
-				<button class="tabLinks" onclick="openContent(event, 'usersInfo')" id="defaultOpen">회원관리</button>
-				<button class="tabLinks" onclick="openContent(event, 'columnistManage')">컬럼니스트 관리</button>
-			</div>
-
-			<div id="usersInfo" class="col-10 tabContent">
+		<!-- 탭메뉴 -->
+		<div class="row infoDiv" id="tab">
+			<div class="col-6 tabmenu current" data-tab="userInfoManage">회원관리</div>
+			<div class="col-6 tabmenu" data-tab="columnistManage">컬럼니스트 관리</div>
+		</div>
+		
+		<!-- 회원관리 영역 -->
+		<div class="tabContents infoDiv current" id="userInfoManage">
+			<div style="width: 80%; margin: auto;">
 				<div class="row">
 					<div class="col-12">
-						<h3 style="text-decoration: underline;">회원정보</h3>
+						<h3 style="text-decoration: underline;">회원관리</h3>
 					</div>
-				</div>
-
-				<div class="container">
-					<div class="row" style="margin-top: 30px;">
-						<table class="table table-hover">
-							<thead>
-								<tr style="text-align: center;">
-									<th scope="col">체크</th>
-									<th scope="col">번호</th>
-									<th scope="col">아이디</th>
-									<th scope="col">닉네임</th>
-									<th scope="col">가입일</th>
-								</tr>
-							</thead>
-							<tbody id="userList">
-							</tbody>
-						</table>
-					</div>
-					<div class="row">
-						<div class="col-12" id="userNavi">
-							
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<button type="button" id="deleteBtn" class="btn btn-dark">회원삭제</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			
-			<!-- 컬럼니스트 관리 영역 -->
-			<div id="columnistManage" class="col-10 tabContent">
-				<div class="app_table">
-				<h3>신청자 목록</h3>
-					
-					<div class="row mb-1">
-			            <div class="col d-flex" style="border-bottom: 1px solid black;">
-			                <div class = "text-center" style="width: 10%;"><input type="checkbox" name="" id="cbx_chkAll"></div>
-			                <div class = "text-center" style="width: 45%;">ID</div>
-			                <div class = "text-center" style="width: 45%;">닉네임</div>
-			            </div>
-				    </div>
-					
-					
-					<div class="col" id="beforeAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
-						
-					</div>
-					<div class="row">
-			            <div class="col d-flex justify-content-end">
-			                <div>
-			                <button type='button' class='btn btn-success' id='approval'>승인</button>
-			                </div>
-			                 <div>
-				            <button type='button' class='btn btn-danger' id='reject'>거부</button>
-				             </div>
-			            </div>
-				    </div>
 				</div>
 				
-				<h3>칼럼리스트 목록</h3>
-				<div class="columListTable">
-			        <div class="row">
-			            <div class="col d-flex" style="border-bottom: 1px solid black;">
-			                <div class = "text-center" style="width: 10%;"><input type="checkbox" id="cbx_roa"></div>
-			                <div class = "text-center" style="width: 45%;">ID</div>
-			                <div class = "text-center" style="width: 45%;">닉네임</div>
-			            </div>
-				    </div>
-				    <div id="afterAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
-				        
-			        </div>
-			        
-			        <div class="row">
-			            <div class="col d-flex justify-content-end">
-			                <div>
-			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한해제</button>
-			                </div>
-			            </div>
-				    </div>
-			    </div>
+				<div class="userTable">
+					<table class="table table-hover">
+						<thead>
+							<tr style="text-align: center;">
+								<th scope="col"></th>
+								<th scope="col">번호</th>
+								<th scope="col">아이디</th>
+								<th scope="col">닉네임</th>
+								<th scope="col">가입일</th>
+								<th scope="col">컬럼니스트 여부</th>
+							</tr>
+						</thead>
+						<tbody id="userList">
+						</tbody>
+					</table>
+				</div>
+				<div class="row">
+					<div class="col-12" id="userNavi">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<button type="button" id="deleteBtn" class="btn btn-dark">회원삭제</button>
+					</div>
+				</div>
 			</div>
 		</div>
+		
+		<!-- 컬럼니스트 관리 영역 -->
+		<div class="tabContents infoDiv" id="columnistManage">
+			<div class="app_table">
+				<h3>신청자 목록</h3>
+				<div class="row mb-1">
+			    	<div class="col d-flex" style="border-bottom: 1px solid black;">
+			        	<div class = "text-center" style="width: 10%;"><input type="checkbox" name="" id="cbx_chkAll"></div>
+			        	<div class = "text-center" style="width: 45%;">ID</div>
+			       		<div class = "text-center" style="width: 45%;">닉네임</div>
+			     	</div>
+				</div>
+					
+				<div class="col" id="beforeAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
+				</div>
+				<div class="row">
+			    	<div class="col d-flex justify-content-end">
+			             <div>
+			                 <button type='button' class='btn btn-success' id='approval'>승인</button>
+			             </div>
+			             <div>
+				             <button type='button' class='btn btn-danger' id='reject'>거부</button>
+				         </div>
+			        </div>
+				</div>
+			</div>
+			
+			<h3>칼럼리스트 목록</h3>
+			<div class="columListTable">
+			    <div class="row">
+			        <div class="col d-flex" style="border-bottom: 1px solid black;">
+			            <div class = "text-center" style="width: 10%;"><input type="checkbox" id="cbx_roa"></div>
+			            <div class = "text-center" style="width: 45%;">ID</div>
+			            <div class = "text-center" style="width: 45%;">닉네임</div>
+			        </div>
+				</div>
+				<div id="afterAuthorization"  style="max-height: 250px; overflow-y: scroll; overflow-x: hidden;">
+				</div>
+			    <div class="row">
+			        <div class="col d-flex justify-content-end">
+			            <div>
+			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한해제</button>
+			            </div>
+			        </div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
 			
 		</div>	
 		<!-- 가로 탭 -->
@@ -461,7 +439,7 @@ ul.tabs li.current {
 			</div>
 			<div id="tab-2" class="tab-content row">ㅎㅇ</div>
 		</div>  -->
-	</div>
+	
 	<div class="footer">
 
 		<div class="row footer-body">
@@ -497,7 +475,7 @@ ul.tabs li.current {
 	})
 	
 	// 마이페이지 content 바꾸는 함수
-	function openContent(evt, content) {
+	/*function openContent(evt, content) {
 		var i, tabContent, tabLinks;
 		tabContent = document.getElementsByClassName("tabContent");
 		for (i = 0; i < tabContent.length; i++) {
@@ -513,7 +491,22 @@ ul.tabs li.current {
 	}
 
 	// Get the element with id="defaultOpen" and click on it
-	document.getElementById("defaultOpen").click();
+	document.getElementById("defaultOpen").click();*/
+	
+	$('.tabmenu').click(function() {
+		var tab_id = $(this).attr("data-tab");
+		console.log(tab_id);
+		
+		if(tab_id == "userInfoManage") {
+			getMemberList(1);
+		}
+		
+		$('.tabmenu').removeClass('current');
+		$('.tabContents').removeClass('current');
+
+		$(this).addClass('current');
+		$("#" + tab_id).addClass('current');
+	})
 	
 	// 시퀀스
 	let seq = 1;
@@ -534,11 +527,17 @@ ul.tabs li.current {
 				seq = 1;
 			}
 			for(list of userList) {
+				if(list.identification_num == 0) {
+					list.identification_num = "N";
+				} else {
+					list.identification_num = "Y";
+				}
 				let userInfo = "<tr style='text-align: center'>" + "<td><input type='checkbox' class='form-check-input' name='checkUser' value='" + list.id + "'></td>" +
 							   "<td>" + seq + "</td>" +
 							   "<td>" + list.id + "</td>" +
 							   "<td>" + list.nickname + "</td>" +
-							   "<td>" + list.signup_date + "</td></tr>";
+							   "<td>" + list.signup_date + "</td>" +
+							   "<td>" + list.identification_num + "</td></tr>";
 				$("#userList").append(userInfo);
 				seq += 1;
 			}
@@ -560,6 +559,7 @@ ul.tabs li.current {
 		})
 		
 	}
+	
 	
 	// 삭제버튼 클릭 시
 	$("#deleteBtn").on("click", function(){
@@ -646,7 +646,7 @@ ul.tabs li.current {
 	
 		/* 컬럼니스트 관리 영역 */
 		
-		ws = new WebSocket("ws://13.209.64.187:8080/column");
+	ws = new WebSocket("ws://13.209.64.187:8080/column");
 
 	$('#approval').on("click",function(e){
 	 	 var approvaList = new Array(); // 배열 선언
