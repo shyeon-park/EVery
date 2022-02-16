@@ -347,7 +347,7 @@ font-size: 0.8rem
 			</div> 
 			<div class="row">
 				<div class="col d-flex justify-content-end" id="detail-footer">
-					<button type="button" class="btn btn-secondary" id="cancelBtn">뒤로가기</button>
+					<button type="button" class="btn me-3" id="cancelBtn">뒤로가기</button>
 					
 				</div>
 			</div>
@@ -378,8 +378,8 @@ font-size: 0.8rem
 			$("#content").append(content);
 					
 			if( "${loginSession.id}" == data.id){
-				let newBtn = "<button type='submit' class='btn btn-success' id='submitBtn'>수정</button>"
-							+"<button type='button' class='btn btn-primary' id='deleteBtn'>삭제</button>"
+				let newBtn = "<button type='submit' class='btn me-3' id='submitBtn'>수정</button>"
+							+"<button type='button' class='btn me-3' id='deleteBtn'>삭제</button>"
 				$('#detail-footer').append(newBtn)
 			}
 						

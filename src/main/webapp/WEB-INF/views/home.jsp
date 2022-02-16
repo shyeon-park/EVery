@@ -11,7 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
@@ -223,8 +223,8 @@ height: 100%;
 }
 
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -235,6 +235,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -379,6 +380,7 @@ margin: 0;
 	<!-- *********************** -->
 	<!-- *******메인******** -->
 	<!-- *********************** -->
+
 		<img src="/resources/images/main.jpg" width="100%">
 	
 	<div class="loadingDiv">
@@ -466,16 +468,15 @@ function getList(id,printId, num, mnList){
 		$(printId).append("리스트를 3개이상 추가해주세요");
 	}else{
 		for(let i= num ; i<(num+3); i++){
+			let listTitle = mnList[i].title;
+			subStringTitle = listTitle.substring(0, 20)
+			console.log(listTitle)
 			
-			let content = mnList[i].content  //상세게시글 내용 변수에 담는다
-			let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-			content = content.replace(imgRemove, ''); // 이미지를 지움
-			content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-			subtitle = content.substring(0,30)
+		
 			 let date =  mnList[i].written_date.replace(/,/,"")
 			 let written_date = date.split(" ");
 			 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-			let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+			let list = "<div class='col-12 col-xl-4 cardContainer d-flex justify-content-center'>"
 	        			+"<div>"
 						+"<div class='titleImg'>"
 	            		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"' class='atag'>"
@@ -492,13 +493,20 @@ function getList(id,printId, num, mnList){
 								}
 								list += "</a></div>"
 							
-	               				+"<div class='colum-body ms-5'>"
-	                   			+"<p class='colum-title ms-3'>"
+	               				+"<div class='colum-body'>"
+	                   			+"<p class='colum-title'>"
 	               				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"'>"
-	                     		+ mnList[i].title
-	                     		+"</a></p>"
-	                     		+"<p class='colum-text ms-3'>"+date+"</p>"
-	                  			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+	               				if(listTitle.length < 20){
+	               					list +=	subStringTitle
+	               					list += "</a></p>"
+	               				}else{
+	               					list +=	subStringTitle
+	               					list += "...</a></p>"
+	               				}
+	               				
+	                     	 
+	               				list += "<p class='colum-text'>"+date+"</p>"
+	                     		+"<p class='colum-text'> 칼럼리스트 : "+mnList[i].nickname+"</p>"
 	                			+"</div>"
 	           				+"</div>"
 	    				+"</div>"
@@ -1326,6 +1334,7 @@ function getList(id,printId, num, mnList){
 		    }
 		  });
 	</script>
+	<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 	<!-- End Channel Plugin -->
 	
 </body>

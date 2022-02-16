@@ -786,7 +786,7 @@ textarea {
 			$(".paging-container").empty();
 			console.log(data1);
 			console.log(station);
-			if(data1.reviewList == ""){
+			if(data1.reviewList == "" || data1.reviewList == null){
 				let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h6>댓글을 등록해보세요.</h6></div>";
 				$(".show-container").append(commentNull);
 			}else{
