@@ -419,7 +419,7 @@ textarea {
 				</div>
 				<div class="row">
 					<div class="col-10" id="charge_name"></div>
-					<div class="col-2 bmark-container">
+					<div class="col-2 bmark-container" style="text-align: right;">
 						<!-- 동적 즐찾 버튼 영역 -->
 					</div>
 				</div>
@@ -434,13 +434,13 @@ textarea {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="7">상세정보</th>
+							<th scope="col" colspan="7">상세 정보</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<th scope="row" colspan="2">주소</th>
-							<td colspan="5" id="detail_rdnmadr">경기도 의왕시 문화예술로 65</td>
+							<td colspan="5" id="detail_rdnmadr"></td>
 						</tr>
 						<tr>
 							<th scope="row" colspan="2">상세주소</th>
@@ -464,11 +464,22 @@ textarea {
 						</tr>
 					</tbody>
 				</table>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col" colspan="5" id="stat_count">충전기 목록</th>
+						</tr>
+					</thead>
+					<tbody id="chargeList">
+						
+					</tbody>
+				</table>
+<!-- 				<div id="chargeList"></div> -->
 				<div class="d-none">
 					<p id="detail_latitude"></p>
 					<p id="detail_longitude"></p>
 				</div>
-				<div id="chargeList"></div>
+				
 
 				<div class="row main-comment-container">
 					<div class="col-12 input-container">
@@ -919,7 +930,7 @@ textarea {
 				let temp = [];
 				
 				for(let i=0; i<datas.length;i++){
-					temp.push({"chrstnNm":datas[i].chrstnNm,"fastChrstnType":datas[i].fastChrstnType,"latitude":datas[i].latitude,"longitude":datas[i].longitude,"rdnmadr":datas[i].rdnmadr,"institutionNm":datas[i].institutionNm,"fastChrstnYn":datas[i].fastChrstnYn,"slowChrstnYn":datas[i].slowChrstnYn,"chrstnLcDesc":datas[i].chrstnLcDesc,"useOpenTime":datas[i].useOpenTime,"useCloseTime":datas[i].useCloseTime});
+					temp.push({"chrstnNm":datas[i].chrstnNm,"fastChrstnType":datas[i].fastChrstnType,"latitude":datas[i].latitude,"longitude":datas[i].longitude,"rdnmadr":datas[i].rdnmadr,"lnmadr":datas[i].lnmadr,"institutionNm":datas[i].institutionNm,"fastChrstnYn":datas[i].fastChrstnYn,"slowChrstnYn":datas[i].slowChrstnYn,"chrstnLcDesc":datas[i].chrstnLcDesc,"useOpenTime":datas[i].useOpenTime,"useCloseTime":datas[i].useCloseTime,"phoneNumber":datas[i].phoneNumber,"restde":datas[i].restde});
 					
 					if(!((i+1)==datas.length)){
 						if(datas[i].chrstnNm != datas[i+1].chrstnNm){
@@ -958,7 +969,6 @@ textarea {
 			    kakao.maps.event.addListener(marker, 'click', function() {
 			    	console.log(temp);
 			    	console.log(temp[0].phoneNumber);
-			    	let seq = 1;
 			    	$('#station').val(temp[0].chrstnNm);
 			    	let station = temp[0].chrstnNm;
 			    	showStation();
@@ -980,8 +990,12 @@ textarea {
 				    }
 				    $('#useTime').html(temp[0].useOpenTime+"~"+temp[0].useCloseTime); // 운영시간 동적 추가
 				    
-				    
-				    $('#detail_rdnmadr').html(temp[0].rdnmadr); // 주소 동적 추가
+				    if(temp[0].rdnmadr == ""){
+				    	$('#detail_rdnmadr').html(temp[0].lnmadr); // 주소 동적 추가
+				    }else{
+				    	$('#detail_rdnmadr').html(temp[0].rdnmadr); // 주소 동적 추가
+					    
+				    }
 				    $('#detail_chrstnLcDesc').html(temp[0].chrstnLcDesc); // 상세주소 동적 추가
 				    $('#detail_useTime').html(temp[0].useOpenTime+"~"+temp[0].useCloseTime); // 운영시간 동적 추가
 				    if(temp[0].institutionNm == "" || temp[0].institutionNm == "-"){ // 충전 제공 업체 동적 추가
@@ -996,6 +1010,8 @@ textarea {
 				    }
 				    if(temp[0].restde == "" || temp[0].restde == null){ // 휴무 추가
 				    	$('#detail_restde').html("정보 없음");
+				    }else if(temp[0].restde == "N"){
+				    	$('#detail_restde').html("휴무 없음");
 				    }else{
 				    	$('#detail_restde').html(temp[0].restde);
 				    }
@@ -1004,20 +1020,38 @@ textarea {
 				    $('#detail_longitude').html(temp[0].longitude); // 경도 동적 추가
 				    
 				    $('#chargeList').html(""); // 충전기 목록 초기화
+				    $('#stat_count').html("");
+				    $('#stat_count').html("충전기 목록("+ temp.length+")");
     				  for(let j=0;j<temp.length;j++){ // 충전기 목록 리스트 동적 추가
-    					  let tempDiv = "<div class='row'>"+
-	    				  "<div class='col-1' id='seq_"+seq+"'>"+
-	    				  seq +
-	    				  "</div>";
-    					  if(temp[j].fastChrstnType=="" || temp[j].fastChrstnType=="X"){
-    						  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
-	    				  }else{
-	    					  tempDiv += "<div class='col-11' id='ChrstnType"+seq+"'>"+
-		    				  temp[j].fastChrstnType +
-		    				  "</div>";
-	    				  }
-    					seq++;
-    					tempDiv += "</div>";
+    					 let tempDiv = "<tr>" +
+							"<th scope='row' colspan='2'>";
+							if(temp[j].fastChrstnYn == "Y"){
+								tempDiv += "급속";
+							}else{
+								tempDiv += "완속";
+							}
+							tempDiv += "</th>";
+							if(temp[j].fastChrstnType == "" || temp[j].fastChrstnType == "X"){
+								tempDiv += "<td colspan='5'>정보 없음</td>";
+							}else{
+								let regex01 = /콤보/g;
+								let regex02 = /데모/g;
+								let regex03 = /3상/g;
+								let regex04 = /완속/g;
+								if(regex01.test(temp[j].fastChrstnType)){
+									tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC콤보.png' width='40px;' height='40px;'><br><span>DC콤보</span></td>";
+								}
+								if(regex02.test(temp[j].fastChrstnType)){
+									tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC차데모.png' width='40px;' height='40px;'><br><span>DC차데모</span></td>";
+								}
+								if(regex03.test(temp[j].fastChrstnType)){
+									tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_AC3상.png' width='40px;' height='40px;'><br><span>AC3상</span></td>";
+								}
+								if(regex04.test(temp[j].fastChrstnType)){
+									tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC콤보.png' width='40px;' height='40px;'><br><span>DC콤보</span></td>";
+								}
+							}
+							tempDiv += "</tr>";
     					$('#chargeList').append(tempDiv);
     				  }
 				});
@@ -1116,7 +1150,6 @@ textarea {
 							console.log(datas);
 //							-------------------
 			 				if("${BookmarkDTO}" != ""){ //즐겨찾기를 통해 들어온 경우
-		 					let seq = 1;
 		 			    	$('#station').val("${BookmarkDTO.station}");
 		 			    	let station = "${BookmarkDTO.station}";
 		 			    	showStation();
@@ -1158,28 +1191,45 @@ textarea {
 						    
 		 				    $('#chargeList').html(""); // 충전기 목록 초기화
 						    
-		 				    let temp1 = [];
+		 				    let temp = [];
 		 				    for(let x=0;x<datas.length;x++){
 		 				    	if(datas[x].chrstnNm == "${BookmarkDTO.station}"){
-		 				    		temp1.push({"chrstnNm":datas[x].chrstnNm,"fastChrstnType":datas[x].fastChrstnType,"latitude":datas[x].latitude,"longitude":datas[x].longitude,"rdnmadr":datas[x].rdnmadr,"institutionNm":datas[x].institutionNm,"fastChrstnYn":datas[x].fastChrstnYn,"slowChrstnYn":datas[x].slowChrstnYn,"chrstnLcDesc":datas[x].chrstnLcDesc,"useOpenTime":datas[x].useOpenTime,"useCloseTime":datas[x].useCloseTime});
+		 				    		temp.push({"chrstnNm":datas[x].chrstnNm,"fastChrstnType":datas[x].fastChrstnType,"latitude":datas[x].latitude,"longitude":datas[x].longitude,"rdnmadr":datas[x].rdnmadr,"institutionNm":datas[x].institutionNm,"fastChrstnYn":datas[x].fastChrstnYn,"slowChrstnYn":datas[x].slowChrstnYn,"chrstnLcDesc":datas[x].chrstnLcDesc,"useOpenTime":datas[x].useOpenTime,"useCloseTime":datas[x].useCloseTime});
 		 				    	}
 		 				    }
-		 				      for(let z=0;z<temp1.length;z++){ // 충전기 목록 리스트 동적 추가
-		     					  let tempDiv1 = "<div class='row'>"+
-		 	    				  "<div class='col-1' id='seq_"+seq+"'>"+
-		 	    				  seq +
-		 	    				  "</div>";
-		     					  if(temp1[z].fastChrstnType=="" || temp1[z].fastChrstnType=="X"){
-		     						  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>정보 없음</div>";
-		 	    				  }else{
-		 	    					  tempDiv1 += "<div class='col-11' id='ChrstnType"+seq+"'>"+
-		 		    				  temp1[z].fastChrstnType +
-		 		    				  "</div>";
-		 	    				  }
-		     					seq++;
-		     					tempDiv1 += "</div>";
-		     					$('#chargeList').append(tempDiv1);
-		     				  }
+		 				    
+		 				   for(let j=0;j<temp.length;j++){ // 충전기 목록 리스트 동적 추가
+		    					 let tempDiv = "<tr>" +
+									"<th scope='row' colspan='2'>";
+									if(temp[j].fastChrstnYn == "Y"){
+										tempDiv += "급속";
+									}else{
+										tempDiv += "완속";
+									}
+									tempDiv += "</th>";
+									if(temp[j].fastChrstnType == "" || temp[j].fastChrstnType == "X"){
+										tempDiv += "<td colspan='5'>정보 없음</td>";
+									}else{
+										let regex01 = /콤보/g;
+										let regex02 = /데모/g;
+										let regex03 = /3상/g;
+										let regex04 = /완속/g;
+										if(regex01.test(temp[j].fastChrstnType)){
+											tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC콤보.png' width='40px;' height='40px;'><br><span>DC콤보</span></td>";
+										}
+										if(regex02.test(temp[j].fastChrstnType)){
+											tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC차데모.png' width='40px;' height='40px;'><br><span>DC차데모</span></td>";
+										}
+										if(regex03.test(temp[j].fastChrstnType)){
+											tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_AC3상.png' width='40px;' height='40px;'><br><span>AC3상</span></td>";
+										}
+										if(regex04.test(temp[j].fastChrstnType)){
+											tempDiv += "<td style='text-align:center;'><img src='/resources/images/chargeType/type_DC콤보.png' width='40px;' height='40px;'><br><span>DC콤보</span></td>";
+										}
+									}
+									tempDiv += "</tr>";
+		    					$('#chargeList').append(tempDiv);
+		    				  }
 		 				}
 //						-------------------
 							hideLoading();

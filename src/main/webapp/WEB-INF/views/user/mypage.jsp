@@ -580,8 +580,7 @@ a:hover {
       <div class="tabContents infoDiv" id="myBookmarkContent">
          <div class="bookmark-container" style="height:90%;">
             <div class="row mb-3">
-               <div class="col-10"><h3 style="text-decoration: underline;">즐겨찾기</h3></div>
-               <div class="col-2 d-flex justify-content-end"><button type="button" class="btn btn-secondary" id="btn-deleteAll">전체삭제</button></div>
+               <div class="col-12"><h3 style="text-decoration: underline;">즐겨찾기</h3></div>
             </div>
             <!-- 추가 -->
          </div>
@@ -604,7 +603,7 @@ a:hover {
              }else{
                let bookmark = "<div class='row mb-3'>"
                         + "<div class='col-10'><h3 style='text-decoration: underline;'>즐겨찾기</h3></div>"
-                        + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary' id='btn-deleteAll'>전체삭제</button></div>"
+                        + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
                         + "</div>";
                $(".bookmark-container").append(bookmark);         
                 for(let dto of data.bookmarkList){
@@ -651,7 +650,7 @@ a:hover {
        }
       
       // 전체 삭제 버튼
-       $("#btn-deleteAll").on("click", function(){
+       $(document).on("click",".btn-deleteAll", function(){
           if($(".emptyDiv").html() == "<h4>즐겨찾기목록이 없습니다.</h4>"){
              alert("삭제할 항목이 없습니다.");
              return;

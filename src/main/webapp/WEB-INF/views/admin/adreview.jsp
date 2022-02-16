@@ -408,7 +408,7 @@ a:hover {
 								+ "<div class='col-2'>" + dto.station + "</div>"
 								+ "<div class='col-2'>" + dto.written_date + "</div>"
 								+ "<div class='col-5'>" + dto.review + "</div>"
-								+ "<div class='col-1 d-flex justify-content-center'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
+								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
 						$(".comment-container").append(comment);			
 					}
@@ -450,6 +450,7 @@ a:hover {
 	// 전체 검색 버튼을 눌렀을 때
 	$("#searchAll").on("click", function(){
 		getAdCommentList(1);
+		$(".inputBox").val("");
 	});
 	
 	// 삭제버튼을 눌렀을 때 
