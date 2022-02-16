@@ -89,7 +89,7 @@ a:hover {
 }
 
 .navi-onButtons {
-	padding-top: 92px;
+	padding-top: 122px;
 	margin: auto;
 	width: 82.6vw;
 	height: 0;
@@ -108,7 +108,7 @@ a:hover {
 
 /* main 영역 */
 .main {
-	padding-top: 92px;
+	padding-top: 122px;
 	width: 82.6vw;
 	margin: auto;
 }
@@ -280,11 +280,19 @@ margin: 0;
 				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">고객지원</a>
 			</div>
+			
+			<c:choose>
+				<c:when test="${empty loginSession}">
+				<div class="col-xl-7 col-9 navi-menu"></div>
+				</c:when>
+				<c:when test="${!empty loginSession}">
+					<div class="col-xl-5 col-8 navi-menu"></div>
+				</c:when>
+			</c:choose>
+			
+		
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
@@ -294,25 +302,6 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				<div class="col-xl-5 col-8 navi-menu"></div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-3 col-6 navi-menu"></div>
-				</c:when>
-			</c:choose>
-			
-			<c:choose>
-			  	<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu" id = "bell">
-						<!--  <div id = "bell">-->
-	          			<i class="far fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i>
-	          			 <div id ="bell_text"></div>
-					</div>
-				</c:when>
-			</c:choose>
-			
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
@@ -325,15 +314,32 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
+<%-- 			<c:choose> --%>
+<%-- 			  	<c:when test="${!empty loginSession}"> --%>
+<!-- 					<div class="col-1 navi-menu" id = "bell"> -->
+<!-- 						 <div id = "bell"> -->
+<!-- 							<img src="/resources/images/alarm.png" width="24px" height="24px" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"> -->
+<!-- <!-- 						<i class="fa-light fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i> -->
+<!-- 	          			 <div id ="bell_text"></div> -->
+<!-- 					</div> -->
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a></div>
+				</c:when>
+			</c:choose>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+					<div class="col-xl-0 col-1 d-xl-none navi-menu">
+					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+						height="24px"></a>
+					</div>
+				</c:when>
+			</c:choose>
 			
-		
-			
-			
-			
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
-			</div>
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
@@ -342,9 +348,6 @@ margin: 0;
 		</div>
 		<div class="col-12">
 			<a href="">칼럼</a>
-		</div>
-		<div class="col-12">
-			<a href="">커뮤니티</a>
 		</div>
 		<div class="col-12">
 			<a href="">고객지원</a>
