@@ -40,6 +40,7 @@
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
 			
+			
 			<!-- 멤버 -->
 			<exclude-mapping path="/member/getNaverPopup.do"/>
 			<exclude-mapping path="/member/snsLogin.do"/>
@@ -55,10 +56,13 @@
 			<exclude-mapping path="/member/getMemberId.do"/>
 			<exclude-mapping path="/member/getExistMember.do"/>
 			<exclude-mapping path="/member/getMypage.do"/>
+			<exclude-mapping path="/member/selectAllUser.do"/>
+			<exclude-mapping path="/member/deleteMember.do"/>
 		
 		
 			<!-- 관리자  -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/getAdminUser.do"/>
 			
 			<!-- 보드 -->
 			<exclude-mapping path="/board/toBoard.do"/>
