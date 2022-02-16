@@ -27,9 +27,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+
 	<context:component-scan
 		base-package="every.com.*" />
 
+			
 <interceptors>
 	<interceptor>
   			<mapping path="/**"/> 
@@ -70,15 +72,13 @@
 			<!-- review -->
 			<exclude-mapping path="/review/getReview.do"/>
 			<exclude-mapping path="/review/insert.do"/>
-		
-		
+			<exclude-mapping path="/review/update.do"/>
+			<exclude-mapping path="/review/delete.do"/>
+			
 	<beans:bean class="every.com.utils.LoginInterceptor"/> 
 
 	</interceptor> 
 </interceptors>
-
- 
-
 
 <!-- 	<context:component-scan base-package="kh.com.board.* "/> -->
 <!-- 	<context:component-scan base-package="kh.com.board "/> -->

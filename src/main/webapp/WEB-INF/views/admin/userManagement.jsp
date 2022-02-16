@@ -328,7 +328,7 @@ ul.tabs li.current {
 		<div class="row infoDiv">
 			<div class="col-2 tab" style="padding: 0px;">
 				<button class="tabLinks" onclick="openContent(event, 'usersInfo')" id="defaultOpen">회원관리</button>
-				<button class="tabLinks" onclick="openContent(event, 'columnistManage')">컬럼니스트 관리</button>
+				<button class="tabLinks" onclick="openContent(event, 'columnistManage')">칼럼리스트 관리</button>
 			</div>
 
 			<div id="usersInfo" class="col-10 tabContent">
@@ -413,7 +413,7 @@ ul.tabs li.current {
 			        <div class="row">
 			            <div class="col d-flex justify-content-end">
 			                <div>
-			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한해제</button>
+			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한삭제</button>
 			                </div>
 			            </div>
 				    </div>
