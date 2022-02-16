@@ -646,7 +646,7 @@ ul.tabs li.current {
 	
 		/* 컬럼니스트 관리 영역 */
 		
-		ws = new WebSocket("ws://172.30.1.60/column");
+		ws = new WebSocket("ws://13.209.64.187:8080/column");
 
 	$('#approval').on("click",function(e){
 	 	 var approvaList = new Array(); // 배열 선언

@@ -406,6 +406,7 @@ border: 1px solid black;
 				}
 			});
 		});
+		
 	</script>
 </body>
 </html>

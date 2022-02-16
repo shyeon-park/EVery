@@ -175,51 +175,72 @@ a:hover {
 	text-align: right;
 }
 
-/* tap메뉴 css */
-/* Style the tab */
-.tab {
-	float: left;
-	/*border: 1px solid #ccc;*/
-	background-color: #333;
-	width: 20%;
-	height: 500px;
+.infoDiv {
+	width: 82.6vw;
+   padding: 0px;
+   margin: auto;	
 }
 
-/* Style the buttons inside the tab */
-.tab button {
-	display: block;
-	background-color: inherit;
-	color: #fff;
-	padding: 22px 16px;
-	width: 100%;
-	border: none;
-	outline: none;
+
+/* 탭 영역 */
+#tab {
+	/*
+	width: 80%;
+	margin: auto;*/
+}
+
+.tabmenu {
 	text-align: center;
 	cursor: pointer;
-	transition: 0.3s;
-	font-size: 18px;
-	height: 20%;
+	border-bottom: 2px solid #333;
+	padding: 30px;
+	transition: 0.1s;
+}
+/*
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 2px solid #ccc;*/
+
+
+.tabmenu:hover {
+	color: #18a8f1;
+	/*backgrond-color: #ccc;*/
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-	background-color: grey;
+.tabmenu.current {
+	/*background: #333;
+	color: #fff;*/
+	border-top: 2px solid #333;
+	border-left: 2px solid #333;
+	border-right: 2px solid #333;
+	border-bottom: 0;
+	color: #18a8f1;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	font-weight: bold;
+	/*border-top-left-radius: 10px;*/
+	/*border-top-right-radius: 5px;*/
 }
 
-/* Create an active/current "tab button" class */
-.tab button.active {
-	background-color: grey;
-}
 
-/* Style the tab content */
-.tabContent {
-	float: left;
+.tabContents {
 	padding: 80px;
-	border: 1px solid #ccc;
-	width: 80%;
-	border-left: none;
-	height: 550px;
+	/*
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;*/
+	border-bottom: 1px solid #333;
+	display: none;
 }
+
+.tabContents.current {
+	display: block;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	border-bottom: 2px solid #333;
+}
+
 
 /* 내정보 css */
 .userInfo {
@@ -269,6 +290,8 @@ a:hover {
 .memberLabel {
 	font-size: 14px;
 }
+
+
 </style>
 </head>
 <body>
@@ -322,7 +345,7 @@ a:hover {
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a onclick="openLoginModal();">로그인</a>
+						<a href="">로그인</a>
 					</div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
@@ -374,7 +397,7 @@ a:hover {
 		<c:choose>
 			<c:when test="${empty loginSession}">
 				<div class="col-12">
-					<a onclick="openLoginModal();">로그인</a>
+					<a href="#">로그인</a>
 				</div>
 			</c:when>
 			<c:when test="${!empty loginSession}">
@@ -385,75 +408,328 @@ a:hover {
 		</c:choose>
 	</div>
 
+
 	<div class="main">
-		<div
-			style="text-align: center; padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
-			<h2>마이페이지</h2>
+		<div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
+			<div class="col-12" style="text-align: center;">
+				<h1>마이페이지</h1>
+			</div>
 		</div>
-
-		<div class="tab">
-			<button class="tabLinks" onclick="openContent(event, 'myInfo')"
-				id="defaultOpen">내정보</button>
-			<button class="tabLinks" onclick="openContent(event, 'myReviews')">내댓글 조회</button>
-			<button class="tabLinks" onclick="openContent(event, 'myBookmarker')">즐겨찾기 조회</button>
+		
+		<div class="row infoDiv" id="tab">
+			<div class="col-4 tabmenu current" data-tab="myInfoContent">내정보</div>
+			<div class="col-4 tabmenu" data-tab="myReviewsContent">내 댓글 조회</div>
+			<div class="col-4 tabmenu" data-tab="myBookmarkContent">즐겨찾기 조회</div>
+			
 		</div>
-
-		<div id="myInfo" class="tabContent">
-			<h3 style="text-decoration: underline;">내정보</h3>
-			<div class="container">
-				<div class="row" style="margin-top: 30px;">
-					<div class="col-3" style="text-align: right; position: relative;">
-						<label class="form-check-label" id="idLabel"
-							style="position: relative; top: 50%; transform: translate(0, -50%);">아이디</label>
-					</div>
-					<div class="col-6">
-						<input type="text" class="form-control userInfo" id="userId" value="${loginSession.id}" disabled>
+		
+		<div class="tabContents infoDiv current" id="myInfoContent">
+			<div style="width: 70%; margin: auto;">
+				<div class="row">
+					<div class="col-12">
+						<h3 style="text-decoration: underline;">내정보</h3>
 					</div>
 				</div>
-				<div class="row" style="margin-top: 30px;">
-					<div class="col-3" style="text-align: right; position: relative;">
-						<label class="form-check-label" id="idLabel"
-							style="position: relative; top: 50%; transform: translate(0, -50%);">닉네임</label>
+				
+				
+					<div class="row">
+						<div class="col-xl-3 col-12 mt-4" style="position: relative;">
+							<label class="form-check-label" style="position: relative; left: 50%; top: 50%; transform: translate(-50%, -50%);">아이디</label>
+						</div>
+						<div class="col-xl-6 col-12 mt-4">
+							<input type="text" class="form-control userInfo" id="userId" value="${loginSession.id}" disabled>
+						</div>
 					</div>
-					<div class="col-6">
-						<input type="text" class="form-control userInfo" id="userNickname" value="${loginSession.nickname}" disabled>
+					<div class="row">
+						<div class="col-xl-3 col-12 mt-4" style="position: relative;">
+							<label class="form-check-label" style="position: relative; left: 50%; top: 50%; transform: translate(-50%, -50%);">닉네임</label>
+						</div>
+						<div class="col-xl-6 col-12 mt-4">
+							<input type="text" class="form-control userInfo" id="userNickname" value="${loginSession.nickname}" disabled>
+						</div>
+						<div class="col-xl-3 col-12 mt-4">
+							<button type="button" class="btn btn-dark col-12" id="modifyNicknameBtn">닉네임 변경</button>
+						</div>
 					</div>
-					<div class="col-3">
-						<button type="button" class="btn btn-dark" id="modifyNicknameBtn">닉네임 변경</button>
+					<div class="row">
+						<div class="col-xl-3 col-12 mt-4" style="position: relative;">
+							<label class="form-check-label" 
+							style="position: relative; left: 50%; top: 50%; transform: translate(-50%, -50%);">전화번호</label>
+						</div>
+						<div class="col-xl-2 col-12 mt-4">
+							<input type="text" class="form-control userInfo userPhone" id="userPhoneNum1" disabled>
+						</div>
+						<div class="col-xl-2 col-12 mt-4">
+							<input type="text" class="form-control userInfo userPhone" id="userPhoneNum2" disabled>
+						</div>
+						<div class="col-xl-2 col-12 mt-4">
+							<input type="text" class="form-control userInfo userPhone" id="userPhoneNum3" disabled>
+						</div>
+						<div class="col-xl-3 col-12 mt-4">
+							<button type="button" class="btn btn-dark col-12" id="modifyPhoneBtn">핸드폰 변경</button>
+						</div>
+						<input type="text" id="userPhone" value="${loginSession.phone}" hidden>
+					</div>
+					<div class="row mt-4">
+						<div class="col-12" style="text-align: right;">
+							<button type="button" class="btn btn-danger" id="applicationColStBtn">컬럼니스트 신청</button>
+							<c:if test="${loginSession.pw != null}">
+								<button type="button" class="btn" id="modifyPwBtn">비밀번호 변경</button>
+							</c:if>
+							<button type="button" class="btn" id="memberWithdrawalBtn">회원탈퇴</button>
+						</div>
+					</div>
+				
+			</div>
+		</div>
+		
+		<!-- 댓글영역  -->
+		<div class="tabContents infoDiv" id="myReviewsContent">
+			<div style="width: 80%; margin: auto;">
+				<div class="row">
+					<div class="col-10"><h3 style="text-decoration: underline;">내 댓글 관리</h3></div>
+				</div>
+				<div class="row" style="height:90%; width:100%; overflow-x:hidden;">
+					<div class="col-12 review-div" style="height:100%; width:100%;">
+						<!-- 추가 -->
 					</div>
 				</div>
-				<div class="row" style="margin-top: 30px;">
-					<div class="col-3" style="text-align: right; position: relative;">
-						<label class="form-check-label" id="idLabel"
-							style="position: relative; top: 50%; transform: translate(0, -50%);">전화번호</label>
-					</div>
-					<div class="col-2">
-						<input type="text" class="form-control userInfo userPhone" id="userPhoneNum1" disabled>
-					</div>
-					<div class="col-2">
-						<input type="text" class="form-control userInfo userPhone" id="userPhoneNum2" disabled>
-					</div>
-					<div class="col-2">
-						<input type="text" class="form-control userInfo userPhone" id="userPhoneNum3" disabled>
-					</div>
-					<div class="col-3">
-						<button type="button" class="btn btn-dark" id="modifyPhoneBtn">핸드폰 변경</button>
-					</div>
-					<input type="text" id="userPhone" value="${loginSession.phone}" hidden>
-				</div>
-				<div class="row" style="margin-top: 50px;">
-					<div class="col-12" style="text-align: right;">
-						<button type="button" class="btn btn-danger" id="applicationColStBtn">컬럼니스트 신청</button>
-						<c:if test="${loginSession.pw != null}">
-							<button type="button" class="btn" id="modifyPwBtn">비밀번호 변경</button>
-						</c:if>
-						<button type="button" class="btn" id="memberWithdrawalBtn">회원탈퇴</button>
+				<div class="row" style="height:10%; width:100%;">
+					<div class="col-12 paging-div" style="height:100%; width:100%">
+						<!-- 추가 -->
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+		/* 자신이 쓴 댓글 불러오기 */
+		function getCommentList(currentPage){
+			let data = {"searchKey" : "${loginSession.id}", "selected" : "id"};
+			$.ajax({
+				type : "post"
+				,data : data
+				, url : "${pageContext.request.contextPath}/review/searchByKey.do?currentPage=" + currentPage
+			}).done(function (data){
+				// 기존에 댓글이 있다면 모두 비워주는 작업 
+				$(".review-div").empty();
+				$(".paging-div").empty();
+				if(data.byIdList == ""){
+					alert("검색 내용이 없습니다.");
+					let commentNull = "<div><h4>검색 내용이 없습니다.</h4></div>";
+					$(".review-div").append(commentNull);
+				}else{
+					for(let dto of data.byIdList){
+					let comment = "<div class='row comment-header m-1' style='height:auto; border-bottom: 2px solid lightgrey; margin:0px; padding:0px;'>"
+								+ "<div class='col-5'>" + dto.written_date + "</div>"
+								+ "<div class='col-5'>" + dto.station + "</div>"
+								+ "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn deleteCmt' style='padding:0px;' value='" + dto.seq_review + "'>삭제</button></div>"
+								+ "<div class='col-12' style='height:48px; margin-bottom:5px;'>" + dto.review + "</div>"
+								+ "</div>"
+						$(".review-div").append(comment);			
+					}
+					
+					let startNavi = data.settingMap.startNavi;
+					let endNavi = data.settingMap.endNavi;
+					
+					let paging = "<nav class='col' aria-label='Page navigation example'>"
+								+ "<ul class='pagination justify-content-center'>";
+								
+								if(data.settingMap.needPrev == true){
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + startNavi + "- 1)'><</a></li>";
+								}
+								
+								for(var i= startNavi; i<= endNavi; i++){
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + i + ")'>" + i + "</a></li>";
+								}
+								
+								if(data.settingMap.needNext == true){
+									paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getCommentList(" + endNavi + "+ 1)'>></a></li>";
+								}
+								
+					paging += "</ul>" + "</nav>";		
+								
+					$(".paging-div").append(paging);
+				
+			}
+			}).fail(function(e){
+				console.log(e);
+			});
+		}
 		
-		<!-- 닉네임 변경 모달 -->
+		/* 삭제버튼을 눌렀을 때 */ 
+		$(document).on("click",".deleteCmt", function(e){
+			let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				,url : "${pageContext.request.contextPath}/review/delete.do?seq_review=" + $(e.target).val()
+			}).done(function(rs){
+				if(rs == "success"){
+					getCommentList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+		});
+		</script>
+		
+		
+		<!-- 즐겨찾기 영역 -->
+		<div class="tabContents infoDiv" id="myBookmarkContent">
+			<div style="width: 80%; margin: auto;">
+				<div class="row">
+					<div class="col-10"><h3 style="text-decoration: underline;">즐겨찾기</h3></div>
+					<div class="col-2 d-flex justify-content-end"><button type="button" class="btn btn-secondary" id="btn-deleteAll">전체삭제</button></div>
+				</div>
+				<div class="row">
+					<div class="row bookmark-div" style="height:90%; width:100%; overflow-x:hidden;">
+						<!-- 추가 -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="row cmt-paging" style="height:10%;">
+						<!-- 추가 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		// 즐겨찾기 목록 불러오는 함수
+		function getBookmarkList(currentPage){
+	 		$.ajax({
+	 			type : "get"
+	 			, url : "${pageContext.request.contextPath}/bookmark/getList.do?id=${loginSession.id}&currentPage=" + currentPage
+	 		}).done(function(data){
+	 			$(".bookmark-div").empty();
+	 			$(".cmt-paging").empty();
+	 			if(data.bookmarkList == ""){
+	 				let bookmarkNull = "<div class='emptyDiv' style='text-align:center; height:100px; padding-top:40px;'><h4>즐겨찾기목록이 없습니다.</h4></div>";
+	 				$(".bookmark-div").append(bookmarkNull);
+	 			}else{
+	 				for(let dto of data.bookmarkList){
+	 					let bookmark = "<div class='row bookmark-header m-1' style='height:outo; border-bottom:1px solid black;'>"
+	 									+ "<div class='col-5 d-flex justify-content-start'>"
+	 									+ "<a style='padding-top:7px;' href='${pageContext.request.contextPath}/station/toGetStation?station=" + dto.station + "'>" + dto.station + "</a>"
+	 									+ "</div>"
+	 									+ "<div class='col-5'>" + dto.rdnmadr + "</div>"
+	 									+ "<div class='col-2 d-flex justify-content-center'>"
+	 									+ "<button type='button' class='btn btn-delete' value='" + dto.station +"'>삭제</button>"
+	 									+ "</div>"
+	 									+ "</div>"
+	 					$(".bookmark-div").append(bookmark);
+	 				}
+	 				
+	 				let startNavi = data.settingMap.startNavi;
+	 				let endNavi = data.settingMap.endNavi;
+	 				
+	 				let paging = "<nav class='col' aria-label='Page navigation example'>"
+	 							+ "<ul class='pagination justify-content-center'>";
+	 							
+	 							if(data.settingMap.needPrev == true){
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + startNavi + "- 1);'><</a></li>";
+	 							}
+	 							
+	 							for(var i= startNavi; i<= endNavi; i++){
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + i + ");'>" + i + "</a></li>";
+	 							}
+	 							
+	 							if(data.settingMap.needNext == true){
+	 								paging += "<li class='page-item'><a class='page-link' style='color:black;' onclick='getBookmarkList(" + endNavi + "+ 1);'>></a></li>";
+	 							}
+	 							
+	 					paging += "</ul>" + "</nav>";		
+	 							
+	 					$(".cmt-paging").append(paging);
+	 			}
+	 		}).fail(function(e){
+	 			console.log(e);
+	 		})
+	 	}
+		
+		// 전체 삭제 버튼
+	    $("#btn-deleteAll").on("click", function(){
+	    	if($(".emptyDiv").html() == "<h4>즐겨찾기목록이 없습니다.</h4>"){
+	    		alert("삭제할 항목이 없습니다.");
+	    		return;
+	    	}
+	    	let rs = confirm("삭제하시겠습니까?");
+			if(!rs){
+				return;
+			}
+			$.ajax({
+				type : "get"
+				, url : "${pageContext.request.contextPath}/bookmark/deleteAll.do?id=${loginSession.id}"
+			}).done(function(rs){
+				if(rs == "success"){
+					getBookmarkList(1);
+				}else if(rs == "fail"){
+					alert("삭제에 실패하였습니다.");
+				}
+			}).fail(function(e){
+				console.log(e);
+			});
+	    })
+	    
+	    // 삭제 버튼
+	    $(document).on("click",".btn-delete", function(e){
+	    	if($(e.target).html() == "삭제"){
+				let rs = confirm("삭제하시겠습니까?");
+				if(!rs){
+					return;
+				}
+				$.ajax({
+					type : "get"
+					, url : "${pageContext.request.contextPath}/bookmark/delete.do?station=" + $(e.target).val()
+				}).done(function(rs){
+					if(rs == "success"){
+						getBookmarkList(1);
+					}else if(rs == "fail"){
+						alert("삭제에 실패하였습니다.");
+					}
+				}).fail(function(e){
+					console.log(e);
+				});
+	    	}
+	    })
+		</script>
+	</div>
+
+
+	<div class="footer" style="margin-top: 150px;">
+		<div class="row footer-body">
+			<div class="col-12 col-xl-6 footer-body-left">
+				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
+				<p>개인정보취급담당자: 이수희</p>
+				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
+				<div class="row footer-top">
+					<ul>
+						<li><a href="">이용약관</a></li>
+						<li><a href="">개인정보처리방침</a></li>
+						<li><a href="">고객지원</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-12 col-xl-6 footer-body-right">
+				<p>고객센터</p>
+				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
+				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
+				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
+			<div class="col-6 foot-bottom-right">
+				<a href="">관리자</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- 닉네임 변경 모달 -->
 		<div class="modal fade" id="modifyNicknameModal" aria-hidden="true"
 			data-bs-backdrop="static" data-bs-keyboard="false"
 			aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
@@ -636,6 +912,7 @@ a:hover {
 				</div>
 			</div>
 		</div>
+<<<<<<< HEAD
 		
 		
 		<!-- 댓글 관리 영역 -->
@@ -880,9 +1157,26 @@ a:hover {
 		</div>
 
 	</div>
+=======
+>>>>>>> 1a805731905e9c524682781648a5f164a1b7f5ba
 
 	<script>
-	 ws = new WebSocket("ws://172.30.1.60/column");
+	$(document).ready(function() {
+		$('.tabmenu').click(function() {
+			var tab_id = $(this).attr("data-tab");
+
+			$('.tabmenu').removeClass('current');
+			$('.tabContents').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		})
+		
+		
+	})
+	
+	
+	 ws = new WebSocket("ws://13.209.64.187:8080/column");
      //메세지수신
 		ws.onmessage = function(e) {
 			//console.log( e.data );
@@ -941,6 +1235,7 @@ a:hover {
 					$(".modal-footer").append(newBtn);
 				}	
 		}
+     
 		//컬럼리스트 신청 클릭시 메세지 전송
 		document.addEventListener('click',function(e){
 	        if(e.target.id == 'applicationColStBtn'){
@@ -960,6 +1255,7 @@ a:hover {
 		})
 
 		// 마이페이지 content 바꾸는 함수
+		/*
 		function openContent(evt, content) {
 			var i, tabContent, tabLinks;
 			tabContent = document.getElementsByClassName("tabContent");
@@ -981,7 +1277,7 @@ a:hover {
 		}
 
 		// Get the element with id="defaultOpen" and click on it
-		document.getElementById("defaultOpen").click();
+		document.getElementById("defaultOpen").click();*/
 
 		
 		/* 내정보 스크립트 */
@@ -1168,7 +1464,7 @@ a:hover {
 	/* 휴대폰 변경 스크립트 */
 	// 핸드폰 변경 버튼 클릭 시
 	$("#modifyPhoneBtn").on("click", function(){
-		$("#phoneNum1").val("");
+		$("#phoneNum1").val("선택").attr("selected", true);
 		$("#phoneNum1").css("border-bottom", "1px solid #333");
 		$("#phoneNum1").attr("disabled", false);
 		$("#phoneNum2").val("");
@@ -1677,8 +1973,32 @@ a:hover {
 			console.log(e);
 		})
 	})	
+	
+	<!-- 로그아웃 스크립트 영역 -->
+	// 로그아웃 함수
+    function logoutFunc() {
+        <c:choose>
+            <c:when test="${loginSession.naver_num != 0}"> // 네이버 로그인이면 네이버 로그아웃하고 로그아웃
+                naverLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0}">
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:when test="${loginSession.kakao_num != 0 and loginSession.naver_num != 0}">
+                naverLogout();
+                kakaoLogout();
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:when>
+            <c:otherwise>
+                location.href = "${pageContext.request.contextPath}/member/logout.do";
+            </c:otherwise>
+        </c:choose>
+    }
 		
 	</script>
+	
 
 </body>
 </html>
