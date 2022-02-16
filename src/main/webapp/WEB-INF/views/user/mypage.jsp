@@ -602,7 +602,7 @@ a:hover {
                 $(".bookmark-container").append(bookmarkNull);
              }else{
                let bookmark = "<div class='row mb-3'>"
-                        + "<div class='col-10'><h3 style='text-decoration: underline;'>즐겨찾기</h3></div>"
+                        + "<div class='col-10'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
                         + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
                         + "</div>";
                $(".bookmark-container").append(bookmark);         
@@ -615,10 +615,12 @@ a:hover {
                                + "<div class='col-2 d-flex justify-content-center'>"
                                + "<button type='button' class='btn btn-dark btn-delete' value='" + dto.station +"'>삭제</button>"
                                + "</div>"
+                             
                                + "<div class='col-12'>상세주소&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.rdnmadr + "</div>"
                                + "<div class='col-12'>운영시간&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.useTime + "</div>"
-                               + "<div class='col-12'>&nbsp;&nbsp;&nbsp;연락처&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.phoneNumber + "</div>"
-                               + "</div>"
+                               + "<div class='col-6 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
+                               + "<div class='col-6 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
+							+ "</div>"
                    $(".bookmark-container").append(bookmark);
                 }
                 
