@@ -30,18 +30,17 @@
 
 	<context:component-scan
 		base-package="every.com.*" />
-
-			
-<interceptors>
-
-
+	<interceptors>
+ 
 	<interceptor>
   			<mapping path="/admin/**" /> 
   			<exclude-mapping path="/admin/adminLogin.do"/>
+  		
+
 	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
 	
 	</interceptor> 
-	
+
 	<interceptor>
   			<mapping path="/**"/> 
 			<exclude-mapping path="/"/> 
@@ -64,6 +63,8 @@
 			<exclude-mapping path="/member/getMemberId.do"/>
 			<exclude-mapping path="/member/getExistMember.do"/>
 			<exclude-mapping path="/member/getMypage.do"/>
+			<exclude-mapping path="/member/selectAllUser.do"/>
+            <exclude-mapping path="/member/deleteMember.do"/>
 			
 			<!-- 관리자 -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
@@ -89,6 +90,8 @@
 
 	
 </interceptors>
+			
+
 	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

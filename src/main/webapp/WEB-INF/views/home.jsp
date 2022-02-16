@@ -34,22 +34,18 @@
 	font-family: 'Pretendard-SemiBold';
 	color:black;
 }
-
 html {
 	width: 100vw;
 	height: 100%;
 }
-
 body {
 	width: 100%;
 	height: auto;
 }
-
 a {
 	text-decoration: none;
 	color: black;
 }
-
 /* Navi 영역*/
 .navber {
 	width: 82.6vw;
@@ -62,57 +58,47 @@ a {
 	transform: translateX(-50%);
 	z-index: 1;
 }
-
 .nav-items {
 	margin: auto;
 	width: 100%;
 }
-
 a:hover {
 	text-decoration: none;
 	color: #18a8f1;
 	border-bottom: 2px solid black;
 }
-
 .navi-logo {
 	text-align: left;
 	padding: 0px;
 }
-
 .navi-menu {
 	text-align: center;
 	padding: 0px 10px;
 }
-
 .navi-menu>a, img {
 	line-height: 32px;
 }
-
 .navi-onButtons {
-	padding-top: 92px;
+	padding-top: 122px;
 	margin: auto;
 	width: 82.6vw;
 	height: 0;
 	display: none;
 }
-
 .navi-onButtons>div {
 	padding: 10px 0px;
 	text-align: center;
 }
-
 .badge {
 	height: 16px;
 	line-height: 8px;
 }
-
 /* main 영역 */
 .main {
-	padding-top: 92px;
+	padding-top: 122px;
 	width: 82.6vw;
 	margin: auto;
 }
-
 #colum_list{
 	width: 82.6vw;
 	margin: auto;
@@ -123,29 +109,24 @@ a:hover {
 	margin-bottom: 20px;
 	border: 2px solid gray;
 }
-
 /* footer 영역 */
 .footer {
 	margin: auto;
 	width: 82.6vw;
 }
-
 .footer-top {
 	margin: auto;
 	width: 82.6vw;
 }
-
 .footer-top>ul {
 	padding: 0px;
 	margin: 0px;
 }
-
 .footer-top>ul>li {
 	list-style: none;
 	float: left;
 	margin-right: 10px;
 }
-
 .footer-body {
 	margin: auto;
 	width: 82.6vw;
@@ -153,22 +134,18 @@ a:hover {
 	border-top: 2px solid gray;
 	padding-bottom: 20px;
 }
-
 .footer-body-left {
 	margin-top: 20px;
 	padding: 0px;
 }
-
 .footer-body-left>p {
 	padding: 0px;
 	margin: 0px;
 }
-
 .footer-body-right {
 	margin-top: 20px;
 	padding: 0px;
 }
-
 .footer-body-right>p {
 	padding: 0px;
 	margin: 0px;
@@ -176,7 +153,6 @@ a:hover {
 .foot-bottom-right {
 	text-align: right;
 }
-
 /* 로딩 */
 .loadingDiv {
 	position: absolute;
@@ -186,42 +162,41 @@ a:hover {
 	display: none;
 	z-index: 99999;
 }
-
 /* 알람 css  */
+/*
  	#bell{
       position: relative;
       cursor: pointer;
+ 
     }
-    .fa-bell{
-      position: absolute;
-      font-size: 38px;
-    }
+    */
+	#aaa{
+	position: relative;
+	}
     #bell_text{
-      position: relative;
+      position: absolute;
       color: white;
       font-weight: 700;
-      font-size: large;
-      width: 27px;
-      left: -15px;
-      top : -10px;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
       display: inline-block;
       background-color: red;
       border-radius: 100%;
       text-align: center;
     }
-
 /*메인페이지 리스트 css */
 .cardContainer{
  margin-bottom: 15px;
  padding-left: 20px;
  padding-right: 20px;
-
 }
 .atag{
 width: 100%;
 height: 100%;
 }
-
 .titleImg{
  width: 400px;
  height: 300px;
@@ -252,7 +227,6 @@ height: 100%;
 .colum-text{
 margin: 0;
 }
-
 /*캐러셀 버튼*/
 .carouselPrevIcon{
     position: absolute;
@@ -264,7 +238,6 @@ margin: 0;
     right: 0px;
     font-size: 2rem
 }
-
 </style>
 </head>
 <body>
@@ -281,11 +254,19 @@ margin: 0;
 				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
 				<a href="">고객지원</a>
 			</div>
+			
+			<c:choose>
+				<c:when test="${empty loginSession}">
+				<div class="col-xl-7 col-9 navi-menu"></div>
+				</c:when>
+				<c:when test="${!empty loginSession}">
+					<div class="col-xl-5 col-8 navi-menu"></div>
+				</c:when>
+			</c:choose>
+			
+		
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
@@ -295,25 +276,6 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				<div class="col-xl-5 col-8 navi-menu"></div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-3 col-6 navi-menu"></div>
-				</c:when>
-			</c:choose>
-			
-			<c:choose>
-			  	<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu" id = "bell">
-						<!--  <div id = "bell">-->
-	          			<i class="far fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i>
-	          			 <div id ="bell_text"></div>
-					</div>
-				</c:when>
-			</c:choose>
-			
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
@@ -326,15 +288,35 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
+<%-- 			<c:choose> --%>
+<%-- 			  	<c:when test="${!empty loginSession}"> --%>
+<!-- 					<div class="col-1 navi-menu" id = "bell"> -->
+<!-- 						 <div id = "bell"> -->
+<!-- 							<img src="/resources/images/alarm.png" width="24px" height="24px" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"> -->
+<!-- <!-- 						<i class="fa-light fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i> -->
+<!-- 	          			 <div id ="bell_text"></div> -->
+<!-- 					</div> -->
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu" id="aaa">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a>
+                	<div id ="bell_text"></div>
+                	</div>
+
+				</c:when>
+			</c:choose>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+					<div class="col-xl-0 col-1 d-xl-none navi-menu">
+					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+						height="24px"></a>
+					</div>
+				</c:when>
+			</c:choose>
 			
-		
-			
-			
-			
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
-			</div>
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
@@ -343,9 +325,6 @@ margin: 0;
 		</div>
 		<div class="col-12">
 			<a href="">칼럼</a>
-		</div>
-		<div class="col-12">
-			<a href="">커뮤니티</a>
 		</div>
 		<div class="col-12">
 			<a href="">고객지원</a>
@@ -374,10 +353,10 @@ margin: 0;
 		</c:choose>
 	</div>
 	<div class="main">
+	<!-- *********************** -->
+	<!-- *******메인******** -->
+	<!-- *********************** -->
 
-	
-	<div class="row">
-		<div class="col-12">
 		<img src="/resources/images/main.jpg" width="100%">
 	
 	<div class="loadingDiv">
@@ -392,7 +371,6 @@ margin: 0;
 	</div>
 	<div class="row" class="colum_list">
 		<div class="col-12 mt-3">
-
 			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
 			    <div class="carousel-item active col-12 d-flex" id = "printList">
@@ -420,7 +398,6 @@ margin: 0;
 	
 <script type="text/javascript">
 let mnList = null 
-
 $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
 	
 	  let carouselCurrentPage
@@ -452,14 +429,9 @@ $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
 	  	$("#printList").empty(); 
 	    $("#printList2").empty(); 
 	    getList(printList,printList2, carouselCurrentPage, mnList)
-
 		
 });
-
-
-
 getBoardList()
-
 function getList(id,printId, num, mnList){
 	if((mnList.length) < 3){
 		$(id).append("리스트를 3개이상 추가해주세요");
@@ -509,14 +481,12 @@ function getList(id,printId, num, mnList){
 	           				+"</div>"
 	    				+"</div>"
 	    				+"</div>"	
-
 		$(id).append(list);
 		$(printId).append(list);
 		}
 	}
 	
 }
-
 	function getBoardList(){
 	
 		$.ajax({  
@@ -526,13 +496,11 @@ function getList(id,printId, num, mnList){
 			//성공시
 				 //console.log(data);
 				//$(printId).empty();
-
 				let mainList= data.mainList
 				if(data == null || data =="" ){
 					let list = "리스트가 비어있습니다"
 					$(printId).empty();
 					$(printId).append(list);
-
 				}else{
 					mnList = data.mainList;
 					getList(printList,printList2, 0,mnList);
@@ -595,7 +563,6 @@ function getList(id,printId, num, mnList){
         	ws.send("getUncheckedList");
     }});
 	
-
 	
 	function messageCheck(){
 			 let list = new Array(); // 배열 선언
@@ -628,7 +595,6 @@ function getList(id,printId, num, mnList){
 		 		 alert("확인할 메세지를 선택하세요.")
 		 	 }
 	}
-
 	</script>
 	
 	<!-- 회원 관련 모달 -->
@@ -1273,7 +1239,6 @@ function getList(id,printId, num, mnList){
 					onNavbar = 0;
 				}
 			});
-
 			$(window).resize(function() { //브라우저 크기를 조정했을때
 				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
 					$('.navi-onButtons').css({
