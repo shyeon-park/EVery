@@ -1,17 +1,15 @@
 package every.com.utils;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 public class LoginInterceptor implements HandlerInterceptor {
 	// Interceptor : 컨트롤러로 요청 값이 전달되기 전/후 중간에서
-	//				 값을 가로채 팔요한 작업을 해줄 수 있는 인터페이스	
+	//				 값을 가로채 팔요한 작업을 해줄 수 있는 인터페이스
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -24,8 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return false;
 		}
 			return true;
-		
-	
-		
 	}
+	
+
 }
