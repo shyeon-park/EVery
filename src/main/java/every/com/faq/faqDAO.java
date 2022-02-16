@@ -32,13 +32,8 @@ public class faqDAO {
 	}
 	
 	// FAQ 삭제
-	public int delete(int seq_faq) throws Exception {
-		return session.delete("faqMapper.delete", seq_faq);
-	}
-	
-	// 제목으로 검색
-	public List<faqDTO> searchByTitle(String title) throws Exception {
-		return session.selectList("faqMapper.searchByTitle", title);
+	public int delete(faqDTO dto) throws Exception {
+		return session.delete("faqMapper.delete", dto);
 	}
 }
 

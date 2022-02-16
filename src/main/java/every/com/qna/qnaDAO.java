@@ -16,14 +16,9 @@ public class qnaDAO {
 		return session.selectList("qnaMapper.qnaList");
 	}
 	
-	// 전체 문의글 수
-	public int listCount() throws Exception {
-		return session.selectOne("qnaMapper.listCount");
-	}
-	
 	// 내 문의 목록 조회(회원)
-	public List<qnaDTO> selectById(String id) throws Exception {
-		return session.selectList("qnaMapper.selectById", id);
+	public List<qnaDTO> myQnaList(String id) throws Exception {
+		return session.selectList("qnaMapper.myQnaList", id);
 	}
 	
 	// 문의 상세 조회
@@ -37,12 +32,12 @@ public class qnaDAO {
 	}
 	
 	// 답변 등록
-	public int insertAnswer(String answer) throws Exception {
-		return session.update("qnaMapper.insertAnswer", answer);
+	public int insertAnswer(qnaDTO dto) throws Exception {
+		return session.update("qnaMapper.insertAnswer", dto);
 	}
 	
 	// 문의 삭제
-	public int deleteQna(int seq_qna) throws Exception {
+	public int delete(int seq_qna) throws Exception {
 		return session.delete("qnaMapper.delete", seq_qna);
 	}
 }

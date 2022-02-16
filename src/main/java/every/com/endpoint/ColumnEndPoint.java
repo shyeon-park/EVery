@@ -209,6 +209,14 @@ public class ColumnEndPoint {
 			}
 		}else if (message.equals("Cancel")) {
 			
+			//관리자 리스트를 가져온다. 
+			ArrayList<AdminDTO> list = null;
+			try {
+				 list = (ArrayList) adiminService.managerList();
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			//칼럼리스트 취소시
 			//String id = ((MemberDTO) this.httpSession.getAttribute("loginSession")).getId();
 			service.cancelColumnList(id);
@@ -236,6 +244,22 @@ public class ColumnEndPoint {
 							ArrayList<MemberDTO> mc = (ArrayList)messageService.messageCheckList(id);
 							String jObj = gson.toJson(map).toString();
 							client.getBasicRemote().sendText(jObj.toString());
+						}else {
+							if(list != null) {
+								for (AdminDTO dto : list) {
+									//현재 접속한 세션이 있으면, 
+									HttpSession httpSessionList = sessionMap.get(client);
+									if (httpSessionList.getAttribute("adminLoginSession") != null){
+										String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_Id();
+										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+										map.put("approvalColumnList", approvalColumnList);
+										int notCheckedcount = messageService.notCheckedcount(adminID);
+										map.put("notCheckedcount", notCheckedcount);
+										String jObj = gson.toJson(map).toString();
+										client.getBasicRemote().sendText(jObj.toString());
+									}
+								}
+							}
 						}
 					}
 				  }
