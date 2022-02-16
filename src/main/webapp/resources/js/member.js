@@ -445,7 +445,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 				console.log(rs);
 				if(rs == "loginSuccess") {
 					alert("관리자 로그인에 성공하였습니다.");
-					location.href = "http://localhost:" + portNum + "/admin/";
+					location.href = "http://localhost:" + portNum + "/admin/getAdminUser.do";
 				} else if(rs == "loginFail") {
 					alert("로그인 정보가 올바르지 않습니다. 다시 입력해주세요.");
 					$("#loginId").val("");

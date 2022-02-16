@@ -441,7 +441,7 @@ font-size: 0.8rem
 	</div>
 	
 	<!-- 회원 관련 모달 -->
-		<!-- 로그인 모달 -->
+	<!-- 로그인 모달 -->
 	<div class="modal fade" id="loginModal" aria-hidden="true"
 		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -465,7 +465,7 @@ font-size: 0.8rem
 									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
   									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
 				
-  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
   									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 								</div>
 							</div>
@@ -499,9 +499,9 @@ font-size: 0.8rem
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">

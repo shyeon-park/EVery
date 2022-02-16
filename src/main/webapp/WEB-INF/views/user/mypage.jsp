@@ -229,7 +229,7 @@ a:hover {
 	/*
 	border-left: 1px solid #333;
 	border-right: 1px solid #333;*/
-	border-bottom: 1px solid #333;
+	/*border-bottom: 1px solid #333;*/
 	display: none;
 }
 
@@ -238,7 +238,7 @@ a:hover {
 	/*
 	border-left: 2px solid #ccc;
 	border-right: 2px solid #ccc;*/
-	border-bottom: 2px solid #333;
+	/*border-bottom: 2px solid #333;*/
 }
 
 
@@ -420,7 +420,6 @@ a:hover {
 			<div class="col-4 tabmenu current" data-tab="myInfoContent">내정보</div>
 			<div class="col-4 tabmenu" data-tab="myReviewsContent">내 댓글 조회</div>
 			<div class="col-4 tabmenu" data-tab="myBookmarkContent">즐겨찾기 조회</div>
-			
 		</div>
 		
 		<div class="tabContents infoDiv current" id="myInfoContent">
@@ -699,7 +698,7 @@ a:hover {
 	</div>
 
 
-	<div class="footer" style="margin-top: 150px;">
+	<div class="footer">
 		<div class="row footer-body">
 			<div class="col-12 col-xl-6 footer-body-left">
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
@@ -723,7 +722,6 @@ a:hover {
 		<div class="row">
 			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
 			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>
 			</div>
 		</div>
 	</div>
