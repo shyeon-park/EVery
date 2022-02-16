@@ -33,15 +33,29 @@ public class StationController {
 	@Autowired
 	private BookmarkService service;
 	
+//	@RequestMapping(value="/toGetStation")
+//	public String toGetStation(String station) throws Exception{
+//		System.out.println(station);
+//		if(station != null && session.getAttribute("loginSession") != null) {
+//			String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
+//			BookmarkDTO dto = service.selectByStation(station,id);
+//			session.setAttribute("BookmarkDTO", dto);
+//		}else {
+//			session.removeAttribute("BookmarkDTO");
+//		}
+//		return "station/station";
+//	}
+	
 	@RequestMapping(value="/toGetStation")
-	public String toGetStation(String station) throws Exception{
+	public String toGetStation(String station,Model model) throws Exception{
 		System.out.println(station);
 		if(station != null && session.getAttribute("loginSession") != null) {
 			String id = ((MemberDTO)session.getAttribute("loginSession")).getId();
 			BookmarkDTO dto = service.selectByStation(station,id);
-			session.setAttribute("BookmarkDTO", dto);
-		}else {
-			session.removeAttribute("BookmarkDTO");
+//			session.setAttribute("BookmarkDTO", dto);
+			if(dto != null) {
+			model.addAttribute("BookmarkDTO", dto);
+			}
 		}
 		return "station/station";
 	}

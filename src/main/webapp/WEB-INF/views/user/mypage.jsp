@@ -225,20 +225,20 @@ a:hover {
 
 
 .tabContents {
-   padding: 80px;
-   /*
-   border-left: 1px solid #333;
-   border-right: 1px solid #333;*/
-   border-bottom: 1px solid #333;
-   display: none;
+	padding: 80px;
+	/*
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;*/
+	/*border-bottom: 1px solid #333;*/
+	display: none;
 }
 
 .tabContents.current {
-   display: block;
-   /*
-   border-left: 2px solid #ccc;
-   border-right: 2px solid #ccc;*/
-   border-bottom: 2px solid #333;
+	display: block;
+	/*
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;*/
+	/*border-bottom: 2px solid #333;*/
 }
 
 
@@ -407,7 +407,6 @@ a:hover {
          </c:when>
       </c:choose>
    </div>
-
 
    <div class="main">
       <div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
@@ -602,7 +601,7 @@ a:hover {
                 $(".bookmark-container").append(bookmarkNull);
              }else{
                let bookmark = "<div class='row mb-3'>"
-                        + "<div class='col-10'><h3 style='text-decoration: underline;'>즐겨찾기</h3></div>"
+                        + "<div class='col-10'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
                         + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
                         + "</div>";
                $(".bookmark-container").append(bookmark);         
@@ -615,10 +614,12 @@ a:hover {
                                + "<div class='col-2 d-flex justify-content-center'>"
                                + "<button type='button' class='btn btn-dark btn-delete' value='" + dto.station +"'>삭제</button>"
                                + "</div>"
+                             
                                + "<div class='col-12'>상세주소&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.rdnmadr + "</div>"
                                + "<div class='col-12'>운영시간&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.useTime + "</div>"
-                               + "<div class='col-12'>&nbsp;&nbsp;&nbsp;연락처&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.phoneNumber + "</div>"
-                               + "</div>"
+                               + "<div class='col-6 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
+                               + "<div class='col-6 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
+							+ "</div>"
                    $(".bookmark-container").append(bookmark);
                 }
                 
@@ -698,7 +699,7 @@ a:hover {
    </div>
 
 
-   <div class="footer" style="margin-top: 150px;">
+   <div class="footer">
       <div class="row footer-body">
          <div class="col-12 col-xl-6 footer-body-left">
             <p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
