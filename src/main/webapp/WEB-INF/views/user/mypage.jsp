@@ -652,7 +652,7 @@ a:hover {
 				<div class="col-12 paging-div" style="height:100%; width:100%">
 						<!-- 추가 -->
 				</div>
-			</div>\
+			</div>
 		</div>
 
 		<script>
