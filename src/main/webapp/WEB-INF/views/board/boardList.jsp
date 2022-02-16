@@ -179,7 +179,15 @@ a:hover {
 	text-align: right;
 }
 
-
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 
 .container{
 width: 100%;
@@ -377,7 +385,9 @@ margin: 0;
 		</c:choose>
 	</div>
 	<div class="main">
-			
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>	
 
 		<div class="row">
 			<div class="col d-flex justify-content-center">

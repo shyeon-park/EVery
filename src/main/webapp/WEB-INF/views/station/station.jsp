@@ -199,6 +199,16 @@ a:hover {
 	left: 50%;
 }
 
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
+
 #mainDIV {
 	width: 82.6vw;
 	padding: 0px;
@@ -482,6 +492,10 @@ textarea {
 		</c:choose>
 	</div>
 	<div class="main">
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>
+		
 		<div class="row" id="mainDIV">
 			<div class="d-none" id="commentDIV">
 				<div class="row">

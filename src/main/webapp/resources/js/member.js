@@ -2,6 +2,20 @@
 let portNum = location.port;
 /* "http://localhost:"
 	"http://13.209.64.187:"  */
+	
+function showLoadingDiv(){ // 로딩이 보여지는 함수
+		$(".loadingDiv").css({"display":"block"});
+		/*$(".main").css({"opacity":"0.2"});
+		$(".navber").css({"opacity":"0.2"});
+		$(".footer").css({"opacity":"0.2"});*/
+}
+			
+function hideLoadingDiv(){ // 로딩이 지워지는 함수
+		$(".loadingDiv").css({"display":"none"});
+		/*$(".main").css({"opacity":"1"});
+		$(".navber").css({"opacity":"1"});
+		$(".footer").css({"opacity":"1"});*/
+}
 
 /* 카카오 스크립트 */
  	Kakao.init('291e1386943e6e2a3a90ccb0c0cb9f27'); //발급받은 키 중 javascript키를 사용해준다.
@@ -16,6 +30,7 @@ let portNum = location.port;
         		Kakao.API.request({
          			url: '/v2/user/me',
           			success: function (response) {
+						showLoadingDiv();
         	  			console.log(response);
         	  			console.log(response.id);
         	  			console.log(response.properties.nickname);
@@ -30,6 +45,7 @@ let portNum = location.port;
         	  				data: {"kakao_num" : response.id}
         	  			}).done(function(rs){
         	  				console.log(rs);
+        	  				hideLoadingDiv();
         	  				if(rs == "kakaoLoginOk") {
         	  					alert("카카오 로그인에 성공하였습니다.");
         	  					location.href = link;
@@ -89,12 +105,14 @@ let portNum = location.port;
 		}
 			
 		let phone = $("#kakaoAuthPhone").val();
+		showLoadingDiv();
 		$.ajax({
 			url: "http://localhost:" + portNum + "/member/checkMember.do",
 			type: "post",
 			data: {"phone" : phone}
 		}).done(function(rs){
 			console.log(rs);
+			hideLoadingDiv();
 			if(rs == "avaliable"){ // 입력한 핸드폰 번호와 일치하는 정보가 없으면 회원가입 진행
 				alert("등록된 사용자 정보가 존재하지 않습니다. 회원가입을 진행해주세요.");
 				snsJoinInit();
@@ -186,6 +204,7 @@ let portNum = location.port;
 
 	// 네이버 팝업창에서 넘어온 데이터를 받는 함수
 	function setChildValue(userProfile){
+		showLoadingDiv();
 		//let naver_num = id;
 		//let user_phone = phone;
 		let naverNum = userProfile[0];
@@ -205,6 +224,7 @@ let portNum = location.port;
 			data: {"naver_num" : naverNum, "phone" : userPhone}
 		}).done(function(rs){
 			console.log(rs);
+			hideLoadingDiv();
 			if(rs == "naverLoginOk"){
 				alert("네이버 로그인에 성공하였습니다.");
 				location.href = link;
@@ -278,18 +298,20 @@ let portNum = location.port;
 	 	openPopUp();
 	 	setTimeout(function() {
 	 		closePopUp();
-	 	}, 200);
+	 	}, 400);
 	 }
 	
 	
 	/* 세션 비우기 */
 	function invalidateAuthSession() {
+		showLoadingDiv();
  		//$("#phoneDiv").empty();
  		$(".auth").empty();
  			
 		$.ajax({
 			url: "http://localhost:" + portNum + "/member/invalidateSession.do"
 		}).done(function(rs){
+			hideLoadingDiv();
 			console.log(rs);
 		}).fail(function(e){
 			console.log(e);
@@ -383,7 +405,8 @@ let portNum = location.port;
 			
 		console.log($('input[name=flexRadioDefault]:checked').val());
 		let checked = $("input[name=flexRadioDefault]:checked").val();
-			
+		
+		showLoadingDiv();	
 		if(checked == 0) {
 			$.ajax({
 				url: "http://localhost:" + portNum + "/member/login.do",
@@ -391,6 +414,7 @@ let portNum = location.port;
 				data: loginForm
 			}).done(function(rs){
 				console.log(rs);
+				hideLoadingDiv();
 				if(rs == "loginSuccess") {
 					if($(".rememberId").is(":checked")){
 						if(cookieRememberId != $("#loginId").val()){
@@ -417,6 +441,7 @@ let portNum = location.port;
 				type: "post",
 				data: loginForm
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "loginSuccess") {
 					alert("관리자 로그인에 성공하였습니다.");
@@ -603,11 +628,13 @@ let portNum = location.port;
 		let regexId = RegExp(/^[a-z][a-z0-9]{5,14}$/g);
 		
 		if(id !== "" && regexId.test(id)){
+			showLoadingDiv();
 			$.ajax({
 				url: "http://localhost:" + portNum + "/member/checkMember.do",
 				type: "post",
 				data: {"id" : id}
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "avaliable"){
 					tag.find(".idTxt").html("사용가능한 아이디입니다.");
@@ -837,11 +864,13 @@ let portNum = location.port;
 		let regexNickname = RegExp(/^[a-zㄱ-힣0-9]{3,}$/g);
 		
 		if(nickname !== "" && regexNickname.test(nickname)){
+			showLoadingDiv();
 			$.ajax({
 				url: "http://localhost:" + portNum + "/member/checkMember.do",
 				type: "post",
 				data: {"nickname" : nickname}
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "avaliable"){
 					tag.find(".nicknameTxt").html("사용가능한 닉네임입니다.");
@@ -996,6 +1025,8 @@ let portNum = location.port;
 			let phone = tag.find(".selectPhone").val() + "-" + tag.find("input[name=phoneNum2]").val() + "-" + tag.find("input[name=phoneNum3]").val();
 			console.log(phone);
 			tag.find("input[name=phone]").val(phone);
+			
+			showLoadingDiv();
 			//console.log($("#phone").val());
 			
 			$.ajax({
@@ -1003,6 +1034,7 @@ let portNum = location.port;
 				type: "post",
 				data: {phone : phone}
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "success"){
 					sendAuthSuccess(selectors);
@@ -1019,6 +1051,7 @@ let portNum = location.port;
 	
 	// 인증번호 확인 함수
 	function getAuthCheck(selectors) {
+		showLoadingDiv();
 		let tag = $('#' + selectors);
 		console.log(tag);
 	
@@ -1034,6 +1067,7 @@ let portNum = location.port;
 			type: "post",
 			data: {authNum : authNum, phone : phone}
 		}).done(function(rs){
+			hideLoadingDiv();
 			console.log(rs);
 			if(rs == "success") {
 				tag.find(".phoneTxt").html("인증이 완료되었습니다.");
@@ -1060,6 +1094,7 @@ let portNum = location.port;
 	
 	// 인증번호 재전송 함수
 	function getResend(selectors) {
+		showLoadingDiv();
 		let tag = $('#' + selectors);
 		
 		let phone = tag.find("input[name=phone]").val();
@@ -1070,6 +1105,7 @@ let portNum = location.port;
 			type: "post",
 			data: {phone : phone}
 		}).done(function(rs){
+			hideLoadingDiv();
 			if(rs == "success") {
 				tag.find(".sendSmsBtn").attr("disabled", true);
 				authTimer();
@@ -1096,11 +1132,14 @@ let portNum = location.port;
 			tag.find("input[name=phone]").val(phone);
 			console.log(tag.find("input[name=phone]").val());
 			
+			showLoadingDiv();
+			
 			$.ajax({
 				url: "http://localhost:" + portNum + "/member/getRequestAuthNum.do",
 				type: "post",
 				data: {phone : phone}
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "success"){
 					sendAuthSuccess(selectors);
@@ -1218,9 +1257,10 @@ let portNum = location.port;
 			alert("인증번호 확인을 진행해주세요.");
 			return;
 		}
-			
+		
 		// 모두 true면 회원가입 진행
 		if(idState == true && pwState == true && pwCheckState == true && nickState == true && phoneState == true && authState == true) {
+			showLoadingDiv();
 			let signupForm = $("#signupForm").serialize();
 			console.log(signupForm);
 				
@@ -1229,6 +1269,7 @@ let portNum = location.port;
 				type: "post",
 				data: signupForm
 			}).done(function(rs){
+				hideLoadingDiv();
 				console.log(rs);
 				if(rs == "success") {
 					alert("회원가입이 완료되었습니다.");
@@ -1273,11 +1314,13 @@ let portNum = location.port;
 				alert("전송된 인증번호를 인증해주세요.");
 				return;
 			} else {
+				showLoadingDiv();
 				$.ajax({
 					url: "http://localhost:" + portNum + "/member/getLinkWithSns.do",
 					type: "post",
 					data: {"naver_num" : naverNum, "phone" : phone, "kakao_num" : kakaoNum}
 				}).done(function(rs){
+					hideLoadingDiv();
 					console.log(rs);
 					if(rs == "linkWithNaverOk") {
 						alert("네이버와 연동되어 로그인에 성공하였습니다.");
@@ -1369,11 +1412,13 @@ let portNum = location.port;
 			}
 			
 			if(idState == true && pwState == true && pwCheckState == true && nickState == true && phoneState == true && authState == true) {
+				showLoadingDiv();
 				$.ajax({
 					url: "http://localhost:" + portNum + "/member/signup.do",
 					type: "post",
 					data: {"naver_num" : naver_num, "kakao_num" : kakao_num, "id" : id, "pw" : pw, "nickname" : nickname, "phone" : phone}
 				}).done(function(rs){
+					hideLoadingDiv();
 					console.log(rs);
 					if(rs == "success"){
 						alert("회원가입이 완료되었습니다.");
@@ -1538,20 +1583,24 @@ let portNum = location.port;
 				alert("전송된 인증번호 인증을 진행해주세요.");
 				return;
 			} else {
+				showLoadingDiv();
 				$.ajax({
 					url: "http://localhost:" + portNum + "/member/getExistMember.do",
 					type: "post",
 					data: {phone : $("#phone_find").val()}
 				}).done(function(rs){
+					hideLoadingDiv();
 					console.log(rs);
 					if(rs == "doesntExistMem") {
 						doesntExist();
 					} else if (rs == "existMem") {
+						showLoadingDiv();
 						$.ajax({
 							url: "http://localhost:" + portNum + "/member/getMemberId.do",
 							type: "post",
 							data: {phone : $("#phone_find").val()}
 						}).done(function(data){
+							hideLoadingDiv();
 							console.log(data);
 							let idFind = "<div class='col-12' style='text-align: center;'>" +
 							 "<span style='font-weight: bold;'>회원님의 아이디는 </span>" + 
@@ -1594,11 +1643,13 @@ let portNum = location.port;
 				alert("전송된 인증번호 인증을 진행해주세요.");
 				return;
 			} else {
+				showLoadingDiv();
 				$.ajax({
 					url: "http://localhost:" + portNum + "/member/getExistMember.do",
 					type: "post",
 					data: {id : id_find, phone : phone_find}
 				}).done(function(rs){
+					hideLoadingDiv();
 					console.log(rs);
 					if(rs == "doesntExistMem") {
 						doesntExist();
@@ -1634,11 +1685,13 @@ let portNum = location.port;
 				alert("비밀번호를 동일하게 지정해주세요.");
 				return;
 			} else {
+				showLoadingDiv();
 				$.ajax({
 					url: "http://localhost:" + portNum + "/member/modifyPw.do",
 					type: "post",
 					data : modifyPwForm
 				}).done(function(rs){
+					hideLoadingDiv();
 					console.log(rs);
 					if(rs == "success") {
 						alert("비밀번호가 성공적으로 변경되었습니다.");

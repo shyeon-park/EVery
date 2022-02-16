@@ -179,6 +179,15 @@ a:hover {
 	text-align: right;
 }
 
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 
 .container{
 width: 100%;
@@ -308,6 +317,10 @@ font-size: 0.8rem
 		</c:choose>
 	</div>
 	<div class="main">
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>
+	
 		<form id="boardForm" action="${pageContext.request.contextPath}/board/modifyProc.do?seq_column=${seq_column}" method="post" enctype="multipart/form-data">
 		<div class="container">
 		
