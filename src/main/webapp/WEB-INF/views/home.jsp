@@ -210,8 +210,8 @@ height: 100%;
 }
 
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -222,6 +222,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -443,16 +444,15 @@ function getList(id,printId, num, mnList){
 		$(printId).append("리스트를 3개이상 추가해주세요");
 	}else{
 		for(let i= num ; i<(num+3); i++){
+			let listTitle = mnList[i].title;
+			subStringTitle = listTitle.substring(0, 20)
+			console.log(listTitle)
 			
-			let content = mnList[i].content  //상세게시글 내용 변수에 담는다
-			let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-			content = content.replace(imgRemove, ''); // 이미지를 지움
-			content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-			subtitle = content.substring(0,30)
+		
 			 let date =  mnList[i].written_date.replace(/,/,"")
 			 let written_date = date.split(" ");
 			 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-			let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+			let list = "<div class='col-12 col-xl-4 cardContainer d-flex justify-content-center'>"
 	        			+"<div>"
 						+"<div class='titleImg'>"
 	            		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"' class='atag'>"
@@ -469,13 +469,20 @@ function getList(id,printId, num, mnList){
 								}
 								list += "</a></div>"
 							
-	               				+"<div class='colum-body ms-5'>"
-	                   			+"<p class='colum-title ms-3'>"
+	               				+"<div class='colum-body'>"
+	                   			+"<p class='colum-title'>"
 	               				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"'>"
-	                     		+ mnList[i].title
-	                     		+"</a></p>"
-	                     		+"<p class='colum-text ms-3'>"+date+"</p>"
-	                  			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+	               				if(listTitle.length < 20){
+	               					list +=	subStringTitle
+	               					list += "</a></p>"
+	               				}else{
+	               					list +=	subStringTitle
+	               					list += "...</a></p>"
+	               				}
+	               				
+	                     	 
+	               				list += "<p class='colum-text'>"+date+"</p>"
+	                     		+"<p class='colum-text'> 칼럼리스트 : "+mnList[i].nickname+"</p>"
 	                			+"</div>"
 	           				+"</div>"
 	    				+"</div>"
@@ -1218,7 +1225,6 @@ function getList(id,printId, num, mnList){
 	
 	<script>
 		$(function() {
-			
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
 			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
 				if (onNavbar == 0) {

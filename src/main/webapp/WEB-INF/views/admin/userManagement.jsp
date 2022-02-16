@@ -388,10 +388,10 @@ ul.tabs li.current {
 					<div class="row">
 			            <div class="col d-flex justify-content-end">
 			                <div>
-			                <button type='button' class='btn btn-success' id='approval'>승인</button>
+			                <button type='button' class='btn btn-secondary' id='approval'>승인</button>
 			                </div>
 			                 <div>
-				            <button type='button' class='btn btn-danger' id='reject'>거부</button>
+				            <button type='button' class='btn btn-secondary' id='reject'>거부</button>
 				             </div>
 			            </div>
 				    </div>
@@ -413,7 +413,7 @@ ul.tabs li.current {
 			        <div class="row">
 			            <div class="col d-flex justify-content-end">
 			                <div>
-			                <button type='button' class='btn btn-success' id='releaseOfAuthority'>권한삭제</button>
+			                <button type='button' class='btn btn-secondary' id='releaseOfAuthority'>권한삭제</button>
 			                </div>
 			            </div>
 				    </div>
@@ -644,9 +644,9 @@ ul.tabs li.current {
 		});
 	
 	
-		/* 컬럼니스트 관리 영역 */
+		/* 컬럼리스트 관리 영역 */
 		
-		ws = new WebSocket("ws://172.30.1.60/column");
+		ws = new WebSocket("ws://13.209.64.187:8080/column");
 
 	$('#approval').on("click",function(e){
 	 	 var approvaList = new Array(); // 배열 선언

@@ -14,7 +14,7 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
-<title>게시판</title>
+<title>칼럼</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
@@ -193,7 +193,7 @@ border-radius: 3;
 }
 */
 .cardContainer{
- margin-bottom: 15px;
+ margin-bottom: 10px;
  padding-left: 20px;
  padding-right: 20px;
 
@@ -204,8 +204,8 @@ height: 100%;
 }
 
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -216,6 +216,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -242,7 +243,7 @@ margin: 0;
   text-align: center;
   border: 3px solid rgb(138, 205, 231);
 }
-.inputBox{
+.searchInputBox{
   width: 55%;
   height: 100%;
   margin: 0;
@@ -254,8 +255,7 @@ margin: 0;
 .searchBox{
     height: 60px;
     text-align: center;
-    margin-bottom: 30px
-    
+    margin-bottom: 30px    
 }
 
 .searchBtn{
@@ -391,7 +391,7 @@ margin: 0;
                 <option value="title" selected>제목</option>
                 <option value="nickname">작성자</option>
             </select>
-            <input type="text" class="inputBox" id="keyword" name="keyword" placeholder="검색어를 입력해주세요">
+            <input type="text" class="searchInputBox" id="keyword" name="keyword" placeholder="검색어를 입력해주세요">
             <button class="searchBtn" id="searchBtn"><i class="bi bi-search"></i></button>
             </div>
             
@@ -407,6 +407,7 @@ margin: 0;
 		</div>
 	
 		<script>
+		let keyword = $("#keyword").val("");
 		//검색버튼 클릭
 		$("#searchBtn").on("click",function(){
 			if($("#keyword").val() != ""){
@@ -448,17 +449,16 @@ margin: 0;
 						
 					}else{
 						for(var con of data){
+							let listTitle = con.title;
+							subStringTitle = listTitle.substring(0, 20)
+							console.log(listTitle)
+						
 							
-							//console.log(con.profile == null)
-							let content = con.content  //상세게시글 내용 변수에 담는다
-							let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-							content = content.replace(imgRemove, ''); // 이미지를 지움
-							content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-							subtitle = content.substring(0,30)
+							
 							 let date = con.written_date.replace(/,/,"")
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer d-flex justify-content-center'>"
+							let list = "<div class='col-12 col-md-6 col-xl-4 cardContainer d-flex justify-content-center'>"
 			                			+"<div>"
 										+"<div class='titleImg'>"
 				                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
@@ -478,10 +478,14 @@ margin: 0;
 				                   				+"<div class='colum-body'>"
 					                   			+"<p class='colum-title'>"
 				                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
-					                     		+con.title
-					                     		+"</a></p>"
-					                     		+"<p class='colum-text'>"+date+"</p>"
-				                      			+"<p class='colum-text'>"+subtitle+"...</p>"
+				                   				if(listTitle.length < 20){
+					               					list +=	subStringTitle
+					               					list += "</a></p>"
+					               				}else{
+					               					list +=	subStringTitle
+					               					list += "...</a></p>"
+					               				}
+				                   				list +="<p class='colum-text'>"+date+"</p>"
 				                      			+"<p class='colum-text'> 칼럼리스트 : "+con.nickname+"</p>"
 				                    			+"</div>"
 			                   				+"</div>"

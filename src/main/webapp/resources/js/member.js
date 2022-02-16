@@ -1,6 +1,7 @@
 /* 포트번호 */
 let portNum = location.port;
-/* "http://localhost:" + portNum +  */
+/* "http://localhost:"
+	"http://13.209.64.187:"  */
 
 /* 카카오 스크립트 */
  	Kakao.init('291e1386943e6e2a3a90ccb0c0cb9f27'); //발급받은 키 중 javascript키를 사용해준다.
@@ -1263,6 +1264,7 @@ let portNum = location.port;
 			let naverNum = $("#naver_num").val();
 			let phone = tag.find("input[name=phone]").val();
 			let kakaoNum = $("#kakao_num").val();
+			var link = document.location.href;
 			
 			if(phoneState == false) {
 				alert("휴대폰 인증을 진행해주세요.");
@@ -1279,12 +1281,12 @@ let portNum = location.port;
 					console.log(rs);
 					if(rs == "linkWithNaverOk") {
 						alert("네이버와 연동되어 로그인에 성공하였습니다.");
-						location.href = "http://localhost:" + portNum + "/";
+						location.href = link;
 					} else if(rs == "linkWithNaverFail") {
 						alert("이미 다른 네이버 정보가 등록되어 있거나 정보가 일치하지 않아 연동에 실패하였습니다.");
 					} else if(rs == "linkWithKakaoOk"){
 						alert("카카오와 연동되어 로그인에 성공하였습니다.");
-						location.href = "http://localhost:" + portNum + "/";
+						location.href = link;
 					} else if(rs == "linkWithKakaoFail"){
 						alert("이미 다른 카카오 정보가 등록되어 있거나 정보가 일치하지 않아 연동에 실패하였습니다.");
 					}

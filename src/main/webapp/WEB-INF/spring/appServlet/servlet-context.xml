@@ -38,6 +38,7 @@
 			<exclude-mapping path="/"/> 
 			<exclude-mapping path="/station/**"/> 
 			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/upload/**" />
 			
 			<!-- 멤버 -->
 			<exclude-mapping path="/member/getNaverPopup.do"/>
@@ -54,10 +55,10 @@
 			<exclude-mapping path="/member/getMemberId.do"/>
 			<exclude-mapping path="/member/getExistMember.do"/>
 			<exclude-mapping path="/member/getMypage.do"/>
-			
+		
+		
 			<!-- 관리자  -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
-			<exclude-mapping path="/admin/a_home"/>
 			
 			<!-- 보드 -->
 			<exclude-mapping path="/board/toBoard.do"/>
@@ -68,20 +69,20 @@
 			<exclude-mapping path="/board/mainList.do"/>
 			<exclude-mapping path="/board/searchProc.do"/>
 			<exclude-mapping path="/board/search.do"/>
-			
+				
 			<!-- review -->
 			<exclude-mapping path="/review/getReview.do"/>
-			<exclude-mapping path="/review/insert.do"/>
-			<exclude-mapping path="/review/update.do"/>
-			<exclude-mapping path="/review/delete.do"/>
 			
-	<beans:bean class="every.com.utils.LoginInterceptor"/> 
-
+	<beans:bean id= "loginInterceptor" class="every.com.utils.LoginInterceptor"/> 
+	</interceptor> 
+	
+	<interceptor>
+  			<mapping path="/admin/**" /> 
+  				<exclude-mapping path="/admin/adminLogin.do"/>
+		
+	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
 	</interceptor> 
 </interceptors>
-
-<!-- 	<context:component-scan base-package="kh.com.board.* "/> -->
-<!-- 	<context:component-scan base-package="kh.com.board "/> -->
 	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
