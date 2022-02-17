@@ -359,13 +359,16 @@ a:hover {
 			<div class="row">
 				<div class="col d-flex justify-content-end">
 					<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
-					<button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
+					<button type="button" class="btn btn-primary" id="submitBtn">등록</button>
 				</div>
 			</div>
 		</div>
 	</form>
 	
 	<script type="text/javascript">
+
+	
+	
 	
 	$(document).ready(function(e) {
 		//console.log(e.target)
@@ -440,6 +443,17 @@ a:hover {
 		});
 		
 		
+
+		$("#submitBtn").on("click",function(){
+			if ($('#content').summernote('isEmpty')) {
+				 console.log("비어있음");
+				 alert("내용을 입력해주세요")
+			}else{
+				console.log("안비어있음");
+				$("#boardForm").submit();
+			}
+		});
+	
 		
 		//뒤로가기 감지코드
 		//공부좀해봐야할듯
