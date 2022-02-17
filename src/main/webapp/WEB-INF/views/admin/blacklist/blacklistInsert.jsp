@@ -60,12 +60,12 @@ li {
 											<td class="nickname">${dto.nickname}</td>
 											<td>${dto.signup_date}</td>
 											<td>
-												<button type="button" id="insertBtn" class="btn btn-dark">추가</button>
-												<div id="reason" hidden>
+												<button type="button" class="btn btn-dark insertBtn">추가</button>
+												<div class="reasonDiv" style="display:none;">
 													<label for="reason" class="form-label">사유를 입력해주세요.</label>
-													<input type="text" id="reason" name="reason">
-													<button type="button" id="saveBtn" class="btn btn-dark">저장</button>
-													<button type="button" id="cancelBtn" class="btn btn-dark">취소</button>
+													<input type="text" class="reason" name="reason">
+													<button type="button"  class="btn btn-dark saveBtn">저장</button>
+													<button type="button"  class="btn btn-dark cancelBtn">취소</button>
 												</div>
 											</td>
 										</tr>
@@ -85,19 +85,21 @@ li {
 	</div>
 	<script>
 		// 추가
-		$("#insertBtn").on('click', function() {
-			$("#insertBtn").hide();
-			$("#reason").removeAttr("hidden");
+		$(".insertBtn").on('click', function() {
+// 			$(this).parents("td").find(".id").html()
+			$(this).css({"display":"none"});
+			$(this).parents("td").find(".reasonDiv").css({"display":"inline-block"});
 		})
 		
-		$("#cancelBtn").on('click', function() {
-			$("#reason").hide();
-			$("#insertBtn").show();
-			location.href = "/blacklist/toInsert.do";
+		$(".cancelBtn").on('click', function() {
+			$(this).parents("td").find(".insertBtn").css({"display":"inline-block"});
+			$(this).parents(".reasonDiv").css({"display":"none"});
+			
+// 			location.href = "/blacklist/toInsert.do";
 		})
 
 
-		$("#saveBtn").click(function() { 
+		$(".saveBtn").click(function() { 
 			let id = $(this).parents("tr").find(".id").html();
 	        let nickname = $(this).parents("tr").find(".nickname").html();
 			var reason = $(this).parent().eq(0).find('input').val();

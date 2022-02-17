@@ -23,8 +23,7 @@
 	<!-- 회원 전체 조회(블랙리스트 추가용) -->
 	<select id="memberList" resultType="MemberDTO">
 		select  id, nickname, signup_date
-			from tbl_member
-			order by id
+			from tbl_member where id NOT IN (select id from tbl_blacklist)
 	</select>
 
 	<!-- 블랙리스트 추가 -->
