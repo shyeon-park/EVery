@@ -16,6 +16,10 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -361,9 +365,8 @@ a:hover {
 					<div class="container">
 						<div class="row">
 							<div class="col">
-								<label for="title" class="form-label">제목</label> <input
-									type="text" class="form-control" id="title" name="info_title"
-									placeholder="제목을 입력하세요.">
+								<label for="title" class="form-label">제목</label>
+								 <input type="text" class="form-control" id="title" name="info_title" placeholder="제목을 입력하세요.">
 							</div>
 						</div>
 						<div class="row">
@@ -381,8 +384,8 @@ a:hover {
 						</div>
 						<div class="row mb-4 mt-4">
 							<div class="col d-flex justify-content-end">
-								<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
-								<button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
+								<button type="button" class="btn btn-secondary" id="cancelBtn" style="margin-right: 8px;">취소</button>
+								<button type="submit" class="btn btn-dark" id="submitBtn">등록</button>
 							</div>
 						</div>
 					</div>

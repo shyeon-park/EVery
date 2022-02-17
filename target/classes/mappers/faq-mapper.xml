@@ -7,9 +7,7 @@
 
 	<!-- 목록 조회 -->
 	<select id="faqList" resultType="faqDTO">
-		select  *
-			from tbl_faq
-			order by seq_faq desc
+		select  * from tbl_faq order by seq_faq desc
 	</select>
 	
 	<!-- 상세 조회 -->

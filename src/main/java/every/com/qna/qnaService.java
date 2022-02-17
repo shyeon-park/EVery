@@ -27,8 +27,8 @@ public class qnaService {
 	}
 	
 	// 문의 등록
-	public void insertQuestion(qnaDTO dto) throws Exception {
-		dao.insertQuestion(dto);
+	public int insertQuestion(qnaDTO dto) throws Exception {
+		return dao.insertQuestion(dto);
 	}
 
 	// 삭제

@@ -56,8 +56,9 @@ public class ColumnEndPoint {
 				  HashMap<String, Object> map = new HashMap<>();
 				  int notCheckedcount = messageService.notCheckedcount(id);
 				  MemberDTO memDto = service.getMemberDTO(id);
-				  map.put("category", "listPrint");
 				  map.put("memDto", memDto);
+				  map.put("category", "listPrint");
+				  
 				  map.put("notCheckedcount", notCheckedcount);
 				  String jObj = gson.toJson(map).toString();
 				  session.getBasicRemote().sendText(jObj); 
@@ -124,6 +125,8 @@ public class ColumnEndPoint {
 						if (client.equals(session)) {
 							int notCheckedcount = messageService.notCheckedcount(id);
 							ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
+							MemberDTO memDto = service.getMemberDTO(id);
+							map.put("memDto", memDto);
 							map.put("notCheckedcount", notCheckedcount);
 							map.put("uncheckedList", mnc);
 							String jObj = gson.toJson(map).toString();
@@ -145,6 +148,8 @@ public class ColumnEndPoint {
 							int notCheckedcount = messageService.notCheckedcount(id);
 							map.put("notCheckedcount", notCheckedcount);
 							ArrayList<MemberDTO> mc = (ArrayList)messageService.messageCheckList(id);
+							MemberDTO memDto = service.getMemberDTO(id);
+							map.put("memDto", memDto);
 							map.put("checkedList", mc);
 							String jObj = gson.toJson(map).toString();
 							client.getBasicRemote().sendText(jObj.toString());
@@ -456,6 +461,8 @@ public class ColumnEndPoint {
 										
 										ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
 										int notCheckedcount = messageService.notCheckedcount(id);
+										MemberDTO memDto = service.getMemberDTO(id);
+										map.put("memDto", memDto);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("uncheckedList", mnc);
 										String jObj = gson.toJson(map).toString();
@@ -485,6 +492,8 @@ public class ColumnEndPoint {
 										System.out.println(id);
 										ArrayList<MemberDTO> mc = (ArrayList)messageService.messageCheckList(id);
 										int notCheckedcount = messageService.notCheckedcount(id);
+										 MemberDTO memDto = service.getMemberDTO(id);
+										 map.put("memDto", memDto);
 										map.put("notCheckedcount", notCheckedcount);
 										map.put("checkedList", mc);
 										String jObj = gson.toJson(map).toString();

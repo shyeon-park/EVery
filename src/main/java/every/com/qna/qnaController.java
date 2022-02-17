@@ -1,5 +1,6 @@
 package every.com.qna;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,16 @@ public class qnaController {
 	/* 회원 */
 
 	// 내 문의 조회
-	@RequestMapping("/toMyList.do")
-	public String toMylist(Model model) throws Exception {
+	@RequestMapping(value = "/toMyList.do", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String toMylist() throws Exception {
 		List<qnaDTO> list = service.list();
-		model.addAttribute("list", list);
-		return "/qna/qnaList";
+		Gson gson = new Gson();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		String toStr = gson.toJson(map);
+		return toStr;
+
 	}
 
 	// 문의 상세 페이지 요청
@@ -43,8 +49,9 @@ public class qnaController {
 	// 문의 등록
 	@RequestMapping("/writeQuestion.do")
 	public String insertQuestion(qnaDTO dto) throws Exception {
-		service.insertQuestion(dto);
-		return "redirect:/qna/toQnaList.do";
+		int rs = service.insertQuestion(dto);
+		return "/clientSupport/clientSupport";
+	
 	}
 
 	// 삭제
@@ -63,14 +70,6 @@ public class qnaController {
 		Gson json = new Gson();
 		String result = json.toJson(list).toString();
 		return result;
-	}
-	
-	// 전체 문의 조회
-	@RequestMapping("/toAQnaList.do")
-	public String toQnalist(Model model) throws Exception {
-		List<qnaDTO> list = service.list();
-		model.addAttribute("list", list);
-		return "/admin/a_qna/a_qnaList";
 	}
 
 	// 문의 상세 페이지 요청

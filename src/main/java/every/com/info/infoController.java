@@ -1,5 +1,6 @@
 package every.com.info;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,15 @@ public class infoController {
 	/* 회원 */
 	
 	// 공지사항 목록 페이지 요청
-	@RequestMapping("/toInfoList.do")
-	public String toInfoList(Model model) throws Exception {
+	@RequestMapping(value ="/toInfoList.do", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String toInfoList() throws Exception {
 		List<infoDTO> list = service.infoList();
-		model.addAttribute("list", list);
-		return "/info/infoList";
+		Gson gson = new Gson();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		String toStr = gson.toJson(map);
+		return toStr;
 	}
 	
 	// 공지사항 상세 페이지 요청
@@ -46,14 +51,6 @@ public class infoController {
 		return result;
 	}
 	
-	
-	// 공지사항 목록 페이지 요청
-	@RequestMapping("/toAInfoList.do")
-	public String toAInfoList(Model model) throws Exception {
-		List<infoDTO> list = service.infoList();
-		model.addAttribute("list", list);
-		return "/admin/a_info/a_infoList";
-	}
 	
 	// 공지사항 상세 페이지 요청
 	@RequestMapping("/toAInfoDetail.do")

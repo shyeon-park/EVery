@@ -63,7 +63,7 @@ public class AdminController {
 		if(view != null || view != "") {
 			model.addAttribute("view", view);
 		} 
-		return "admin/s_clientSupport";
+		return "admin/a_clientSupport";
 	}
 	
 	@RequestMapping("/toClientSupport.do")

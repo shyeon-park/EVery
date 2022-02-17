@@ -29,11 +29,8 @@
 
 	<!-- 문의 등록 -->
 	<insert id="insertQuestion" parameterType="qnaDTO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			select seq_qna.nextval as seq_qna from tbl_qna
-		</selectKey>
 		insert into tbl_qna values
-			(seq_qna, #{id}, #{nickname}, #{qna_title}, #{qna_content}, sysdate, null)
+			(seq_qna.nextval, #{id}, #{nickname}, #{qna_title}, #{qna_content}, sysdate, null)
 	</insert>
 
 	<!-- 답변 등록 -->

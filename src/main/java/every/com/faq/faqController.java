@@ -1,5 +1,6 @@
 package every.com.faq;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,15 @@ public class faqController {
 	/* 회원 */
 	
 	// 자주 묻는 질문 목록 페이지 요청
-	@RequestMapping("/toFaqList.do")
+	@RequestMapping(value = "/toFaqList.do",produces="application/json;charset=UTF-8")
+	@ResponseBody
 	public String faqList(Model model) throws Exception {
 		List<faqDTO> list = service.faqList();
-		model.addAttribute("list", list);
-		return "/faq/faqList";
+		Gson gson = new Gson();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		String toStr = gson.toJson(map);
+		return toStr;
 	}
 	
 	// 자주 묻는 질문 상세 페이지 요청
@@ -48,13 +53,6 @@ public class faqController {
 		return result;
 	}
 	
-	// 자주 묻는 질문 목록 페이지 요청
-	@RequestMapping("/toAFaqList.do")
-	public String toAFaqList(Model model) throws Exception {
-		List<faqDTO> list = service.faqList();
-		model.addAttribute("list", list);
-		return "/admin/a_faq/a_faqList";
-	}
 	
 	// 자주 묻는 질문 상세 페이지 요청
 	@RequestMapping("/toAFaqDetail.do")

@@ -30,107 +30,116 @@
 
 	<context:component-scan
 		base-package="every.com.*" />
+
 	<interceptors>
- 
-	<interceptor>
-  			<mapping path="/admin/**" /> 
-  			<exclude-mapping path="/admin/adminLogin.do"/>
-  		
 
-	<beans:bean  id= "adminInterceptor" class="every.com.utils.AdminInterceptor"/> 
-	
-	</interceptor> 
+		<interceptor>
+			<mapping path="/admin/" />
+			<exclude-mapping path="/admin/adminLogin.do" />
 
-	<interceptor>
-  			<mapping path="/**"/> 
-			<exclude-mapping path="/"/> 
-			<exclude-mapping path="/station/**"/> 
+
+			<beans:bean id="adminInterceptor"
+				class="every.com.utils.AdminInterceptor" />
+
+		</interceptor>
+
+		<interceptor>
+
+			<mapping path="/**" />
+			<exclude-mapping path="/" />
+			<exclude-mapping path="/station/**" />
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
-			
-			
+
+
 			<!-- 멤버 -->
-			<exclude-mapping path="/member/modifyPw.do"/>
-			<exclude-mapping path="/member/getNaverPopup.do"/>
-			<exclude-mapping path="/member/snsLogin.do"/>
-			<exclude-mapping path="/member/snsLogin.do"/>
-			<exclude-mapping path="/member/checkMember.do"/>
-			<exclude-mapping path="/member/sendSms.do"/>
-			<exclude-mapping path="/member/authCheck.do"/>
-			<exclude-mapping path="/member/invalidateSession.do"/>
-			<exclude-mapping path="/member/signup.do"/>
-			<exclude-mapping path="/member/login.do"/>
-			<exclude-mapping path="/member/logout.do"/>
-			<exclude-mapping path="/member/getRequestAuthNum.do"/>
-			<exclude-mapping path="/member/getMemberId.do"/>
-			<exclude-mapping path="/member/getExistMember.do"/>
-			<exclude-mapping path="/member/getMypage.do"/>
-			<exclude-mapping path="/member/selectAllUser.do"/>
-			<exclude-mapping path="/member/deleteMember.do"/>
-		
-			<!-- 관리자  -->
-			<exclude-mapping path="/admin/adminLogin.do"/>
-			<exclude-mapping path="/admin/getAdminUser.do"/>
-			<exclude-mapping path="/admin/columManager.do"/>
-			<exclude-mapping path="/admin/getClientSupport.do"/>
+			<exclude-mapping path="/member/modifyPw.do" />
+			<exclude-mapping path="/member/getNaverPopup.do" />
+			<exclude-mapping path="/member/snsLogin.do" />
+			<exclude-mapping path="/member/snsLogin.do" />
+			<exclude-mapping path="/member/checkMember.do" />
+			<exclude-mapping path="/member/sendSms.do" />
+			<exclude-mapping path="/member/authCheck.do" />
+			<exclude-mapping path="/member/invalidateSession.do" />
+			<exclude-mapping path="/member/signup.do" />
+			<exclude-mapping path="/member/login.do" />
+			<exclude-mapping path="/member/logout.do" />
+			<exclude-mapping path="/member/getRequestAuthNum.do" />
+			<exclude-mapping path="/member/getMemberId.do" />
+			<exclude-mapping path="/member/getExistMember.do" />
+			<exclude-mapping path="/member/getMypage.do" />
+			<exclude-mapping path="/member/selectAllUser.do" />
+			<exclude-mapping path="/member/deleteMember.do" />
 			
-			<exclude-mapping path="/board/deleteManager.do"/>
-			
-			<exclude-mapping path="/review/toAdReview.do"/>
-			<exclude-mapping path="/review/searchByKey.do"/>
-			<exclude-mapping path="/review/deleteManager.do"/>
-			<exclude-mapping path="/review/getAdReview.do"/>
-			
-			<exclude-mapping path="/blacklist/toBlacklist.do"/>
-			<exclude-mapping path="/blacklist/toInsert.do"/>
-			<exclude-mapping path="/blacklist/insert.do"/>
-			<exclude-mapping path="/blacklist/modify.do"/>
-			<exclude-mapping path="/blacklist/delete.do"/>
-			
-			<exclude-mapping path="/info/getInfoList.do"/>
-			<exclude-mapping path="/info/toAInfoList.do"/>
-			<exclude-mapping path="/info/toAInfoDetail.do"/>
-			<exclude-mapping path="/info/modify.do"/>
-			<exclude-mapping path="/info/delete.do"/>
-			<exclude-mapping path="/info/write.do"/>
-			<exclude-mapping path="/info/toWrite.do"/>
+			<exclude-mapping path="/info/toInfoList.do" />
+			<exclude-mapping path="/info/toDetail.do" />
 
-			<exclude-mapping path="/faq/getFaqList.do"/>
-			<exclude-mapping path="/faq/toAFaqList.do"/>
-			<exclude-mapping path="/faq/toAFaqDetail.do"/>
-			<exclude-mapping path="/faq/toWrite.do"/>
-			<exclude-mapping path="/faq/write.do"/>
-			<exclude-mapping path="/faq/modify.do"/>
-			<exclude-mapping path="/faq/delete.do"/>
+
+			<!-- 관리자 -->
+			<exclude-mapping path="/admin/adminLogin.do" />
+			<exclude-mapping path="/admin/getAdminUser.do" />
+			<exclude-mapping path="/admin/columManager.do" />
+			<exclude-mapping path="/admin/getClientSupport.do" />
+			<exclude-mapping path="/admin/toClientSupport.do" />
 			
-			<exclude-mapping path="/qna/getQnaList.do"/>
-			<exclude-mapping path="/qna/toAQnaList.do"/>
-			<exclude-mapping path="/qna/toAQnaDetail.do"/>
-			<exclude-mapping path="/qna/writeAnswer.do"/>
+
+			<exclude-mapping path="/board/deleteManager.do" />
+
+			<exclude-mapping path="/review/toAdReview.do" />
+			<exclude-mapping path="/review/searchByKey.do" />
+			<exclude-mapping path="/review/deleteManager.do" />
+			<exclude-mapping path="/review/getAdReview.do" />
+
+			<exclude-mapping path="/blacklist/toBlacklist.do" />
+			<exclude-mapping path="/blacklist/toInsert.do" />
+			<exclude-mapping path="/blacklist/insert.do" />
+			<exclude-mapping path="/blacklist/modify.do" />
+			<exclude-mapping path="/blacklist/delete.do" />
+
+			<exclude-mapping path="/info/getInfoList.do" />
+			<exclude-mapping path="/info/toAInfoDetail.do" />
+			<exclude-mapping path="/info/modify.do" />
+			<exclude-mapping path="/info/delete.do" />
+			<exclude-mapping path="/info/write.do" />
+			<exclude-mapping path="/info/toWrite.do" />
+
+			<exclude-mapping path="/faq/getFaqList.do" />
+			<exclude-mapping path="/faq/toAFaqDetail.do" />
+			<exclude-mapping path="/faq/toWrite.do" />
+			<exclude-mapping path="/faq/write.do" />
+			<exclude-mapping path="/faq/modify.do" />
+			<exclude-mapping path="/faq/delete.do" />
+			<exclude-mapping path="/faq/toFaqList.do" />
+			<exclude-mapping path="/faq/toDetail.do" />
 			
 			
+			<exclude-mapping path="/qna/getQnaList.do" />
+			<exclude-mapping path="/qna/toAQnaDetail.do" />
+			<exclude-mapping path="/qna/writeAnswer.do" />
+
+
 			<!-- 보드 -->
-			<exclude-mapping path="/board/toBoard.do"/>
-			<exclude-mapping path="/board/boardList"/>
-			<exclude-mapping path="/board/boardlist.do"/>
-			<exclude-mapping path="/board/detail.do"/>
-			<exclude-mapping path="/board/toDetail.do"/>
-			<exclude-mapping path="/board/mainList.do"/>
-			<exclude-mapping path="/board/searchProc.do"/>
-			<exclude-mapping path="/board/search.do"/>
-				
+			<exclude-mapping path="/board/toBoard.do" />
+			<exclude-mapping path="/board/boardList" />
+			<exclude-mapping path="/board/boardlist.do" />
+			<exclude-mapping path="/board/detail.do" />
+			<exclude-mapping path="/board/toDetail.do" />
+			<exclude-mapping path="/board/mainList.do" />
+			<exclude-mapping path="/board/searchProc.do" />
+			<exclude-mapping path="/board/search.do" />
+
 			<!-- review -->
-			<exclude-mapping path="/review/getReview.do"/>
-			
-	<beans:bean id= "loginInterceptor" class="every.com.utils.LoginInterceptor"/> 
-	</interceptor> 
-	
+			<exclude-mapping path="/review/getReview.do" />
 
-	
-</interceptors>
-			
+			<beans:bean id="loginInterceptor"
+				class="every.com.utils.LoginInterceptor" />
+		</interceptor>
 
-	
+
+	</interceptors>
+
+
+
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
