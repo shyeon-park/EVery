@@ -463,8 +463,6 @@ margin: 0;
 							subStringTitle = listTitle.substring(0, 20)
 							console.log(listTitle)
 						
-							
-							
 							 let date = con.written_date.replace(/,/,"")
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
