@@ -721,10 +721,9 @@ a:hover {
          </div>
       </div>
       <div class="row">
-         <div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
-         <div class="col-6 foot-bottom-right">
-            <a href="">관리자</a>
-         </div>
+         <div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
       </div>
    </div>
    
@@ -935,6 +934,13 @@ a:hover {
          //console.log( e.data );
          let msgObj = JSON.parse(e.data);
          console.log(msgObj);
+         
+         notCheckedcount = msgObj.notCheckedcount
+			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+			$("#bell_text").empty();
+			$(".modal-footer").empty();
+			$("#bell_text").append(notCheckedcount);
+         
          memDTO = msgObj.memDto;
       
          console.log()

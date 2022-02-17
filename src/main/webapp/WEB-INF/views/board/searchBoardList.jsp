@@ -210,8 +210,8 @@ height: 100%;
 }
 
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -222,6 +222,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -449,15 +450,12 @@ margin: 0;
 						for(var con of data){
 							
 							//console.log(con.profile == null)
-							let content = con.content  //상세게시글 내용 변수에 담는다
-							let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-							content = content.replace(imgRemove, ''); // 이미지를 지움
-							content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-							subtitle = content.substring(0,30)
+							 let listTitle = con.title;
+							 subStringTitle = listTitle.substring(0, 20)
 							 let date = con.written_date.replace(/,/,"")
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer d-flex justify-content-center'>"
+							let list = "<div class='col-12 col-md-6 col-xl-4 cardContainer d-flex justify-content-center'>"
 			                			+"<div>"
 										+"<div class='titleImg'>"
 				                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
@@ -477,10 +475,15 @@ margin: 0;
 				                   				+"<div class='colum-body'>"
 					                   			+"<p class='colum-title'>"
 				                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
-					                     		+con.title
-					                     		+"</a></p>"
-					                     		+"<p class='colum-text'>"+date+"</p>"
-				                      			+"<p class='colum-text'>"+subtitle+"...</p>"
+					                     		
+				                   				if(listTitle.length < 20){
+					               					list +=	subStringTitle
+					               					list += "</a></p>"
+					               				}else{
+					               					list +=	subStringTitle
+					               					list += "...</a></p>"
+					               				}				
+				                   				list += "<p class='colum-text'>"+date+"</p>"
 				                      			+"<p class='colum-text'> 칼럼리스트 : "+con.nickname+"</p>"
 				                    			+"</div>"
 			                   				+"</div>"
@@ -559,11 +562,8 @@ margin: 0;
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-12">
 				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>	
 			</div>
 		</div>
 		

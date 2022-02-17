@@ -1,8 +1,7 @@
 package every.com.blacklist;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,18 +15,14 @@ import every.com.member.MemberDTO;
 @RequestMapping("/blacklist")
 public class blacklistController {
 	@Autowired
-	private blacklistDAO dao;
-	@Autowired
 	private blacklistService service;
-	@Autowired
-	private HttpSession session;
 	
 	// 블랙리스트 페이지 요청
 	@RequestMapping("/toBlacklist.do")
 	public String toBlacklist(Model model) throws Exception {
 		List<blacklistDTO> list = service.blacklist();
 		model.addAttribute("list", list);
-		return "blacklist/blacklist";
+		return "/admin/blacklist/blacklist";
 	}
 	
 	// 수정
@@ -39,16 +34,10 @@ public class blacklistController {
 	// 삭제
 	@ResponseBody
 	@RequestMapping("/delete.do")
-	public void delete(String id) throws Exception {
-		
+	public String delete(String id) throws Exception {
 		service.delete(id);
-	}
-	
-	// 검색
-	@RequestMapping("/search.do")
-	public List<blacklistDTO> search(String id) throws Exception {
-		List<blacklistDTO> list = service.search(id);
-		return list;
+		System.out.println(id);
+		return "redirect:/admin/blacklist/toBlacklist.do";
 	}
 	
 	// 블랙리스트 추가 페이지 요청
@@ -56,13 +45,13 @@ public class blacklistController {
 	public String insert(Model model) throws Exception {
 		List<MemberDTO> list = service.memberList();
 		model.addAttribute("list", list);
-		return "blacklist/blacklistInsert";
+		return "/admin/blacklist/blacklistInsert";
 	}
 	
 	// 추가
 	@RequestMapping("/insert.do")
 	public String insert(blacklistDTO dto) throws Exception {
 		service.insert(dto);
-		return "redirect:/blacklist/toBlacklist.do";
+		return "redirect:/admin/blacklist/toBlacklist.do";
 	}
 }

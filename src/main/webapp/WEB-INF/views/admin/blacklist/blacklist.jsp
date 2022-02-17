@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>컬럼_관리자</title>
+<title>블랙리스트</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -14,12 +14,13 @@
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
-
 @font-face {
-    font-family: 'Pretendard-SemiBold';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
+	font-family: 'Pretendard-SemiBold';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
+		format('woff');
+	font-weight: 600;
+	font-style: normal;
 }
 </style>
 <!-- 배달의민족 도현 글꼴 -->
@@ -27,9 +28,9 @@
 <style>
 * {
 	box-sizing: border-box;
-/* 	font-family: 'Do Hyeon', sans-serif; */
+	/* 	font-family: 'Do Hyeon', sans-serif; */
 	font-family: 'Pretendard-SemiBold';
-	color:black;
+	color: black;
 }
 
 html {
@@ -169,16 +170,6 @@ a:hover {
 	margin: 0px;
 }
 
-.page-link {
-	color: #fff;
-	background-color: #333;
-}
-
-.page-link:hover {
-	color: grey;
-	background-color: #ccc;
-}
-
 /* 알림 */
 #bellBox{
 	position: relative;
@@ -267,121 +258,57 @@ a:hover {
    
 	<div class="main">
 		<div class="container">
-            <h3>칼럼관리</h3>
-            <table class="table">
-            <thead>
-            <tr>
-                <th class= "text-center"><input type="checkbox" id="cbx_chkAll"></th>
-                <th class= "text-center">칼럼제목</th>
-                <th class= "text-center">칼럼리스트</th>
-            </tr>
-            </thead>
-          
-            
-            <tbody>
-            
-            </tbody>
-
-            <tfoot>
-            </tfoot>
-         
-            </table>
-            <div class="row">
-            <div id ="navi" class="col-12 d-flex justify-content-between"></div>
-            </div>
-        </div>
-        <script>
-        
-    	document.addEventListener('click',function(e){
-            if(e.target.id == 'cbx_chkAll'){
-            if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
-            else  $("input[name=columId]").prop("checked", false)
-        }});
-    	
-    	
-    	document.addEventListener('click',function(e){
-    		 if(e.target.id == 'delBtn'){
-    			 var delList = new Array(); // 배열 선언
-    	   	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-    	   	 		delList.push(this.value);
-    	   	 	 });
-    	   	 	 
-    	   	 	 if(delList.length != 0){
-    	   	 		
-    	   	 		 
-    	   	 		$.ajax({  
-    	   	 		 url : '${pageContext.request.contextPath}/board/deleteManager.do',              
-    	   	 		 type : 'POST',
-    	   	 		 data : { "delList" : delList,},        
-    	   	 		 success : function(data){
-						console.log(data)
-						if(data == "success"){
-						    getBoardList(1)
-						}
-    	   	 		 }, 
-    	   	 		 error : function (e){
-							console.log(e.data)
-	    	   	 		}
-    	   	 		 }); 
-    	   	 		 
-    	   	
-    	   	 	 }else{
-    	   	 		 alert("삭제할 컬럼을 선택하세요.")
-    	   	 	 }
-    		 }
-   	 	
-   		})
-    	
-        getBoardList(1)
-		function getBoardList(currentPage){
-			$.ajax({
-				type: "post", //요청 메소드 방식
-				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
-				success : function(res){
-					console.log(res);
-					$("tbody").empty();
-					$("#navi").empty();
-					let data = res.list
-					if(data == null || data =="" ){
-						let list = "리스트가 비어있습니다"
-						$(".list").append(list)
-					}else{
-						for(board of data){
-							let list = "<tr>"
-								   +"<td class='text-center'><input type='checkbox' name = 'columId' value='"+board.seq_column+"'></td>"
-							  	   +"<td class='text-center'>"
-							  	   + "<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+board.seq_column+"' class='atag'>"
-							  	   +board.title+"</a></td>"
-							  	   +"<td class='text-center'>"+board.nickname+"</td>"
-							       +"</tr>"
-							       $("tbody").append(list);
-						  }
-						
-					
-						  let startNavi = res.startNavi
-						  let endNavi = res.endNavi
-						  let navi = "<nav aria-label='Page navigation example'>"
-							  		+"<ul class='pagination d-flex justify-content-center m-0'>"
-							if(res.needPrev) navi +="<li class='page-item'><a class='page-link' onclick='getBoardList(" + startNavi + "-1);'>Prev</a></li>"
-							for(let i = startNavi; i<=endNavi; i++){
-								navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" + i + ");'>" + i + "</a></li>"
-							}
-							if(res.needNext) navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" +endNavi+ "+1);'>Next</a></li>"
-
-							navi +="</ul>"
-							navi += "</nav>"
-							navi += "<button type='button' class='btn btn-success' id='delBtn'>삭제</button>";
-							$("#navi").append(navi)
-	
-						
-					}
-				},
-				error : function(e){
-					console.log(e);
-				}
-			});
-		}
-        </script>
+			<div class="row mt-4">
+				<div class="col-3 suv_title_div">
+					<h3>블랙리스트</h3>
+				</div>
+				<div class="col-9" style="text-align: right;">
+					<button type="button" id="btnToInsert" class="btn btn-dark">추가</button>
+					<button type="button" id="modifyBtn" class="btn btn-dark">수정</button>
+					<button type="button" id="deleteBtn" class="btn btn-dark">삭제</button>
+				</div>
+			</div>
+			<div class="row mt-4" id="content">
+				<div class="col">
+					<form id="blacklist">
+						<table class="table table-hover">
+							<thead>
+								<tr style="text-align: center;">
+									<th class="col-1"><input type="checkbox" id="checkAll"></th>
+									<th class="col-2">아이디</th>
+									<th class="col-2">닉네임</th>
+									<th class="col-4">사유</th>
+									<th class="col-3">추가일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${empty list}">
+										<tr>
+											<td colspan="6" style="text-align: center;">등록된 블랙리스트가
+												없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto">
+											<tr class="blacklist" style="text-align: center;">
+												<td><input type="checkbox" class="checkOne"
+													name="checkOne" value="${dto.id}"></td>
+												<td>${dto.id}</td>
+												<td>${dto.nickname}</td>
+												<td>${dto.reason}</td>
+												<td>${dto.black_date}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -415,13 +342,9 @@ a:hover {
       </div>
     </div>
   </div>
-</div>	
-		
-		
-		
-	</div>
+</div>
 	<div class="footer">
-		
+
 		<div class="row footer-body">
 			<div class="col-12 col-xl-6 footer-body-left">
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
@@ -447,45 +370,65 @@ a:hover {
 				ⓒ EVery Inc. All Rights Reserved.	
 			</div>
 		</div>
-		
+
 	</div>
 
 	<script>
-		$(function() {
+		// 추가 페이지 이동 요청
+		document.getElementById("btnToInsert").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/blacklist/toInsert.do";
+		}
+
+		// 전체 선택
+		$("#checkAll").on('click', function() {
+			if ($("#checkAll").prop("checked")) {
+				$("input[name=checkOne]").prop("checked", true)
+			} else {
+				$("input[name=checkOne]").prop("checked", false)
+			}
+		});
+
+		// 선택 삭제
+		$(document).on("click", '#deleteBtn', function() {
+			var cnt = $("input[name='checkOne']:checked").length;
+			var arr = new Array();
 			
-			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
-				if (onNavbar == 0) {
-					$('.navi-onButtons').css({
-						"height" : "auto",
-						"display" : "block"
-					}); // 세로 네비영역 열기
-					$('.main').css({"padding-top" : "10px"});
-					onNavbar = 1;
-					$('html, body').animate({
-		                scrollTop : 0
-		            }, 100);
-		            return false;
-				} else {
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					$('.main').css({"padding-top" : "92px"});
-					onNavbar = 0;
-				}
+			$("input[name='checkOne']:checked").each(function() {
+				arr.push($(this).attr('id'));
 			});
 
-			$(window).resize(function() { //브라우저 크기를 조정했을때
-				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					onNavbar = 0;
+			if (cnt == 0) {
+				alert("삭제할 항목을 선택해주세요.");
+			}else {
+				var confirm_val = confirm("정말 삭제하시겠습니까?");
+				if (confirm_val) {
+					$.ajax({
+						url : "/blacklist/delete.do",
+						type : "post",
+						data : "text",
+						dataType : "json",
+						success : alert("삭제되었습니다."),
+						error : function() {
+							alert("삭제에 실패하였습니다. 다시 시도해 주세요.");
+						}
+					});
 				}
-			});
+			}
 		});
+	</script>
+
+
+	$(function() { let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+	$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시 if (onNavbar
+	== 0) { $('.navi-onButtons').css({ "height" : "auto", "display" :
+	"block" }); // 세로 네비영역 열기 $('.main').css({ "padding-top" : "10px" });
+	onNavbar = 1; $('html, body').animate({ scrollTop : 0 }, 100); return
+	false; } else { $('.navi-onButtons').css({ "height" : "0", "display" :
+	"none" }); //세로 네비영역 닫기 $('.main').css({ "padding-top" : "92px" });
+	onNavbar = 0; } }); $(window).resize(function() { //브라우저 크기를 조정했을때 if
+	(window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+	$('.navi-onButtons').css({ "height" : "0", "display" : "none" }); //세로
+	네비영역 닫기 onNavbar = 0; } }); });
 	</script>
 </body>
 </html>

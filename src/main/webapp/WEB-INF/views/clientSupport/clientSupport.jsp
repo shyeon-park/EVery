@@ -11,7 +11,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<title>마이페이지</title>
+<title>고객 지원</title>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -219,8 +219,6 @@ a:hover {
 	border-left: none;
 	height: 500px;
 }
-
-
 </style>
 </head>
 <body>
@@ -240,7 +238,8 @@ a:hover {
 				<a href="">커뮤니티</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">고객지원</a>
+				<a
+					href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
 			</div>
 			<c:choose>
 				<c:when test="${empty loginSession}">
@@ -311,7 +310,7 @@ a:hover {
 			<a href="">커뮤니티</a>
 		</div>
 		<div class="col-12">
-			<a href="">고객지원</a>
+			<a href="${pageContext.request.contextPath }/home/toClientSupport.do">고객지원</a>
 		</div>
 		<c:choose>
 			<c:when test="${empty loginSession}">
@@ -344,29 +343,151 @@ a:hover {
 		</div>
 
 		<div class="tab">
-			<button class="tabLinks" onclick="openContent(event, 'myInfo')"
-				id="defaultOpen">내정보</button>
-			<button class="tabLinks" onclick="openContent(event, 'myReviews')">내댓글 조회</button>
-			<button class="tabLinks" onclick="openContent(event, 'myBookmarker')">즐겨찾기 조회</button>
+			<button class="tabLinks" id="infoBtn" onclick="openContent(event, 'info')">공지사항</button>
+			<button class="tabLinks" id="faqBtn" onclick="openContent(event, 'faq')">자주 묻는 질문</button>
+			<button class="tabLinks" id="qnaBtn" onclick="openContent(event, 'myQna')">나의 문의</button>
 		</div>
 
 
-		<!-- 영역1 -->
-		<div id="" class="tabContent">
-			<h3>ㅎㅇ</h3>
-		</div>
-		
-		
-		<!-- 영역2 -->
-		<div id="" class="tabContent">
-			<h3>Paris</h3>
-			<p>파리는 프랑스의 수도입니다.</p>
+		<!-- 공지사항 영역 -->
+		<div id="info" class="tabContent">
+			<div class="container">
+				<form id="infoForm"
+					action="${pageContext.request.contextPath}/info/infoList.do"
+					method="post">
+					<div class="row mt-5">
+						<div class="col-12 list_all_div" style="height: 469px;">
+							<table class="table table-hover">
+								<thead>
+									<tr style="text-align: center;">
+										<th class="col-1"><input type="checkbox" id="allcheck"
+											name="allcheck"></th>
+										<th class="col-5">제목</th>
+										<th class="col-3">작성자</th>
+										<th class="col-3">작성일</th>
+									</tr>
+								</thead>
+								<tbody id="infoList">
+									<c:choose>
+										<c:when test="${empty list}">
+											<tr>
+												<td colspan="6" style="text-align: center;">등록된 공지가
+													없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${list}" var="dto">
+												<tr class="infoList" style="text-align: center;">
+													<td style="text-align: center;"><input type="checkbox"
+														class="checkOne" name="checkOne" value="${dto.seq_info}"></td>
+													<td><a
+														href="${pageContext.request.contextPath}/info/toDetail.do?seq_info=${dto.seq_info}"></a>${dto.info_title}</td>
+													<td>관리자</td>
+													<td>${dto.info_written_date}</td>
+												</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 
-		<!-- 영역3 -->
-		<div id="" class="tabContent">
-			<h3>Tokyo</h3>
-			<p>도쿄는 일본의 수도입니다.</p>
+
+		<!-- 자주 묻는 질문 영역 -->
+		<div id="faq" class="tabContent">
+			<div class="container">
+				<form id="faqForm"
+					action="${pageContext.request.contextPath}/faq/faqList.do"
+					method="post">
+					<div class="row mt-5">
+						<div class="col-12 list_all_div" style="height: 469px;">
+							<table class="table table-hover">
+								<thead>
+									<tr style="text-align: center;">
+										<th class="col-1"><input type="checkbox" id="checkAll"
+											name="checkAll"></th>
+										<th class="col-5">제목</th>
+										<th class="col-3">작성자</th>
+										<th class="col-3">작성일</th>
+									</tr>
+								</thead>
+								<tbody id="faqList">
+									<c:choose>
+										<c:when test="${empty list}">
+											<tr>
+												<td colspan="6" style="text-align: center;">등록된 글이
+													없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${list}" var="dto">
+												<tr class="faqList" style="text-align: center;">
+													<td style="text-align: center;"><input type="checkbox"
+														class="checkOne" name="checkOne" value="${dto.seq_faq}"></td>
+													<td><a
+														href="${pageContext.request.contextPath}/faq/toDetail.do?seq_faq=${dto.seq_faq}"></a>${dto.faq_title}</td>
+													<td>관리자</td>
+													<td>${dto.faq_written_date}</td>
+												</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 문의 조회 영역 -->
+		<div id="myQna" class="tabContent">
+			<div class="container">
+				<div class="row mt-4">
+					<div class="col-12" style="text-align: right;">
+						<button type="button" id="writeBtn" class="btn btn-dark">문의하기</button>
+					</div>
+				</div>
+				<form id="qnaList">
+					<div class="col">
+						<table class="table table-hover">
+							<thead>
+								<tr style="text-align: center;">
+									<th class="col-2">번호</th>
+									<th class="col-5">제목</th>
+									<th class="col-3">작성자</th>
+									<th class="col-2">작성일</th>
+								</tr>
+							</thead>
+							<tbody id="qnaList">
+								<c:choose>
+									<c:when test="${empty list}">
+										<tr>
+											<td colspan="6" style="text-align: center;">등록된 질문이
+												없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto" varStatus="i">
+											<tr class="qnaList" style="text-align: center;">
+												<td class="item">${dto.seq_qna}</td>
+												<td><a
+														href="${pageContext.request.contextPath}/qna/toDetail.do?seq_qna=${dto.seq_qna}"></a>${dto.qna_title}</a></td>
+												<td>${dto.nickname}</td>
+												<td>${dto.qna_written_date}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
 		</div>
 
 
@@ -395,34 +516,38 @@ a:hover {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">ⓒ EVery Inc. All Rights Reserved.</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>
+			<div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
 			</div>
 		</div>
 
 	</div>
 
 	<script>
-		// content 바꾸는 함수
-		function openContent(evt, content) {
-			var i, tabContent, tabLinks;
-			tabContent = document.getElementsByClassName("tabContent");
-			for (i = 0; i < tabContent.length; i++) {
-				tabContent[i].style.display = "none";
-			}
-			tabLinks = document.getElementsByClassName("tabLinks");
-			for (i = 0; i < tabLinks.length; i++) {
-				tabLinks[i].className = tabLinks[i].className.replace(
-						" active", "");
-			}
-			document.getElementById(content).style.display = "block";
-			evt.currentTarget.className += " active";
+		/* 공지사항 */	
+		// 목록 페이지 요청
+		document.getElementById("infoBtn").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/info/toInfoList.do";
 		}
-
-		// Get the element with id="defaultOpen" and click on it
-		document.getElementById("defaultOpen").click();
 		
+		
+		/* 자주 묻는 질문*/
+		// 목록 페이지 요청
+		document.getElementById("faqBtn").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/faq/toFaqList.do";
+		}
+		
+		
+		/* 고객 문의 */
+		// 목록 페이지 요청
+		document.getElementById("qnaBtn").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/qna/toMyList.do";
+		}
+		
+    	// 문의 작성 페이지 요청
+	    document.getElementById("writeBtn").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/qna/toWrite.do";
+		}
 	</script>
 
 </body>

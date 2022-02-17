@@ -15,6 +15,11 @@ public class faqService {
 		return dao.faqList();
 	}
 	
+	// 상세 조회
+	public faqDTO selectOne(int seq_faq) throws Exception {
+		return dao.selectOne(seq_faq);
+	}
+	
 	// 등록
 	public void insert(faqDTO dto) throws Exception {
 		dao.insert(dto);
@@ -26,7 +31,7 @@ public class faqService {
 	}
 
 	// 삭제
-	public void delete(int seq_faq) throws Exception {
-		dao.delete(seq_faq);
+	public void delete(faqDTO dto) throws Exception {
+		dao.delete(dto);
 	}
 }
