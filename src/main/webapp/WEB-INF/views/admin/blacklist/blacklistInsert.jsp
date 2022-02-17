@@ -382,7 +382,7 @@ li {
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" id="footerBtnAdd">
 					<!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
 				</div>
 			</div>

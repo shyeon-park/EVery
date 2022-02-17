@@ -518,7 +518,7 @@ a:hover {
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="footerBtnAdd">
       <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
       </div>
     </div>
@@ -848,7 +848,7 @@ a:hover {
          	notCheckedcount = msgObj.notCheckedcount
 			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
 			$("#bell_text").empty();
-			$(".modal-footer").empty();
+			$("#footerBtnAdd").empty();
 			$("#bell_text").append(notCheckedcount);
                 
              if(msgObj.getColumAppList != null){
@@ -885,7 +885,7 @@ a:hover {
 				if(msgObj.category == "getUncheckedList"){
 					let uncheckedList = msgObj.uncheckedList
 					$("#listPrint").empty();
-					$(".modal-footer").empty();
+					$("#footerBtnAdd").empty();
 					for(newMsg of uncheckedList){
 						let newTr = $("<tr>");
 						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
@@ -896,7 +896,7 @@ a:hover {
 					}	
 					
 					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
-					$(".modal-footer").append(newBtn);
+					$("#footerBtnAdd").append(newBtn);
 				//확인된 목록
 				}else if(msgObj.category == "getCheckedList"){
 					$("#listPrint").empty();
@@ -911,7 +911,7 @@ a:hover {
 					}
 					
 					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
-					$(".modal-footer").append(newBtn);
+					$("#footerBtnAdd").append(newBtn);
 				}
    }
     
