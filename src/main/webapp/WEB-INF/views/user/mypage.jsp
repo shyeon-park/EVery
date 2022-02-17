@@ -431,11 +431,6 @@ a:hover {
 		</c:choose>
 	</div>
 			
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-			<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-				height="24px"></a>
-			</div>
-			
    <div class="main">
       <div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
          <div class="col-12" style="text-align: center;">

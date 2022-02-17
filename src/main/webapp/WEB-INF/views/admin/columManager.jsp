@@ -220,7 +220,7 @@ a:hover {
             <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+            <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
          </div>
          <c:choose>
          	<c:when test="${!empty adminLoginSession}">
@@ -259,7 +259,7 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+         <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>
@@ -267,8 +267,14 @@ a:hover {
    </div>
    
 	<div class="main">
+		<div class="row infoDiv"
+			style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
+			<div class="col-12" style="text-align: center;">
+				<h2>관리자 칼럼관리</h2>
+			</div>
+		</div>
 		<div class="container">
-            <h3>칼럼관리</h3>
+            <h3>칼럼목록</h3>
             <table class="table">
             <thead>
             <tr>
@@ -337,7 +343,7 @@ a:hover {
 		function getBoardList(currentPage){
 			$.ajax({
 				type: "post", //요청 메소드 방식
-				url:"${pageContext.request.contextPath}/board/boardlist.do?currentPage="+currentPage,
+				url:"${pageContext.request.contextPath}/admin/boardlist.do?currentPage="+currentPage,
 				success : function(res){
 					console.log(res);
 					$("#columnPrint").empty();
@@ -351,7 +357,7 @@ a:hover {
 							let list = "<tr>"
 								   +"<td class='text-center'><input type='checkbox' name = 'columId' value='"+board.seq_column+"'></td>"
 							  	   +"<td class='text-center'>"
-							  	   + "<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+board.seq_column+"' class='atag'>"
+							  	   + "<a href='${pageContext.request.contextPath}/admin/columnDetail.do?seq_column="+board.seq_column+"' class='atag'>"
 							  	   +board.title+"</a></td>"
 							  	   +"<td class='text-center'>"+board.nickname+"</td>"
 							       +"</tr>"
@@ -371,7 +377,7 @@ a:hover {
 
 							navi +="</ul>"
 							navi += "</nav>"
-							navi += "<button type='button' class='btn btn-success' id='delBtn'>삭제</button>";
+							navi += "<button type='button' class='btn btn-dark' id='delBtn'>삭제</button>";
 							$("#navi").append(navi)
 	
 						

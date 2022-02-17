@@ -43,14 +43,16 @@ public class faqController {
 	
 	
 	/* 관리자 */
-	
-	// 자주 묻는 질문 목록 페이지 요청
-	@RequestMapping("/toAFaqList.do")
-	public String toAFaqList(Model model) throws Exception {
+	// 관리자 자주묻는 질문 목록 불러오기
+	@RequestMapping("/getFaqList.do")
+	@ResponseBody
+	public String getFaqList() throws Exception {
 		List<faqDTO> list = service.faqList();
-		model.addAttribute("list", list);
-		return "/admin/a_faq/a_faqList";
+		Gson json = new Gson();
+		String result = json.toJson(list).toString();
+		return result;
 	}
+	
 	
 	// 자주 묻는 질문 상세 페이지 요청
 	@RequestMapping("/toAFaqDetail.do")
@@ -71,7 +73,8 @@ public class faqController {
 	@RequestMapping("/delete.do")
 	public String delete(faqDTO dto) throws Exception {
 		service.delete(dto);
-		return "redirect:/faq/toAFaqList.do?seq_faq="+dto.getSeq_faq();
+		return "redirect:/admin/getClientSupport.do?view=faq";
+		//return "redirect:/faq/toAFaqList.do?seq_faq="+dto.getSeq_faq();
 	}
 	
 	// 작성 페이지 요청
@@ -84,7 +87,7 @@ public class faqController {
 	@RequestMapping(value = "/write.do", method = RequestMethod.POST)
 	public String insert(faqDTO dto) throws Exception {
 		service.insert(dto);
-		return "redirect:/faq/toAFaqList.do";
+		return "redirect:/admin/getClientSupport.do?view=faq";
 	}
 	
 }

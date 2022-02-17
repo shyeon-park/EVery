@@ -1,27 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>EVery 관리자</title>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
-<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">  
+<title>상세보기</title>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
+
 @font-face {
-	font-family: 'Pretendard-SemiBold';
-	src:
-		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
-		format('woff');
-	font-weight: 600;
-	font-style: normal;
+    font-family: 'Pretendard-SemiBold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
 }
 </style>
 <!-- 배달의민족 도현 글꼴 -->
@@ -29,9 +39,9 @@
 <style>
 * {
 	box-sizing: border-box;
-	/* 	font-family: 'Do Hyeon', sans-serif; */
+/* 	font-family: 'Do Hyeon', sans-serif; */
 	font-family: 'Pretendard-SemiBold';
-	color: black;
+	color:black;
 }
 
 html {
@@ -171,11 +181,28 @@ a:hover {
 	margin: 0px;
 }
 
-/* 알림 */
-#bellBox{
+.page-link {
+	color: #fff;
+	background-color: #333;
+}
+
+.page-link:hover {
+	color: grey;
+	background-color: #ccc;
+}
+
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
 	position: relative;
 	}
-	
     #bell_text{
       position: absolute;
       color: white;
@@ -190,6 +217,33 @@ a:hover {
       border-radius: 100%;
       text-align: center;
     }
+    
+    .container{
+width: 100%;
+height: 100%;
+}
+
+#content-box{
+box-sizing: border-box;
+width: 100%;
+}
+#content{
+width: 100%;
+height: 100%;
+}
+#title{
+background: #ccc;
+text-align: center;
+font-weight: bold;
+border: none;
+font-size: 1.5rem
+}
+#written_date{
+background: #ccc;
+text-align: center;
+border: none;
+font-size: 0.8rem
+}
 </style>
 </head>
 <body>
@@ -258,63 +312,110 @@ a:hover {
    </div>
    
 	<div class="main">
+	
 		<div class="container">
-			<div class="row mt-4">
-				<div class="col-12 main_title_div">
-					<h3>공지사항</h3>
-				</div>
-			</div>
-			<div class="row mt-4">
-				<div class="col-12" style="text-align: right;">
-					<button type="button" id="writeBtn" class="btn btn-dark">글쓰기</button>
-				</div>
-			</div>
-			<form id="infoForm"
-				action="${pageContext.request.contextPath}/info/infoList.do"
-				method="post">
-				<div class="row mt-5">
-					<div class="col-12 list_all_div" style="height: 469px;">
-						<table class="table table-hover">
-							<thead>
-								<tr style="text-align: center;">
-									<th class="col-5">제목</th>
-									<th class="col-3">작성자</th>
-									<th class="col-3">작성일</th>
-								</tr>
-							</thead>
-							<tbody id="infoList">
-								<c:choose>
-									<c:when test="${empty list}">
-										<tr>
-											<td colspan="6" style="text-align: center;">등록된 공지가
-												없습니다.</td>
-										</tr>
-									</c:when>
-									<c:otherwise>
-										<c:forEach items="${list}" var="dto">
-											<tr class="infoList" style="text-align: center;">
-												<td><a
-													href="${pageContext.request.contextPath}/info/toAInfoDetail.do?seq_info=${dto.seq_info}">${dto.info_title}</a></td>
-												<td>관리자</td>
-												<td>${dto.info_written_date}</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</form>
+		
 			<div class="row">
-				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
+				<div class="col d-flex justify-content-center">
+					<input type="text" class="form-control" id="title" name="title" value="${seq_column}" readonly>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+			  		<input type="text" class="form-control" id="written_date" name="written_date" value="" readonly>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="col" id="content-box">
+			  		<div class="col-12" id="content" name="content"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+			  		<input type="text" class="form-control" name="id" value="" hidden>			  		
+				</div>
+			</div> 
+			<div class="row">
+				<div class="col d-flex justify-content-end" id="detail-footer">
+					<button type="button" class="btn me-3" id="cancelBtn">뒤로가기</button>
+					
 				</div>
 			</div>
 		</div>
+		
+	</form>
+    	
+	<script>
+	
+	
+		$.ajax({
+			type: "post", //요청 메소드 방식
+			url:"${pageContext.request.contextPath}/admin/toDetail.do?seq_column=${seq_column}",
+			//dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
+			success : function(data){
+			
+			//console.log(data);
+				//console.log(data.content);
+				 let date = data.written_date.replace(/,/,"")
+							let written_date = date.split(" ");
+							date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+				content = data.content
+				$("#title").val(data.title)
+				$("#written_date").val(date)
+				//$("#writer_nickname").val(data.writer_nickname)
+				$("#content").append(content);
+							
+
+			},
+			error : function(e){
+				//console.log(e);
+			}
+		});
+	
+	
+	
+		// 뒤로가기 
+		$("#cancelBtn").on("click", function(){
+			history.back();
+		});
+
+		
+	</script>
+	</div>
+	<div class="footer">
+		
+		<div class="row footer-body">
+			<div class="col-12 col-xl-6 footer-body-left">
+				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
+				<p>개인정보취급담당자: 이수희</p>
+				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
+				<div class="row footer-top">
+					<ul>
+						<li><a href="">이용약관</a></li>
+						<li><a href="">개인정보처리방침</a></li>
+						<li><a href="">고객지원</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-12 col-xl-6 footer-body-right">
+				<p>고객센터</p>
+				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
+				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
+				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
+		</div>
+		
 	</div>
 	
-	<!-- bell-Modal -->
+
+		
+<!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -347,53 +448,58 @@ a:hover {
     </div>
   </div>
 </div>
-	<div class="footer">
 
-		<div class="row footer-body">
-			<div class="col-12 col-xl-6 footer-body-left">
-				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
-				<p>개인정보취급담당자: 이수희</p>
-				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
-					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-12 col-xl-6 footer-body-right">
-				<p>고객센터</p>
-				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
-				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
-				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-		</div>
-	</div>
-
-	<script>
-		
-		// 뒤로가기 
-		$("#backBtn")
-				.on(
-						"click",
-						function() {
-							location.href = "${pageContext.request.contextPath}/admin/toAClientSupport.do";
-						});
-		
-		// 글쓰기
-	    document.getElementById("writeBtn").onclick = function() {
-			location.href = "${pageContext.request.contextPath}/info/toWrite.do";
+	<!-- modal script -->
+ 	<script>	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+    }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
 		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
 	</script>
+	
 	<script>
 		$(function() {
-
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
 			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
 				if (onNavbar == 0) {
@@ -401,22 +507,18 @@ a:hover {
 						"height" : "auto",
 						"display" : "block"
 					}); // 세로 네비영역 열기
-					$('.main').css({
-						"padding-top" : "10px"
-					});
+					$('.main').css({"padding-top" : "10px"});
 					onNavbar = 1;
 					$('html, body').animate({
-						scrollTop : 0
-					}, 100);
-					return false;
+		                scrollTop : 0
+		            }, 100);
+		            return false;
 				} else {
 					$('.navi-onButtons').css({
 						"height" : "0",
 						"display" : "none"
 					}); //세로 네비영역 닫기
-					$('.main').css({
-						"padding-top" : "92px"
-					});
+					$('.main').css({"padding-top" : "92px"});
 					onNavbar = 0;
 				}
 			});
@@ -432,5 +534,8 @@ a:hover {
 			});
 		});
 	</script>
+	
+
+	
 </body>
 </html>

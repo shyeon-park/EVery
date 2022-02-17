@@ -29,7 +29,6 @@
 
 	<!-- 문의 등록 -->
 	<insert id="insertQuestion" parameterType="qnaDTO">
-
 		insert into tbl_qna values
 			(seq_qna.nextval, #{id}, #{nickname}, #{qna_title}, #{qna_content}, sysdate, null)
 	</insert>
