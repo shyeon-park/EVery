@@ -9,6 +9,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -213,6 +215,33 @@ a:hover {
 	border-left: none;
 	height: 500px;
 }
+
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
+	position: relative;
+	}
+    #bell_text{
+      position: absolute;
+      color: white;
+      font-weight: 700;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
+      display: inline-block;
+      background-color: red;
+      border-radius: 100%;
+      text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -508,6 +537,40 @@ a:hover {
 			});
 		});
 	</script>
+	<!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" id="footerBtnAdd">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+	
 	 <!-- modal script -->
  	<script>	
  	//체크박스

@@ -64,7 +64,7 @@ public class AdminController {
 	//관리자 칼럼 매니저 페이지 요청
 	@RequestMapping("/columManager.do")
 	public String columManager() throws Exception{
-		return "admin/columManager";
+		return "/admin/columManager";
 	}
 	//관리자 상세페이지
 	
