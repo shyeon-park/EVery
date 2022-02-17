@@ -1319,7 +1319,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 			} else {
 				showLoadingDiv();
 				$.ajax({
-					url: hostPort + "/member/getLinkWithSns.do",
+					url: "http://54.180.98.142:8080/member/getLinkWithSns.do",
 					type: "post",
 					data: {"naver_num" : naverNum, "phone" : phone, "kakao_num" : kakaoNum}
 				}).done(function(rs){
