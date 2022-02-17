@@ -465,17 +465,40 @@ a:hover {
 	</script>
 
 
-	$(function() { let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-	$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시 if (onNavbar
-	== 0) { $('.navi-onButtons').css({ "height" : "auto", "display" :
-	"block" }); // 세로 네비영역 열기 $('.main').css({ "padding-top" : "10px" });
-	onNavbar = 1; $('html, body').animate({ scrollTop : 0 }, 100); return
-	false; } else { $('.navi-onButtons').css({ "height" : "0", "display" :
-	"none" }); //세로 네비영역 닫기 $('.main').css({ "padding-top" : "92px" });
-	onNavbar = 0; } }); $(window).resize(function() { //브라우저 크기를 조정했을때 if
-	(window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-	$('.navi-onButtons').css({ "height" : "0", "display" : "none" }); //세로
-	네비영역 닫기 onNavbar = 0; } }); });
+	<script>
+		$(function() {
+			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
+				if (onNavbar == 0) {
+					$('.navi-onButtons').css({
+						"height" : "auto",
+						"display" : "block"
+					}); // 세로 네비영역 열기
+					$('.main').css({"padding-top" : "10px"});
+					onNavbar = 1;
+					$('html, body').animate({
+		                scrollTop : 0
+		            }, 100);
+		            return false;
+				} else {
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					$('.main').css({"padding-top" : "92px"});
+					onNavbar = 0;
+				}
+			});
+			$(window).resize(function() { //브라우저 크기를 조정했을때
+				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					onNavbar = 0;
+				}
+			});
+		});
 	</script>
 </body>
 </html>

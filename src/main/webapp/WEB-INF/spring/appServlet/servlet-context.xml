@@ -44,9 +44,11 @@
 	<interceptor>
   			<mapping path="/**"/> 
 			<exclude-mapping path="/"/> 
+			<exclude-mapping path="/terms" />
 			<exclude-mapping path="/station/**"/> 
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
+			
 			
 			
 			<!-- 멤버 -->
