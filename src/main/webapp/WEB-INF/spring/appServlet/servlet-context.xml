@@ -48,6 +48,7 @@
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
 			
+			
 			<!-- 멤버 -->
 			<exclude-mapping path="/member/getNaverPopup.do"/>
 			<exclude-mapping path="/member/snsLogin.do"/>
@@ -64,17 +65,24 @@
 			<exclude-mapping path="/member/getExistMember.do"/>
 			<exclude-mapping path="/member/getMypage.do"/>
 			<exclude-mapping path="/member/selectAllUser.do"/>
-            <exclude-mapping path="/member/deleteMember.do"/>
-			
-			<!-- 관리자 -->
+			<exclude-mapping path="/member/deleteMember.do"/>
+		
+			<!-- 관리자  -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
 			<exclude-mapping path="/admin/getAdminUser.do"/>
 			<exclude-mapping path="/admin/columManager.do"/>
+			<exclude-mapping path="/admin/toAClientSupport.do"/>
 			<exclude-mapping path="/board/deleteManager.do"/>
 			<exclude-mapping path="/review/toAdReview.do"/>
 			<exclude-mapping path="/review/searchByKey.do"/>
 			<exclude-mapping path="/review/deleteManager.do"/>
 			<exclude-mapping path="/review/getAdReview.do"/>
+			<exclude-mapping path="/blacklist/toBlacklist.do"/>
+			<exclude-mapping path="/blacklist/toInsert.do"/>
+			<exclude-mapping path="/blacklist/insert.do"/>
+			<exclude-mapping path="/blacklist/modify.do"/>
+			<exclude-mapping path="/blacklist/delete.do"/>
+			<exclude-mapping path="/info/toAInfoList.do"/>
 			
 			
 			<!-- 보드 -->

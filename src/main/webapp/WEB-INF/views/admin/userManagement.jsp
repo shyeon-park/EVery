@@ -228,7 +228,8 @@ a:hover {
 
 
 .tabContents {
-   padding: 80px;
+	padding-top: 50px;
+	padding-bottom: 50px;
    /*
    border-left: 1px solid #333;
    border-right: 1px solid #333;*/
@@ -255,31 +256,72 @@ a:hover {
    color: grey;
    background-color: #ccc;
 }
+
+/* 알림 */
+#bellBox{
+	position: relative;
+	}
+	
+    #bell_text{
+      position: absolute;
+      color: white;
+      font-weight: 700;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
+      display: inline-block;
+      background-color: red;
+      border-radius: 100%;
+      text-align: center;
+    }
 </style>
 </head>
 <body>
    <nav class="navber">
       <div class="row nav-items d-flex justify-content-center">
          <div class="col-2 col-xl-1 navi-logo">
-            <a href="${pageContext.request.contextPath }/"><img
-               src="/resources/images/a_logo.png" width="80px"></a>
+            <a href="${pageContext.request.contextPath}/admin/getAdminUser.do"><img src="/resources/images/a_logo.png" width="80px"></a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="">회원관리</a>
+            <a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="">블랙리스트</a>
+            <a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
             <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="">고객지원</a>
+            <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
-         <div class="col-xl-7 col-9 navi-menu"></div>
+         <div class="col-xl-1 d-none d-xl-block navi-menu">
+            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+         </div>
+         <c:choose>
+         	<c:when test="${!empty adminLoginSession}">
+         		<div class="col-xl-4 col-8 navi-menu"></div>
+         		<div class="col-xl-1 d-none d-xl-block navi-menu">
+         			<a href="${pageContext.request.contextPath}/admin/adminLogout.do">로그아웃</a>
+         		</div>
+         		
+        	 </c:when>
+        	 <c:otherwise>
+        	 	<div class="col-xl-6 col-8 navi-menu"></div>
+        	 </c:otherwise>
+         </c:choose>
+         <c:choose>
+			  	<c:when test="${!empty adminLoginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu" id="bellBox">
+			  			<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell" onclick="ws.send('getUncheckedList');"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a>
+                		<div id ="bell_text"></div>
+			  		</div>
+				</c:when>
+			</c:choose>
          <div class="col-xl-0 col-1 d-xl-none navi-menu">
-            <a id="btn_navi_menu"><img src="/resources/images/menu.png"
-               width="20px" height="24px"></a>
+            <a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px" height="24px"></a>
          </div>
       </div>
    </nav>
@@ -288,13 +330,16 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
       </div>
       <div class="col-12">
-         <a href="">블랙리스트</a>
+         <a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="">고객지원</a>
+         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+      </div>
+      <div class="col-12">
+         <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>
       </div>
    </div>
 
@@ -324,7 +369,7 @@ a:hover {
             </div>
 
             
-            <div class="userTable">
+            <div class="userTable" style="width: 100%; overflow-x: scroll">
                <table class="table table-hover">
                   <thead>
                      <tr style="text-align: center;">
@@ -442,6 +487,39 @@ a:hover {
          </div>
          <div id="tab-2" class="tab-content row">ㅎㅇ</div>
       </div>  -->
+      <!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
    
    <div class="footer">
 
@@ -466,7 +544,9 @@ a:hover {
          </div>
       </div>
       <div class="row">
-         <div class="col">ⓒ EVery Inc. All Rights Reserved.</div>
+         <div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
       </div>
 
    </div>

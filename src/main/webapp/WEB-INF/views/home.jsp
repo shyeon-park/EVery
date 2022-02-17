@@ -11,7 +11,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
@@ -1172,11 +1171,8 @@ function getList(id,printId, num, mnList){
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-12">
 				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="${pageContext.request.contextPath }/admin/">관리자</a>	
 			</div>
 		</div>
 		

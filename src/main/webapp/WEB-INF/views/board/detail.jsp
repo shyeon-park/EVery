@@ -430,11 +430,8 @@ font-size: 0.8rem
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-12">
 				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-			<div class="col-6 foot-bottom-right">
-				<a href="">관리자</a>	
 			</div>
 		</div>
 		
