@@ -729,7 +729,7 @@ a:hover {
    
       /* 컬럼리스트 관리 영역 */
       
-   ws = new WebSocket("ws://172.30.1.60/column");
+   ws = new WebSocket("ws://14.39.9.188:8001/column");
 
    $('#approval').on("click",function(e){
         var approvaList = new Array(); // 배열 선언
