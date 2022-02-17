@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -56,13 +57,19 @@ public class AdminController {
 		return "admin/userManagement";
 	}
 	
+	// 관리자 고객지원 페이지 요청
+	@RequestMapping("/getClientSupport.do")
+	public String getClientSupport(String view, Model model) throws Exception {
+		if(view != null || view != "") {
+			model.addAttribute("view", view);
+		} 
+		return "admin/s_clientSupport";
+	}
+	
 	@RequestMapping("/toClientSupport.do")
 	public String toClientSupport() throws Exception {
 		return "/clientSupport/clientSupport";
 	}
 	
-	@RequestMapping("/toAClientSupport.do")
-	public String toAClientSupport() throws Exception {
-		return "/admin/a_clientSupport";
-	}
+
 }

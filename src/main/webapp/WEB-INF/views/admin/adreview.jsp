@@ -253,7 +253,7 @@ a:hover {
             <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+            <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
          </div>
          <c:choose>
          	<c:when test="${!empty adminLoginSession}">
@@ -292,7 +292,7 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+         <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>
@@ -300,11 +300,17 @@ a:hover {
    </div>
    
 	<div class="main">
+		<div class="row infoDiv"
+			style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
+			<div class="col-12" style="text-align: center;">
+				<h2>관리자 댓글관리</h2>
+			</div>
+		</div>
 		<div class="container">
 			<div class="title-container" style="height:10%;">
 				<div class="row mb-3">
 					<div class="col-11">
-						<h3>댓글 관리</h3>
+						<h3>댓글 목록</h3>
 					</div>
 					<div class="col-1 d-flex justify-content-center" style="margin:auto;">
 						<button type="button" class="btn deleteCmt" style="background-color: rgb(167, 166, 170); color:white;">삭제</button>

@@ -64,7 +64,7 @@ public class ColumnEndPoint {
 			}else if (this.httpSession.getAttribute("adminLoginSession") != null){
 				String type = this.httpSession.getAttribute("adminLoginSession").getClass().getSimpleName();
 				System.out.println("type : "+ type);
-				String adminID = ((AdminDTO)this.httpSession.getAttribute("adminLoginSession")).getAdmin_Id();
+				String adminID = ((AdminDTO)this.httpSession.getAttribute("adminLoginSession")).getAdmin_id();
 		
 			  	HashMap<String, Object> map = new HashMap<>();
 			  	//칼럼리스트 신청목록
@@ -106,7 +106,7 @@ public class ColumnEndPoint {
 				if(this.httpSession.getAttribute("loginSession") != null) {
 					  id = ((MemberDTO)this.httpSession.getAttribute("loginSession")).getId();	
 				}else if (this.httpSession.getAttribute("adminLoginSession") != null){
-					  id = ((AdminDTO)this.httpSession.getAttribute("adminLoginSession")).getAdmin_Id();
+					  id = ((AdminDTO)this.httpSession.getAttribute("adminLoginSession")).getAdmin_id();
 				}else return;
 			}catch (Exception e) {
 				e.printStackTrace();
@@ -170,7 +170,7 @@ public class ColumnEndPoint {
 					map.put("id", id);
 					map.put("nickname", nickname);
 					for (AdminDTO dto : list) {
-						String managerId = dto.getAdmin_Id();
+						String managerId = dto.getAdmin_id();
 						String msg = nickname+"님 컬럼리스트 신청 요청";
 						int rs = messageService.messageInsert(managerId, "없음", msg);
 					}
@@ -190,7 +190,7 @@ public class ColumnEndPoint {
 								//현재 접속한 세션이 있으면, 
 								HttpSession httpSessionList = sessionMap.get(client);
 								if (httpSessionList.getAttribute("adminLoginSession") != null){
-									String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_Id();
+									String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_id();
 									ArrayList<MemberDTO> cal = (ArrayList)service.columnList();
 									map.put("getColumAppList", cal);
 									int notCheckedcount = messageService.notCheckedcount(adminID);
@@ -250,7 +250,7 @@ public class ColumnEndPoint {
 									//현재 접속한 세션이 있으면, 
 									HttpSession httpSessionList = sessionMap.get(client);
 									if (httpSessionList.getAttribute("adminLoginSession") != null){
-										String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_Id();
+										String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_id();
 										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
 										map.put("approvalColumnList", approvalColumnList);
 										int notCheckedcount = messageService.notCheckedcount(adminID);

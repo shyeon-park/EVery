@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/qna")
@@ -52,7 +55,16 @@ public class qnaController {
 
 	
 	/* 관리자 */
-
+	// 전체 문의 목록 불러오기
+	@RequestMapping("/getQnaList.do")
+	@ResponseBody
+	public String getQnaList() throws Exception {
+		List<qnaDTO> list = service.list();
+		Gson json = new Gson();
+		String result = json.toJson(list).toString();
+		return result;
+	}
+	
 	// 전체 문의 조회
 	@RequestMapping("/toAQnaList.do")
 	public String toQnalist(Model model) throws Exception {

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/info")
@@ -33,6 +36,16 @@ public class infoController {
 	
 	
 	/* 관리자 */
+	// 관리자 공지사항 목록 불러오기 요청
+	@RequestMapping("/getInfoList.do")
+	@ResponseBody
+	public String getInfoList() throws Exception {
+		List<infoDTO> list = service.infoList();
+		Gson json = new Gson();
+		String result = json.toJson(list).toString();
+		return result;
+	}
+	
 	
 	// 공지사항 목록 페이지 요청
 	@RequestMapping("/toAInfoList.do")
@@ -61,7 +74,8 @@ public class infoController {
 	@RequestMapping("/delete.do")
 	public String delete(infoDTO dto) throws Exception {
 		service.delete(dto);
-		return "redirect:/info/toAInfoList.do?seq_info="+dto.getSeq_info();
+		return "redirect:/admin/getClientSupport.do?view=info";
+		//return "redirect:/info/toAInfoList.do?seq_info="+dto.getSeq_info();
 	}
 	
 	// 공지사항 작성 페이지 요청
@@ -74,6 +88,6 @@ public class infoController {
 	@RequestMapping("/write.do")
 	public String insert(infoDTO dto) throws Exception {
 		service.insert(dto);
-		return "redirect:/info/toAInfoList.do";
+		return "redirect:/admin/getClientSupport.do?view=info";
 	}
 }

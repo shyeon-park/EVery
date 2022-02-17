@@ -210,7 +210,7 @@ a:hover {
             <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+            <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
          </div>
          <c:choose>
          	<c:when test="${!empty adminLoginSession}">
@@ -249,7 +249,7 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+         <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>

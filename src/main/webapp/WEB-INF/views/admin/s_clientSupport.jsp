@@ -348,47 +348,142 @@ a:hover {
 		<div class="row infoDiv"
 			style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
 			<div class="col-12" style="text-align: center;">
-				<h2>공지사항 작성</h2>
+				<h2>관리자 고객지원</h2>
 			</div>
 		</div>
 
-		
-		<div class="infoDiv">
+
+		<!-- 탭메뉴 -->
+		<div class="row infoDiv" id="tab">
+			<div class="col-4 tabmenu current" data-tab="adminInfo" id="a_info">공지사항</div>
+			<div class="col-4 tabmenu" data-tab="faq" id="a_faq">자주묻는 질문</div>
+			<div class="col-4 tabmenu" data-tab="qna" id="a_qna">문의 조회</div>
+		</div>
+
+		<!-- 공지사항 영역 -->
+		<div class="tabContents infoDiv current" id="adminInfo">
 			<div style="width: 80%; margin: auto;">
+				<div class="row mt-4">
+					<div class="col-12 main_title_div">
+						<h3>공지사항</h3>
+					</div>
+				</div>
+
 				<form id="infoForm"
-					action="${pageContext.request.contextPath}/info/write.do"
-					method="post" enctype="multipart/form-data">
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<label for="title" class="form-label">제목</label> <input
-									type="text" class="form-control" id="title" name="info_title"
-									placeholder="제목을 입력하세요.">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<label for="content" class="form-label">내용</label>
-								<textarea class="form-control" id="content" name="info_content"
-									rows="10" placeholder="내용을 입력하세요."></textarea>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<input type="text" class="form-control" name="admin_id"
-									value="${adminLoginSession.admin_id}" hidden>
-							</div>
-						</div>
-						<div class="row mb-4 mt-4">
-							<div class="col d-flex justify-content-end">
-								<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
-								<button type="submit" class="btn btn-primary" id="submitBtn">등록</button>
-							</div>
+					action="${pageContext.request.contextPath}/info/infoList.do"
+					method="post">
+					<div class="row mt-5">
+						<div class="col-12 list_all_div" style="max-height: 450px; overflow-y: scroll;">
+							<table class="table table-hover">
+								<thead>
+									<tr style="text-align: center;">
+										<th class="col-5">제목</th>
+										<th class="col-3">작성자</th>
+										<th class="col-3">작성일</th>
+									</tr>
+								</thead>
+								<tbody id="infoList">
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</form>
+				<!-- 
+			<div class="row">
+				<div class="col d-flex justify-content-end">
+					<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
+				</div>
+			</div>  -->
+				<div class="row mt-4">
+					<div class="col-12" style="text-align: right;">
+						<button type="button" id="a_infoWriteBtn" class="btn btn-dark">글쓰기</button>
+					</div>
+				</div>
 			</div>
 		</div>
+		
+		<!-- 자주묻는 질문 영역 -->
+		<div class="tabContents infoDiv" id="faq">
+			<div style="width: 80%; margin: auto;">
+				<div class="row mt-4">
+					<div class="col-3 suv_title_div">
+						<h3>FAQ</h3>
+					</div>
+				</div>
+
+				<form id="faqForm"
+					action="${pageContext.request.contextPath}/faq/faqList.do"
+					method="post">
+					<div class="row mt-5">
+						<div class="col-12 list_all_div" style="max-height: 450px; overflow-y: scroll;">
+							<table class="table table-hover">
+								<thead>
+									<tr style="text-align: center;">
+										<th class="col-5">제목</th>
+										<th class="col-3">작성자</th>
+										<th class="col-3">작성일</th>
+									</tr>
+								</thead>
+								<tbody id="faqList">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+				<!-- 
+			<div class="row">
+				<div class="col d-flex justify-content-end">
+					<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
+				</div>
+			</div>  -->
+				<div class="row mt-4">
+					<div class="col-12" style="text-align: right;">
+						<button type="button" id="faqWriteBtn" class="btn btn-dark">글쓰기</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+		<!-- 문의조회 영역 -->
+		<div class="tabContents infoDiv" id="qna">
+			<div style="width: 80%; margin: auto;">
+				<div class="row mt-4">
+					<div class="col-3 suv_title_div">
+						<h3>Q&A</h3>
+					</div>
+				</div>
+				
+				
+					<form id="qnaList">
+						<div class="col" style="max-height: 450px; overflow-y: scroll;">
+							<table class="table table-hover">
+								<thead>
+									<tr style="text-align: center;">
+										<th class="col-5">제목</th>
+										<th class="col-3">작성자</th>
+										<th class="col-2">작성일</th>
+									</tr>
+								</thead>
+								<tbody id="qnaList_tbl">
+								</tbody>
+							</table>
+						</div>
+					</form>
+				
+				<!-- 
+				<div class="row">
+					<div class="col d-flex justify-content-end">
+						<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
+					</div>
+				</div>  -->
+			</div>
+		</div>
+		
+		
+
+
 
 	</div>
 
@@ -462,51 +557,200 @@ a:hover {
 	</div>
 
 	<script>
-		/* 네비영역 */
-		$(function() {
-			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
-				if (onNavbar == 0) {
-					$('.navi-onButtons').css({
-						"height" : "auto",
-						"display" : "block"
-					}); // 세로 네비영역 열기
-					$('.main').css({
-						"padding-top" : "10px"
-					});
-					onNavbar = 1;
-					$('html, body').animate({
-						scrollTop : 0
-					}, 100);
-					return false;
-				} else {
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					$('.main').css({
-						"padding-top" : "92px"
-					});
-					onNavbar = 0;
-				}
-			});
+	$(document).ready(function(){
+		currentSelect();
+		getInfoList();
+	})
+	
+	function currentSelect() {
+		if("${view}" != null || "${view}" != ""){
+			let view = "${view}";
+			console.log(view);
+			
+			if(view == "faq") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
 
-			$(window).resize(function() { //브라우저 크기를 조정했을때
-				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					onNavbar = 0;
-				}
-			});
-		});
+			    $("#a_faq").addClass('current');
+			    $("#faq").addClass('current');
+			    
+			    getFaqList();
+			} else if (view == "qna") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
 
-		
-		// 취소
-		$("#cancelBtn").on("click", function(e) {
-			location.href = "${pageContext.request.contextPath}/admin/getClientSupport.do?view=info"
-		});
-	</script>
+			    $("#a_qna").addClass('current');
+			    $("#qna").addClass('current');
+			    
+			    getQnaList();
+			} else if (view == "info") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
+
+			    $("#a_info").addClass('current');
+			    $("#adminInfo").addClass('current');
+			    
+			    getInfoList();
+			} else {
+			}
+		}
+	}
+	
+	// 공지사항 목록 불러오기
+	function getInfoList() {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/info/getInfoList.do",
+			type: "get",
+			dataType: "json"
+		}).done(function(rs){
+			console.log(rs);
+			$("#infoList").empty();
+			if(rs == "") {
+				let infoList = "<tr><td colspan='6' style='text-align: center;'>등록된 공지가 없습니다.</td></tr>";
+				$("#infoList").append(infoList);
+			} else {
+				for(list of rs) {
+					let infoList = "<tr><td style='text-align: center;'>"+
+								   "<a href='${pageContext.request.contextPath}/info/toAInfoDetail.do?seq_info=" + list.seq_info + "'>" + list.info_title + "</a></td>" +
+					  			   "<td style='text-align: center;'>" + list.admin_id + "</td>" +
+					  			   "<td style='text-align: center;'>" + list.info_written_date + "</td></tr>";
+					$("#infoList").append(infoList);
+				}
+			}
+		}).fail(function(e){
+			
+		})
+	}
+	
+	// 자주묻는 질문 불러오기
+	function getFaqList() {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/faq/getFaqList.do",
+			type: "get",
+			dataType: "json"
+		}).done(function(rs){
+			console.log(rs);
+			$("#faqList").empty();
+			if(rs == "") {
+				let faqList = "<tr><td colspan='6' style='text-align: center;'>등록된 자주 묻는 질문이 없습니다.</td></tr>";
+				$("#faqList").append(faqList);
+			} else {
+				for(list of rs) {
+					let faqList = "<tr><td style='text-align: center;'>"+
+								   "<a href='${pageContext.request.contextPath}/faq/toAFaqDetail.do?seq_faq=" + list.seq_faq + "'>" + list.faq_title + "</a></td>" +
+					  			   "<td style='text-align: center;'>" + list.admin_id + "</td>" +
+					  			   "<td style='text-align: center;'>" + list.faq_written_date + "</td></tr>";
+					$("#faqList").append(faqList);
+				}
+			}
+		}).fail(function(e){
+			
+		})
+	}
+	
+	// 문의 목록 불러오기
+	function getQnaList() {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/qna/getQnaList.do",
+			type: "get",
+			dataType: "json"
+		}).done(function(rs){
+			console.log(rs);
+			$("#qnaList_tbl").empty();
+			if(rs == "") {
+				let qnaList = "<tr><td colspan='6' style='text-align: center;'>등록된 질문이 없습니다.</td></tr>";
+				$("#qnaList_tbl").append(qnaList);
+			} else {
+				for(list of rs) {
+					let qnaList = "<tr><td style='text-align: center;'>"+
+								   "<a href='${pageContext.request.contextPath}/qna/toAQnaDetail.do?seq_qna=" + list.seq_qna + "'>" + list.qna_title + "</a></td>" +
+					  			   "<td style='text-align: center;'>" + list.nickname + "</td>" +
+					  			   "<td style='text-align: center;'>" + list.qna_written_date + "</td></tr>";
+					$("#qnaList_tbl").append(qnaList);
+				}
+			}
+		}).fail(function(e){
+			
+		})
+	}
+	
+   // 탭메뉴 클릭 시
+   $('.tabmenu').click(function() {
+      var tab_id = $(this).attr("data-tab");
+      console.log(tab_id);
+      
+      if(tab_id == "adminInfo") {
+    	  getInfoList();
+      } else if(tab_id == "faq") {
+    	  getFaqList();
+      }  else if(tab_id == "qna") {
+    	  getQnaList();
+      }
+      
+      $('.tabmenu').removeClass('current');
+      $('.tabContents').removeClass('current');
+
+      $(this).addClass('current');
+      $("#" + tab_id).addClass('current');
+   })
+   
+   
+   /* 네비영역 */
+      $(function() {
+         let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+         $('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
+            if (onNavbar == 0) {
+               $('.navi-onButtons').css({
+                  "height" : "auto",
+                  "display" : "block"
+               }); // 세로 네비영역 열기
+               $('.main').css({
+                  "padding-top" : "10px"
+               });
+               onNavbar = 1;
+               $('html, body').animate({
+                  scrollTop : 0
+               }, 100);
+               return false;
+            } else {
+               $('.navi-onButtons').css({
+                  "height" : "0",
+                  "display" : "none"
+               }); //세로 네비영역 닫기
+               $('.main').css({
+                  "padding-top" : "92px"
+               });
+               onNavbar = 0;
+            }
+         });
+
+         $(window).resize(function() { //브라우저 크기를 조정했을때
+            if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+               $('.navi-onButtons').css({
+                  "height" : "0",
+                  "display" : "none"
+               }); //세로 네비영역 닫기
+               onNavbar = 0;
+            }
+         });
+      });
+   
+   
+   /* 공지사항 영역 영역 */
+   // 글쓰기
+	document.getElementById("a_infoWriteBtn").onclick = function() {
+		location.href = "${pageContext.request.contextPath}/info/toWrite.do";
+	}
+   
+   /* 자주묻는 질문 영역 */
+   // 글쓰기
+	document.getElementById("faqWriteBtn").onclick = function() {
+		location.href = "${pageContext.request.contextPath}/faq/toWrite.do";
+	}
+   
+   /* 문의조회 영역 */
+    
+   
+   </script>
 </body>
 </html>
