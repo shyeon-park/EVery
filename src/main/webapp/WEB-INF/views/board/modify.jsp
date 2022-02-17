@@ -394,7 +394,7 @@ font-size: 0.8rem
 			</div> 
 			<div class="row">
 				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+					<button type="button" class="btn btn-secondary" onclick="cancelBtn">취소</button>
 					<button type="button" class="btn btn-primary" id="submitBtn">수정완료</button>
 				</div>
 			</div>
@@ -505,7 +505,7 @@ font-size: 0.8rem
 		
 		// 뒤로가기 
 		$("#cancelBtn").on("click", function(){
-			location.href = "${pageContext.request.contextPath}/board/toBoard.do";
+			history.back();
 		});
 		
 		

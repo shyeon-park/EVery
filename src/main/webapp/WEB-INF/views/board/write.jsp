@@ -366,7 +366,7 @@ a:hover {
 	</form>
 	
 	<script type="text/javascript">
-
+	
 	
 	
 	
@@ -445,13 +445,17 @@ a:hover {
 		
 
 		$("#submitBtn").on("click",function(){
+		
+			if($("#title").val() == "" || $("#title").val() == null){
+				alert("제목을 입력해주세요");
+				return;
+			};
+			
 			if ($('#content').summernote('isEmpty')) {
-				 console.log("비어있음");
 				 alert("내용을 입력해주세요")
 			}else{
-				console.log("안비어있음");
 				$("#boardForm").submit();
-			}
+			};
 		});
 	
 		
