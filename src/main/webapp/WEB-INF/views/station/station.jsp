@@ -27,6 +27,7 @@
 	href="${pageContext.request.contextPath}/resources/css/memberModal.css"
 	rel="stylesheet">
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+	<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');

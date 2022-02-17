@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -309,14 +310,11 @@ margin: 0;
 
 				</c:when>
 			</c:choose>
-			<c:choose>
-			  	<c:when test="${!empty loginSession}">
+			
 					<div class="col-xl-0 col-1 d-xl-none navi-menu">
 					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 						height="24px"></a>
 					</div>
-				</c:when>
-			</c:choose>
 			
 		</div>
 	</nav>
@@ -1157,9 +1155,9 @@ function getList(id,printId, num, mnList){
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>

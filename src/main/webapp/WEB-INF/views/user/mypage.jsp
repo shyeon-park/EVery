@@ -11,6 +11,7 @@
 <link
    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
    rel="stylesheet">
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <title>마이페이지</title>
 <style>
 @import
@@ -383,8 +384,6 @@ a:hover {
                 		height="24px"></a>
                 	<div id ="bell_text"></div>
 			  		</div>
-			  	
-
 				</c:when>
 			</c:choose>
 			<c:choose>
@@ -431,7 +430,12 @@ a:hover {
 			</c:when>
 		</c:choose>
 	</div>
-
+			
+			<div class="col-xl-0 col-1 d-xl-none navi-menu">
+			<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+				height="24px"></a>
+			</div>
+			
    <div class="main">
       <div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
          <div class="col-12" style="text-align: center;">
@@ -540,9 +544,9 @@ a:hover {
                for(let dto of data.byIdList){
                comment = "";   
                comment = "<div class='row comment-header' style='border-bottom: 2px solid lightgrey;'>"
-                        + "<div class='col-5'>" + dto.written_date + "</div>"
-                        + "<div class='col-5'>" + dto.station + "</div>"
-                        + "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn btn-dark deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+                        + "<div class='col-xl-5 col-12'>" + dto.written_date + "</div>"
+                        + "<div class='col-xl-5 col-12'>" + dto.station + "</div>"
+                        + "<div class='col-xl-2 col-12 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn btn-dark deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
                         + "<div class='col-12 mt-2' style='margin-bottom:5px;'><span style='background-color: #E0E0E0;'>" + dto.review + "</span></div>"
                         + "</div>"
                   $(".review-container").append(comment);         
@@ -624,24 +628,24 @@ a:hover {
                 $(".bookmark-container").append(bookmarkNull);
              }else{
                let bookmark = "<div class='row mb-3'>"
-                        + "<div class='col-10'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
-                        + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
+                        + "<div class='col-xl-10 col-12'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
+                        + "<div class='col-xl-2 col-12 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
                         + "</div>";
                $(".bookmark-container").append(bookmark);         
                 for(let dto of data.bookmarkList){
                       bookmark = "";
                          bookmark = "<div class='row mt-3 bookmark-header' style='border-bottom:1px solid black;'>"
-                               + "<div class='col-10 d-flex justify-content-start'>"
+                               + "<div class='col-xl-10 col-12 d-flex justify-content-start'>"
                                + "<a style='font-size:20px' href='${pageContext.request.contextPath}/station/toGetStation?station=" + dto.station + "'>" + dto.station + "</a>"
                                + "</div>"
-                               + "<div class='col-2 d-flex justify-content-center'>"
+                               + "<div class='col-xl-2 col-12 d-flex justify-content-center'>"
                                + "<button type='button' class='btn btn-dark btn-delete' value='" + dto.station +"'>삭제</button>"
                                + "</div>"
                              
                                + "<div class='col-12'>상세주소&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.rdnmadr + "</div>"
                                + "<div class='col-12'>운영시간&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.useTime + "</div>"
-                               + "<div class='col-6 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
-                               + "<div class='col-6 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
+                               + "<div class='col-xl-6 col-12 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
+                               + "<div class='col-xl-6 col-12 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
 							+ "</div>"
                    $(".bookmark-container").append(bookmark);
                 }
@@ -784,8 +788,6 @@ a:hover {
   </div>
 </div>
 
-   
-   
    <!-- 닉네임 변경 모달 -->
       <div class="modal fade" id="modifyNicknameModal" aria-hidden="true"
          data-bs-backdrop="static" data-bs-keyboard="false"
@@ -1061,6 +1063,7 @@ a:hover {
           if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
           else  $("input[name=newMsg]").prop("checked", false)
           }});
+
      
      //벨 이모티콘 클릭시 list 출력
      document.addEventListener('click',function(e){
@@ -1100,7 +1103,6 @@ a:hover {
                 alert("확인할 메세지를 선택하세요.")
              }
      }
-     
      
       //컬럼리스트 신청 클릭시 메세지 전송
       document.addEventListener('click',function(e){
@@ -1866,6 +1868,7 @@ a:hover {
     }
       
    </script>
+   
    
    <script>
 		$(function() {

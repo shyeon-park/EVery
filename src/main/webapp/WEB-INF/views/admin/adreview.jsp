@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -303,10 +304,10 @@ a:hover {
 		<div class="container">
 			<div class="title-container" style="height:10%;">
 				<div class="row mb-3">
-					<div class="col-11">
+					<div class="col-xl-11 col-12">
 						<h3>댓글 관리</h3>
 					</div>
-					<div class="col-1 d-flex justify-content-center" style="margin:auto;">
+					<div class="col-xl-1 col-12 d-flex justify-content-center" style="margin:auto;">
 						<button type="button" class="btn deleteCmt" style="background-color: rgb(167, 166, 170); color:white;">삭제</button>
 					</div>
 				</div>
@@ -419,11 +420,11 @@ a:hover {
 			}else{
 				for(let dto of data.adList){
 					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
-								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-2'>" + dto.written_date + "</div>"
-								+ "<div class='col-5'>" + dto.review + "</div>"
-								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
+								+ "<div class='col-xl-2 col-12 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.station + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.written_date + "</div>"
+								+ "<div class='col-xl-5 col-12'>" + dto.review + "</div>"
+								+ "<div class='col-xl-1 col-12 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
 					$(".comment-container").append(comment);
 				}
@@ -473,16 +474,16 @@ a:hover {
 				$(".paging-container").empty();
 				if(data.byIdList == ""){
 					alert("검색 내용이 없습니다.");
-					let commentNull = "<div class='col-12 mt-4'><h4>검색 내용이 없습니다.</h4></div>";
+					let commentNull = "<div class='col-12 mt-4 d-flex justify-content-center'><h4>검색 내용이 없습니다.</h4></div>";
 					$(".comment-container").append(commentNull);
 				}else{
 					for(let dto of data.byIdList){
 					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
-								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-2'>" + dto.written_date + "</div>"
-								+ "<div class='col-5'>" + dto.review + "</div>"
-								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
+								+ "<div class='col-xl-2 col-12 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.station + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.written_date + "</div>"
+								+ "<div class='col-xl-5 col-12'>" + dto.review + "</div>"
+								+ "<div class='col-xl-1 col-12 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
 						$(".comment-container").append(comment);			
 					}
@@ -599,6 +600,54 @@ a:hover {
 				}
 			});
 		});
+	</script>
+	 <!-- modal script -->
+ 	<script>	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+    }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
 	</script>
 </body>
 </html>
