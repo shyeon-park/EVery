@@ -395,12 +395,23 @@ font-size: 0.8rem
 			<div class="row">
 				<div class="col d-flex justify-content-end">
 					<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
-					<button type="submit" class="btn btn-primary" id="submitBtn">수정완료</button>
+					<button type="button" class="btn btn-primary" id="submitBtn">수정완료</button>
 				</div>
 			</div>
 		</div>
 		</form>
+		<script type="text/javascript">
+		$("#submitBtn").on("click",function(){
+			if ($('#content').summernote('isEmpty')) {
+				 console.log("비어있음");
+				 alert("내용을 입력해주세요")
+			}else{
+				console.log("안비어있음");
+				$("#boardForm").submit();
+			}
+		});
 		
+		</script>
 			
 <!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
