@@ -144,7 +144,7 @@ public class MemberController {
 			System.out.println(session.getAttribute(phone));
 
 			// 인증번호 전송
-			//smsService.certifiedPhoneNum(phone, authNum);
+			smsService.certifiedPhoneNum(phone, authNum);
 			return "success";
 		}
 	}
@@ -244,7 +244,7 @@ public class MemberController {
 		System.out.println(session.getAttribute(phone));
 
 		// 인증번호 전송
-		//smsService.certifiedPhoneNum(phone, authNum);
+		smsService.certifiedPhoneNum(phone, authNum);
 		return "success";
 	}
 	

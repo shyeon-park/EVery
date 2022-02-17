@@ -4,7 +4,7 @@
 
  
  	     
- 	    ws = new WebSocket("ws://172.30.1.60/column");
+ 	    ws = new WebSocket("ws://13.209.89.225:8080/column");
 		     //메세지수신
 		ws.onmessage = function(e) {
 			//console.log( e.data );

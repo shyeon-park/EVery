@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+
 <title>전기차의 모든것 EVery</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -25,6 +27,7 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/memberModal.css"
 	rel="stylesheet">
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 	<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
@@ -362,6 +365,7 @@ textarea {
       border-radius: 100%;
       text-align: center;
     }
+
 </style>
 </head>
 <body>
@@ -433,11 +437,18 @@ textarea {
 
 				</c:when>
 			</c:choose>
-			
+
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+
 					<div class="col-xl-0 col-1 d-xl-none navi-menu">
 					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 						height="24px"></a>
 					</div>
+
+				</c:when>
+			</c:choose>
+
 			
 		</div>
 	</nav>
@@ -631,9 +642,9 @@ textarea {
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -973,7 +984,7 @@ textarea {
 			
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			  mapOption = { 
-			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        center: new kakao.maps.LatLng(37.49923131186165, 127.03302701487763), // 지도의 중심좌표
 			        level: 6 // 지도의 확대 레벨
 			};
 
@@ -1615,6 +1626,88 @@ textarea {
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 
+<!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- modal script -->
+ 	<script>	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+    }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
+	</script>
 
 	<!-- 회원 관련 모달 -->
 	<!-- 로그인 모달 -->
@@ -2404,8 +2497,58 @@ textarea {
                 location.href = "${pageContext.request.contextPath}/member/logout.do";
             </c:otherwise>
         </c:choose>
+        document.cookie = "ch-session-75593=;Expires=Sat, 01 Jan 2022 00:00:10 GMT";
     }
 	</script>
+	
+	<!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	
+	<!-- End Channel Plugin -->
 
 </body>
 </html>

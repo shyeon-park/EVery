@@ -290,7 +290,16 @@ a:hover {
 .memberLabel {
    font-size: 14px;
 }
-#bellBox{
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
 	position: relative;
 	}
     #bell_text{
@@ -311,7 +320,7 @@ a:hover {
 </style>
 </head>
 <body>
-  <nav class="navber">
+   <nav class="navber">
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
@@ -375,15 +384,16 @@ a:hover {
                 		height="24px"></a>
                 	<div id ="bell_text"></div>
 			  		</div>
-			  	
-
 				</c:when>
 			</c:choose>
-			
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
 					<div class="col-xl-0 col-1 d-xl-none navi-menu">
 					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
 						height="24px"></a>
 					</div>
+				</c:when>
+			</c:choose>
 			
 		</div>
 	</nav>
@@ -420,6 +430,7 @@ a:hover {
 			</c:when>
 		</c:choose>
 	</div>
+			
    <div class="main">
       <div class="row infoDiv" style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
          <div class="col-12" style="text-align: center;">
@@ -519,8 +530,7 @@ a:hover {
             $(".review-container").empty();
             $(".paging-container").empty();
             if(data.byIdList == ""){
-               alert("검색 내용이 없습니다.");
-               let commentNull = "<div><h4>검색 내용이 없습니다.</h4></div>";
+               let commentNull = "<div style='text-align:center; height:100px; padding-top:40px;'><h4>댓글 목록이 없습니다.</h4></div>";
                $(".review-container").append(commentNull);
             }else{
                let comment = "<div class='row mb-3'><div class='col'><h3 style='text-decoration: underline;'>내 댓글 관리</h3></div></div>";
@@ -529,10 +539,10 @@ a:hover {
                for(let dto of data.byIdList){
                comment = "";   
                comment = "<div class='row comment-header' style='border-bottom: 2px solid lightgrey;'>"
-                        + "<div class='col-5'>" + dto.written_date + "</div>"
-                        + "<div class='col-5'>" + dto.station + "</div>"
-                        + "<div class='col-2 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn btn-dark deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
-                        + "<div class='col-12 mt-2' style='margin-bottom:5px;'>" + dto.review + "</div>"
+                        + "<div class='col-xl-5 col-12'>" + dto.written_date + "</div>"
+                        + "<div class='col-xl-5 col-12'>" + dto.station + "</div>"
+                        + "<div class='col-xl-2 col-12 d-flex justify-content-end' style='text-align:center'><button type='button' class='btn btn-dark deleteCmt' value='" + dto.seq_review + "'>삭제</button></div>"
+                        + "<div class='col-12 mt-2' style='margin-bottom:5px;'><span style='background-color: #E0E0E0;'>" + dto.review + "</span></div>"
                         + "</div>"
                   $(".review-container").append(comment);         
                }
@@ -613,24 +623,24 @@ a:hover {
                 $(".bookmark-container").append(bookmarkNull);
              }else{
                let bookmark = "<div class='row mb-3'>"
-                        + "<div class='col-10'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
-                        + "<div class='col-2 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
+                        + "<div class='col-xl-10 col-12'><h3 style='text-decoration: underline; margin:0px;'>즐겨찾기</h3></div>"
+                        + "<div class='col-xl-2 col-12 d-flex justify-content-center'><button type='button' class='btn btn-secondary btn-deleteAll'>전체삭제</button></div>"
                         + "</div>";
                $(".bookmark-container").append(bookmark);         
                 for(let dto of data.bookmarkList){
                       bookmark = "";
                          bookmark = "<div class='row mt-3 bookmark-header' style='border-bottom:1px solid black;'>"
-                               + "<div class='col-10 d-flex justify-content-start'>"
+                               + "<div class='col-xl-10 col-12 d-flex justify-content-start'>"
                                + "<a style='font-size:20px' href='${pageContext.request.contextPath}/station/toGetStation?station=" + dto.station + "'>" + dto.station + "</a>"
                                + "</div>"
-                               + "<div class='col-2 d-flex justify-content-center'>"
+                               + "<div class='col-xl-2 col-12 d-flex justify-content-center'>"
                                + "<button type='button' class='btn btn-dark btn-delete' value='" + dto.station +"'>삭제</button>"
                                + "</div>"
                              
                                + "<div class='col-12'>상세주소&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.rdnmadr + "</div>"
                                + "<div class='col-12'>운영시간&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;" + dto.useTime + "</div>"
-                               + "<div class='col-6 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
-                               + "<div class='col-6 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
+                               + "<div class='col-xl-6 col-12 d-flex justify-content-start'><span class='badge bg-primary mb-3'>"+dto.institutionNm+"</span></div>"
+                               + "<div class='col-xl-6 col-12 d-flex justify-content-end'><span class='badge bg-primary mb-3'>"+dto.phoneNumber+"</span></div>"
 							+ "</div>"
                    $(".bookmark-container").append(bookmark);
                 }
@@ -718,12 +728,12 @@ a:hover {
             <p>개인정보취급담당자: 이수희</p>
             <p>통신판매업신고: 제 2021-서울강남-03823 호</p>
             <div class="row footer-top">
-               <ul>
-                  <li><a href="">이용약관</a></li>
-                  <li><a href="">개인정보처리방침</a></li>
-                  <li><a href="">고객지원</a></li>
-               </ul>
-            </div>
+					<ul>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+					</ul>
+				</div>
          </div>
          <div class="col-12 col-xl-6 footer-body-right">
             <p>고객센터</p>
@@ -773,8 +783,6 @@ a:hover {
   </div>
 </div>
 
-	
-	
    <!-- 닉네임 변경 모달 -->
       <div class="modal fade" id="modifyNicknameModal" aria-hidden="true"
          data-bs-backdrop="static" data-bs-keyboard="false"
@@ -974,12 +982,7 @@ a:hover {
       
    })
    
-
- 		
- 	
-   
-   
-    ws = new WebSocket("ws://172.30.1.60/column");
+     ws = new WebSocket("ws://13.209.89.225:8080/column");
      //메세지수신
       ws.onmessage = function(e) {
          //console.log( e.data );
@@ -987,6 +990,7 @@ a:hover {
          console.log(msgObj);
          
          notCheckedcount = msgObj.notCheckedcount
+
 			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
 			$("#bell_text").empty();
 			$("#footerBtnAdd").empty();
@@ -994,7 +998,7 @@ a:hover {
          
          memDTO = msgObj.memDto;
        
-      	if(memDTO != null || memDTO != ""){
+         if(memDTO != null || memDTO != ""){
             if((memDTO.column_application == 1) && (memDTO.identification_num == 2) ){
                $("#applicationColStBtn").attr("disabled", false);
                  $("#applicationColStBtn").html("컬럼리스트 신청 취소")
@@ -1005,7 +1009,7 @@ a:hover {
                $("#applicationColStBtn").attr("disabled", false);
                  $("#applicationColStBtn").html("컬럼리스트 신청")
             }
-      	}
+         }
         
          
             notCheckedcount = msgObj.notCheckedcount
@@ -1050,51 +1054,51 @@ a:hover {
      
      
     //체크박스
-  	document.addEventListener('click',function(e){
+     document.addEventListener('click',function(e){
           if(e.target.id == 'newMsgAll'){
           if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
           else  $("input[name=newMsg]").prop("checked", false)
           }});
-  	
-  	//벨 이모티콘 클릭시 list 출력
-  	document.addEventListener('click',function(e){
+
+     
+     //벨 이모티콘 클릭시 list 출력
+     document.addEventListener('click',function(e){
           if(e.target.id == 'bell'){
-          	ws.send("getUncheckedList");
+             ws.send("getUncheckedList");
       }});
-  	
-  	
-  	function messageCheck(){
-  			 let list = new Array(); // 배열 선언
-  		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-  		 		list.push(this.value);
-  		 	 });
-  			 	 if(list.length != 0){
-  			 		//console.log(list)
-  			 		let msg = { category: "msgCheck", list: list };
-  			 		let msgToJson = JSON.stringify(msg);
-  			 		ws.send(msgToJson);
-  			 		
-  				 }else{
-  			 		 alert("확인할 메세지를 선택하세요.")
-  			 	 }
-  		}
-  	
-  	function deleteMsg(){
-  		 let list = new Array(); // 배열 선언
-  	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-  	 		list.push(this.value);
-  	 	 });
-  		 	 if(list.length != 0){
-  		 		//console.log(list)
-  		 		let msg = { category: "msgDel", list: list };
-  		 		let msgToJson = JSON.stringify(msg);
-  		 		ws.send(msgToJson);
-  		 		
-  			 }else{
-  		 		 alert("확인할 메세지를 선택하세요.")
-  		 	 }
-  	}
-  	
+     
+     
+     function messageCheck(){
+            let list = new Array(); // 배열 선언
+             $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+               list.push(this.value);
+             });
+                if(list.length != 0){
+                  //console.log(list)
+                  let msg = { category: "msgCheck", list: list };
+                  let msgToJson = JSON.stringify(msg);
+                  ws.send(msgToJson);
+                  
+               }else{
+                   alert("확인할 메세지를 선택하세요.")
+                }
+        }
+     
+     function deleteMsg(){
+         let list = new Array(); // 배열 선언
+          $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+            list.push(this.value);
+          });
+             if(list.length != 0){
+               //console.log(list)
+               let msg = { category: "msgDel", list: list };
+               let msgToJson = JSON.stringify(msg);
+               ws.send(msgToJson);
+               
+            }else{
+                alert("확인할 메세지를 선택하세요.")
+             }
+     }
      
       //컬럼리스트 신청 클릭시 메세지 전송
       document.addEventListener('click',function(e){
@@ -1104,6 +1108,7 @@ a:hover {
               else if($("#applicationColStBtn").html() == "컬럼리스트 신청") ws.send("application");
               else return
        }});
+   
       $(document).ready(function() {
          let phone = "${loginSession.phone}";
          console.log;
@@ -1855,9 +1860,12 @@ a:hover {
                 location.href = "${pageContext.request.contextPath}/member/logout.do";
             </c:otherwise>
         </c:choose>
+        document.cookie = "ch-session-75593=;Expires=Sat, 01 Jan 2022 00:00:10 GMT";
     }
       
    </script>
+   
+   
    <script>
 		$(function() {
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
@@ -1893,6 +1901,55 @@ a:hover {
 			});
 		});
 	</script>
+   
+   <!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	
+	<!-- End Channel Plugin -->
 
 </body>
 </html>

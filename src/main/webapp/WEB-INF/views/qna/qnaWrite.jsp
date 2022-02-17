@@ -384,193 +384,7 @@ li {
 		})
 	</script>
 	</div>
-	<div class="footer">
-
-		<div class="row footer-body">
-			<div class="col-12 col-xl-6 footer-body-left">
-				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
-				<p>개인정보취급담당자: 이수희</p>
-				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
-					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-12 col-xl-6 footer-body-right">
-				<p>고객센터</p>
-				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
-				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
-				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-		</div>
-
-	</div>
-
-
-		
-<!-- bell-Modal -->
-<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modalcontainer">
-          <div class="row">
-            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
-            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
-          </div>
-          <div class="row">
-           <table class="table">
-                <tr class="text-center">
-                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
-                  <th class="">시간</th>
-                  <th class="">메세지</th>
-                </tr>
-            <tbody id="listPrint">
-            </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
-      </div>
-    </div>
-  </div>
-</div>
-	<!-- bell-Modal -->
-<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modalcontainer">
-          <div class="row">
-            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
-            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
-          </div>
-          <div class="row">
-           <table class="table">
-                <tr class="text-center">
-                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
-                  <th class="">시간</th>
-                  <th class="">메세지</th>
-                </tr>
-            <tbody id="listPrint">
-            </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
-      </div>
-    </div>
-  </div>
-</div>
-	<!-- modal script -->
- 	<script>	
- 	//체크박스
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'newMsgAll'){
-        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
-        else  $("input[name=newMsg]").prop("checked", false)
-        }});
 	
-	//벨 이모티콘 클릭시 list 출력
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'bell'){
-        	ws.send("getUncheckedList");
-    }});
-	
-	
-	function messageCheck(){
-			 let list = new Array(); // 배열 선언
-		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-		 		list.push(this.value);
-		 	 });
-			 	 if(list.length != 0){
-			 		//console.log(list)
-			 		let msg = { category: "msgCheck", list: list };
-			 		let msgToJson = JSON.stringify(msg);
-			 		ws.send(msgToJson);
-			 		
-				 }else{
-			 		 alert("확인할 메세지를 선택하세요.")
-			 	 }
-		}
-	
-	function deleteMsg(){
-		 let list = new Array(); // 배열 선언
-	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-	 		list.push(this.value);
-	 	 });
-		 	 if(list.length != 0){
-		 		//console.log(list)
-		 		let msg = { category: "msgDel", list: list };
-		 		let msgToJson = JSON.stringify(msg);
-		 		ws.send(msgToJson);
-		 		
-			 }else{
-		 		 alert("확인할 메세지를 선택하세요.")
-		 	 }
-	}
-	</script>
-	<script>
-		$(function() {
-
-			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
-				if (onNavbar == 0) {
-					$('.navi-onButtons').css({
-						"height" : "auto",
-						"display" : "block"
-					}); // 세로 네비영역 열기
-					$('.main').css({
-						"padding-top" : "10px"
-					});
-					onNavbar = 1;
-					$('html, body').animate({
-						scrollTop : 0
-					}, 100);
-					return false;
-				} else {
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					$('.main').css({
-						"padding-top" : "92px"
-					});
-					onNavbar = 0;
-				}
-			});
-
-			$(window).resize(function() { //브라우저 크기를 조정했을때
-				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					onNavbar = 0;
-				}
-			});
-		});
-	</script>
 		
 <!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -654,5 +468,130 @@ li {
 		 	 }
 	}
 	</script>
+	
+	<div class="footer">
+
+		<div class="row footer-body">
+			<div class="col-12 col-xl-6 footer-body-left">
+				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
+				<p>개인정보취급담당자: 이수희</p>
+				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
+				<div class="row footer-top">
+					<ul>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-12 col-xl-6 footer-body-right">
+				<p>고객센터</p>
+				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
+				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
+				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+		$(function() {
+
+			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
+				if (onNavbar == 0) {
+					$('.navi-onButtons').css({
+						"height" : "auto",
+						"display" : "block"
+					}); // 세로 네비영역 열기
+					$('.main').css({
+						"padding-top" : "10px"
+					});
+					onNavbar = 1;
+					$('html, body').animate({
+						scrollTop : 0
+					}, 100);
+					return false;
+				} else {
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					$('.main').css({
+						"padding-top" : "92px"
+					});
+					onNavbar = 0;
+				}
+			});
+
+			$(window).resize(function() { //브라우저 크기를 조정했을때
+				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					onNavbar = 0;
+				}
+			});
+		});
+	</script>
+
+
+
+	<!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	
+	<!-- End Channel Plugin -->
+
 </body>
 </html>

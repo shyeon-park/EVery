@@ -4,6 +4,7 @@
 	"http://13.209.64.187:"  */
 /*let url = "http://localhost:";*/
 /* 호스트명 + 포트번호 */
+//let hostPort = "http://3.39.10.181:8080/";
 let hostPort = "http://" + location.host;
 
 function showLoadingDiv(){ // 로딩이 보여지는 함수
@@ -191,7 +192,7 @@ function hideLoadingDiv(){ // 로딩이 지워지는 함수
 	var naverLogin = new naver.LoginWithNaverId(
 			{
 				clientId: "MJ4BRMl5k9pVssgoUg87", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-				callbackUrl: "http://localhost:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+				callbackUrl: "http://13.209.89.225:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 				isPopup: true,
 				//callbackHandle: true,
 				loginButton: {color: "green", type: 1, height: 40}

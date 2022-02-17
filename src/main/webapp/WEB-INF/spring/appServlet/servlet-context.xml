@@ -31,7 +31,7 @@
 	<context:component-scan
 		base-package="every.com.*" />
 
-		
+
 	<interceptors>
 
 		<interceptor>
@@ -49,12 +49,14 @@
 			<mapping path="/**" />
 			
 			<exclude-mapping path="/admin/**" />
-	
-			
+
 			<exclude-mapping path="/" />
 			<exclude-mapping path="/station/**" />
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
+
+			<exclude-mapping path="/terms" />
+			
 
 
 			<!-- 멤버 -->
@@ -147,7 +149,7 @@
 
 
 	</interceptors>
-	
+
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />

@@ -379,9 +379,9 @@ li {
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -447,6 +447,7 @@ li {
 		});
 	</script>
 	
+<<<<<<< HEAD
 		
 <!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -530,5 +531,55 @@ li {
 		 	 }
 	}
 	</script>
+=======
+	<!-- Channel Plugin Scripts -->
+	<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "9a79fc52-ae22-4758-b09d-60bc68dcfe2f", //please fill with your plugin key
+		    "memberId": "${loginSession.id}", //fill with user id
+		    "profile": {
+		      "name": "${loginSession.nickname}", //fill with user name
+		      "mobileNumber": "${loginSession.phone}" //fill with user phone number
+		    }
+		  });
+	</script>
+	
+	<!-- End Channel Plugin -->
+>>>>>>> 1fd3c00f6d4615c2f820431ff964bd5c90ccd8c3
 </body>
 </html>
