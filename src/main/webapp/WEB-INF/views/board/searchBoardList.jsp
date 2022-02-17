@@ -177,7 +177,15 @@ a:hover {
 	text-align: right;
 }
 
-
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 
 .container{
 width: 100%;
@@ -202,8 +210,8 @@ height: 100%;
 }
 
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -214,6 +222,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -365,6 +374,10 @@ margin: 0;
 		</c:choose>
 	</div>
 	<div class="main">
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>
+	
 			<div class="container">
 
 		<div class="row">
@@ -437,15 +450,12 @@ margin: 0;
 						for(var con of data){
 							
 							//console.log(con.profile == null)
-							let content = con.content  //상세게시글 내용 변수에 담는다
-							let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-							content = content.replace(imgRemove, ''); // 이미지를 지움
-							content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-							subtitle = content.substring(0,30)
+							 let listTitle = con.title;
+							 subStringTitle = listTitle.substring(0, 20)
 							 let date = con.written_date.replace(/,/,"")
 							 let written_date = date.split(" ");
 							 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-							let list = "<div class='col-12 col-md-6 col-lg-4 cardContainer d-flex justify-content-center'>"
+							let list = "<div class='col-12 col-md-6 col-xl-4 cardContainer d-flex justify-content-center'>"
 			                			+"<div>"
 										+"<div class='titleImg'>"
 				                		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"' class='atag'>"
@@ -465,10 +475,15 @@ margin: 0;
 				                   				+"<div class='colum-body'>"
 					                   			+"<p class='colum-title'>"
 				                   				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+con.seq_column+"'>"
-					                     		+con.title
-					                     		+"</a></p>"
-					                     		+"<p class='colum-text'>"+date+"</p>"
-				                      			+"<p class='colum-text'>"+subtitle+"...</p>"
+					                     		
+				                   				if(listTitle.length < 20){
+					               					list +=	subStringTitle
+					               					list += "</a></p>"
+					               				}else{
+					               					list +=	subStringTitle
+					               					list += "...</a></p>"
+					               				}				
+				                   				list += "<p class='colum-text'>"+date+"</p>"
 				                      			+"<p class='colum-text'> 칼럼리스트 : "+con.nickname+"</p>"
 				                    			+"</div>"
 			                   				+"</div>"
@@ -597,7 +612,7 @@ margin: 0;
 	
 	
 	<!-- 회원 관련 모달 -->
-		<!-- 로그인 모달 -->
+	<!-- 로그인 모달 -->
 	<div class="modal fade" id="loginModal" aria-hidden="true"
 		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -621,7 +636,7 @@ margin: 0;
 									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
   									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
 				
-  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
   									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 								</div>
 							</div>
@@ -655,9 +670,9 @@ margin: 0;
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">

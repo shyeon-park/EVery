@@ -15,6 +15,11 @@ public class infoService {
 		return dao.infoList();
 	}
 	
+	// 상세 조회
+	public infoDTO infoDetail(int seq_info) throws Exception {
+		return dao.selectOne(seq_info);
+	}
+	
 	// 등록
 	public void insert(infoDTO dto) throws Exception {
 		dao.insert(dto);
@@ -26,13 +31,8 @@ public class infoService {
 	}
 	
 	// 삭제
-	public void delete(int seq_info) throws Exception {
-		dao.delete(seq_info);
+	public void delete(infoDTO dto) throws Exception {
+		dao.delete(dto);
 	}                                                                                                                  
 
-	// 검색
-	public List<infoDTO> search(String search) throws Exception {
-		List<infoDTO> list = dao.searchByTitle(search);
-		return list;
-	}
 }

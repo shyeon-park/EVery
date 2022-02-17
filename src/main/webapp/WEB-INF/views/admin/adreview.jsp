@@ -473,6 +473,7 @@ a:hover {
 			}).done(function(rs){
 				if(rs == "success"){
 					getAdCommentList(1);
+					$(".inputBox").val("");
 				}else if(rs == "fail"){
 					alert("삭제에 실패하였습니다.");
 				}

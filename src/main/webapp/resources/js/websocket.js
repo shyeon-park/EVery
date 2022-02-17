@@ -4,12 +4,12 @@
 
  
  	     
- 	    ws = new WebSocket("ws://13.209.64.187:8080/column");
+ 	    ws = new WebSocket("ws://172.30.1.60/column");
 		     //메세지수신
 		ws.onmessage = function(e) {
 			//console.log( e.data );
 			let msgObj = JSON.parse(e.data);
-			//console.log(msgObj);
+			console.log(msgObj);
 			
 				notCheckedcount = msgObj.notCheckedcount
 				//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);

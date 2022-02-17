@@ -179,6 +179,15 @@ a:hover {
 	text-align: right;
 }
 
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 
 .container{
 width: 100%;
@@ -308,6 +317,10 @@ font-size: 0.8rem
 		</c:choose>
 	</div>
 	<div class="main">
+		<div class="loadingDiv">
+			<img src="/resources/images/loading.gif">
+		</div>
+	
 		<form id="boardForm" action="${pageContext.request.contextPath}/board/modifyProc.do?seq_column=${seq_column}" method="post" enctype="multipart/form-data">
 		<div class="container">
 		
@@ -334,7 +347,7 @@ font-size: 0.8rem
 			</div> 
 			<div class="row">
 				<div class="col d-flex justify-content-end" id="detail-footer">
-					<button type="button" class="btn btn-secondary" id="cancelBtn">뒤로가기</button>
+					<button type="button" class="btn me-3" id="cancelBtn">뒤로가기</button>
 					
 				</div>
 			</div>
@@ -365,8 +378,8 @@ font-size: 0.8rem
 			$("#content").append(content);
 					
 			if( "${loginSession.id}" == data.id){
-				let newBtn = "<button type='submit' class='btn btn-success' id='submitBtn'>수정</button>"
-							+"<button type='button' class='btn btn-primary' id='deleteBtn'>삭제</button>"
+				let newBtn = "<button type='submit' class='btn me-3' id='submitBtn'>수정</button>"
+							+"<button type='button' class='btn me-3' id='deleteBtn'>삭제</button>"
 				$('#detail-footer').append(newBtn)
 			}
 						
@@ -428,7 +441,7 @@ font-size: 0.8rem
 	</div>
 	
 	<!-- 회원 관련 모달 -->
-		<!-- 로그인 모달 -->
+	<!-- 로그인 모달 -->
 	<div class="modal fade" id="loginModal" aria-hidden="true"
 		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -452,7 +465,7 @@ font-size: 0.8rem
 									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
   									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
 				
-  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
   									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 								</div>
 							</div>
@@ -486,9 +499,9 @@ font-size: 0.8rem
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">

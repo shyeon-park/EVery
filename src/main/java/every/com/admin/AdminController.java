@@ -47,7 +47,6 @@ public class AdminController {
 	
 	@RequestMapping("/columManager.do")
 	public String columManager() throws Exception{
-		System.out.println("ㅁㅁㅁ접속완료");
 		return "admin/columManager";
 	}
 	
@@ -55,5 +54,15 @@ public class AdminController {
 	@RequestMapping("/getAdminUser.do")
 	public String getAdminUser() throws Exception {
 		return "admin/userManagement";
+	}
+	
+	@RequestMapping("/toClientSupport.do")
+	public String toClientSupport() throws Exception {
+		return "/clientSupport/clientSupport";
+	}
+	
+	@RequestMapping("/toAClientSupport.do")
+	public String toAClientSupport() throws Exception {
+		return "/admin/a_clientSupport";
 	}
 }

@@ -11,8 +11,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"><!-- 부트스트랩 icon -->
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<script type="text/javascript" src="/resources/js/channel.js"></script> <!-- 채널톡 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <style>
@@ -34,22 +35,18 @@
 	font-family: 'Pretendard-SemiBold';
 	color:black;
 }
-
 html {
 	width: 100vw;
 	height: 100%;
 }
-
 body {
 	width: 100%;
 	height: auto;
 }
-
 a {
 	text-decoration: none;
 	color: black;
 }
-
 /* Navi 영역*/
 .navber {
 	width: 82.6vw;
@@ -62,86 +59,75 @@ a {
 	transform: translateX(-50%);
 	z-index: 1;
 }
-
 .nav-items {
 	margin: auto;
 	width: 100%;
 }
-
 a:hover {
 	text-decoration: none;
 	color: #18a8f1;
 	border-bottom: 2px solid black;
 }
-
 .navi-logo {
 	text-align: left;
 	padding: 0px;
 }
-
 .navi-menu {
 	text-align: center;
 	padding: 0px 10px;
 }
-
 .navi-menu>a, img {
 	line-height: 32px;
 }
-
 .navi-onButtons {
-	padding-top: 92px;
+	padding-top: 122px;
 	margin: auto;
 	width: 82.6vw;
 	height: 0;
 	display: none;
 }
-
 .navi-onButtons>div {
 	padding: 10px 0px;
 	text-align: center;
 }
-
 .badge {
 	height: 16px;
 	line-height: 8px;
 }
-
 /* main 영역 */
 .main {
-	padding-top: 92px;
+	padding-top: 122px;
 	width: 82.6vw;
 	margin: auto;
 }
-
+#colum_list{
+	width: 82.6vw;
+	margin: auto;
+}
 .card {
 	border-radius: 10%;
 	margin: auto;
 	margin-bottom: 20px;
 	border: 2px solid gray;
 }
-
 /* footer 영역 */
 .footer {
 	margin: auto;
 	width: 82.6vw;
 }
-
 .footer-top {
 	margin: auto;
 	width: 82.6vw;
 }
-
 .footer-top>ul {
 	padding: 0px;
 	margin: 0px;
 }
-
 .footer-top>ul>li {
 	list-style: none;
 	float: left;
 	margin-right: 10px;
 }
-
 .footer-body {
 	margin: auto;
 	width: 82.6vw;
@@ -149,22 +135,18 @@ a:hover {
 	border-top: 2px solid gray;
 	padding-bottom: 20px;
 }
-
 .footer-body-left {
 	margin-top: 20px;
 	padding: 0px;
 }
-
 .footer-body-left>p {
 	padding: 0px;
 	margin: 0px;
 }
-
 .footer-body-right {
 	margin-top: 20px;
 	padding: 0px;
 }
-
 .footer-body-right>p {
 	padding: 0px;
 	margin: 0px;
@@ -172,46 +154,53 @@ a:hover {
 .foot-bottom-right {
 	text-align: right;
 }
-
-
+/* 로딩 */
+.loadingDiv {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	z-index: 99999;
+}
 /* 알람 css  */
+/*
  	#bell{
       position: relative;
       cursor: pointer;
+ 
     }
-    .fa-bell{
-      position: absolute;
-      font-size: 38px;
-    }
+    */
+	#bellBox{
+	position: relative;
+	}
     #bell_text{
-      position: relative;
+      position: absolute;
       color: white;
       font-weight: 700;
-      font-size: large;
-      width: 27px;
-      left: -15px;
-      top : -10px;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
       display: inline-block;
       background-color: red;
       border-radius: 100%;
       text-align: center;
     }
-
 /*메인페이지 리스트 css */
 .cardContainer{
  margin-bottom: 15px;
  padding-left: 20px;
  padding-right: 20px;
-
 }
 .atag{
 width: 100%;
 height: 100%;
 }
-
 .titleImg{
- width: 300px;
- height: 250px;
+ width: 400px;
+ height: 300px;
  padding-bottom: 15px;
  border: none;
 }
@@ -222,6 +211,7 @@ padding: 0;
 .colum-title {
 width: 100%;.
 height: auto;
+margin-bottom: 10px
 }
 .colum-title > a{
 width: 100%;
@@ -238,7 +228,6 @@ height: 100%;
 .colum-text{
 margin: 0;
 }
-
 /*캐러셀 버튼*/
 .carouselPrevIcon{
     position: absolute;
@@ -250,7 +239,6 @@ margin: 0;
     right: 0px;
     font-size: 2rem
 }
-
 </style>
 </head>
 <body>
@@ -267,11 +255,19 @@ margin: 0;
 				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
+				<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">고객지원</a>
-			</div>
+			
+			<c:choose>
+				<c:when test="${empty loginSession}">
+				<div class="col-xl-7 col-9 navi-menu"></div>
+				</c:when>
+				<c:when test="${!empty loginSession}">
+					<div class="col-xl-5 col-8 navi-menu"></div>
+				</c:when>
+			</c:choose>
+			
+		
 			<c:choose>
 				<c:when test="${empty loginSession}">
 				</c:when>
@@ -281,25 +277,6 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				<div class="col-xl-5 col-8 navi-menu"></div>
-				</c:when>
-				<c:when test="${!empty loginSession}">
-					<div class="col-xl-3 col-6 navi-menu"></div>
-				</c:when>
-			</c:choose>
-			
-			<c:choose>
-			  	<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu" id = "bell">
-						<!--  <div id = "bell">-->
-	          			<i class="far fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i>
-	          			 <div id ="bell_text"></div>
-					</div>
-				</c:when>
-			</c:choose>
-			
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
@@ -312,15 +289,36 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
+<%-- 			<c:choose> --%>
+<%-- 			  	<c:when test="${!empty loginSession}"> --%>
+<!-- 					<div class="col-1 navi-menu" id = "bell"> -->
+<!-- 						 <div id = "bell"> -->
+<!-- 							<img src="/resources/images/alarm.png" width="24px" height="24px" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"> -->
+<!-- <!-- 						<i class="fa-light fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i> -->
+<!-- 	          			 <div id ="bell_text"></div> -->
+<!-- 					</div> -->
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu" id="bellBox">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell" onclick="ws.send('getUncheckedList');"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a>
+                	<div id ="bell_text"></div>
+			  		</div>
+			  	
+
+				</c:when>
+			</c:choose>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+					<div class="col-xl-0 col-1 d-xl-none navi-menu">
+					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+						height="24px"></a>
+					</div>
+				</c:when>
+			</c:choose>
 			
-		
-			
-			
-			
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
-			</div>
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
@@ -331,10 +329,7 @@ margin: 0;
 			<a href="">칼럼</a>
 		</div>
 		<div class="col-12">
-			<a href="">커뮤니티</a>
-		</div>
-		<div class="col-12">
-			<a href="">고객지원</a>
+			<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 		</div>
 		<c:choose>
 			<c:when test="${empty loginSession}">
@@ -363,13 +358,21 @@ margin: 0;
 	<!-- *********************** -->
 	<!-- *******메인******** -->
 	<!-- *********************** -->
+
+		<img src="/resources/images/main.jpg" width="100%">
+	
+	<div class="loadingDiv">
+		<img src="/resources/images/loading.gif">
+	</div>
 	
 	
-	
-	
-	
-	<div class="row">
-		<div class="col-12">
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3" style="text-align:left;">
+			<a href="#" style="font-size:24px;">칼럼</a>
+		</div>
+	</div>
+	<div class="row" class="colum_list">
+		<div class="col-12 mt-3">
 			<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel" data-interval="500">
 			  <div class="carousel-inner">
 			    <div class="carousel-item active col-12 d-flex" id = "printList">
@@ -397,7 +400,6 @@ margin: 0;
 	
 <script type="text/javascript">
 let mnList = null 
-
 $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
 	
 	  let carouselCurrentPage
@@ -429,30 +431,24 @@ $("#carouselExampleControls").on('slide.bs.carousel', function(e) {
 	  	$("#printList").empty(); 
 	    $("#printList2").empty(); 
 	    getList(printList,printList2, carouselCurrentPage, mnList)
-
 		
 });
-
-
-
 getBoardList()
-
 function getList(id,printId, num, mnList){
 	if((mnList.length) < 3){
 		$(id).append("리스트를 3개이상 추가해주세요");
 		$(printId).append("리스트를 3개이상 추가해주세요");
 	}else{
 		for(let i= num ; i<(num+3); i++){
+			let listTitle = mnList[i].title;
+			subStringTitle = listTitle.substring(0, 20)
+			//console.log(listTitle)
 			
-			let content = mnList[i].content  //상세게시글 내용 변수에 담는다
-			let imgRemove = /<IMG(.*?)>/gi; // 이미지  지우는 regx 
-			content = content.replace(imgRemove, ''); // 이미지를 지움
-			content = content.replace(/(<([^>]+)>)/ig,''); //그 외 태그 제거
-			subtitle = content.substring(0,30)
+		
 			 let date =  mnList[i].written_date.replace(/,/,"")
 			 let written_date = date.split(" ");
 			 date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
-			let list = "<div class='col-12 col-md-4 cardContainer d-flex justify-content-center'>"
+			let list = "<div class='col-12 col-xl-4 cardContainer d-flex justify-content-center'>"
 	        			+"<div>"
 						+"<div class='titleImg'>"
 	            		+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"' class='atag'>"
@@ -469,25 +465,30 @@ function getList(id,printId, num, mnList){
 								}
 								list += "</a></div>"
 							
-	               				+"<div class='colum-body ms-5'>"
-	                   			+"<p class='colum-title ms-3'>"
+	               				+"<div class='colum-body'>"
+	                   			+"<p class='colum-title'>"
 	               				+"<a href='${pageContext.request.contextPath}/board/detail.do?seq_column="+ mnList[i].seq_column+"'>"
-	                     		+ mnList[i].title
-	                     		+"</a></p>"
-	                     		+"<p class='colum-text ms-3'>"+date+"</p>"
-	                  			+"<p class='colum-text ms-3'>"+subtitle+"...</p>"
+	               				if(listTitle.length < 20){
+	               					list +=	subStringTitle
+	               					list += "</a></p>"
+	               				}else{
+	               					list +=	subStringTitle
+	               					list += "...</a></p>"
+	               				}
+	               				
+	                     	 
+	               				list += "<p class='colum-text'>"+date+"</p>"
+	                     		+"<p class='colum-text'> 칼럼리스트 : "+mnList[i].nickname+"</p>"
 	                			+"</div>"
 	           				+"</div>"
 	    				+"</div>"
 	    				+"</div>"	
-
 		$(id).append(list);
 		$(printId).append(list);
 		}
 	}
 	
 }
-
 	function getBoardList(){
 	
 		$.ajax({  
@@ -497,13 +498,11 @@ function getList(id,printId, num, mnList){
 			//성공시
 				 //console.log(data);
 				//$(printId).empty();
-
 				let mainList= data.mainList
 				if(data == null || data =="" ){
 					let list = "리스트가 비어있습니다"
 					$(printId).empty();
 					$(printId).append(list);
-
 				}else{
 					mnList = data.mainList;
 					getList(printList,printList2, 0,mnList);
@@ -566,7 +565,6 @@ function getList(id,printId, num, mnList){
         	ws.send("getUncheckedList");
     }});
 	
-
 	
 	function messageCheck(){
 			 let list = new Array(); // 배열 선언
@@ -599,7 +597,6 @@ function getList(id,printId, num, mnList){
 		 		 alert("확인할 메세지를 선택하세요.")
 		 	 }
 	}
-
 	</script>
 	
 	<!-- 회원 관련 모달 -->
@@ -627,7 +624,7 @@ function getList(id,printId, num, mnList){
 									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault1 userLogin"  value="0" checked>
   									<label class="form-check-label" for="flexRadioDefault1">일반회원</label>
 				
-  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1">
+  									<input class="form-check-input" name="flexRadioDefault" type="radio" id="flexRadioDefault2 adminLogin" value="1" style="margin-left: 8px;">
   									<label class="form-check-label" for="flexRadioDefault2">관리자</label>
 								</div>
 							</div>
@@ -661,9 +658,9 @@ function getList(id,printId, num, mnList){
 									style="width: 100%;">로그인</button>
 							</div>
 						</div>
-						<div class="row memberRow" style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="row memberRow" style="margin-top: 10px; margin-bottom: 10px;">
 							<div class="col-12" style="text-align: center;">
-								<p style="color: grey; font-size: 12px; margin-bottom: 0px;">----------------------- SNS 소셜 간편로그인 ------------------------</p>
+								<span style="color: grey; font-size: 12px; margin-bottom: 0px;">SNS 소셜 로그인</span>
 							</div>
 						</div>
 						<div class="row memberRow">
@@ -1188,6 +1185,10 @@ function getList(id,printId, num, mnList){
 	<!-- 회원가입, 로그인 스크립트 영역 -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 	<script>
+	$(document).ready(function() {
+		var host = location.host;
+		console.log(host);
+	})
 	// 로그인 모달 오픈 함수
 	function openLoginModal() {
 		$("#loginModal").modal("show");
@@ -1241,7 +1242,6 @@ function getList(id,printId, num, mnList){
 					onNavbar = 0;
 				}
 			});
-
 			$(window).resize(function() { //브라우저 크기를 조정했을때
 				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
 					$('.navi-onButtons').css({
@@ -1300,6 +1300,7 @@ function getList(id,printId, num, mnList){
 		    }
 		  });
 	</script>
+	
 	<!-- End Channel Plugin -->
 	
 </body>

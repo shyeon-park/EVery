@@ -18,7 +18,7 @@
   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
   
     
-<title>상세보기</title>
+<title>칼럼 수정</title>
 
 <style>
 @import
@@ -311,11 +311,6 @@ font-size: 0.8rem
 <form id="boardForm" action="${pageContext.request.contextPath}/board/modify.do" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<div class="row">
-				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-danger" id="logoutBtn">로그아웃</button>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col d-flex justify-content-center">
 					<h2>수정페이지</h2>
 				</div>
@@ -449,7 +444,6 @@ font-size: 0.8rem
 			
 			
 			//뒤로가기 감지코드
-			//공부좀해봐야할듯
 			history.pushState(null, null, '');
 			window.onpopstate = function(event) {
 				history.back();
