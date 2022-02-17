@@ -4,8 +4,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 		<bean id="bds" class="org.apache.commons.dbcp2.BasicDataSource">			
+<<<<<<< HEAD
+
+
+
+<!--		<property name="username" value="EVery"/> -->
+<!--		<property name="password" value="Q2201"/> -->
+	  		<property name="username" value="testid"/>
+  			<property name="password" value="password"/>
+=======
 			<property name="username" value="EVery"/>
 			<property name="password" value="Q2201"/>
+>>>>>>> 5fe7bf2fc07e2a8e2c1d329038be74f74358974b
 			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 	 		<property name="url" value="jdbc:oracle:thin:@3.39.10.181:1521:xe"/>
 			<property name="initialSize" value="30"/>

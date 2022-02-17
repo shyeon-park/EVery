@@ -30,43 +30,51 @@ li {
 			<div class="col-12">
 				<h3>블랙리스트 추가</h3>
 			</div>
-			<div class="col-9" style="text-align: right;">
-				<button type="button" class="btn btn-dark" id="insertBtn">선택
-					추가</button>
-			</div>
 		</div>
 		<div class="row mt-4">
 			<div class="col-12">
-				<table class="table table-hover">
-					<thead>
-						<tr style="text-align: center;">
-							<th class="col-1"><input type="checkbox" name="checkAll" id="checkAll"></th>
-							<th class="col-3">아이디</th>
-							<th class="col-3">닉네임</th>
-							<th class="col-3">가입일</th>
-						</tr>
-					</thead>
-					<tbody id="memberList">
-						<c:choose>
-							<c:when test="${empty list}">
-								<tr>
-									<td colspan="6" style="text-align: center;">회원이 존재하지 않습니다.</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${list}" var="dto">
-									<tr class="memberList" style="text-align: center;">
-										<td><input type="checkbox" class="checkOne"
-											name="checkOne" value="${dto.id}"></td>
-										<td>${dto.id}</td>
-										<td>${dto.nickname}</td>
-										<td>${dto.signup_date}</td>
+				<form id="blacklistForm"
+					action="${pageContext.request.contextPath}/blacklist/insert.do"
+					method="post" enctype="multipart/form-data">
+					<table class="table table-hover">
+						<thead>
+							<tr style="text-align: center;">
+								<th class="col-2">아이디</th>
+								<th class="col-2">닉네임</th>
+								<th class="col-2">가입일</th>
+								<th class="col-6"></th>
+							</tr>
+						</thead>
+						<tbody id="memberList">
+							<c:choose>
+								<c:when test="${empty list}">
+									<tr>
+										<td colspan="6" style="text-align: center;">회원이 존재하지
+											않습니다.</td>
 									</tr>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${list}" var="dto">
+										<tr class="memberList" style="text-align: center;">
+											<td class="id">${dto.id}</td>
+											<td class="nickname">${dto.nickname}</td>
+											<td>${dto.signup_date}</td>
+											<td>
+												<button type="button" id="insertBtn" class="btn btn-dark">추가</button>
+												<div id="reason" hidden>
+													<label for="reason" class="form-label">사유를 입력해주세요.</label>
+													<input type="text" id="reason" name="reason">
+													<button type="button" id="saveBtn" class="btn btn-dark">저장</button>
+													<button type="button" id="cancelBtn" class="btn btn-dark">취소</button>
+												</div>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+				</form>
 			</div>
 			<div class="row">
 				<div class="col d-flex justify-content-end">
@@ -76,49 +84,57 @@ li {
 		</div>
 	</div>
 	<script>
-	// 전체 선택
-	$("#checkAll").on('click', function() {
-		if($("#checkAll").prop("checked")) {
-			$("input[name=checkOne]").prop("checked", true)
-		}else {
-			$("input[name=checkOne]").prop("checked", false)
-		}
-	});
-	
-	// 선택 추가
-	$(document).on("click", '#insertBtn', function() {
-		var cnt = $("input[name='checkOne']:checked").length;
-		var list = [];
-		$("input[name='confirm']:checked").each(function(i) {
-			list.push($(this).val());
-		});
+		// 추가
+		$("#insertBtn").on('click', function() {
+			$("#insertBtn").hide();
+			$("#reason").removeAttr("hidden");
+		})
+		
+		$("#cancelBtn").on('click', function() {
+			$("#reason").hide();
+			$("#insertBtn").show();
+			location.href = "/blacklist/toInsert.do";
+		})
 
-		if (cnt == 0) {
-			alert("추가할 항목을 선택해주세요.");
-		}else {
-			var confirm = confirm("블랙리스트에 추가하시겠습니까?");
-			if(confirm) {
-				$.ajax({
-					url : "/blacklist/insert.do",
-					type : "post",
-					data : ,
-					success : function(jdata) {
-						if(jdata = 1) {
-							alert("블랙리스트에 추가되었습니다.");
-							location.replace("list");
-						}else {
-							alert("추가에 실패하였습니다. 다시 시도해 주세요.");
+
+		$("#saveBtn").click(function() { 
+			let id = $(this).parents("tr").find(".id").html();
+	        let nickname = $(this).parents("tr").find(".nickname").html();
+			var reason = $(this).parent().eq(0).find('input').val();
+			console.log(id +", "+ nickname +", "+ reason);
+			
+			if(!reason) {
+				confirm("사유를 입력해주세요.");
+			}else {
+				var confirm_val = confirm("해당 회원을 블랙리스트에 추가하시겠습니까?");
+				if(confirm_val) {
+					$.ajax({
+						url : "/blacklist/insert.do",
+						type : "post",
+						data : {
+							"id" : id,
+							"nickname" : nickname,
+							"reason" : reason}
+					}).done(function(rs) {
+						if(rs == "success") {
+							alert("회원을 블랙리스트에 추가하였습니다.");
+							location.href = "/blacklist/toBlacklist.do";
+						}else if(rs == "fail") {
+							alert("블랙리스트 추가에 실패하였습니다. 다시 시도해주세요.");
+							location.hrdf = "/blacklist/toInsert.do";
 						}
-					}
-				});
+					}).fail(function(e) {
+						console.log(e);
+					})
+				}
 			}
-		}
-	});
+		});
 	
-	// 뒤로가기
-	$("#backBtn").on("click", function(){
-		location.href = "${pageContext.request.contextPath}/blacklist/toBlacklist.do";
-	});
+		
+		// 뒤로가기
+		$("#backBtn").on("click", function() {
+			location.href = "${pageContext.request.contextPath}/blacklist/toBlacklist.do";
+		});
 	</script>
 </body>
 

@@ -265,7 +265,6 @@ a:hover {
 				</div>
 				<div class="col-9" style="text-align: right;">
 					<button type="button" id="btnToInsert" class="btn btn-dark">추가</button>
-					<button type="button" id="modifyBtn" class="btn btn-dark">수정</button>
 					<button type="button" id="deleteBtn" class="btn btn-dark">삭제</button>
 				</div>
 			</div>
@@ -275,7 +274,7 @@ a:hover {
 						<table class="table table-hover">
 							<thead>
 								<tr style="text-align: center;">
-									<th class="col-1"><input type="checkbox" id="checkAll"></th>
+									<th class="col-1"><input type="checkbox" class="checkBox" id="checkAll"></th>
 									<th class="col-2">아이디</th>
 									<th class="col-2">닉네임</th>
 									<th class="col-4">사유</th>
@@ -293,7 +292,7 @@ a:hover {
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
 											<tr class="blacklist" style="text-align: center;">
-												<td><input type="checkbox" class="checkOne"
+												<td><input type="checkbox" class="checkBox"
 													name="checkOne" value="${dto.id}"></td>
 												<td>${dto.id}</td>
 												<td>${dto.nickname}</td>
@@ -440,9 +439,10 @@ a:hover {
 		$(document).on("click", '#deleteBtn', function() {
 			var cnt = $("input[name='checkOne']:checked").length;
 			var arr = new Array();
+			console.log("ih");
 			
 			$("input[name='checkOne']:checked").each(function() {
-				arr.push($(this).attr('id'));
+				arr.push(this.value);
 			});
 
 			if (cnt == 0) {
@@ -453,13 +453,19 @@ a:hover {
 					$.ajax({
 						url : "/blacklist/delete.do",
 						type : "post",
-						data : "text",
-						dataType : "json",
-						success : alert("삭제되었습니다."),
-						error : function() {
-							alert("삭제에 실패하였습니다. 다시 시도해 주세요.");
+						data : {"blacklist" : arr}
+					}).done(function(rs){
+						console.log(rs);
+						if(rs == "success") {
+							alert("블랙리스트 삭제가 완료되었습니다.");
+							location.href = "/blacklist/toBlacklist.do";
+						} else if(rs == "fail"){
+							alert("삭제를 실패하였습니다. 다시 시도해주세요.");
+							location.href = "/blacklist/toBlacklist.do";
 						}
-					});
+					}).fail(function(e){
+						console.log(e);
+					})
 				}
 			}
 		});

@@ -20,11 +20,8 @@
 
 	<!-- 등록 -->
 	<insert id="insert" parameterType="infoDTO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			select seq_info.nextval as seq_info from tbl_info
-		</selectKey>
 		insert into tbl_info values
-			(seq_info, #{admin_id}, #{info_title}, #{info_content}, sysdate)
+			(seq_info.nextval, #{admin_id}, #{info_title}, #{info_content}, sysdate)
 	</insert>
 	
 	<!-- 수정 -->

@@ -379,7 +379,7 @@ a:hover {
 
 			$("#faqForm").submit();
 			$("#backBtn").display();
-			$("deleteBtn").display();
+			$("#deleteBtn").display();
 		})
 
 		// 뒤로가기 
