@@ -24,4 +24,9 @@ public class HomeController {
 		
 		return "terms";
 	}
+	
+	@RequestMapping(value = "/toError")
+	public String toError() {
+		return "error";
+	}
 }

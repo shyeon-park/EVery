@@ -390,11 +390,11 @@ font-size: 0.8rem
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
 				<p>개인정보취급담당자: 이수희</p>
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
+			<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -442,7 +442,7 @@ font-size: 0.8rem
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="footerBtnAdd">
       <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
       </div>
     </div>

@@ -518,7 +518,7 @@ a:hover {
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="footerBtnAdd">
       <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
       </div>
     </div>
@@ -532,13 +532,13 @@ a:hover {
             <p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
             <p>개인정보취급담당자: 이수희</p>
             <p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-            <div class="row footer-top">
-               <ul>
-                  <li><a href="">이용약관</a></li>
-                  <li><a href="">개인정보처리방침</a></li>
-                  <li><a href="">고객지원</a></li>
-               </ul>
-            </div>
+          <div class="row footer-top">
+					<ul>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+					</ul>
+				</div>
          </div>
          <div class="col-12 col-xl-6 footer-body-right">
             <p>고객센터</p>
@@ -733,7 +733,11 @@ a:hover {
    
       /* 컬럼리스트 관리 영역 */
       
+<<<<<<< HEAD
    ws = new WebSocket("ws://54.180.98.142:8080/column");
+=======
+   ws = new WebSocket("ws://13.209.89.225:8080/column");
+>>>>>>> 29a49e900e4f0f2fdecd14aef224bf45fcccf90e
 
    $('#approval').on("click",function(e){
         var approvaList = new Array(); // 배열 선언
@@ -848,7 +852,7 @@ a:hover {
          	notCheckedcount = msgObj.notCheckedcount
 			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
 			$("#bell_text").empty();
-			$(".modal-footer").empty();
+			$("#footerBtnAdd").empty();
 			$("#bell_text").append(notCheckedcount);
                 
              if(msgObj.getColumAppList != null){
@@ -885,7 +889,7 @@ a:hover {
 				if(msgObj.category == "getUncheckedList"){
 					let uncheckedList = msgObj.uncheckedList
 					$("#listPrint").empty();
-					$(".modal-footer").empty();
+					$("#footerBtnAdd").empty();
 					for(newMsg of uncheckedList){
 						let newTr = $("<tr>");
 						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
@@ -896,7 +900,7 @@ a:hover {
 					}	
 					
 					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
-					$(".modal-footer").append(newBtn);
+					$("#footerBtnAdd").append(newBtn);
 				//확인된 목록
 				}else if(msgObj.category == "getCheckedList"){
 					$("#listPrint").empty();
@@ -911,7 +915,7 @@ a:hover {
 					}
 					
 					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
-					$(".modal-footer").append(newBtn);
+					$("#footerBtnAdd").append(newBtn);
 				}
    }
     

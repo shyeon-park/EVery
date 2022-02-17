@@ -359,6 +359,43 @@ a:hover {
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
+	
+	<!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" id="footerBtnAdd">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+=======
+>>>>>>> 1fd3c00f6d4615c2f820431ff964bd5c90ccd8c3
 	<div class="footer">
 
 		<div class="row footer-body">
@@ -368,9 +405,9 @@ a:hover {
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>

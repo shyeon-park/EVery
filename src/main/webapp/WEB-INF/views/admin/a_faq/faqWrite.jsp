@@ -16,6 +16,7 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <!-- 서머노트 -->
 <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
 <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
@@ -430,12 +431,61 @@ a:hover {
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" id="footerBtnAdd">
 					<!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- modal script -->
+ 	<script>	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+    }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
+	</script>
+	
 
 	<div class="footer">
 
@@ -444,11 +494,11 @@ a:hover {
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
 				<p>개인정보취급담당자: 이수희</p>
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
+			<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>

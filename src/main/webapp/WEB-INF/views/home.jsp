@@ -538,7 +538,7 @@ function getList(id,printId, num, mnList){
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="footerBtnAdd">
       <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
       </div>
     </div>
@@ -1393,7 +1393,7 @@ function getList(id,printId, num, mnList){
     	var naverLogin = new naver.LoginWithNaverId(
     			{
     				clientId: "MJ4BRMl5k9pVssgoUg87", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-    				callbackUrl: "http://54.180.98.142:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+    				callbackUrl: "http://13.209.89.225:8080/member/getNaverPopup.do", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
     				isPopup: true,
     				//callbackHandle: true,
     				loginButton: {color: "green", type: 1, height: 40}

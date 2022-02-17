@@ -39,7 +39,6 @@
 			<exclude-mapping path="/admin/adminLogin.do" />
 			<exclude-mapping path="/admin/toClientSupport.do" />
 
-
 			<beans:bean id="adminInterceptor"
 				class="every.com.utils.AdminInterceptor" />
 
@@ -50,11 +49,14 @@
 			<mapping path="/**" />
 			
 			<exclude-mapping path="/admin/**" />
-			
+
 			<exclude-mapping path="/" />
 			<exclude-mapping path="/station/**" />
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
+
+			<exclude-mapping path="/terms" />
+			
 
 
 			<!-- 멤버 -->
@@ -137,6 +139,7 @@
 			<exclude-mapping path="/board/deleteManager.do" />
 			
 
+
 			<!-- review -->
 			<exclude-mapping path="/review/getReview.do" />
 
@@ -146,7 +149,6 @@
 
 
 	</interceptors>
-
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -18,6 +18,8 @@
 	crossorigin="anonymous">
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -274,6 +276,33 @@ a:hover {
 	border-radius: 100%;
 	text-align: center;
 }
+
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
+	position: relative;
+	}
+    #bell_text{
+      position: absolute;
+      color: white;
+      font-weight: 700;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
+      display: inline-block;
+      background-color: red;
+      border-radius: 100%;
+      text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -537,11 +566,11 @@ a:hover {
 				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
 				<p>개인정보취급담당자: 이수희</p>
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
+			<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -589,6 +618,103 @@ a:hover {
 				$('.tabmenu').removeClass('current');
 			    $('.tabContents').removeClass('current');
 
+			    $("#a_info").addClass('current');
+			    $("#adminInfo").addClass('current');
+			    
+			    getInfoList();
+			} else {
+			}
+		}
+	}
+	
+	// 공지사항 목록 불러오기
+	function getInfoList() {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/info/getInfoList.do",
+			type: "get",
+			dataType: "json"
+		}).done(function(rs){
+			console.log(rs);
+			$("#infoList").empty();
+			if(rs == "") {
+				let infoList = "<tr><td colspan='6' style='text-align: center;'>등록된 공지가 없습니다.</td></tr>";
+				$("#infoList").append(infoList);
+			} else {
+				for(list of rs) {
+					let infoList = "<tr><td style='text-align: center;'>"+
+								   "<a href='${pageContext.request.contextPath}/info/toAInfoDetail.do?seq_info=" + list.seq_info + "'>" + list.info_title + "</a></td>" +
+					  			   "<td style='text-align: center;'>" + list.admin_id + "</td>" +
+					  			   "<td style='text-align: center;'>" + list.info_written_date + "</td></tr>";
+					$("#infoList").append(infoList);
+				}
+
+			});
+		});
+	</script>
+	<!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" id="footerBtnAdd">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+	
+	 <!-- modal script -->
+
+	<script>
+	$(document).ready(function(){
+		currentSelect();
+		getInfoList();
+	})
+	
+	function currentSelect() {
+		if("${view}" != null || "${view}" != ""){
+			let view = "${view}";
+			console.log(view);
+			
+			if(view == "faq") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
+			    $("#a_faq").addClass('current');
+			    $("#faq").addClass('current');
+			    
+			    getFaqList();
+			} else if (view == "qna") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
+			    $("#a_qna").addClass('current');
+			    $("#qna").addClass('current');
+			    
+			    getQnaList();
+			} else if (view == "info") {
+				$('.tabmenu').removeClass('current');
+			    $('.tabContents').removeClass('current');
 			    $("#a_info").addClass('current');
 			    $("#adminInfo").addClass('current');
 			    

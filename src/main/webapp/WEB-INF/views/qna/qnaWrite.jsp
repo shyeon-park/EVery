@@ -15,6 +15,7 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 	<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
+	<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 	
 
 
@@ -378,37 +379,7 @@ li {
 	})
 	</script>
 	</div>
-	<div class="footer">
-
-		<div class="row footer-body">
-			<div class="col-12 col-xl-6 footer-body-left">
-				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
-				<p>개인정보취급담당자: 이수희</p>
-				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
-					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-12 col-xl-6 footer-body-right">
-				<p>고객센터</p>
-				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
-				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
-				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-		</div>
-
-	</div>
-
-
+	
 		
 <!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -437,45 +408,13 @@ li {
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="footerBtnAdd">
       <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
       </div>
     </div>
   </div>
 </div>
-	<!-- bell-Modal -->
-<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modalcontainer">
-          <div class="row">
-            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
-            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
-          </div>
-          <div class="row">
-           <table class="table">
-                <tr class="text-center">
-                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
-                  <th class="">시간</th>
-                  <th class="">메세지</th>
-                </tr>
-            <tbody id="listPrint">
-            </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
-      </div>
-    </div>
-  </div>
-</div>
+
 	<!-- modal script -->
  	<script>	
  	//체크박스
@@ -524,6 +463,38 @@ li {
 		 	 }
 	}
 	</script>
+	
+	<div class="footer">
+
+		<div class="row footer-body">
+			<div class="col-12 col-xl-6 footer-body-left">
+				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
+				<p>개인정보취급담당자: 이수희</p>
+				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
+				<div class="row footer-top">
+					<ul>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-12 col-xl-6 footer-body-right">
+				<p>고객센터</p>
+				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
+				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
+				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
+		</div>
+
+	</div>
+
+
 	<script>
 		$(function() {
 
@@ -565,7 +536,9 @@ li {
 			});
 		});
 	</script>
-	
+
+
+
 	<!-- Channel Plugin Scripts -->
 	<script>
 		  (function() {
@@ -614,5 +587,6 @@ li {
 	</script>
 	
 	<!-- End Channel Plugin -->
+
 </body>
 </html>

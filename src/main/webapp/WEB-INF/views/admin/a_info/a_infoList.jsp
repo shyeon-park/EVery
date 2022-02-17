@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>블랙리스트</title>
+<title>EVery 관리자</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -211,7 +211,7 @@ a:hover {
             <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
+            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
          </div>
          <c:choose>
          	<c:when test="${!empty adminLoginSession}">
@@ -250,7 +250,7 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
+         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>
@@ -258,59 +258,57 @@ a:hover {
    </div>
    
 	<div class="main">
-		<div class="row infoDiv"
-			style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
-			<div class="col-12" style="text-align: center;">
-				<h2>관리자 블랙리스트 관리</h2>
-			</div>
-		</div>
 		<div class="container">
 			<div class="row mt-4">
-				<div class="col-3 suv_title_div">
-					<h3>블랙리스트</h3>
-				</div>
-				<div class="col-9" style="text-align: right;">
-					<button type="button" id="btnToInsert" class="btn btn-dark">추가</button>
-					<button type="button" id="deleteBtn" class="btn btn-dark">삭제</button>
+				<div class="col-12 main_title_div">
+					<h3>공지사항</h3>
 				</div>
 			</div>
-			<div class="row mt-4" id="content">
-				<div class="col">
-					<form id="blacklist">
+			<div class="row mt-4">
+				<div class="col-12" style="text-align: right;">
+					<button type="button" id="writeBtn" class="btn btn-dark">글쓰기</button>
+				</div>
+			</div>
+			<form id="infoForm"
+				action="${pageContext.request.contextPath}/info/infoList.do"
+				method="post">
+				<div class="row mt-5">
+					<div class="col-12 list_all_div" style="height: 469px;">
 						<table class="table table-hover">
 							<thead>
 								<tr style="text-align: center;">
-									<th class="col-1"><input type="checkbox" class="checkBox" id="checkAll"></th>
-									<th class="col-2">아이디</th>
-									<th class="col-2">닉네임</th>
-									<th class="col-4">사유</th>
-									<th class="col-3">추가일</th>
+									<th class="col-5">제목</th>
+									<th class="col-3">작성자</th>
+									<th class="col-3">작성일</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="infoList">
 								<c:choose>
 									<c:when test="${empty list}">
 										<tr>
-											<td colspan="6" style="text-align: center;">등록된 블랙리스트가
+											<td colspan="6" style="text-align: center;">등록된 공지가
 												없습니다.</td>
 										</tr>
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
-											<tr class="blacklist" style="text-align: center;">
-												<td><input type="checkbox" class="checkBox"
-													name="checkOne" value="${dto.id}"></td>
-												<td>${dto.id}</td>
-												<td>${dto.nickname}</td>
-												<td>${dto.reason}</td>
-												<td>${dto.black_date}</td>
+											<tr class="infoList" style="text-align: center;">
+												<td><a
+													href="${pageContext.request.contextPath}/info/toAInfoDetail.do?seq_info=${dto.seq_info}">${dto.info_title}</a></td>
+												<td>관리자</td>
+												<td>${dto.info_written_date}</td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
 								</c:choose>
 							</tbody>
 						</table>
-					</form>
+					</div>
+				</div>
+			</form>
+			<div class="row">
+				<div class="col d-flex justify-content-end">
+					<button type="button" class="btn btn-secondary" id="backBtn">뒤로가기</button>
 				</div>
 			</div>
 		</div>
@@ -358,9 +356,9 @@ a:hover {
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
-						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
-						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+						<li><a href="">이용약관</a></li>
+						<li><a href="">개인정보처리방침</a></li>
+						<li><a href="">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -376,110 +374,26 @@ a:hover {
 				ⓒ EVery Inc. All Rights Reserved.	
 			</div>
 		</div>
-
 	</div>
-	 <!-- modal script -->
- 	<script>	
- 	//체크박스
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'newMsgAll'){
-        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
-        else  $("input[name=newMsg]").prop("checked", false)
-        }});
-	
-	//벨 이모티콘 클릭시 list 출력
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'bell'){
-        	ws.send("getUncheckedList");
-    }});
-	
-	
-	function messageCheck(){
-			 let list = new Array(); // 배열 선언
-		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-		 		list.push(this.value);
-		 	 });
-			 	 if(list.length != 0){
-			 		//console.log(list)
-			 		let msg = { category: "msgCheck", list: list };
-			 		let msgToJson = JSON.stringify(msg);
-			 		ws.send(msgToJson);
-			 		
-				 }else{
-			 		 alert("확인할 메세지를 선택하세요.")
-			 	 }
-		}
-	
-	function deleteMsg(){
-		 let list = new Array(); // 배열 선언
-	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-	 		list.push(this.value);
-	 	 });
-		 	 if(list.length != 0){
-		 		//console.log(list)
-		 		let msg = { category: "msgDel", list: list };
-		 		let msgToJson = JSON.stringify(msg);
-		 		ws.send(msgToJson);
-		 		
-			 }else{
-		 		 alert("확인할 메세지를 선택하세요.")
-		 	 }
-	}
-	</script>
+
 	<script>
-		// 추가 페이지 이동 요청
-		document.getElementById("btnToInsert").onclick = function() {
-			location.href = "${pageContext.request.contextPath}/blacklist/toInsert.do";
+		
+		// 뒤로가기 
+		$("#backBtn")
+				.on(
+						"click",
+						function() {
+							location.href = "${pageContext.request.contextPath}/admin/toAClientSupport.do";
+						});
+		
+		// 글쓰기
+	    document.getElementById("writeBtn").onclick = function() {
+			location.href = "${pageContext.request.contextPath}/info/toWrite.do";
 		}
-
-		// 전체 선택
-		$("#checkAll").on('click', function() {
-			if ($("#checkAll").prop("checked")) {
-				$("input[name=checkOne]").prop("checked", true)
-			} else {
-				$("input[name=checkOne]").prop("checked", false)
-			}
-		});
-
-		// 선택 삭제
-		$(document).on("click", '#deleteBtn', function() {
-			var cnt = $("input[name='checkOne']:checked").length;
-			var arr = new Array();
-			console.log("ih");
-			
-			$("input[name='checkOne']:checked").each(function() {
-				arr.push(this.value);
-			});
-
-			if (cnt == 0) {
-				alert("삭제할 항목을 선택해주세요.");
-			}else {
-				var confirm_val = confirm("정말 삭제하시겠습니까?");
-				if (confirm_val) {
-					$.ajax({
-						url : "/blacklist/delete.do",
-						type : "post",
-						data : {"blacklist" : arr}
-					}).done(function(rs){
-						console.log(rs);
-						if(rs == "success") {
-							alert("블랙리스트 삭제가 완료되었습니다.");
-							location.href = "/blacklist/toBlacklist.do";
-						} else if(rs == "fail"){
-							alert("삭제를 실패하였습니다. 다시 시도해주세요.");
-							location.href = "/blacklist/toBlacklist.do";
-						}
-					}).fail(function(e){
-						console.log(e);
-					})
-				}
-			}
-		});
 	</script>
-
-
 	<script>
 		$(function() {
+
 			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
 			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
 				if (onNavbar == 0) {
@@ -487,21 +401,26 @@ a:hover {
 						"height" : "auto",
 						"display" : "block"
 					}); // 세로 네비영역 열기
-					$('.main').css({"padding-top" : "10px"});
+					$('.main').css({
+						"padding-top" : "10px"
+					});
 					onNavbar = 1;
 					$('html, body').animate({
-		                scrollTop : 0
-		            }, 100);
-		            return false;
+						scrollTop : 0
+					}, 100);
+					return false;
 				} else {
 					$('.navi-onButtons').css({
 						"height" : "0",
 						"display" : "none"
 					}); //세로 네비영역 닫기
-					$('.main').css({"padding-top" : "92px"});
+					$('.main').css({
+						"padding-top" : "92px"
+					});
 					onNavbar = 0;
 				}
 			});
+
 			$(window).resize(function() { //브라우저 크기를 조정했을때
 				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
 					$('.navi-onButtons').css({
