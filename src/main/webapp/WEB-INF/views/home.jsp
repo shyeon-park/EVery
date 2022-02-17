@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');

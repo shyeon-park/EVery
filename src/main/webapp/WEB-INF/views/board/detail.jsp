@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">  
 <title>상세보기</title>

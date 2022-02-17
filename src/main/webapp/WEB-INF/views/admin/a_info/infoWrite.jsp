@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
 <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 
 <title>자주 묻는 질문 작성</title>
 </head>

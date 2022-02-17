@@ -1,7 +1,8 @@
 package every.com.blacklist;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,11 @@ public class blacklistDAO {
 		return session.insert("blacklistMapper.insert", dto);
 	}
 	
-	// 블랙 사유 수정
-	public int modify(String reason) throws Exception {
-		return session.update("blacklistMapper.modify", reason);
-	}
-	
 	// 블랙리스트 삭제
-	public int delete(String id) throws Exception {
-		return session.delete("blacklistMapper.delete", id);
+	public int delete(String[] blacklist) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("blacklist", blacklist);
+		return session.delete("blacklistMapper.delete", map);
 	}
 		
 

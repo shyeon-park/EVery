@@ -15,6 +15,7 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
  <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
   <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">

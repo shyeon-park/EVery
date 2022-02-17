@@ -21,6 +21,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <style>
 @import

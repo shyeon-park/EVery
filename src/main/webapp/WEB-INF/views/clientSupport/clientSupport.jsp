@@ -12,6 +12,7 @@
 <script src="https://kit.fontawesome.com/5d169e4fe1.js" crossorigin="anonymous"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <title>고객 지원</title>

@@ -23,18 +23,13 @@ public class blacklistService {
 	}
 		
 	// 등록
-	public void insert(blacklistDTO dto) throws Exception {
-		dao.insert(dto);
-	}
-	
-	// 수정
-	public void modify(String reason) throws Exception {
-		dao.modify(reason);
+	public int insert(blacklistDTO dto) throws Exception {
+		return dao.insert(dto);
 	}
 	
 	// 삭제
-	public void delete(String id) throws Exception {
-		dao.delete(id);
+	public int delete(String[] blacklist) throws Exception {
+		return dao.delete(blacklist);
 	}
 	
 }
