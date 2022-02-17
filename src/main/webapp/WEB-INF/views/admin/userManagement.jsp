@@ -310,7 +310,7 @@ a:hover {
       <!-- 탭메뉴 -->
       <div class="row infoDiv" id="tab">
          <div class="col-6 tabmenu current" data-tab="userInfoManage">회원관리</div>
-         <div class="col-6 tabmenu" data-tab="columnistManage">컬럼니스트 관리</div>
+         <div class="col-6 tabmenu" data-tab="columnistManage">칼럼리스트 관리</div>
       </div>
       
       <!-- 회원관리 영역 -->

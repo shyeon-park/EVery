@@ -208,10 +208,27 @@ public class ColumnEndPoint {
 				return;
 			}
 		}else if (message.equals("Cancel")) {
+			
+			//관리자 리스트를 가져온다. 
+			ArrayList<AdminDTO> list = null;
+			try {
+				 list = (ArrayList) adiminService.managerList();
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			//칼럼리스트 취소시
 			//String id = ((MemberDTO) this.httpSession.getAttribute("loginSession")).getId();
 			service.cancelColumnList(id);
+			
 			String nickname = ((MemberDTO) this.httpSession.getAttribute("loginSession")).getNickname();
+			String msg = nickname+"님 컬럼리스트 취소되었습니다.";
+			try {
+				int rs = messageService.messageInsert(id, nickname,msg);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("category", message);
 			try {
@@ -219,15 +236,30 @@ public class ColumnEndPoint {
 					for (Session client : clients) {
 						if (client.equals(session)) {
 							int notCheckedcount = messageService.notCheckedcount(id);
-							String msg = nickname+"님 컬럼리스트 취소되었습니다.";
-							int rs = messageService.messageInsert(id, nickname,msg);
+							System.out.println("현재 자신의 아이디는 " + id);
+						
 							map.put("notCheckedcount", notCheckedcount);
 							MemberDTO memDto = service.getMemberDTO(id);
 							map.put("memDto", memDto);
 							ArrayList<MemberDTO> mc = (ArrayList)messageService.messageCheckList(id);
-							map.put("notCheckedcount", notCheckedcount);
 							String jObj = gson.toJson(map).toString();
 							client.getBasicRemote().sendText(jObj.toString());
+						}else {
+							if(list != null) {
+								for (AdminDTO dto : list) {
+									//현재 접속한 세션이 있으면, 
+									HttpSession httpSessionList = sessionMap.get(client);
+									if (httpSessionList.getAttribute("adminLoginSession") != null){
+										String adminID = ((AdminDTO)httpSessionList.getAttribute("adminLoginSession")).getAdmin_Id();
+										ArrayList<MemberDTO> approvalColumnList = (ArrayList)service.getApprovalColumnList();
+										map.put("approvalColumnList", approvalColumnList);
+										int notCheckedcount = messageService.notCheckedcount(adminID);
+										map.put("notCheckedcount", notCheckedcount);
+										String jObj = gson.toJson(map).toString();
+										client.getBasicRemote().sendText(jObj.toString());
+									}
+								}
+							}
 						}
 					}
 				  }
@@ -421,7 +453,7 @@ public class ColumnEndPoint {
 								for (Session client : clients) {
 									if (client.equals(session)) {
 										//String id = ((MemberDTO) this.httpSession.getAttribute("loginSession")).getId();
-										System.out.println(id);
+										
 										ArrayList<MemberDTO> mnc = (ArrayList)messageService.messageNotCheckList(id);
 										int notCheckedcount = messageService.notCheckedcount(id);
 										map.put("notCheckedcount", notCheckedcount);

@@ -935,6 +935,13 @@ a:hover {
          //console.log( e.data );
          let msgObj = JSON.parse(e.data);
          console.log(msgObj);
+         
+         notCheckedcount = msgObj.notCheckedcount
+			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+			$("#bell_text").empty();
+			$(".modal-footer").empty();
+			$("#bell_text").append(notCheckedcount);
+         
          memDTO = msgObj.memDto;
       
          console.log()

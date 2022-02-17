@@ -69,6 +69,12 @@
 			<!-- 관리자 -->
 			<exclude-mapping path="/admin/adminLogin.do"/>
 			<exclude-mapping path="/admin/getAdminUser.do"/>
+			<exclude-mapping path="/admin/columManager.do"/>
+			<exclude-mapping path="/board/deleteManager.do"/>
+			<exclude-mapping path="/review/toAdReview.do"/>
+			<exclude-mapping path="/review/searchByKey.do"/>
+			<exclude-mapping path="/review/deleteManager.do"/>
+			<exclude-mapping path="/review/getAdReview.do"/>
 			
 			
 			<!-- 보드 -->
