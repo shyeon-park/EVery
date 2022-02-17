@@ -1213,6 +1213,7 @@ function getList(id,printId, num, mnList){
                 location.href = "${pageContext.request.contextPath}/member/logout.do";
             </c:otherwise>
         </c:choose>
+        document.cookie = "ch-session-75593=;Expires=Sat, 01 Jan 2022 00:00:10 GMT";
     }
 	</script>
 	
