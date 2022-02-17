@@ -440,7 +440,7 @@ font-size: 0.8rem
 		});
 		// 뒤로가기 
 		$("#cancelBtn").on("click", function(){
-			location.href = "${pageContext.request.contextPath}/board/toBoard.do";
+			history.back();
 		});
 		// 삭제 페이지 요청
 		document.addEventListener('click',function(e){

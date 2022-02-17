@@ -5,12 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>컬럼_관리자</title>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
-<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">  
+<title>상세보기</title>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -180,11 +191,18 @@ a:hover {
 	background-color: #ccc;
 }
 
-/* 알림 */
-#bellBox{
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
 	position: relative;
 	}
-	
     #bell_text{
       position: absolute;
       color: white;
@@ -199,6 +217,33 @@ a:hover {
       border-radius: 100%;
       text-align: center;
     }
+    
+    .container{
+width: 100%;
+height: 100%;
+}
+
+#content-box{
+box-sizing: border-box;
+width: 100%;
+}
+#content{
+width: 100%;
+height: 100%;
+}
+#title{
+background: #ccc;
+text-align: center;
+font-weight: bold;
+border: none;
+font-size: 1.5rem
+}
+#written_date{
+background: #ccc;
+text-align: center;
+border: none;
+font-size: 0.8rem
+}
 </style>
 </head>
 <body>
@@ -267,124 +312,110 @@ a:hover {
    </div>
    
 	<div class="main">
+	
 		<div class="container">
-            <h3>칼럼관리</h3>
-            <table class="table">
-            <thead>
-            <tr>
-                <th class= "text-center"><input type="checkbox" id="cbx_chkAll"></th>
-                <th class= "text-center">칼럼제목</th>
-                <th class= "text-center">칼럼리스트</th>
-            </tr>
-            </thead>
-          
-            
-            <tbody id="columnPrint">
-            
-            </tbody>
-
-            <tfoot>
-            </tfoot>
-         
-            </table>
-            <div class="row">
-            <div id ="navi" class="col-12 d-flex justify-content-between"></div>
-            </div>
-        </div>
-        <script>
-        
-    	document.addEventListener('click',function(e){
-            if(e.target.id == 'cbx_chkAll'){
-            if ($("#cbx_chkAll").prop("checked"))  $("input[name=columId]").prop("checked", true)
-            else  $("input[name=columId]").prop("checked", false)
-        }});
-    	
-    	
-    	document.addEventListener('click',function(e){
-    		 if(e.target.id == 'delBtn'){
-    			 var delList = new Array(); // 배열 선언
-    	   	 	 $('input:checkbox[name=columId]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-    	   	 		delList.push(this.value);
-    	   	 	 });
-    	   	 	 
-    	   	 	 if(delList.length != 0){
-    	   	 		
-    	   	 		 
-    	   	 		$.ajax({  
-    	   	 		 url : '${pageContext.request.contextPath}/board/deleteManager.do',              
-    	   	 		 type : 'POST',
-    	   	 		 data : { "delList" : delList,},        
-    	   	 		 success : function(data){
-						console.log(data)
-						if(data == "success"){
-						    getBoardList(1)
-						}
-    	   	 		 }, 
-    	   	 		 error : function (e){
-							console.log(e.data)
-	    	   	 		}
-    	   	 		 }); 
-    	   	 		 
-    	   	
-    	   	 	 }else{
-    	   	 		 alert("삭제할 컬럼을 선택하세요.")
-    	   	 	 }
-    		 }
-   	 	
-   		})
-    	
-        getBoardList(1)
-		function getBoardList(currentPage){
-			$.ajax({
-				type: "post", //요청 메소드 방식
-				url:"${pageContext.request.contextPath}/admin/boardlist.do?currentPage="+currentPage,
-				success : function(res){
-					console.log(res);
-					$("#columnPrint").empty();
-					$("#navi").empty();
-					let data = res.list
-					if(data == null || data =="" ){
-						let list = "리스트가 비어있습니다"
-						$(".list").append(list)
-					}else{
-						for(board of data){
-							let list = "<tr>"
-								   +"<td class='text-center'><input type='checkbox' name = 'columId' value='"+board.seq_column+"'></td>"
-							  	   +"<td class='text-center'>"
-							  	   + "<a href='${pageContext.request.contextPath}/admin/columnDetail.do?seq_column="+board.seq_column+"' class='atag'>"
-							  	   +board.title+"</a></td>"
-							  	   +"<td class='text-center'>"+board.nickname+"</td>"
-							       +"</tr>"
-							       $("#columnPrint").append(list);
-						  }
-						
+		
+			<div class="row">
+				<div class="col d-flex justify-content-center">
+					<input type="text" class="form-control" id="title" name="title" value="${seq_column}" readonly>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+			  		<input type="text" class="form-control" id="written_date" name="written_date" value="" readonly>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="col" id="content-box">
+			  		<div class="col-12" id="content" name="content"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+			  		<input type="text" class="form-control" name="id" value="" hidden>			  		
+				</div>
+			</div> 
+			<div class="row">
+				<div class="col d-flex justify-content-end" id="detail-footer">
+					<button type="button" class="btn me-3" id="cancelBtn">뒤로가기</button>
 					
-						  let startNavi = res.startNavi
-						  let endNavi = res.endNavi
-						  let navi = "<nav aria-label='Page navigation example'>"
-							  		+"<ul class='pagination d-flex justify-content-center m-0'>"
-							if(res.needPrev) navi +="<li class='page-item'><a class='page-link' onclick='getBoardList(" + startNavi + "-1);'>Prev</a></li>"
-							for(let i = startNavi; i<=endNavi; i++){
-								navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" + i + ");'>" + i + "</a></li>"
-							}
-							if(res.needNext) navi += "<li class='page-item'><a class='page-link' onclick='getBoardList(" +endNavi+ "+1);'>Next</a></li>"
+				</div>
+			</div>
+		</div>
+		
+	</form>
+    	
+	<script>
+	
+	
+		$.ajax({
+			type: "post", //요청 메소드 방식
+			url:"${pageContext.request.contextPath}/admin/toDetail.do?seq_column=${seq_column}",
+			//dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
+			success : function(data){
+			
+			//console.log(data);
+				//console.log(data.content);
+				 let date = data.written_date.replace(/,/,"")
+							let written_date = date.split(" ");
+							date = written_date[2]+"년 "+written_date[0]+" "+written_date[1]+"일"
+				content = data.content
+				$("#title").val(data.title)
+				$("#written_date").val(date)
+				//$("#writer_nickname").val(data.writer_nickname)
+				$("#content").append(content);
+							
 
-							navi +="</ul>"
-							navi += "</nav>"
-							navi += "<button type='button' class='btn' id='delBtn'>삭제</button>";
-							$("#navi").append(navi)
+			},
+			error : function(e){
+				//console.log(e);
+			}
+		});
 	
-						
-					}
-				},
-				error : function(e){
-					console.log(e);
-				}
-			});
-		}
-        </script>
 	
-	<!-- bell-Modal -->
+	
+		// 뒤로가기 
+		$("#cancelBtn").on("click", function(){
+			history.back();
+		});
+
+		
+	</script>
+	</div>
+	<div class="footer">
+		
+		<div class="row footer-body">
+			<div class="col-12 col-xl-6 footer-body-left">
+				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
+				<p>개인정보취급담당자: 이수희</p>
+				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
+				<div class="row footer-top">
+					<ul>
+						<li><a href="">이용약관</a></li>
+						<li><a href="">개인정보처리방침</a></li>
+						<li><a href="">고객지원</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-12 col-xl-6 footer-body-right">
+				<p>고객센터</p>
+				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
+				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
+				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				ⓒ EVery Inc. All Rights Reserved.	
+			</div>
+		</div>
+		
+	</div>
+	
+
+		
+<!-- bell-Modal -->
 <div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -416,79 +447,9 @@ a:hover {
       </div>
     </div>
   </div>
-</div>	
-		
-		
-		
-	</div>
-	<div class="footer">
-		
-		<div class="row footer-body">
-			<div class="col-12 col-xl-6 footer-body-left">
-				<p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
-				<p>개인정보취급담당자: 이수희</p>
-				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-				<div class="row footer-top">
-					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-12 col-xl-6 footer-body-right">
-				<p>고객센터</p>
-				<p>고객문의: cs@every.com | 전화: 02-238-5354</p>
-				<p>상담시간: 평일 09:00~15:30 (점심시간 12:50~13:30)</p>
-				<p>제휴문의: marketing@every.com | 전화: 02-238-5355</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				ⓒ EVery Inc. All Rights Reserved.	
-			</div>
-		</div>
-		
-	</div>
+</div>
 
-	<script>
-		$(function() {
-			
-			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
-			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
-				if (onNavbar == 0) {
-					$('.navi-onButtons').css({
-						"height" : "auto",
-						"display" : "block"
-					}); // 세로 네비영역 열기
-					$('.main').css({"padding-top" : "10px"});
-					onNavbar = 1;
-					$('html, body').animate({
-		                scrollTop : 0
-		            }, 100);
-		            return false;
-				} else {
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					$('.main').css({"padding-top" : "92px"});
-					onNavbar = 0;
-				}
-			});
-
-			$(window).resize(function() { //브라우저 크기를 조정했을때
-				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
-					$('.navi-onButtons').css({
-						"height" : "0",
-						"display" : "none"
-					}); //세로 네비영역 닫기
-					onNavbar = 0;
-				}
-			});
-		});
-	</script>
-	 <!-- modal script -->
+	<!-- modal script -->
  	<script>	
  	//체크박스
 	document.addEventListener('click',function(e){
@@ -536,5 +497,45 @@ a:hover {
 		 	 }
 	}
 	</script>
+	
+	<script>
+		$(function() {
+			let onNavbar = 0; // 네비 햄버거버튼 클릭했는지 아닌지 알기위한 변수
+			$('#btn_navi_menu').on('click', function() { //햄버거버튼 클릭 시
+				if (onNavbar == 0) {
+					$('.navi-onButtons').css({
+						"height" : "auto",
+						"display" : "block"
+					}); // 세로 네비영역 열기
+					$('.main').css({"padding-top" : "10px"});
+					onNavbar = 1;
+					$('html, body').animate({
+		                scrollTop : 0
+		            }, 100);
+		            return false;
+				} else {
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					$('.main').css({"padding-top" : "92px"});
+					onNavbar = 0;
+				}
+			});
+
+			$(window).resize(function() { //브라우저 크기를 조정했을때
+				if (window.innerWidth > 1199) { //브라우저 크기가 1199를 넘었다면
+					$('.navi-onButtons').css({
+						"height" : "0",
+						"display" : "none"
+					}); //세로 네비영역 닫기
+					onNavbar = 0;
+				}
+			});
+		});
+	</script>
+	
+
+	
 </body>
 </html>
