@@ -4,6 +4,7 @@
 
  
  	     
+
  	    ws = new WebSocket("ws://13.209.89.225:8080/column");
 		     //메세지수신
 		ws.onmessage = function(e) {

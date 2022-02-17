@@ -281,22 +281,22 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
-		<div class="container">
+		<div style="width: 80%; margin: auto;">
 			<div class="row">
 				<div class="col d-flex justify-content-center">
 					<h2>공지사항</h2>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6">
+				<div class="col-12">
 					<label for="title" class="form-label">제목</label>
 			  		<input type="text" class="form-control" id="info_title" name="title" value="${infoDTO.info_title}" readonly>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col">
 					<label for="content" class="form-label">내용</label>
-			  		<textarea class="form-control" id="content" name="info_content" rows="10" readonly>${infoDTO.info_content}</textarea>
+			  		<textarea class="form-control" id="content" name="info_content" rows="10" readonly style="resize: none">${infoDTO.info_content}</textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -304,7 +304,7 @@ a:hover {
 			  		<input type="text" class="form-control" name="admin_id" value="${infoDTO.admin_id}" hidden>		  		
 				</div>
 			</div> 
-			<div class="row">
+			<div class="row mt-4">
 				<div class="col d-flex justify-content-end">
 					<button type="button" class="btn btn-secondary" id="backBtn">목록으로</button>
 				</div>
@@ -343,7 +343,7 @@ a:hover {
 	<script>
 		// 목록으로
 		$("#backBtn").on("click", function(){
-			location.href = "${pageContext.request.contextPath}/info/toInfoList.do";
+			location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do?view=info";
 		});
 	</script>
 	<script>

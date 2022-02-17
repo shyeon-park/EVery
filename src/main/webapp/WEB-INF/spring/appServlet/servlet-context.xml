@@ -61,8 +61,6 @@
 
 			<!-- 멤버 -->
 			<exclude-mapping path="/member/modifyPw.do" />
-			<exclude-mapping path="/member/getNaverPopup.do" />
-			<exclude-mapping path="/member/snsLogin.do" />
 			<exclude-mapping path="/member/snsLogin.do" />
 			<exclude-mapping path="/member/checkMember.do" />
 			<exclude-mapping path="/member/sendSms.do" />
@@ -77,8 +75,9 @@
 			<exclude-mapping path="/member/getMypage.do" />
 			<exclude-mapping path="/member/selectAllUser.do" />
 			<exclude-mapping path="/member/deleteMember.do" />
+			<exclude-mapping path="/member/getNaverPopup.do" />
 			<exclude-mapping path="/member/getLinkWithSns.do" />
-			
+
 			<exclude-mapping path="/info/toInfoList.do" />
 			<exclude-mapping path="/info/toDetail.do" />
 
@@ -107,6 +106,7 @@
 
 			<exclude-mapping path="/info/getInfoList.do" />
 			<exclude-mapping path="/info/toAInfoDetail.do" />
+			<exclude-mapping path="/info/toInfoList.do" />
 			<exclude-mapping path="/info/modify.do" />
 			<exclude-mapping path="/info/delete.do" />
 			<exclude-mapping path="/info/write.do" />

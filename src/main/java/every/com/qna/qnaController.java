@@ -50,7 +50,7 @@ public class qnaController {
 	@RequestMapping("/writeQuestion.do")
 	public String insertQuestion(qnaDTO dto) throws Exception {
 		int rs = service.insertQuestion(dto);
-		return "/clientSupport/clientSupport";
+		return "/clientSupport/clientSupport?view=qna";
 	
 	}
 
