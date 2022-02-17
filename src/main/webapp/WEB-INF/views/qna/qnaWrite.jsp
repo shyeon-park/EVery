@@ -333,10 +333,10 @@ li {
 	<div class="main">
 		
 <form id="qnaForm" action="${pageContext.request.contextPath}/qna/writeQuestion.do" method="post" enctype="multipart/form-data">
-		<div class="container">
+		<div style="width: 80%; margin: auto;">
 			<div class="row">
 				<div class="col d-flex justify-content-center">
-					<h2>글쓰기</h2>
+					<h2>문의쓰기</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -345,10 +345,10 @@ li {
 			  		<input type="text" class="form-control" id="title" name="qna_title" placeholder="제목을 입력하세요.">
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col">
 					<label for="content" class="form-label">내용</label>
-			  		<textarea class="form-control" id="content" name="qna_content" rows="10" placeholder="내용을 입력하세요."></textarea>
+			  		<textarea style="resize: none;" class="form-control" id="content" name="qna_content" rows="10" placeholder="내용을 입력하세요."></textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -357,10 +357,10 @@ li {
 			  		<input type="text" class="form-control" name="nickname" value="${loginSession.nickname}" hidden>			  		
 				</div>
 			</div> 
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
-					<button type="button" class="btn btn-primary" id="submitBtn">등록</button>
+					<button type="button" class="btn btn-secondary" id="cancelBtn" style="margin-right: 4px;">취소</button>
+					<button type="button" class="btn btn-dark" id="submitBtn">등록</button>
 				</div>
 			</div>
 		</div>
@@ -368,19 +368,14 @@ li {
 	<script>
 	// 취소
 	$("#cancelBtn").on("click", function(e){
-		location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do"
+		location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do?view=qna"
 	});
 
-		// 뒤로가기
-		$("#backBtn").on("click",function() {
-			location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do";
-		});
 	
-		// 문의 작성 페이지 요청
-		
-		$("#submitBtn").on("click",function() {
-			$("#qnaForm").submit();
-		})
+	// 문의 작성 페이지 요청
+	$("#submitBtn").on("click",function() {
+		$("#qnaForm").submit();
+	})
 	</script>
 	</div>
 	<div class="footer">

@@ -121,8 +121,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/toClientSupport.do")
-	public String toClientSupport() throws Exception {
-		return "/clientSupport/clientSupport";
+	public String toClientSupport(String view, Model model) throws Exception {
+		if(view != null || view != "") {
+			model.addAttribute("view", view);
+		}
+		return "clientSupport/clientSupport";
 	}
 	
 

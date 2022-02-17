@@ -35,8 +35,9 @@
 	<interceptors>
 
 		<interceptor>
-			<mapping path="/admin/" />
+			<mapping path="/admin/**" />
 			<exclude-mapping path="/admin/adminLogin.do" />
+			<exclude-mapping path="/admin/toClientSupport.do" />
 
 
 			<beans:bean id="adminInterceptor"
@@ -47,6 +48,9 @@
 		<interceptor>
 
 			<mapping path="/**" />
+			
+			<exclude-mapping path="/admin/**" />
+			
 			<exclude-mapping path="/" />
 			<exclude-mapping path="/station/**" />
 			<exclude-mapping path="/resources/**" />
@@ -71,21 +75,21 @@
 			<exclude-mapping path="/member/deleteMember.do" />
 			<exclude-mapping path="/member/getNaverPopup.do" />
 			<exclude-mapping path="/member/getLinkWithSns.do" />
-			
-			
+
 			<exclude-mapping path="/info/toInfoList.do" />
 			<exclude-mapping path="/info/toDetail.do" />
 
 
 			<!-- 관리자 -->
-			<exclude-mapping path="/admin/adminLogin.do" />
-			<exclude-mapping path="/admin/getAdminUser.do" />
-			<exclude-mapping path="/admin/columManager.do" />
-			<exclude-mapping path="/admin/getClientSupport.do" />
-			<exclude-mapping path="/admin/toClientSupport.do" />
-			
-
-			<exclude-mapping path="/board/deleteManager.do" />
+<!-- 			<exclude-mapping path="/admin/adminLogin.do" /> -->
+<!-- 			<exclude-mapping path="/admin/getAdminUser.do" /> -->
+<!-- 			<exclude-mapping path="/admin/columManager.do" /> -->
+<!-- 			<exclude-mapping path="/admin/getClientSupport.do" /> -->
+<!-- 			<exclude-mapping path="/admin/toClientSupport.do" /> -->
+<!-- 			<exclude-mapping path="/admin/columManager.do" /> -->
+<!-- 			<exclude-mapping path="/admin/toDetail.do" /> -->
+<!-- 			<exclude-mapping path="/admin/toDetail.do" /> -->
+<!-- 			<exclude-mapping path="/admin/columnDetail.do" /> -->
 
 			<exclude-mapping path="/review/toAdReview.do" />
 			<exclude-mapping path="/review/searchByKey.do" />
@@ -100,6 +104,7 @@
 
 			<exclude-mapping path="/info/getInfoList.do" />
 			<exclude-mapping path="/info/toAInfoDetail.do" />
+			<exclude-mapping path="/info/toInfoList.do" />
 			<exclude-mapping path="/info/modify.do" />
 			<exclude-mapping path="/info/delete.do" />
 			<exclude-mapping path="/info/write.do" />
@@ -129,6 +134,8 @@
 			<exclude-mapping path="/board/mainList.do" />
 			<exclude-mapping path="/board/searchProc.do" />
 			<exclude-mapping path="/board/search.do" />
+			<exclude-mapping path="/board/deleteManager.do" />
+			
 
 			<!-- review -->
 			<exclude-mapping path="/review/getReview.do" />

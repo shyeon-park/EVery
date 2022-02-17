@@ -290,10 +290,10 @@ a:hover {
 	</div>
 	<div class="main">
 		<form id="qnaForm">
-			<div class="container">
+			<div style="width: 80%; margin: auto;">
 				<div class="row">
 					<div class="col d-flex justify-content-center">
-						<h2>문의하기</h2>
+						<h2>문의확인</h2>
 					</div>
 				</div>
 				<div class="row">
@@ -308,11 +308,11 @@ a:hover {
 							value="${qnaDTO.nickname}" readonly>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mb-4">
 					<div class="col">
 						<label for="content" class="form-label">내용</label>
 						<textarea class="form-control" id="content" name="content"
-							rows="10" readonly>${qnaDTO.qna_content}</textarea>
+							rows="10" readonly style="resize: none;">${qnaDTO.qna_content}</textarea>
 					</div>
 				</div>
 				<div class="row">
@@ -321,7 +321,7 @@ a:hover {
 							value="${qnaDTO.id}" hidden>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mb-4">
 					<div class="col d-flex justify-content-end">
 						<button type="button" class="btn btn-secondary" id="backBtn">목록으로</button>
 					</div>
@@ -365,7 +365,7 @@ a:hover {
 				.on(
 						"click",
 						function() {
-							location.href = "${pageContext.request.contextPath}/qna/toMyList.do";
+							location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do?view=qna";
 						});
 	</script>
 	<script>

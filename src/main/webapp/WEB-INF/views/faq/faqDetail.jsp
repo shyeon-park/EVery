@@ -289,24 +289,25 @@ a:hover {
 		</c:choose>
 	</div>
 	<div class="main">
-		<div class="container">
+		
+		<div style="width: 80%; margin: auto;">
 			<div class="row">
 				<div class="col d-flex justify-content-center">
 					<h2>자주 묻는 질문</h2>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6">
+				<div class="col-12">
 					<label for="title" class="form-label">제목</label> <input type="text"
 						class="form-control" id="title" name="faq_title"
 						value="${faqDTO.faq_title}" readonly>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col">
 					<label for="content" class="form-label">내용</label>
 					<textarea class="form-control" id="content" name="faq_content"
-						rows="10" readonly>${faqDTO.faq_content}</textarea>
+						rows="10" readonly style="resize: none">${faqDTO.faq_content}</textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -315,11 +316,12 @@ a:hover {
 						value="${faqDTO.admin_id}" hidden>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mt-4">
 				<div class="col d-flex justify-content-end">
 					<button type="button" class="btn btn-secondary" id="backBtn">목록으로</button>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 	<div class="footer">
@@ -353,12 +355,9 @@ a:hover {
 	</div>
 	<script>
 		// 뒤로가기 
-		$("#backBtn")
-				.on(
-						"click",
-						function() {
-							location.href = "${pageContext.request.contextPath}/faq/toFaqList.do";
-						});
+		$("#backBtn").on("click",function() {
+				location.href = "${pageContext.request.contextPath}/admin/toClientSupport.do?view=faq";
+		});
 	</script>
 	<script>
 		$(function() {
