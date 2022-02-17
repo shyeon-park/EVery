@@ -216,44 +216,53 @@ a:hover {
 </head>
 <body>
 	<nav class="navber">
-		<div class="row nav-items d-flex justify-content-center">
-			<div class="col-2 col-xl-1 navi-logo">
-				<a href="${pageContext.request.contextPath }/"><img
-					src="/resources/images/a_logo.png" width="80px"></a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">회원관리</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">컬럼관리</a>
-			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
-			</div>
-			<div class="col-xl-7 col-9 navi-menu"></div>
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
-			</div>
-		</div>
-	</nav>
-	<div class="row navi-onButtons">
-		<div class="col-12">
-			<a href="">회원관리</a>
-		</div>
-		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
-		</div>
-		<div class="col-12">
-			<a href="">컬럼관리</a>
-		</div>
-		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
-		</div>
-	</div>
+      <div class="row nav-items d-flex justify-content-center">
+         <div class="col-2 col-xl-1 navi-logo">
+            <a href="${pageContext.request.contextPath}/"><img src="/resources/images/a_logo.png" width="80px"></a>
+         </div>
+         <div class="col-xl-1 d-none d-xl-block navi-menu">
+            <a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
+         </div>
+         <div class="col-xl-1 d-none d-xl-block navi-menu">
+            <a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
+         </div>
+         <div class="col-xl-1 d-none d-xl-block navi-menu">
+            <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
+         </div>
+         <div class="col-xl-1 d-none d-xl-block navi-menu">
+            <a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
+         </div>
+         <c:choose>
+         	<c:when test="${!empty adminLoginSession}">
+         		<div class="col-xl-6 col-6 navi-menu"></div>
+         		<div class="col-xl-1 col-3 navi-menu">
+         			<a href="${pageContext.request.contextPath}/admin/adminLogout.do">로그아웃</a>
+         		</div>
+        	 </c:when>
+        	 <c:otherwise>
+        	 	<div class="col-xl-7 col-9 navi-menu"></div>
+        	 </c:otherwise>
+         </c:choose>
+         <div class="col-xl-0 col-1 d-xl-none navi-menu">
+            <a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px" height="24px"></a>
+         </div>
+      </div>
+   </nav>
+   <div class="row navi-onButtons">
+      <div class="col-12">
+         <a href="${pageContext.request.contextPath}/admin/getAdminUser.do">회원관리</a>
+      </div>
+      <div class="col-12">
+         <a href="${pageContext.request.contextPath }/blacklist/toBlacklist.do">블랙리스트</a>
+      </div>
+      <div class="col-12">
+         <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
+      </div>
+      <div class="col-12">
+         <a href="${pageContext.request.contextPath }/admin/toAClientSupport.do">고객지원</a>
+      </div>
+   </div>
+   
 	<div class="main">
 		<div
 			style="text-align: center; padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
