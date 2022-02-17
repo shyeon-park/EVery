@@ -791,16 +791,61 @@ a:hover {
     }});
    
  
+   <!-- modal script -->
+ //체크박스
+	document.addEventListener('click',function(e){
+       if(e.target.id == 'newMsgAll'){
+       if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+       else  $("input[name=newMsg]").prop("checked", false)
+       }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+       if(e.target.id == 'bell'){
+       	ws.send("getUncheckedList");
+   }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
    
     //메세지수신
     ws.onmessage = function(e) {
              let msgObj = JSON.parse(e.data);
-             //console.log(msgObj);
-                notCheckedcount = msgObj.notCheckedcount
-                //console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
-                $("#bell_text").empty();
-                //$(".modal-footer").empty();
-                $("#bell_text").append(notCheckedcount);
+         	notCheckedcount = msgObj.notCheckedcount
+			//console.log("클라이언트가 확인 안한 메세지 개수는 "+ notCheckedcount);
+			$("#bell_text").empty();
+			$(".modal-footer").empty();
+			$("#bell_text").append(notCheckedcount);
                 
              if(msgObj.getColumAppList != null){
                 getColumAppList = msgObj.getColumAppList;
@@ -831,9 +876,45 @@ a:hover {
                $("#afterAuthorization").append(afterAuthorization);
                }   
              }
+             
+     		//새로운 메세지 리스트 출력
+				if(msgObj.category == "getUncheckedList"){
+					let uncheckedList = msgObj.uncheckedList
+					$("#listPrint").empty();
+					$(".modal-footer").empty();
+					for(newMsg of uncheckedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class=''>"+newMsg.written_date+"</td>"
+								  + "<td class=''>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}	
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='messageCheck();'>확인</button>"
+					$(".modal-footer").append(newBtn);
+				//확인된 목록
+				}else if(msgObj.category == "getCheckedList"){
+					$("#listPrint").empty();
+					checkedList = msgObj.checkedList
+					for(newMsg of checkedList){
+						let newTr = $("<tr>");
+						let aa = "<td class='text-center'><input type='checkbox' name = 'newMsg' value='"+newMsg.seq_message+"'></td>"
+								  +"<td class=''>"+newMsg.written_date+"</td>"
+								  + "<td class=''>"+newMsg.msg+"</td>"
+					    newTr = newTr.append(aa);		
+						$("#listPrint").append(newTr);
+					}
+					
+					let newBtn =  "<button type='button' class='btn btn-primary' onclick='deleteMsg()'>삭제</button>"
+					$(".modal-footer").append(newBtn);
+				}
    }
     
    
-   </script>
+   
+
+ 	
+	</script>
 </body>
 </html>

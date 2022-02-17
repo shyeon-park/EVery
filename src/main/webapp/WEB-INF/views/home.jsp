@@ -325,7 +325,7 @@ margin: 0;
 			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소 조회</a>
 		</div>
 		<div class="col-12">
-			<a href="">칼럼</a>
+			<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 		</div>
 		<div class="col-12">
 			<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
