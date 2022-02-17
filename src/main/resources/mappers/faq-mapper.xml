@@ -7,7 +7,7 @@
 
 	<!-- 목록 조회 -->
 	<select id="faqList" resultType="faqDTO">
-		select  seq_faq, faq_title, faq_written_date
+		select  seq_faq, faq_title, admin_id,faq_written_date
 			from tbl_faq
 			order by seq_faq
 	</select>

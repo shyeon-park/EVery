@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<script type="text/javascript" src="/resources/js/websocket.js"></script> <!-- 웹소켓 -->
+<link rel="icon" href="/resources/images/EVery_Favicon.png"><!-- Favicon 이미지 -->
 <link href="${pageContext.request.contextPath}/resources/css/memberModal.css" rel="stylesheet">
 <style>
 @import
@@ -287,10 +289,36 @@ margin: 0;
     padding: 0px;
     margin: auto;
 }
+
+/* 알람 css  */
+/*
+ 	#bell{
+      position: relative;
+      cursor: pointer;
+ 
+    }
+    */
+	#bellBox{
+	position: relative;
+	}
+    #bell_text{
+      position: absolute;
+      color: white;
+      font-weight: 700;
+      font-size: 10px;
+      width: 18px;
+      right : 40%;
+      top : 20%; 
+   	  transform : translate( 50%,-50% );
+      display: inline-block;
+      background-color: red;
+      border-radius: 100%;
+      text-align: center;
+    }
 </style>
 </head>
 <body>
-	<nav class="navber">
+<nav class="navber">
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
@@ -300,29 +328,29 @@ margin: 0;
 				<a href="${pageContext.request.contextPath }/station/toGetStation">충전소조회</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">칼럼</a>
+				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
+				<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">고객지원</a>
-			</div>
+			
 			<c:choose>
 				<c:when test="${empty loginSession}">
-				</c:when>
-				<c:when test="${empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
-				<div class="col-xl-5 col-8 navi-menu"></div>
+				<div class="col-xl-7 col-9 navi-menu"></div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
-					<div class="col-xl-4 col-6 navi-menu"></div>
+					<div class="col-xl-5 col-8 navi-menu"></div>
+				</c:when>
+			</c:choose>
+			
+		
+			<c:choose>
+				<c:when test="${empty loginSession}">
+				</c:when>
+				<c:when test="${!empty loginSession}">
+					<div class="col-xl-1 d-none d-xl-block navi-menu">
+						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+					</div>
 				</c:when>
 			</c:choose>
 			<c:choose>
@@ -337,15 +365,36 @@ margin: 0;
 					</div>
 				</c:when>
 			</c:choose>
-			<div class="col-xl-1 col-1 navi-menu">
-			<a id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
-			</div>
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
-					height="24px"></a>
-			</div>
+<%-- 			<c:choose> --%>
+<%-- 			  	<c:when test="${!empty loginSession}"> --%>
+<!-- 					<div class="col-1 navi-menu" id = "bell"> -->
+<!-- 						 <div id = "bell"> -->
+<!-- 							<img src="/resources/images/alarm.png" width="24px" height="24px" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"> -->
+<!-- <!-- 						<i class="fa-light fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i> -->
+<!-- 	          			 <div id ="bell_text"></div> -->
+<!-- 					</div> -->
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu" id="bellBox">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell" onclick="ws.send('getUncheckedList');"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a>
+                	<div id ="bell_text"></div>
+			  		</div>
+			  	
+
+				</c:when>
+			</c:choose>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+					<div class="col-xl-0 col-1 d-xl-none navi-menu">
+					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+						height="24px"></a>
+					</div>
+				</c:when>
+			</c:choose>
+			
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
@@ -353,20 +402,17 @@ margin: 0;
 			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소 조회</a>
 		</div>
 		<div class="col-12">
-			<a href="">칼럼</a>
+			<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 		</div>
 		<div class="col-12">
-			<a href="">커뮤니티</a>
-		</div>
-		<div class="col-12">
-			<a href="">고객지원</a>
+			<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 		</div>
 		<c:choose>
 			<c:when test="${empty loginSession}">
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-			<a href="">마이페이지</a>
+					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>
@@ -546,6 +592,7 @@ margin: 0;
 		
 		
 	</script>
+	
 	</div>
 	<div class="footer">
 		
@@ -804,6 +851,90 @@ margin: 0;
 			</div>
 		</div>
 	</div>
+		
+<!-- bell-Modal -->
+<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontainer">
+          <div class="row">
+            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
+            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
+          </div>
+          <div class="row">
+           <table class="table">
+                <tr class="text-center">
+                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
+                  <th class="">시간</th>
+                  <th class="">메세지</th>
+                </tr>
+            <tbody id="listPrint">
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- modal script -->
+ 	<script>	
+ 	//체크박스
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'newMsgAll'){
+        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
+        else  $("input[name=newMsg]").prop("checked", false)
+        }});
+	
+	//벨 이모티콘 클릭시 list 출력
+	document.addEventListener('click',function(e){
+        if(e.target.id == 'bell'){
+        	ws.send("getUncheckedList");
+    }});
+	
+	
+	function messageCheck(){
+			 let list = new Array(); // 배열 선언
+		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		 		list.push(this.value);
+		 	 });
+			 	 if(list.length != 0){
+			 		//console.log(list)
+			 		let msg = { category: "msgCheck", list: list };
+			 		let msgToJson = JSON.stringify(msg);
+			 		ws.send(msgToJson);
+			 		
+				 }else{
+			 		 alert("확인할 메세지를 선택하세요.")
+			 	 }
+		}
+	
+	function deleteMsg(){
+		 let list = new Array(); // 배열 선언
+	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	 		list.push(this.value);
+	 	 });
+		 	 if(list.length != 0){
+		 		//console.log(list)
+		 		let msg = { category: "msgDel", list: list };
+		 		let msgToJson = JSON.stringify(msg);
+		 		ws.send(msgToJson);
+		 		
+			 }else{
+		 		 alert("확인할 메세지를 선택하세요.")
+		 	 }
+	}
+	</script>
+	
 	
 	<!-- 아이디/비밀번호 찾기 모달 -->
 	<div class="modal fade" id="findIdPwModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
