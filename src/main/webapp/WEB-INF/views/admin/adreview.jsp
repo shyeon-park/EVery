@@ -254,7 +254,7 @@ a:hover {
             <a href="${pageContext.request.contextPath}/review/toAdReview.do">댓글관리</a>
          </div>
          <div class="col-xl-1 d-none d-xl-block navi-menu">
-            <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+            <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
          </div>
          <c:choose>
          	<c:when test="${!empty adminLoginSession}">
@@ -293,7 +293,7 @@ a:hover {
          <a href="${pageContext.request.contextPath}/admin/columManager.do">컬럼관리</a>
       </div>
       <div class="col-12">
-         <a href="${pageContext.request.contextPath }/info/toAInfoList.do">고객지원</a>
+         <a href="${pageContext.request.contextPath }/admin/getClientSupport.do">고객지원</a>
       </div>
       <div class="col-12">
          <a href="${pageContext.request.contextPath }/admin/adminLogout.do">로그아웃</a>
@@ -301,13 +301,19 @@ a:hover {
    </div>
    
 	<div class="main">
+		<div class="row infoDiv"
+			style="padding-top: 50px; padding-bottom: 50px; padding-left: 0px; paddinf-right: 0px;">
+			<div class="col-12" style="text-align: center;">
+				<h2>관리자 댓글관리</h2>
+			</div>
+		</div>
 		<div class="container">
 			<div class="title-container" style="height:10%;">
 				<div class="row mb-3">
-					<div class="col-11">
+					<div class="col-xl-11 col-12">
 						<h3>댓글 관리</h3>
 					</div>
-					<div class="col-1 d-flex justify-content-center" style="margin:auto;">
+					<div class="col-xl-1 col-12 d-flex justify-content-center" style="margin:auto;">
 						<button type="button" class="btn deleteCmt" style="background-color: rgb(167, 166, 170); color:white;">삭제</button>
 					</div>
 				</div>
@@ -420,11 +426,11 @@ a:hover {
 			}else{
 				for(let dto of data.adList){
 					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
-								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-2'>" + dto.written_date + "</div>"
-								+ "<div class='col-5'>" + dto.review + "</div>"
-								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
+								+ "<div class='col-xl-2 col-12 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.station + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.written_date + "</div>"
+								+ "<div class='col-xl-5 col-12'>" + dto.review + "</div>"
+								+ "<div class='col-xl-1 col-12 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
 					$(".comment-container").append(comment);
 				}
@@ -474,16 +480,16 @@ a:hover {
 				$(".paging-container").empty();
 				if(data.byIdList == ""){
 					alert("검색 내용이 없습니다.");
-					let commentNull = "<div class='col-12 mt-4'><h4>검색 내용이 없습니다.</h4></div>";
+					let commentNull = "<div class='col-12 mt-4 d-flex justify-content-center'><h4>검색 내용이 없습니다.</h4></div>";
 					$(".comment-container").append(commentNull);
 				}else{
 					for(let dto of data.byIdList){
 					let comment = "<div class='row review-div mt-1 mb-3 d-flex justify-content-center' style='border-bottom: 2px solid black;'>"
-								+ "<div class='col-2 d-flex justify-content-center'>" + dto.id + "</div>"
-								+ "<div class='col-2'>" + dto.station + "</div>"
-								+ "<div class='col-2'>" + dto.written_date + "</div>"
-								+ "<div class='col-5'>" + dto.review + "</div>"
-								+ "<div class='col-1 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
+								+ "<div class='col-xl-2 col-12 d-flex justify-content-center'>" + dto.id + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.station + "</div>"
+								+ "<div class='col-xl-2 col-12'>" + dto.written_date + "</div>"
+								+ "<div class='col-xl-5 col-12'>" + dto.review + "</div>"
+								+ "<div class='col-xl-1 col-12 d-flex justify-content-center' style='margin:auto;'><input type='checkbox' name='checkcheck' value='" + dto.seq_review + "' ></div>"
 								+ "</div>"
 						$(".comment-container").append(comment);			
 					}
@@ -548,6 +554,7 @@ a:hover {
 			}).done(function(rs){
 				if(rs == "success"){
 					getAdCommentList(1);
+					$(".inputBox").val("");
 				}else if(rs == "fail"){
 					alert("삭제에 실패하였습니다.");
 				}

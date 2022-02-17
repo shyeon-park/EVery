@@ -62,13 +62,14 @@ public class qnaController {
 
 	
 	/* 관리자 */
-
-	// 전체 문의 조회
-	@RequestMapping("/toAQnaList.do")
-	public String toQnalist(Model model) throws Exception {
+	// 전체 문의 목록 불러오기
+	@RequestMapping("/getQnaList.do")
+	@ResponseBody
+	public String getQnaList() throws Exception {
 		List<qnaDTO> list = service.list();
-		model.addAttribute("list", list);
-		return "/admin/a_qna/a_qnaList";
+		Gson json = new Gson();
+		String result = json.toJson(list).toString();
+		return result;
 	}
 
 	// 문의 상세 페이지 요청

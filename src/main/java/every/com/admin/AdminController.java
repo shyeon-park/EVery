@@ -111,13 +111,19 @@ public class AdminController {
 		return "admin/userManagement";
 	}
 	
+	// 관리자 고객지원 페이지 요청
+	@RequestMapping("/getClientSupport.do")
+	public String getClientSupport(String view, Model model) throws Exception {
+		if(view != null || view != "") {
+			model.addAttribute("view", view);
+		} 
+		return "admin/a_clientSupport";
+	}
+	
 	@RequestMapping("/toClientSupport.do")
 	public String toClientSupport() throws Exception {
 		return "/clientSupport/clientSupport";
 	}
 	
-	@RequestMapping("/toAClientSupport.do")
-	public String toAClientSupport() throws Exception {
-		return "/admin/a_clientSupport";
-	}
+
 }
