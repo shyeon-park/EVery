@@ -20,11 +20,8 @@
 	
 	<!-- 등록 -->
 	<insert id="insert" parameterType="faqDTO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			select seq_faq.nextval as seq_faq from tbl_faq
-		</selectKey>
 		insert into tbl_faq values
-			(seq_faq, #{admin_id}, #{faq_title}, #{faq_content}, sysdate)
+			(seq_faq.nextval, #{admin_id}, #{faq_title}, #{faq_content}, sysdate)
 	</insert>
 	
 	<!-- 수정 -->

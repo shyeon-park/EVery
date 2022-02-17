@@ -12,30 +12,24 @@
 			order by id
 	</select>
 	
+	<!-- 블랙리스트 삭제 -->
+	<delete id="delete" parameterType="Map">
+		delete from tbl_blacklist where
+		  	<foreach collection="blacklist" item="blacklistuser" open="(" close=")" separator="or">
+            	id=#{blacklistuser}
+        	</foreach>
+	</delete>
+	
 	<!-- 회원 전체 조회(블랙리스트 추가용) -->
 	<select id="memberList" resultType="MemberDTO">
 		select  id, nickname, signup_date
 			from tbl_member
 			order by id
 	</select>
-	
-	<!-- 블랙리스트 수정 -->
-	<update id="modify" parameterType="blacklistDTO">
-		update tbl_blacklist set
-			reason = #{reason}
-			where id = #{id}
-	</update>
-	
-	<!-- 블랙리스트 삭제 -->
-	<delete id="delete">
-		delete from tbl_blacklist
-			where id = #{id}
-	</delete>
-	
+
 	<!-- 블랙리스트 추가 -->
 	<insert id="insert" parameterType="blacklistDTO">
-		insert into tbl_blacklist values
-			(#{id}, #{nickname}, #{reason}, sysdate)
+		insert into tbl_blacklist values (#{id}, #{nickname}, #{reason}, sysdate)
 	</insert>
 	
 </mapper>
