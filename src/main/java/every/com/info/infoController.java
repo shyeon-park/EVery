@@ -41,14 +41,16 @@ public class infoController {
 	
 	
 	/* 관리자 */
-	
-	// 공지사항 목록 페이지 요청
-	@RequestMapping("/toAInfoList.do")
-	public String toAInfoList(Model model) throws Exception {
+	// 관리자 공지사항 목록 불러오기 요청
+	@RequestMapping("/getInfoList.do")
+	@ResponseBody
+	public String getInfoList() throws Exception {
 		List<infoDTO> list = service.infoList();
-		model.addAttribute("list", list);
-		return "/admin/a_info/a_infoList";
+		Gson json = new Gson();
+		String result = json.toJson(list).toString();
+		return result;
 	}
+	
 	
 	// 공지사항 상세 페이지 요청
 	@RequestMapping("/toAInfoDetail.do")
@@ -69,7 +71,8 @@ public class infoController {
 	@RequestMapping("/delete.do")
 	public String delete(infoDTO dto) throws Exception {
 		service.delete(dto);
-		return "redirect:/info/toAInfoList.do?seq_info="+dto.getSeq_info();
+		return "redirect:/admin/getClientSupport.do?view=info";
+		//return "redirect:/info/toAInfoList.do?seq_info="+dto.getSeq_info();
 	}
 	
 	// 공지사항 작성 페이지 요청
@@ -82,6 +85,6 @@ public class infoController {
 	@RequestMapping("/write.do")
 	public String insert(infoDTO dto) throws Exception {
 		service.insert(dto);
-		return "redirect:/info/toAInfoList.do";
+		return "redirect:/admin/getClientSupport.do?view=info";
 	}
 }
