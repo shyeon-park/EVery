@@ -185,7 +185,7 @@ a:hover {
 </style>
 </head>
 <body>
-	<nav class="navber">
+		<nav class="navber">
 		<div class="row nav-items d-flex justify-content-center">
 			<div class="col-2 col-xl-1 navi-logo">
 				<a href="${pageContext.request.contextPath }/"><img
@@ -195,65 +195,78 @@ a:hover {
 				<a href="${pageContext.request.contextPath }/station/toGetStation">충전소조회</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">칼럼</a>
+				<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 			</div>
 			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a href="">커뮤니티</a>
+				<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
 			</div>
-			<div class="col-xl-1 d-none d-xl-block navi-menu">
-				<a
-					href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
-			</div>
+			
 			<c:choose>
 				<c:when test="${empty loginSession}">
+				<div class="col-xl-7 col-9 navi-menu"></div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
-					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">마이페이지</a>
-					</div>
-				</c:when>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty loginSession}">
 					<div class="col-xl-5 col-8 navi-menu"></div>
 				</c:when>
+			</c:choose>
+			
+		
+			<c:choose>
+				<c:when test="${empty loginSession}">
+				</c:when>
 				<c:when test="${!empty loginSession}">
-					<div class="col-xl-4 col-6 navi-menu"></div>
+					<div class="col-xl-1 d-none d-xl-block navi-menu">
+						<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
+					</div>
 				</c:when>
 			</c:choose>
 			<c:choose>
 				<c:when test="${empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그인</a>
+						<a onclick="openLoginModal(); loginFunc();">로그인</a>
 					</div>
 				</c:when>
 				<c:when test="${!empty loginSession}">
 					<div class="col-xl-1 d-none d-xl-block navi-menu">
-						<a href="">로그아웃</a>
+						<a onclick="logoutFunc();">로그아웃</a>
 					</div>
 				</c:when>
 			</c:choose>
-			<div class="col-xl-1 col-1 navi-menu">
-				<a id=""><img src="/resources/images/favorite.png" width="24px"
-					height="24px"></a>
-				<!-- 				<a href="">cart <span id="cartCount" class="badge bg-dark rounded-pill">2</span></a> -->
-			</div>
-			<div class="col-xl-0 col-1 d-xl-none navi-menu">
-				<a id="btn_navi_menu"><img src="/resources/images/menu.png"
-					width="20px" height="24px"></a>
-			</div>
+<%-- 			<c:choose> --%>
+<%-- 			  	<c:when test="${!empty loginSession}"> --%>
+<!-- 					<div class="col-1 navi-menu" id = "bell"> -->
+<!-- 						 <div id = "bell"> -->
+<!-- 							<img src="/resources/images/alarm.png" width="24px" height="24px" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"> -->
+<!-- <!-- 						<i class="fa-light fa-bell" data-bs-toggle="modal" data-bs-target="#bellModal" id="bell"></i> -->
+<!-- 	          			 <div id ="bell_text"></div> -->
+<!-- 					</div> -->
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+			<c:choose>
+			  	<c:when test="${!empty loginSession}">
+			  		<div class="col-xl-1 col-1 navi-menu" id="bellBox">
+			  		<a data-bs-toggle="modal" data-bs-target="#bellModal" id="bell" onclick="ws.send('getUncheckedList');"><img src="/resources/images/alarm.png" width="24px"
+                		height="24px"></a>
+                	<div id ="bell_text"></div>
+			  		</div>
+			  	
+
+				</c:when>
+			</c:choose>
+			
+					<div class="col-xl-0 col-1 d-xl-none navi-menu">
+					<a id="btn_navi_menu"><img src="/resources/images/menu.png" width="20px"
+						height="24px"></a>
+					</div>
+			
 		</div>
 	</nav>
 	<div class="row navi-onButtons">
 		<div class="col-12">
-			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소
-				조회</a>
+			<a href="${pageContext.request.contextPath }/station/toGetStation">충전소 조회</a>
 		</div>
 		<div class="col-12">
-			<a href="">칼럼</a>
-		</div>
-		<div class="col-12">
-			<a href="">커뮤니티</a>
+			<a href="${pageContext.request.contextPath }/board/toBoard.do">칼럼</a>
 		</div>
 		<div class="col-12">
 			<a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a>
@@ -263,20 +276,20 @@ a:hover {
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-					<a href="">마이페이지</a>
+					<a href="${pageContext.request.contextPath}/member/getMypage.do">마이페이지</a>
 				</div>
 			</c:when>
 		</c:choose>
-
+		
 		<c:choose>
 			<c:when test="${empty loginSession}">
 				<div class="col-12">
-					<a href="">로그인</a>
+					<a onclick="openLoginModal(); loginFunc();">로그인</a>
 				</div>
 			</c:when>
 			<c:when test="${!empty loginSession}">
 				<div class="col-12">
-					<a href="">로그아웃</a>
+					<a onclick="logoutFunc();">로그아웃</a>
 				</div>
 			</c:when>
 		</c:choose>

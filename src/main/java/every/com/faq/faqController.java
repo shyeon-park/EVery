@@ -1,5 +1,6 @@
 package every.com.faq;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/faq")
@@ -18,11 +22,15 @@ public class faqController {
 	/* 회원 */
 	
 	// 자주 묻는 질문 목록 페이지 요청
-	@RequestMapping("/toFaqList.do")
+	@RequestMapping(value = "/toFaqList.do",produces="application/json;charset=UTF-8")
+	@ResponseBody
 	public String faqList(Model model) throws Exception {
 		List<faqDTO> list = service.faqList();
-		model.addAttribute("list", list);
-		return "/faq/faqList";
+		Gson gson = new Gson();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		String toStr = gson.toJson(map);
+		return toStr;
 	}
 	
 	// 자주 묻는 질문 상세 페이지 요청
