@@ -637,9 +637,9 @@ textarea {
 				<p>통신판매업신고: 제 2021-서울강남-03823 호</p>
 				<div class="row footer-top">
 					<ul>
-						<li><a href="">이용약관</a></li>
-						<li><a href="">개인정보처리방침</a></li>
-						<li><a href="">고객지원</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
 					</ul>
 				</div>
 			</div>
@@ -979,7 +979,7 @@ textarea {
 			
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			  mapOption = { 
-			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        center: new kakao.maps.LatLng(37.49923131186165, 127.03302701487763), // 지도의 중심좌표
 			        level: 6 // 지도의 확대 레벨
 			};
 

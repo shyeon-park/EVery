@@ -532,13 +532,13 @@ a:hover {
             <p>EVery | 사업자번호: 350-12-43123 | 대표: 이동훈</p>
             <p>개인정보취급담당자: 이수희</p>
             <p>통신판매업신고: 제 2021-서울강남-03823 호</p>
-            <div class="row footer-top">
-               <ul>
-                  <li><a href="">이용약관</a></li>
-                  <li><a href="">개인정보처리방침</a></li>
-                  <li><a href="">고객지원</a></li>
-               </ul>
-            </div>
+          <div class="row footer-top">
+					<ul>
+						<li><a href="${pageContext.request.contextPath }/terms?view=service">이용약관</a></li>
+						<li><a href="${pageContext.request.contextPath }/terms?view=privacy">개인정보처리방침</a></li>
+						<li><a href="${pageContext.request.contextPath }/admin/toClientSupport.do">고객지원</a></li>
+					</ul>
+				</div>
          </div>
          <div class="col-12 col-xl-6 footer-body-right">
             <p>고객센터</p>
@@ -733,7 +733,7 @@ a:hover {
    
       /* 컬럼리스트 관리 영역 */
       
-   ws = new WebSocket("ws://3.39.10.181:8080/column");
+   ws = new WebSocket("ws://13.209.89.225:8080/column");
 
    $('#approval').on("click",function(e){
         var approvaList = new Array(); // 배열 선언

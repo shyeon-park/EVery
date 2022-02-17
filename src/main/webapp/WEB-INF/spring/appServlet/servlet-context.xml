@@ -37,11 +37,11 @@
 		<interceptor>
 			<mapping path="/admin/**" />
 			<exclude-mapping path="/admin/adminLogin.do" />
-
+			<exclude-mapping path="/admin/toClientSupport.do" />
 
 			<beans:bean id="adminInterceptor"
 				class="every.com.utils.AdminInterceptor" />
-
+			
 		</interceptor>
 
 		<interceptor>
@@ -54,7 +54,8 @@
 			<exclude-mapping path="/station/**" />
 			<exclude-mapping path="/resources/**" />
 			<exclude-mapping path="/upload/**" />
-
+			<exclude-mapping path="/terms" />
+			
 
 			<!-- 멤버 -->
 			<exclude-mapping path="/member/modifyPw.do" />
