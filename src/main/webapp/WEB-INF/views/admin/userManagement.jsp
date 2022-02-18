@@ -733,11 +733,8 @@ a:hover {
    
       /* 컬럼리스트 관리 영역 */
       
-<<<<<<< HEAD
-   ws = new WebSocket("ws://54.180.98.142:8080/column");
-=======
+
    ws = new WebSocket("ws://13.209.89.225:8080/column");
->>>>>>> 29a49e900e4f0f2fdecd14aef224bf45fcccf90e
 
    $('#approval').on("click",function(e){
         var approvaList = new Array(); // 배열 선언

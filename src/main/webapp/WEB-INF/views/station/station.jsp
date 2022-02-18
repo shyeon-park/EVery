@@ -1620,88 +1620,7 @@ textarea {
 	<script type="application/javascript"
 		src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 
-<!-- bell-Modal -->
-<div class="modal fade" id="bellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">알림창</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modalcontainer">
-          <div class="row">
-            <div class="col-6 text-center noticeList"><a href="#" onclick="ws.send('getUncheckedList');">새소식</a></div>
-            <div class="col-6 text-center noticeList"><a onclick="ws.send('getCheckedList');">이전 알림</a></div>
-          </div>
-          <div class="row">
-           <table class="table">
-                <tr class="text-center">
-                  <th class=""><input type="checkbox" name="newMsgAll" id="newMsgAll"></th>
-                  <th class="">시간</th>
-                  <th class="">메세지</th>
-                </tr>
-            <tbody id="listPrint">
-            </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
-      </div>
-    </div>
-  </div>
-</div>
 
-	<!-- modal script -->
- 	<script>	
- 	//체크박스
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'newMsgAll'){
-        if ($("#newMsgAll").prop("checked"))  $("input[name=newMsg]").prop("checked", true)
-        else  $("input[name=newMsg]").prop("checked", false)
-        }});
-	
-	//벨 이모티콘 클릭시 list 출력
-	document.addEventListener('click',function(e){
-        if(e.target.id == 'bell'){
-        	ws.send("getUncheckedList");
-    }});
-	
-	
-	function messageCheck(){
-			 let list = new Array(); // 배열 선언
-		 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-		 		list.push(this.value);
-		 	 });
-			 	 if(list.length != 0){
-			 		//console.log(list)
-			 		let msg = { category: "msgCheck", list: list };
-			 		let msgToJson = JSON.stringify(msg);
-			 		ws.send(msgToJson);
-			 		
-				 }else{
-			 		 alert("확인할 메세지를 선택하세요.")
-			 	 }
-		}
-	
-	function deleteMsg(){
-		 let list = new Array(); // 배열 선언
-	 	 $('input:checkbox[name=newMsg]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-	 		list.push(this.value);
-	 	 });
-		 	 if(list.length != 0){
-		 		//console.log(list)
-		 		let msg = { category: "msgDel", list: list };
-		 		let msgToJson = JSON.stringify(msg);
-		 		ws.send(msgToJson);
-		 		
-			 }else{
-		 		 alert("확인할 메세지를 선택하세요.")
-		 	 }
-	}
-	</script>
 
 	<!-- 회원 관련 모달 -->
 	<!-- 로그인 모달 -->
@@ -2548,7 +2467,7 @@ textarea {
         	  				hideLoadingDiv();
         	  				if(rs == "kakaoLoginOk") {
         	  					alert("카카오 로그인에 성공하였습니다.");
-        	  					console.log(link);
+        	  					
         	  					location.href = "${pageContext.request.contextPath}/";
         	  				} else if(rs == "kakaoAuthPhone") {
         	  					alert("등록된 카카오 정보를 찾을 수 없습니다. 회원 등록여부를 확인하기 위해 인증을 진행해주세요.");

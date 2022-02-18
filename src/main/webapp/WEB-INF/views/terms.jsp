@@ -1589,7 +1589,7 @@ a:hover {
         	  				hideLoadingDiv();
         	  				if(rs == "kakaoLoginOk") {
         	  					alert("카카오 로그인에 성공하였습니다.");
-        	  					console.log(link);
+        	  					
         	  					location.href = "${pageContext.request.contextPath}/";
         	  				} else if(rs == "kakaoAuthPhone") {
         	  					alert("등록된 카카오 정보를 찾을 수 없습니다. 회원 등록여부를 확인하기 위해 인증을 진행해주세요.");

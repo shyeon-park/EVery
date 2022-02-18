@@ -647,6 +647,7 @@ a:hover {
 					  			   "<td style='text-align: center;'>" + list.info_written_date + "</td></tr>";
 					$("#infoList").append(infoList);
 				}
+			}
 
 			});
 		});
