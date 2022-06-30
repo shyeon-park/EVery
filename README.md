@@ -14,7 +14,7 @@ It is a community where you can check the location of electric vehicle charging 
 
 
 ### 프로젝트 인원
-#### 5명👨‍👨‍👧‍👧 (기여도 : 20%)
+#### 5명👨‍👨‍👧‍👧
 
 
 ### 개발목표
